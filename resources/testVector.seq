@@ -1,0 +1,4 @@
+# A simple data file where each observation is a vector.
+
+[ 1.1 2.2 ] ; [ 4.4 5.5 ] ; [ 4.3 6. ] ; [ 7.7 8.8 ] ;
+[ 0.5 1.5 ] ; [ 1.5 2.5 ] ; [ 4.5 5.5 ] ; [ 8. 8. ] ; [ 7. 8. ] ;

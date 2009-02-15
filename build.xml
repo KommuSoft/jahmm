@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!-- 
+ - jahmm package build file.
+ -
+ - Changelog:
+ - 
+ - 03/20/2004: Creation, porting from Make. (JMF)
+ - 03/28/2004: Creation of the be/ac.../run hierarchy. (JMF)
+ - 03/28/2004: 'test' package moved. (JMF)
+ - 04/06/2004: Source hierarchy simplified. (JMF)
+ - 04/08/2004: Packaging facilities. (JMF)
+ - 05/01/2004: Minor package re-organization. (JMF)
+ - 05/01/2004: Added missing resources dir. (JMF)
+ - 01/24/2005: Bugfixes and GUI added. (JMF)
+ - 02/11/2005: 'test' moved. (JMF)
+ - 03/23/2005: Added 'deploy' target. (JMF)
+ - 05/11/2005: Changed directory tree. (JMF)
+ - 07/11/2005: Added 'junit'. (JMF)
+ - 07/11/2005: Bugfix: removed apps and test from javadoc. (JMF)
+ - 08/11/2005: Added compilecheck target. (JMF)
+ - 10/11/2005: Default test changed to HmmExample. (JMF)
+ - 21/01/2006: Added 'cli'. (JMF)
+ - 25/03/2006: Adapted to v0.6.0. (JMF)
+ - 16/02/2009: New src/ dir structure when moving to code.google.com. (JMF)
+ -->
+
+
+
+<project basedir="." default="compile" name="HMM package">
+        <description>
+          Handles the jahmm package.  
+        </description>
+
+	<property name="output.dir" value="build" />
+        <property name="classes.dir" value="${output.dir}" />
+	<property name="lib.dir" value="${output.dir}/lib" />
+	<property name="src.dir" value="src/main/java" />
+	<property name="src.test.dir" value="src/test/java" />
+        <property name="resources.dir" value="resources" />
+        <property name="tmp.dir" value="tmp" />
+	<property name="doc.dir" value="javadoc" />
+	<property name="keystore-password" value="password" />
+	<property name="classpath.project" value="${classes.dir}" />
+        <property name="test.class" value="SimpleExample" />
+        <property name="version" value="0.6.1" />
+        <loadfile srcfile="${resources.dir}/licence.txt" property="licence">
+        </loadfile>
+	
+	
+  <!-- =================================================================== -->
+  <!-- Compile                                                             -->
+  <!-- =================================================================== -->
+
+        <target name="compile">
+          <mkdir dir="${classes.dir}" />
+          <javac deprecation="on" srcdir="${src.dir}" destdir="${classes.dir}"
+            classpath="${classpath.project}" debug="true"
+	    debuglevel="lines,source">
+	  </javac>
+        </target>
+
+        <target name="compile-test" depends="compile">
+          <mkdir dir="${classes.dir}" />
+          <javac deprecation="on" srcdir="${src.test.dir}" destdir="${classes.dir}"
+            classpath="${classpath.project}" debug="true"
+            debuglevel="lines,source">
+          </javac>
+        </target>
+
+        <target name="compilecheck">
+          <mkdir dir="${classes.dir}" />
+          <javac deprecation="on" srcdir="${src.dir}" destdir="${classes.dir}"
+            classpath="${classpath.project}" debug="true"
+	    debuglevel="lines,source">
+	    <compilerarg value="-Xlint:unchecked" />
+            <compilerarg value="-source" />
+            <compilerarg value="1.5" />
+	  </javac>
+        </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Test                                                                -->
+  <!-- =================================================================== -->
+
+	<target name="test" depends="compile-test" >
+          <mkdir dir="${tmp.dir}" />
+          <copy todir="${tmp.dir}">
+            <fileset dir="${resources.dir}" />
+          </copy>
+          <java classname="be.ac.ulg.montefiore.run.jahmm.test.${test.class}" 
+	    dir="${tmp.dir}" fork="true" classpath="${classpath.project}" />
+    	</target>
+
+	
+  <!-- =================================================================== -->
+  <!-- Command line interface                                              -->
+  <!-- =================================================================== -->
+
+	<target name="cli">
+          <java classname="be.ac.ulg.montefiore.run.jahmm.apps.cli.Cli" 
+	    dir="${tmp.dir}" fork="true" classpath="${classpath.project}" />
+    	</target>
+
+	
+  <!-- =================================================================== -->
+  <!-- JUnit test                                                          -->
+  <!-- =================================================================== -->
+
+        <target name="junit">
+          <junit printsummary="yes">
+            <formatter type="plain" />
+            <batchtest todir="${tmp.dir}">
+              <fileset dir="${src.dir}">
+                <include name="**/test/*Test*.java" />
+                <exclude name="**/test/AllTests.java" />
+              </fileset>
+            </batchtest>
+          </junit>
+        </target>
+  
+
+  <!-- =================================================================== -->
+  <!-- Run JahmmViz                                                        -->
+  <!-- =================================================================== -->
+
+        <target name="jahmmviz" description="Run JahmmViz">	
+          <java classname="be.ac.ulg.montefiore.run.jahmm.apps.JahmmViz"
+            fork="true" classpath="${classpath.project}" />
+	</target>
+	
+	
+  <!-- =================================================================== -->
+  <!-- Jar                                                                 -->
+  <!-- =================================================================== -->
+
+	<target name="jar" depends="compile">
+          <mkdir dir="${lib.dir}" />
+	  
+          <jar destfile="${lib.dir}/jahmm-${version}.jar" 
+            basedir="${classes.dir}"
+            includes="**/run/jahmm/** **/run/distributions/**"
+            excludes="**run/jahmm/apps"
+          />
+          <signjar alias="francois" storepass="${keystore-password}">
+	    <fileset dir=".">
+              <include name="${lib.dir}/jahmm*.jar" />
+            </fileset>
+	  </signjar>
+   	</target>
+
+
+  <!-- =================================================================== -->
+  <!-- Package                                                             -->
+  <!-- =================================================================== -->
+
+        <target name="package" depends="clean, jar, javadoc">
+          <mkdir dir="${lib.dir}" />
+	 
+          <!-- Javadoc -->
+          <tar destfile="${lib.dir}/jahmm-${version}-javadoc.tar">
+            <tarfileset dir="javadoc" prefix="jahmm-${version}-javadoc" />
+          </tar>
+          <gzip zipfile="${lib.dir}/jahmm-${version}-javadoc.tar.gz"
+             src="${lib.dir}/jahmm-${version}-javadoc.tar" />
+          <zip destfile="${lib.dir}/jahmm-${version}-javadoc.zip">
+            <zipfileset dir="javadoc"
+              prefix="jahmm-${version}-javadoc" />
+          </zip>
+	  
+          <!-- Sources -->
+          <copy todir="${lib.dir}/jahmm-${version}">
+            <fileset dir=".">
+              <include name="${src.dir}/**/*" />
+              <include name="${resources.dir}/**/*" />
+            </fileset>
+            <fileset dir=".">
+              <include name="build.xml" />
+	      <include name="README" />
+	      <include name="COPYING" />
+              <include name="THANKS" />
+              <include name="CHANGES" />
+            </fileset>
+            <filterset>
+              <filter token="VERSION" value="${version}" />
+              <filter token="LICENCE" value="${licence}" />
+            </filterset>
+          </copy>
+          <zip destfile="${lib.dir}/jahmm-${version}.zip">
+            <zipfileset dir="${lib.dir}/jahmm-${version}"
+              prefix="jahmm-${version}" />
+          </zip>
+          <tar destfile="${lib.dir}/jahmm-${version}.tar">
+            <tarfileset dir="${lib.dir}/jahmm-${version}"
+              prefix="jahmm-${version}" />
+          </tar>
+          <gzip zipfile="${lib.dir}/jahmm-${version}.tar.gz"
+             src="${lib.dir}/jahmm-${version}.tar" />
+          <delete includeEmptyDirs="true">
+            <fileset dir="${lib.dir}" includes="*.tar" />
+            <fileset dir="${lib.dir}/jahmm-${version}" />
+          </delete>
+	  
+        </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Deploy                                                              -->
+  <!-- =================================================================== -->
+  
+        <target name="deploy" depends="">
+	<scp todir="bru.run.montefiore.ulg.ac.be:"  keyfile="${user.home}/.ssh/id_rsa" passphrase=""> <fileset dir="${lib.dir}" excludes="*javadoc*" />
+          </scp><!--
+          <scp todir="${serverdir}/files" keyfile="${user.home}/.ssh/id_rsa"
+	       passphrase="">
+	   <fileset dir="${lib.dir}" excludes="*javadoc*" />
+	  </scp>
+	  <scp todir="${serverdir}/doc" keyfile="${user.home}/.ssh/id_rsa"
+	       passphrase="">
+	   <fileset dir="${lib.dir}" includes="*javadoc*" />
+	  </scp> -->
+        </target>
+  
+
+  <!-- =================================================================== -->
+  <!-- Clean                                                               -->
+  <!-- =================================================================== -->
+
+	<target name="clean" description="Clean up">
+	  <delete dir="${output.dir}" />
+	  <delete dir="${classes.dir}/be/ac/ulg/montefiore/run/jahmm" />
+          <delete dir="${tmp.dir}" />
+          <delete dir="${doc.dir}" />
+	 
+          <defaultexcludes remove="**/*~" />
+          <defaultexcludes remove="**/#*#" />
+          <delete>
+            <fileset dir="." includes="**/*~ **/#*# **/TAGS" />
+          </delete>
+          <defaultexcludes default="true" />
+	</target>
+
+
+  <!-- =================================================================== -->
+  <!-- Generate the HMM javadoc                                            -->
+  <!-- =================================================================== -->
+
+	<target name="javadoc" description="Generate the javadoc">
+	  <delete dir="${doc.dir}" />
+	  <mkdir dir="${doc.dir}" />
+
+	  <javadoc destdir="${doc.dir}" author="true" version="true"
+             use="true" windowtitle="Jahmm ${version} Package">
+	    <fileset dir="${src.dir}" defaultexcludes="yes">
+	      <include name="**/*.java" />
+	      <exclude name="**/jahmm/test/*.java" />
+              <exclude name="**/jahmm/apps/**/*" />
+	    </fileset>
+	    <doctitle><![CDATA[<h1>Jahmm ${version}</h1>]]></doctitle>
+	    <bottom><![CDATA[<i>Copyright &#169; 2004,2005
+                     Jean-Marc Fran&ccedil;ois.</i>]]></bottom>
+	    <group title="HMM related packages" 
+              packages="be.ac.ulg.montefiore.run.*" />
+	  </javadoc>
+	</target>
+
+</project>

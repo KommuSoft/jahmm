@@ -1,0 +1,9 @@
+# A simple data file with integer observations.
+
+1;2;3; # The first sequence
+# And the second one
+2;3;3;
+
+# A big one, spawning on multiple lines
+1;2;3; \
+2;3;3; # Don't forget to end the file with a newline

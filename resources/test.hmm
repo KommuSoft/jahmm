@@ -1,0 +1,15 @@
+# A simple Hmm
+
+Hmm
+v1.0
+NbStates 2
+
+State
+Pi 0.7
+A 0.1 0.9
+IntegerOPDF [ .2 .3 .4 .1 ]
+
+State
+Pi 0.3
+A 0.4 0.6
+IntegerOPDF [ .1 .1 .1 .7 ]
