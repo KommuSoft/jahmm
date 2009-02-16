@@ -2,28 +2,7 @@
 
 
 <!-- 
- - jahmm package build file.
- -
- - Changelog:
- - 
- - 03/20/2004: Creation, porting from Make. (JMF)
- - 03/28/2004: Creation of the be/ac.../run hierarchy. (JMF)
- - 03/28/2004: 'test' package moved. (JMF)
- - 04/06/2004: Source hierarchy simplified. (JMF)
- - 04/08/2004: Packaging facilities. (JMF)
- - 05/01/2004: Minor package re-organization. (JMF)
- - 05/01/2004: Added missing resources dir. (JMF)
- - 01/24/2005: Bugfixes and GUI added. (JMF)
- - 02/11/2005: 'test' moved. (JMF)
- - 03/23/2005: Added 'deploy' target. (JMF)
- - 05/11/2005: Changed directory tree. (JMF)
- - 07/11/2005: Added 'junit'. (JMF)
- - 07/11/2005: Bugfix: removed apps and test from javadoc. (JMF)
- - 08/11/2005: Added compilecheck target. (JMF)
- - 10/11/2005: Default test changed to HmmExample. (JMF)
- - 21/01/2006: Added 'cli'. (JMF)
- - 25/03/2006: Adapted to v0.6.0. (JMF)
- - 16/02/2009: New src/ dir structure when moving to code.google.com. (JMF)
+ - Jahmm package build file.
  -->
 
 
@@ -33,21 +12,18 @@
           Handles the jahmm package.  
         </description>
 
-	<property name="output.dir" value="build" />
-        <property name="classes.dir" value="${output.dir}" />
+	<property name="output.dir" value="target" />
+        <property name="classes.dir" value="${output.dir}/classes" />
 	<property name="lib.dir" value="${output.dir}/lib" />
 	<property name="src.dir" value="src/main/java" />
 	<property name="src.test.dir" value="src/test/java" />
-        <property name="resources.dir" value="resources" />
-        <property name="tmp.dir" value="tmp" />
-	<property name="doc.dir" value="javadoc" />
-	<property name="keystore-password" value="password" />
+        <property name="examples.dir" value="examples" />
+        <property name="tmp.dir" value="${output.dir}" />
+	<property name="doc.dir" value="${output.dir}/javadoc" />
 	<property name="classpath.project" value="${classes.dir}" />
         <property name="test.class" value="SimpleExample" />
-        <property name="version" value="0.6.1" />
-        <loadfile srcfile="${resources.dir}/licence.txt" property="licence">
-        </loadfile>
-	
+	<property name="version" value="0.6.2" />
+
 	
   <!-- =================================================================== -->
   <!-- Compile                                                             -->
@@ -85,10 +61,10 @@
   <!-- Test                                                                -->
   <!-- =================================================================== -->
 
-	<target name="test" depends="compile-test" >
+	<target name="sample" depends="compile-test" >
           <mkdir dir="${tmp.dir}" />
           <copy todir="${tmp.dir}">
-            <fileset dir="${resources.dir}" />
+            <fileset dir="${examples.dir}" />
           </copy>
           <java classname="be.ac.ulg.montefiore.run.jahmm.test.${test.class}" 
 	    dir="${tmp.dir}" fork="true" classpath="${classpath.project}" />
@@ -100,6 +76,7 @@
   <!-- =================================================================== -->
 
 	<target name="cli">
+	  <mkdir dir="${tmp.dir}" />
           <java classname="be.ac.ulg.montefiore.run.jahmm.apps.cli.Cli" 
 	    dir="${tmp.dir}" fork="true" classpath="${classpath.project}" />
     	</target>
@@ -109,11 +86,15 @@
   <!-- JUnit test                                                          -->
   <!-- =================================================================== -->
 
-        <target name="junit">
+        <target name="test" depends="compile-test">
+	  <mkdir dir="${tmp.dir}" />
           <junit printsummary="yes">
+	    <classpath>
+	      <pathelement location="${classes.dir}"/>
+	    </classpath>
             <formatter type="plain" />
             <batchtest todir="${tmp.dir}">
-              <fileset dir="${src.dir}">
+              <fileset dir="${src.test.dir}">
                 <include name="**/test/*Test*.java" />
                 <exclude name="**/test/AllTests.java" />
               </fileset>
@@ -121,16 +102,6 @@
           </junit>
         </target>
   
-
-  <!-- =================================================================== -->
-  <!-- Run JahmmViz                                                        -->
-  <!-- =================================================================== -->
-
-        <target name="jahmmviz" description="Run JahmmViz">	
-          <java classname="be.ac.ulg.montefiore.run.jahmm.apps.JahmmViz"
-            fork="true" classpath="${classpath.project}" />
-	</target>
-	
 	
   <!-- =================================================================== -->
   <!-- Jar                                                                 -->
@@ -144,11 +115,6 @@
             includes="**/run/jahmm/** **/run/distributions/**"
             excludes="**run/jahmm/apps"
           />
-          <signjar alias="francois" storepass="${keystore-password}">
-	    <fileset dir=".">
-              <include name="${lib.dir}/jahmm*.jar" />
-            </fileset>
-	  </signjar>
    	</target>
 
 
@@ -174,7 +140,7 @@
           <copy todir="${lib.dir}/jahmm-${version}">
             <fileset dir=".">
               <include name="${src.dir}/**/*" />
-              <include name="${resources.dir}/**/*" />
+              <include name="${examples.dir}/**/*" />
             </fileset>
             <fileset dir=".">
               <include name="build.xml" />
@@ -185,19 +151,18 @@
             </fileset>
             <filterset>
               <filter token="VERSION" value="${version}" />
-              <filter token="LICENCE" value="${licence}" />
             </filterset>
           </copy>
-          <zip destfile="${lib.dir}/jahmm-${version}.zip">
+          <zip destfile="${lib.dir}/jahmm-${version}-sources.zip">
             <zipfileset dir="${lib.dir}/jahmm-${version}"
               prefix="jahmm-${version}" />
           </zip>
-          <tar destfile="${lib.dir}/jahmm-${version}.tar">
+          <tar destfile="${lib.dir}/jahmm-${version}-sources.tar">
             <tarfileset dir="${lib.dir}/jahmm-${version}"
               prefix="jahmm-${version}" />
           </tar>
-          <gzip zipfile="${lib.dir}/jahmm-${version}.tar.gz"
-             src="${lib.dir}/jahmm-${version}.tar" />
+          <gzip zipfile="${lib.dir}/jahmm-${version}-sources.tar.gz"
+             src="${lib.dir}/jahmm-${version}-sources.tar" />
           <delete includeEmptyDirs="true">
             <fileset dir="${lib.dir}" includes="*.tar" />
             <fileset dir="${lib.dir}/jahmm-${version}" />
@@ -207,30 +172,11 @@
 
 
   <!-- =================================================================== -->
-  <!-- Deploy                                                              -->
-  <!-- =================================================================== -->
-  
-        <target name="deploy" depends="">
-	<scp todir="bru.run.montefiore.ulg.ac.be:"  keyfile="${user.home}/.ssh/id_rsa" passphrase=""> <fileset dir="${lib.dir}" excludes="*javadoc*" />
-          </scp><!--
-          <scp todir="${serverdir}/files" keyfile="${user.home}/.ssh/id_rsa"
-	       passphrase="">
-	   <fileset dir="${lib.dir}" excludes="*javadoc*" />
-	  </scp>
-	  <scp todir="${serverdir}/doc" keyfile="${user.home}/.ssh/id_rsa"
-	       passphrase="">
-	   <fileset dir="${lib.dir}" includes="*javadoc*" />
-	  </scp> -->
-        </target>
-  
-
-  <!-- =================================================================== -->
   <!-- Clean                                                               -->
   <!-- =================================================================== -->
 
 	<target name="clean" description="Clean up">
 	  <delete dir="${output.dir}" />
-	  <delete dir="${classes.dir}/be/ac/ulg/montefiore/run/jahmm" />
           <delete dir="${tmp.dir}" />
           <delete dir="${doc.dir}" />
 	 
@@ -258,9 +204,7 @@
 	      <exclude name="**/jahmm/test/*.java" />
               <exclude name="**/jahmm/apps/**/*" />
 	    </fileset>
-	    <doctitle><![CDATA[<h1>Jahmm ${version}</h1>]]></doctitle>
-	    <bottom><![CDATA[<i>Copyright &#169; 2004,2005
-                     Jean-Marc Fran&ccedil;ois.</i>]]></bottom>
+	    <doctitle><![CDATA[<h1>Jahmm Hidden Markov Models library</h1>]]></doctitle>
 	    <group title="HMM related packages" 
               packages="be.ac.ulg.montefiore.run.*" />
 	  </javadoc>
