@@ -2,8 +2,8 @@
 
 
 <!-- 
- - Jahmm package build file.
- -->
+  - Jahmm package build file.
+  -->
 
 
 
@@ -21,7 +21,7 @@
         <property name="tmp.dir" value="${output.dir}" />
 	<property name="doc.dir" value="${output.dir}/javadoc" />
 	<property name="classpath.project" value="${classes.dir}" />
-        <property name="test.class" value="SimpleExample" />
+        <property name="sample.class" value="be.ac.ulg.montefiore.run.jahmm.apps.sample.SimpleExample" />
 	<property name="version" value="0.6.2" />
 
 	
@@ -58,15 +58,12 @@
 
 
   <!-- =================================================================== -->
-  <!-- Test                                                                -->
+  <!-- Sample                                                              -->
   <!-- =================================================================== -->
 
 	<target name="sample" depends="compile-test" >
           <mkdir dir="${tmp.dir}" />
-          <copy todir="${tmp.dir}">
-            <fileset dir="${examples.dir}" />
-          </copy>
-          <java classname="be.ac.ulg.montefiore.run.jahmm.test.${test.class}" 
+          <java classname="${sample.class}" 
 	    dir="${tmp.dir}" fork="true" classpath="${classpath.project}" />
     	</target>
 
@@ -201,7 +198,6 @@
              use="true" windowtitle="Jahmm ${version} Package">
 	    <fileset dir="${src.dir}" defaultexcludes="yes">
 	      <include name="**/*.java" />
-	      <exclude name="**/jahmm/test/*.java" />
               <exclude name="**/jahmm/apps/**/*" />
 	    </fileset>
 	    <doctitle><![CDATA[<h1>Jahmm Hidden Markov Models library</h1>]]></doctitle>

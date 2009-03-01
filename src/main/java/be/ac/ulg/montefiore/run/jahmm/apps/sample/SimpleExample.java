@@ -1,6 +1,4 @@
-/* jahmm package - v0.6.1 */
-
-package be.ac.ulg.montefiore.run.jahmm.test;
+package be.ac.ulg.montefiore.run.jahmm.apps.sample;
 
 
 /*

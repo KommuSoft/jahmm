@@ -1,0 +1,139 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+
+    <groupId>be.ac.ulg.montefiore.run.jahmm</groupId>
+    <artifactId>jahmm</artifactId>
+    <version>0.6.2-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Jahmm HMM library</name>
+    <description>Jahmm Hidden Markov Models library</description>
+    <url>htp://jahmm.googlecode.com/</url>
+
+    <properties>
+      <jahmm.svn.branch>trunk</jahmm.svn.branch>
+      <jahmm.svn.path></jahmm.svn.path>
+    </properties>
+
+    <developers>
+      <developer>
+	<name>Jean-Marc François</name>
+	<timezone>+1</timezone>
+      </developer>
+    </developers>
+
+
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>3.8.1</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+
+
+    <build>
+      <plugins>
+	<plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.0.2</version>
+          <configuration>
+            <source>1.5</source>
+            <target>1.5</target>
+	  </configuration>
+	</plugin>
+      </plugins>
+
+      <!-- deploy to googlecode -->
+      <extensions>
+        <extension>
+          <groupId>org.jvnet.wagon-svn</groupId>
+          <artifactId>wagon-svn</artifactId>
+          <version>1.8</version>
+        </extension>
+      </extensions>
+    </build>
+
+
+    <profiles>
+      <profile>
+	<id>release</id>
+	<build>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <executions>
+		<execution>
+                  <id>attach-javadocs</id>
+                  <goals>
+                    <goal>jar</goal>
+		  </goals>
+		</execution>
+              </executions>
+            </plugin>
+	  </plugins>
+	</build>
+      </profile>
+
+      <profile>
+	<id>sample</id>
+	<build>
+	  <plugins>
+	    <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>exec-maven-plugin</artifactId>
+              <version>1.1</version>
+              <executions>
+		<execution>
+		  <phase>compile</phase>
+		  <goals>
+		    <goal>java</goal>
+		  </goals>
+		</execution>
+              </executions>
+              <configuration>
+		<mainClass>be.ac.ulg.montefiore.run.jahmm.apps.sample.SimpleExample</mainClass>
+              </configuration>
+	    </plugin>
+	  </plugins>
+	</build>
+      </profile>
+    </profiles>
+
+
+    <reporting>
+      <plugins>
+	<plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+	</plugin>
+      </plugins>
+    </reporting>
+
+
+    <distributionManagement>
+      <!-- setup username/password in settings.xml using a <server> tag -->
+      <repository>
+        <uniqueVersion>false</uniqueVersion>
+        <id>googlecode</id>
+        <url>svn:https://jahmm.googlecode.com/svn/repo</url>
+      </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>maven2-repository.dev.java.net</id>
+            <name>Java.net Repository for Maven</name>
+            <url>http://download.java.net/maven/2/</url>
+        </repository>
+    </repositories>
+
+
+    <scm>
+      <connection>scm:svn:http://jahmm.googlecode.com/svn/${jahmm.svn.branch}/${jahmm.svn.path}</connection>
+    </scm>
+    
+</project>
