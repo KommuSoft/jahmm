@@ -1,10 +1,3 @@
-/* 
-$Date$
-$Revision$
-$Rev$
-$copyright$
-   $license$
- */
 package be.ac.ulg.montefiore.run.jahmm;
 
 import java.io.Serializable;
