@@ -38,7 +38,7 @@ public abstract class OpdfWriter<O extends Opdf<?>>
 	protected void write(Writer writer, double[] array)
 	throws IOException
 	{
-		DecimalFormat formatter = new DecimalFormat();
+		DecimalFormat formatter = new DecimalFormat("#0.#####");
 		
 		writer.write("[");
 		

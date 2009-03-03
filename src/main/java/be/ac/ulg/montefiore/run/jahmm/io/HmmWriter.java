@@ -41,7 +41,7 @@ public class HmmWriter
 			Hmm<O> hmm, int stateNb)
     throws IOException
     {
-		DecimalFormat formatter = new DecimalFormat();
+		DecimalFormat formatter = new DecimalFormat("#0.######");
 		
     	writer.write("State\nPi " + formatter.format(hmm.getPi(stateNb)));
     	
