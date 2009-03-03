@@ -4,7 +4,7 @@
 
     <groupId>be.ac.ulg.montefiore.run.jahmm</groupId>
     <artifactId>jahmm</artifactId>
-    <version>0.6.2</version>
+    <version>0.6.2-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>Jahmm HMM library</name>
     <description>Jahmm Hidden Markov Models library</description>
@@ -12,7 +12,7 @@
 
     <properties>
       <jahmm.svn.branch>trunk</jahmm.svn.branch>
-      <jahmm.svn.path />
+      <jahmm.svn.path></jahmm.svn.path>
     </properties>
 
     <developers>
@@ -133,7 +133,7 @@
 
 
     <scm>
-      <connection>scm:svn:http://jahmm.googlecode.com/svn/tags/release-0.6.2</connection>
+      <connection>scm:svn:http://jahmm.googlecode.com/svn/${jahmm.svn.branch}/${jahmm.svn.path}</connection>
     </scm>
     
 </project>
