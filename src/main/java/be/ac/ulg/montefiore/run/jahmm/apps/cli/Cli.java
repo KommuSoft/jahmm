@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2004-2009, Jean-Marc François. All Rights Reserved.
+ * Licensed under the New BSD license.  See the LICENSE file.
+ */
+
 package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 
 import java.io.*;
@@ -10,7 +15,9 @@ import be.ac.ulg.montefiore.run.jahmm.io.FileFormatException;
  */
 public class Cli
 {
-	/**
+    public final static String CHARSET = "ISO-8859-1";
+
+    /**
 	 * The entry point of the CLI.
 	 * 
 	 * @param args Command line arguments.

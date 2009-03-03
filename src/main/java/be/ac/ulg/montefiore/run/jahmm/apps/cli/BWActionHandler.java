@@ -1,14 +1,22 @@
+/*
+ * Copyright (c) 2004-2009, Jean-Marc François. All Rights Reserved.
+ * Licensed under the New BSD license.  See the LICENSE file.
+ */
+
 package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 
-import java.io.*;
-import java.util.EnumSet;
-import java.util.List;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
+import be.ac.ulg.montefiore.run.jahmm.CentroidFactory;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
+import be.ac.ulg.montefiore.run.jahmm.Opdf;
 import be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.Arguments;
 import be.ac.ulg.montefiore.run.jahmm.io.*;
 import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchLearner;
 import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchScaledLearner;
+
+import java.io.*;
+import java.util.EnumSet;
+import java.util.List;
 
 
 /**
@@ -18,7 +26,7 @@ class BWActionHandler
 extends ActionHandler
 {
 	public void act()
-	throws FileNotFoundException, IOException, FileFormatException, 
+	throws IOException, FileFormatException, 
 	AbnormalTerminationException
 	{
 		EnumSet<Arguments> args = EnumSet.of(
@@ -34,8 +42,8 @@ extends ActionHandler
 		Writer hmmWriter = new OutputStreamWriter(outStream);
 		InputStream hmmStream = Arguments.IN_HMM.getAsInputStream();
 		InputStream seqStream = Arguments.IN_SEQ.getAsInputStream();
-		Reader hmmReader = new InputStreamReader(hmmStream);
-		Reader seqReader = new InputStreamReader(seqStream);
+		Reader hmmReader = new InputStreamReader(hmmStream, Cli.CHARSET);
+		Reader seqReader = new InputStreamReader(seqStream, Cli.CHARSET);
 		
 		learn(Types.relatedObjs(), hmmReader, seqReader, hmmWriter,
 				nbIterations);
