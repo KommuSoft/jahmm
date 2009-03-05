@@ -22,7 +22,7 @@
 	<property name="doc.dir" value="${output.dir}/javadoc" />
 	<property name="classpath.project" value="${classes.dir}" />
         <property name="sample.class" value="be.ac.ulg.montefiore.run.jahmm.apps.sample.SimpleExample" />
-	<property name="version" value="0.6.2" />
+	<property name="version" value="0.6.3" />
 
 	
   <!-- =================================================================== -->
