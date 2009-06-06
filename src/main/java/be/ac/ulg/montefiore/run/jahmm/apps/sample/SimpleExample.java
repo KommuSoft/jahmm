@@ -9,7 +9,7 @@ package be.ac.ulg.montefiore.run.jahmm.apps.sample;
 /*
  * SimpleExample.java: A simple example file for the jahmm package.
  *
- * Written by Jean-Marc Francois <francois-jahmm@run.montefiore.ulg.ac.be>
+ * Written by Jean-Marc Francois.
  *
  * The content of this file is public-domain.
  *
@@ -18,8 +18,8 @@ package be.ac.ulg.montefiore.run.jahmm.apps.sample;
  * And run with:
  *      java SimpleExample
  *
- * This file (or a newer version) can be found at this URL:
- *      http://www.run.montefiore.ulg.ac.be/~francois/software/jahmm/example/
+ * This file (or a newer version) can be found at jahmm website:
+ *      http://jahmm.googlecode.com/
  *
  *
  * Changelog:
@@ -30,6 +30,7 @@ package be.ac.ulg.montefiore.run.jahmm.apps.sample;
  * 2006-01-11: Now prints the initial/learnt HMMs. (JMF)
  * 2006-02-05: Small modification to avoid 'unchecked casting'. (JMF)
  * 2006-02-05: Renamed, adapted to v0.6.0. (JMF)
+ * 2009-06-06: Updated comments with new website URL
  */
 
 import java.util.*;
