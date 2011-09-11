@@ -142,7 +142,9 @@ implements Opdf<ObservationInteger>
 	public OpdfInteger clone()
 	{	
 		try {
-			return (OpdfInteger) super.clone();
+			OpdfInteger opdf = (OpdfInteger)super.clone();
+                        opdf.probabilities = probabilities.clone();
+			return opdf;
 		} catch(CloneNotSupportedException e) {
             throw new AssertionError(e);
         }
