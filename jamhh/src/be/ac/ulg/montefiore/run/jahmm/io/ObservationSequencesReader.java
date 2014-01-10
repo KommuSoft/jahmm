@@ -73,9 +73,9 @@ public class ObservationSequencesReader {
     static void initSyntaxTable(StreamTokenizer st) {
         st.resetSyntax();
         st.parseNumbers();
-        st.whitespaceChars(0, ' ');
+        st.whitespaceChars(0, (int) ' ');
         st.eolIsSignificant(true);
-        st.commentChar('#');
+        st.commentChar((int) '#');
     }
 
     /**
@@ -135,8 +135,11 @@ public class ObservationSequencesReader {
 
         return sequence;
     }
+<<<<<<< HEAD
 
     private ObservationSequencesReader() {
     }
     private static final Logger LOG = Logger.getLogger(ObservationSequencesReader.class.getName());
+=======
+>>>>>>> parent of e8b9e16... refactorings
 }

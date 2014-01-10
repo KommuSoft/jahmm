@@ -122,12 +122,12 @@ public class HmmReader {
 
             if (st.ttype > 0) // Single character token
             {
-                if (word.length() == 1 && st.ttype == word.charAt(0)) {
+                if (word.length() == 1 && st.ttype == (int) word.charAt(0)) {
                     continue;
                 } else {
                     throw new FileFormatException(st.lineno(),
                             "Syntax error: unexpected token '"
-                            + st.ttype + "' (" + word + "' expected)");
+                            + (char) st.ttype + "' (" + word + "' expected)");
                 }
             }
 
@@ -154,13 +154,10 @@ public class HmmReader {
         st.parseNumbers();
         st.wordChars('a', 'z');
         st.wordChars('A', 'Z');
-        st.whitespaceChars(0, ' ');
-        st.whitespaceChars('\t', '\t');
+        st.whitespaceChars(0, (int) ' ');
+        st.whitespaceChars((int) '\t', (int) '\t');
         st.eolIsSignificant(false);
-        st.commentChar('#');
-    }
-
-    private HmmReader() {
+        st.commentChar((int) '#');
     }
     private static final Logger LOG = Logger.getLogger(HmmReader.class.getName());
 }

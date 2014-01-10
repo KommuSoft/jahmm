@@ -81,7 +81,7 @@ public class PoissonDistribution
     // Based on Stirling approximation
     private double logFactorial(int n) {
         if (n >= logFactTable.length) {
-            double r = 1. / n;
+            double r = 1. / (double) n;
 
             return (n + .5) * log(n) - n + C0
                     + r * (C1 + r * r * (C3 + r * r * (C5 + r * r * C7)));

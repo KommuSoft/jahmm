@@ -28,15 +28,15 @@ public class CentroidObservationInteger
     @Override
     public void reevaluateAdd(ObservationInteger e,
             List<? extends ObservationInteger> v) {
-        value = ((value * v.size())
-                + (e.value)) / (v.size() + 1.);
+        value = ((value * (double) v.size())
+                + ((double) (e.value))) / (v.size() + 1.);
     }
 
     @Override
     public void reevaluateRemove(ObservationInteger e,
             List<? extends ObservationInteger> v) {
-        value = ((value * v.size())
-                - e.value) / (v.size() - 1.);
+        value = ((value * (double) v.size())
+                - ((double) e.value)) / (v.size() - 1.);
     }
 
     /**

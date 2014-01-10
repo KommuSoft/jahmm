@@ -39,11 +39,11 @@ public class Hmm<O extends Observation>
         opdfs = new ArrayList<>(nbStates);
 
         for (int i = 0; i < nbStates; i++) {
-            pi[i] = 1. / nbStates;
+            pi[i] = 1. / ((double) nbStates);
             opdfs.add(opdfFactory.factor());
 
             for (int j = 0; j < nbStates; j++) {
-                a[i][j] = 1. / nbStates;
+                a[i][j] = 1. / ((double) nbStates);
             }
         }
     }
@@ -270,7 +270,7 @@ public class Hmm<O extends Observation>
             }
             s += "\n";
 
-            s += "  Opdf: " + getOpdf(i).toString(nf) + "\n";
+            s += "  Opdf: " + ((Opdf<O>) getOpdf(i)).toString(nf) + "\n";
         }
 
         return s;

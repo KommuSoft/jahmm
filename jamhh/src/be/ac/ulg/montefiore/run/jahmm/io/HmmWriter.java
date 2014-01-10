@@ -55,8 +55,11 @@ public class HmmWriter {
         opdfWriter.write(writer, opdf);
         writer.write("\n\n");
     }
+<<<<<<< HEAD
 
     private HmmWriter() {
     }
     private static final Logger LOG = Logger.getLogger(HmmWriter.class.getName());
+=======
+>>>>>>> parent of e8b9e16... refactorings
 }

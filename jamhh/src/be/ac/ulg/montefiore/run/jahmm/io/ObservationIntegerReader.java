@@ -64,7 +64,7 @@ public class ObservationIntegerReader
             throws IOException, FileFormatException {
         ObservationInteger oi;
 
-        st.ordinaryChar('.');
+        st.ordinaryChar((int) '.');
 
         if (st.nextToken() == StreamTokenizer.TT_NUMBER) {
             if (st.nval > nbElements) {
@@ -76,7 +76,7 @@ public class ObservationIntegerReader
             throw new FileFormatException(st.lineno(), "Integer expected");
         }
 
-        if (st.nextToken() != ';') {
+        if (st.nextToken() != (int) ';') {
             throw new FileFormatException(st.lineno(), "';' expected");
         }
 

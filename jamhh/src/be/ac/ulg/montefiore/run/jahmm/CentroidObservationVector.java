@@ -24,7 +24,7 @@ public class CentroidObservationVector
      * @param o The initial value of the new centroid.
      */
     public CentroidObservationVector(ObservationVector o) {
-        this.value = o.clone();
+        this.value = (ObservationVector) o.clone();
     }
 
     @Override

@@ -50,8 +50,11 @@ public class ObservationSequencesWriter {
 
         writer.write("\n");
     }
+<<<<<<< HEAD
 
     private ObservationSequencesWriter() {
     }
     private static final Logger LOG = Logger.getLogger(ObservationSequencesWriter.class.getName());
+=======
+>>>>>>> parent of e8b9e16... refactorings
 }
