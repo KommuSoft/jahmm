@@ -48,4 +48,7 @@ public class ObservationSequencesWriter {
 
         writer.write("\n");
     }
+
+    private ObservationSequencesWriter() {
+    }
 }

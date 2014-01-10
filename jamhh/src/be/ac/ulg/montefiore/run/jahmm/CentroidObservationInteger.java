@@ -21,14 +21,14 @@ public class CentroidObservationInteger
 
     public void reevaluateAdd(ObservationInteger e,
             List<? extends ObservationInteger> v) {
-        value = ((value * (double) v.size())
-                + ((double) (e.value))) / (v.size() + 1.);
+        value = ((value * v.size())
+                + (e.value)) / (v.size() + 1.);
     }
 
     public void reevaluateRemove(ObservationInteger e,
             List<? extends ObservationInteger> v) {
-        value = ((value * (double) v.size())
-                - ((double) e.value)) / (v.size() - 1.);
+        value = ((value * v.size())
+                - e.value) / (v.size() - 1.);
     }
 
     /**

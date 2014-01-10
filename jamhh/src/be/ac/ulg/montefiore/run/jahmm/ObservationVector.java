@@ -106,7 +106,7 @@ public class ObservationVector extends Observation
      * product of this observation and <code>c</code>.
      */
     public ObservationVector times(double c) {
-        ObservationVector p = (ObservationVector) clone();;
+        ObservationVector p = clone();;
 
         for (int i = 0; i < dimension(); i++) {
             p.value[i] *= c;

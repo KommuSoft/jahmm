@@ -71,7 +71,7 @@ public class MultiGaussianDistribution
      * @return This distribution's mean vector.
      */
     public double[] mean() {
-        return (double[]) mean.clone();
+        return mean.clone();
     }
 
     /**
@@ -141,7 +141,7 @@ public class MultiGaussianDistribution
                         SimpleMatrix.times(covarianceInv(), vmm))[0][0]) * -.5;
 
         return Math.exp(expArg)
-                / (Math.pow(2. * Math.PI, ((double) dimension) / 2.)
+                / (Math.pow(2. * Math.PI, dimension / 2.)
                 * Math.pow(covarianceDet(), .5));
     }
 

@@ -221,4 +221,7 @@ class CommandLineArguments {
             arg.setIsSet(false);
         }
     }
+
+    private CommandLineArguments() {
+    }
 }

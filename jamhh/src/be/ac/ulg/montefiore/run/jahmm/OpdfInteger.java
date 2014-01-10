@@ -35,7 +35,7 @@ public class OpdfInteger
         probabilities = new double[nbEntries];
 
         for (int i = 0; i < nbEntries; i++) {
-            probabilities[i] = 1. / ((double) nbEntries);
+            probabilities[i] = 1. / nbEntries;
         }
     }
 

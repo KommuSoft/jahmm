@@ -22,7 +22,7 @@ public class CentroidObservationVector
      * @param o The initial value of the new centroid.
      */
     public CentroidObservationVector(ObservationVector o) {
-        this.value = (ObservationVector) o.clone();
+        this.value = o.clone();
     }
 
     public void reevaluateAdd(ObservationVector e,

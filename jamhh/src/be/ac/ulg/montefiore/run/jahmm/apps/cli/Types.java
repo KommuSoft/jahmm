@@ -33,6 +33,9 @@ class Types {
 
         throw new AssertionError("Unknown observation type");
     }
+
+    private Types() {
+    }
 }
 
 class IntegerRelatedObjects

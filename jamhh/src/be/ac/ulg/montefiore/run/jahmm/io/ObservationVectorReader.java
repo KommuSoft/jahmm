@@ -61,7 +61,7 @@ public class ObservationVectorReader
      */
     public ObservationVector read(StreamTokenizer st)
             throws IOException, FileFormatException {
-        if (st.nextToken() != (int) '[') {
+        if (st.nextToken() != '[') {
             throw new FileFormatException(st.lineno(), "'[' expected");
         }
 
@@ -87,7 +87,7 @@ public class ObservationVectorReader
             }
         }
 
-        if (st.nextToken() != (int) ';') {
+        if (st.nextToken() != ';') {
             throw new FileFormatException(st.lineno(), "';' expected");
         }
 

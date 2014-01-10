@@ -73,7 +73,7 @@ class SimpleMatrix {
     }
 
     static double[] vector(double[] v) {
-        double[] vc = (double[]) v.clone();
+        double[] vc = v.clone();
 
         return vc;
     }
@@ -214,7 +214,7 @@ class SimpleMatrix {
                 }
 
                 lj[k] = s = (m[j][k] - s) / l[k][k];
-                d = d + s * s;
+                d += s * s;
             }
 
             if ((d = m[j][j] - d) <= 0.) {
@@ -322,5 +322,8 @@ class SimpleMatrix {
         }
 
         return s + " ]\n";
+    }
+
+    private SimpleMatrix() {
     }
 }
