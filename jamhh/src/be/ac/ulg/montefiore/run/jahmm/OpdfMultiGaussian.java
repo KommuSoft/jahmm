@@ -143,11 +143,7 @@ public class OpdfMultiGaussian
         distribution = new MultiGaussianDistribution(mean, covariance);
     }
 
-    /**
-     *
-     * @return
-     */
-    public OpdfMultiGaussian clone() {
+    public OpdfMultiGaussian clone() throws CloneNotSupportedException {
         try {
             return (OpdfMultiGaussian) super.clone();
         } catch (CloneNotSupportedException e) {

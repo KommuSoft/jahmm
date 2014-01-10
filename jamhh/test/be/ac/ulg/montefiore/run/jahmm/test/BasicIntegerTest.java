@@ -73,7 +73,7 @@ public class BasicIntegerTest
     /**
      *
      */
-    public void testKMeansCalculator() {
+    public void testKMeansCalculator() throws CloneNotSupportedException {
         int nbClusters = 20;
 
         KMeansCalculator<ObservationInteger> kmc = new KMeansCalculator<ObservationInteger>(nbClusters, randomSequence);

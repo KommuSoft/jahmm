@@ -31,7 +31,7 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
      * @param k The number of clusters to get.
      * @param elements The elements to divide in clusters.
      */
-    public KMeansCalculator(int k, List<? extends K> elements) {
+    public KMeansCalculator(int k, List<? extends K> elements) throws CloneNotSupportedException {
         if (k <= 0) {
             throw new IllegalArgumentException("Illegal number of clusters");
         }
@@ -157,7 +157,7 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
          *
          * @param element The element that compose the new cluster.
          */
-        Cluster(L e) {
+        Cluster(L e) throws CloneNotSupportedException {
             elements = new ArrayList<L>();
             elements.add(e);
             centroid = e.factor();
@@ -172,7 +172,7 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
             return elements;
         }
 
-        public void add(L e) {
+        public void add(L e) throws CloneNotSupportedException {
             if (centroid == null) {
                 centroid = e.factor();
             } else {

@@ -132,11 +132,7 @@ public class OpdfInteger
         }
     }
 
-    /**
-     *
-     * @return
-     */
-    public OpdfInteger clone() {
+    public OpdfInteger clone() throws CloneNotSupportedException {
         try {
             OpdfInteger opdf = (OpdfInteger) super.clone();
             opdf.probabilities = probabilities.clone();

@@ -104,11 +104,7 @@ public class OpdfGaussian
         distribution = new GaussianDistribution(mean, variance);
     }
 
-    /**
-     *
-     * @return
-     */
-    public OpdfGaussian clone() {
+    public OpdfGaussian clone() throws CloneNotSupportedException {
         try {
             return (OpdfGaussian) super.clone();
         } catch (CloneNotSupportedException e) {

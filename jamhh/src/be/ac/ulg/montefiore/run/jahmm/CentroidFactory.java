@@ -15,5 +15,5 @@ public interface CentroidFactory<O> {
      *
      * @return
      */
-    public Centroid<O> factor();
+    public Centroid<O> factor() throws CloneNotSupportedException;
 }

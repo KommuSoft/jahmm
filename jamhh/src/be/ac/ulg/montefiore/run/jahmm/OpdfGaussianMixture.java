@@ -275,11 +275,7 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
         return newVariances;
     }
 
-    /**
-     *
-     * @return
-     */
-    public OpdfGaussianMixture clone() {
+    public OpdfGaussianMixture clone() throws CloneNotSupportedException {
         try {
             return (OpdfGaussianMixture) super.clone();
         } catch (CloneNotSupportedException e) {

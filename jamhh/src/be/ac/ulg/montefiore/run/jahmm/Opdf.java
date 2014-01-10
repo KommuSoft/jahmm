@@ -94,5 +94,5 @@ public interface Opdf<O extends Observation>
      *
      * @return
      */
-    public Opdf<O> clone();
+    public Opdf<O> clone() throws CloneNotSupportedException;
 }

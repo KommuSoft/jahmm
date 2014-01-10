@@ -126,12 +126,8 @@ public class OpdfDiscrete<E extends Enum<E>>
         distribution.fit(dco, weights);
     }
 
-    /**
-     *
-     * @return
-     */
     @SuppressWarnings("unchecked")
-    public OpdfDiscrete<E> clone() {
+    public OpdfDiscrete<E> clone() throws CloneNotSupportedException {
         try {
             OpdfDiscrete<E> opdfDiscrete = (OpdfDiscrete<E>) super.clone();
             opdfDiscrete.distribution = distribution.clone();

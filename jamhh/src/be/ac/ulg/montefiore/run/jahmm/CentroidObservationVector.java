@@ -21,7 +21,7 @@ public class CentroidObservationVector
      *
      * @param o The initial value of the new centroid.
      */
-    public CentroidObservationVector(ObservationVector o) {
+    public CentroidObservationVector(ObservationVector o) throws CloneNotSupportedException {
         this.value = (ObservationVector) o.clone();
     }
 
