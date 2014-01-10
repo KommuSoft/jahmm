@@ -3,7 +3,7 @@
  * Licensed under the New BSD license.  See the LICENSE file.
  */
 
-package be.ac.ulg.montefiore.run.jahmm.test;
+package test.java.be.ac.ulg.montefiore.run.jahmm.test;
 
 import java.io.IOException;
 
