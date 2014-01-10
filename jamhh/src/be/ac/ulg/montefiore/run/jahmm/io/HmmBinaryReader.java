@@ -21,6 +21,7 @@ public class HmmBinaryReader {
      *
      * @param stream Holds the byte stream the HMM is read from.
      * @return The {@link be.ac.ulg.montefiore.run.jahmm.Hmm HMM} read.
+     * @throws java.io.IOException
      */
     static public Hmm<?> read(InputStream stream)
             throws IOException {

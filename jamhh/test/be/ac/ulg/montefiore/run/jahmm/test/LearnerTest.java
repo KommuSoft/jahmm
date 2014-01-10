@@ -13,6 +13,10 @@ import be.ac.ulg.montefiore.run.jahmm.learn.*;
 import be.ac.ulg.montefiore.run.jahmm.toolbox.KullbackLeiblerDistanceCalculator;
 import be.ac.ulg.montefiore.run.jahmm.toolbox.MarkovGenerator;
 
+/**
+ *
+ * @author kommusoft
+ */
 public class LearnerTest
         extends TestCase {
 
@@ -37,6 +41,9 @@ public class LearnerTest
         klc = new KullbackLeiblerDistanceCalculator();
     }
 
+    /**
+     *
+     */
     public void testBaumWelch() {
         /* Model sequences using BW algorithm */
 
@@ -53,6 +60,9 @@ public class LearnerTest
         assertEquals(0., klc.distance(bwHmm, hmm), DELTA);
     }
 
+    /**
+     *
+     */
     public void testKMeans() {
         KMeansLearner<ObservationInteger> kml
                 = new KMeansLearner<ObservationInteger>(5,

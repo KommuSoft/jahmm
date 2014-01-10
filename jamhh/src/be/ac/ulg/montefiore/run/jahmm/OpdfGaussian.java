@@ -103,6 +103,10 @@ public class OpdfGaussian
         distribution = new GaussianDistribution(mean, variance);
     }
 
+    /**
+     *
+     * @return
+     */
     public OpdfGaussian clone() {
         try {
             return (OpdfGaussian) super.clone();
@@ -111,6 +115,10 @@ public class OpdfGaussian
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String toString() {
         return toString(NumberFormat.getInstance());
     }

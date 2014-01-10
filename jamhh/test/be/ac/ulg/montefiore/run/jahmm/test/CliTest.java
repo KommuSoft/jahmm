@@ -10,6 +10,10 @@ import junit.framework.TestCase;
 import be.ac.ulg.montefiore.run.jahmm.apps.cli.AbnormalTerminationException;
 import be.ac.ulg.montefiore.run.jahmm.apps.cli.Cli;
 
+/**
+ *
+ * @author kommusoft
+ */
 public class CliTest extends TestCase {
 
     private InputStream origIn;
@@ -22,6 +26,10 @@ public class CliTest extends TestCase {
         origErr = System.err;
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     public void testCli()
             throws IOException {
         ByteArrayOutputStream err = new ByteArrayOutputStream();
@@ -52,6 +60,11 @@ public class CliTest extends TestCase {
         System.setIn(origIn);
     }
 
+    /**
+     *
+     * @param out
+     * @param err
+     */
     protected void flush(ByteArrayOutputStream out, ByteArrayOutputStream err) {
         assertEquals("Something has been written on the \"standard\""
                 + " error stream ('" + err.toString() + "')",
@@ -61,16 +74,31 @@ public class CliTest extends TestCase {
         err.reset();
     }
 
+    /**
+     *
+     * @throws IOException
+     * @throws AbnormalTerminationException
+     */
     protected void help()
             throws IOException, AbnormalTerminationException {
         Cli.run("-help");
     }
 
+    /**
+     *
+     * @throws IOException
+     * @throws AbnormalTerminationException
+     */
     protected void create()
             throws IOException, AbnormalTerminationException {
         Cli.run("create", "-opdf", "integer", "-r", "4", "-n", "3", "-o", "-");
     }
 
+    /**
+     *
+     * @throws IOException
+     * @throws AbnormalTerminationException
+     */
     protected void print()
             throws IOException, AbnormalTerminationException {
         Cli.run("print", "-i", "-");

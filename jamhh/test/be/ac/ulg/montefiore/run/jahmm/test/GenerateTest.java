@@ -10,9 +10,16 @@ import junit.framework.TestCase;
 import be.ac.ulg.montefiore.run.jahmm.*;
 import be.ac.ulg.montefiore.run.jahmm.draw.GenericHmmDrawerDot;
 
+/**
+ *
+ * @author kommusoft
+ */
 public class GenerateTest
         extends TestCase {
 
+    /**
+     *
+     */
     public final static String outputDir = "";
 
     private Hmm<ObservationInteger> hmm;
@@ -21,6 +28,9 @@ public class GenerateTest
         hmm = new Hmm<ObservationInteger>(4, new OpdfIntegerFactory(2));
     }
 
+    /**
+     *
+     */
     public void testDotGenerator() {
         GenericHmmDrawerDot hmmDrawer = new GenericHmmDrawerDot();
 

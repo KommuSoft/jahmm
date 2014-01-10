@@ -58,6 +58,7 @@ public class ObservationVectorReader
      * @param st A stream tokenizer.
      * @return An {@link be.ac.ulg.montefiore.run.jahmm.ObservationInteger
      *         ObservationInteger}.
+     * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
     public ObservationVector read(StreamTokenizer st)
             throws IOException, FileFormatException {

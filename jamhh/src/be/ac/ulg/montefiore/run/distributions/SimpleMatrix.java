@@ -214,7 +214,7 @@ class SimpleMatrix {
                 }
 
                 lj[k] = s = (m[j][k] - s) / l[k][k];
-                d = d + s * s;
+                d += s * s;
             }
 
             if ((d = m[j][j] - d) <= 0.) {

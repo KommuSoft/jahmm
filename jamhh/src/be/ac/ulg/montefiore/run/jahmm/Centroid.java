@@ -9,6 +9,7 @@ import java.util.*;
 /**
  * The centroid (basically, the mean) of a cluster. Used by the k-means
  * algorithm.
+ * @param <O>
  */
 public interface Centroid<O> {
 

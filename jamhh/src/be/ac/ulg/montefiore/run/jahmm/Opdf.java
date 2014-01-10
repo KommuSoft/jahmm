@@ -15,6 +15,7 @@ import java.text.NumberFormat;
  * An <code>Opdf</code> can represent a probability function (if the
  * observations can take discrete values) or a probability distribution (if the
  * observations are continous).
+ * @param <O>
  */
 public interface Opdf<O extends Observation>
         extends Cloneable, Serializable {
@@ -88,5 +89,9 @@ public interface Opdf<O extends Observation>
      */
     public String toString(NumberFormat numberFormat);
 
+    /**
+     *
+     * @return
+     */
     public Opdf<O> clone();
 }

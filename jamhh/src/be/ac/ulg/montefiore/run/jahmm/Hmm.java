@@ -26,6 +26,7 @@ import java.util.*;
  * {@link Observation Observation}s (in the right order, the i-th element of the
  * vector being the i-th element of the sequence). A set of observation
  * sequences is a {@link java.util.List List} of such sequences.
+ * @param <O>
  */
 public class Hmm<O extends Observation>
         implements Serializable, Cloneable {
@@ -299,6 +300,11 @@ public class Hmm<O extends Observation>
         return toString(NumberFormat.getInstance());
     }
 
+    /**
+     *
+     * @return
+     * @throws CloneNotSupportedException
+     */
     public Hmm<O> clone()
             throws CloneNotSupportedException {
         Hmm<O> hmm = new Hmm<O>(nbStates());

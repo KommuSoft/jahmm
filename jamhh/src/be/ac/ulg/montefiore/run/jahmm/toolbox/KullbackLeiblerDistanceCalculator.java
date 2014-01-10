@@ -30,6 +30,7 @@ public class KullbackLeiblerDistanceCalculator {
     /**
      * Computes the Kullback-Leibler distance between two HMMs.
      *
+     * @param <O>
      * @param hmm1 The first HMM against which the distance is computed. The
      * distance is mesured with regard to this HMM (this must be defined since
      * the Kullback-Leibler distance is not symetric).

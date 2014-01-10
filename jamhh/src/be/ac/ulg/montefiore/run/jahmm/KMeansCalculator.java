@@ -16,6 +16,7 @@ import java.util.*;
  * <p>
  * In order to get the theoretical complexity, the list of elements to be
  * clustered must be accessible in O(1).
+ * @param <K>
  */
 public class KMeansCalculator<K extends CentroidFactory<? super K>> {
 

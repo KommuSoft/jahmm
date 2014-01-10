@@ -11,6 +11,7 @@ import be.ac.ulg.montefiore.run.jahmm.Opdf;
 
 /**
  * Writes an observation distribution textual description.
+ * @param <O>
  */
 public abstract class OpdfWriter<O extends Opdf<?>> {
 
@@ -21,6 +22,7 @@ public abstract class OpdfWriter<O extends Opdf<?>> {
      *
      * @param writer The writer where the description is output.
      * @param opdf An observation distribution.
+     * @throws java.io.IOException
      */
     public abstract void write(Writer writer, O opdf)
             throws IOException;
@@ -31,6 +33,7 @@ public abstract class OpdfWriter<O extends Opdf<?>> {
      *
      * @param writer Where to read the sequence to.
      * @param array The array to write.
+     * @throws java.io.IOException
      */
     protected void write(Writer writer, double[] array)
             throws IOException {

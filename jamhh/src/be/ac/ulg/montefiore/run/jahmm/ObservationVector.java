@@ -43,6 +43,7 @@ public class ObservationVector extends Observation
 
     /**
      * Returns the dimension of this vector.
+     * @return 
      */
     public int dimension() {
         return value.length;
@@ -146,6 +147,10 @@ public class ObservationVector extends Observation
         return s + " ]";
     }
 
+    /**
+     *
+     * @return
+     */
     public ObservationVector clone() {
         return new ObservationVector(value);
     }

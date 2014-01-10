@@ -9,6 +9,10 @@ import java.io.StreamTokenizer;
 
 import be.ac.ulg.montefiore.run.jahmm.Opdf;
 
+/**
+ *
+ * @author kommusoft
+ */
 public class OpdfGenericReader
         extends OpdfReader<Opdf<?>> {
 

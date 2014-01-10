@@ -11,6 +11,7 @@ import be.ac.ulg.montefiore.run.jahmm.*;
 
 /**
  * Generates sequences of markovian observations given a HMM.
+ * @param <O>
  */
 public class MarkovGenerator<O extends Observation> {
 

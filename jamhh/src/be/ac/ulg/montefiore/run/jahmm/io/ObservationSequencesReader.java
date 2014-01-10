@@ -41,6 +41,7 @@ public class ObservationSequencesReader {
      * @return A {@link java.util.Vector Vector} of
      * {@link java.util.Vector Vector}s of
      * {@link be.ac.ulg.montefiore.run.jahmm.Observation Observation}s.
+     * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
     static public <O extends Observation> List<List<O>>
             readSequences(ObservationReader<O> or, Reader reader)
@@ -82,6 +83,7 @@ public class ObservationSequencesReader {
      * @param reader Holds the character reader the sequences are read from.
      * @return An observation sequence read from <code>st</code> or null if the
      * end of the file is reached before any sequence is found.
+     * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
     static public <O extends Observation> List<O>
             readSequence(ObservationReader<O> oir, Reader reader)

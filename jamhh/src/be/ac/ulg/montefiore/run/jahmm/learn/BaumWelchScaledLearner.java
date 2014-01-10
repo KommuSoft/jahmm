@@ -25,6 +25,13 @@ public class BaumWelchScaledLearner
     public BaumWelchScaledLearner() {
     }
 
+    /**
+     *
+     * @param <O>
+     * @param sequence
+     * @param hmm
+     * @return
+     */
     protected <O extends Observation> ForwardBackwardCalculator
             generateForwardBackwardCalculator(List<? extends O> sequence,
                     Hmm<O> hmm) {
@@ -38,6 +45,16 @@ public class BaumWelchScaledLearner
      interpreted as P[q_t = i and q_(t+1) = j | obsSeq, hmm] because
      we assume that the scaling factors are such that their product
      is equal to the inverse of the probability of the sequence. */
+
+    /**
+     *
+     * @param <O>
+     * @param sequence
+     * @param fbc
+     * @param hmm
+     * @return
+     */
+    
     protected <O extends Observation> double[][][]
             estimateXi(List<? extends O> sequence, ForwardBackwardCalculator fbc,
                     Hmm<O> hmm) {

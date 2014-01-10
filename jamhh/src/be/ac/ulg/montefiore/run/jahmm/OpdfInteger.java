@@ -130,6 +130,10 @@ public class OpdfInteger
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public OpdfInteger clone() {
         try {
             OpdfInteger opdf = (OpdfInteger) super.clone();
@@ -140,6 +144,10 @@ public class OpdfInteger
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String toString() {
         return toString(NumberFormat.getInstance());
     }

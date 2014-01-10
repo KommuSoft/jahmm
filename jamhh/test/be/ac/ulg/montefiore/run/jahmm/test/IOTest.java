@@ -11,9 +11,16 @@ import junit.framework.TestCase;
 import be.ac.ulg.montefiore.run.jahmm.*;
 import be.ac.ulg.montefiore.run.jahmm.io.*;
 
+/**
+ *
+ * @author kommusoft
+ */
 public class IOTest
         extends TestCase {
 
+    /**
+     *
+     */
     protected final String integerSequences
             = "# A simple data file with integer observations.\n"
             + "1;2;3; # The first sequence\n"
@@ -23,10 +30,16 @@ public class IOTest
             + "1;2;3; \\\n"
             + "2;4;5; # Don't forget to end the file with a newline\n";
 
+    /**
+     *
+     */
     protected final String vectorSequences
             = "[ 1.1 2.2 ] ; [ 4.4 5.5 ] ; [ 4.3 6.0 ] ; [ 7.7 8.8 ] ;\n"
             + "[ 0.5 1.5 ] ; [ 1.5 2.5 ] ; [ 4.5 5.5 ] ; [ 8. 8. ] ; [ 7. 8. ] ;\n";
 
+    /**
+     *
+     */
     protected final String hmmString
             = "# A simple Hmm\n"
             + "Hmm v1.0\n"
@@ -38,13 +51,31 @@ public class IOTest
             + "A 0.4 0.6\n"
             + "IntegerOPDF [ .1 .1 .1 .7 ]";
 
+    /**
+     *
+     */
     protected final String integerOPDFString = "IntegerOPDF [ .32 .68 ]";
+
+    /**
+     *
+     */
     protected final String gaussianOPDFString = "GaussianOPDF [ 1.2 .3 ]";
+
+    /**
+     *
+     */
     protected final String gaussianMixtureOPDFString
             = "GaussianMixtureOPDF [ [ 1.2 2. ] [ .1 .9 ] [ .4 .6 ] ]";
+
+    /**
+     *
+     */
     protected final String multiGaussianOPDFString
             = "MultiGaussianOPDF [ [ 5. 5. ] [ [ 1.2 .3 ] [ .3 4. ] ] ]";
 
+    /**
+     *
+     */
     public void testBinaryHmm() {
         PipedInputStream pis = new PipedInputStream();
         Hmm<?> hmm = null;
@@ -64,6 +95,10 @@ public class IOTest
         assertEquals(3, ((OpdfInteger) hmm.getOpdf(0)).nbEntries());
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     public void testOPDF()
             throws IOException {
         opdfCheck(integerOPDFString, new OpdfIntegerReader(),
@@ -94,6 +129,10 @@ public class IOTest
         }
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     public void testHmm()
             throws IOException {
         Hmm<ObservationInteger> hmm = null;
@@ -124,6 +163,11 @@ public class IOTest
         assertEquals(4, ((OpdfInteger) hmm.getOpdf(0)).nbEntries());
     }
 
+    /**
+     *
+     * @throws IOException
+     * @throws FileFormatException
+     */
     public void testInteger()
             throws IOException, FileFormatException {
         Reader reader = new StringReader(integerSequences);
@@ -139,6 +183,11 @@ public class IOTest
                 5, sequences.get(2).get(5).value);
     }
 
+    /**
+     *
+     * @throws IOException
+     * @throws FileFormatException
+     */
     public void testVector()
             throws IOException, FileFormatException {
         Reader reader = new StringReader(vectorSequences);

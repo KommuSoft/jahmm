@@ -38,6 +38,7 @@ import be.ac.ulg.montefiore.run.jahmm.draw.GenericHmmDrawerDot;
 import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchLearner;
 import be.ac.ulg.montefiore.run.jahmm.toolbox.KullbackLeiblerDistanceCalculator;
 import be.ac.ulg.montefiore.run.jahmm.toolbox.MarkovGenerator;
+import java.io.IOException;
 
 /**
  * This class demonstrates how to build a HMM with known parameters, how to
@@ -54,15 +55,37 @@ import be.ac.ulg.montefiore.run.jahmm.toolbox.MarkovGenerator;
 public class SimpleExample {
     /* Possible packet reception status */
 
+    /**
+     *
+     */
+    
+
     public enum Packet {
 
-        OK, LOSS;
+        /**
+         *
+         */
+        OK,
 
+        /**
+         *
+         */
+        LOSS;
+
+        /**
+         *
+         * @return
+         */
         public ObservationDiscrete<Packet> observation() {
             return new ObservationDiscrete<Packet>(this);
         }
     };
 
+    /**
+     *
+     * @param argv
+     * @throws IOException
+     */
     static public void main(String[] argv)
             throws java.io.IOException {
         /* Build a HMM and generate observation sequences using this HMM */

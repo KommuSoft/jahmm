@@ -13,12 +13,16 @@ import be.ac.ulg.montefiore.run.jahmm.io.FileFormatException;
  */
 public class Cli {
 
+    /**
+     *
+     */
     public final static String CHARSET = "ISO-8859-1";
 
     /**
      * The entry point of the CLI.
      *
      * @param args Command line arguments.
+     * @throws java.io.IOException
      */
     public static void main(String... args)
             throws IOException {
@@ -30,6 +34,13 @@ public class Cli {
         }
     }
 
+    /**
+     *
+     * @param args
+     * @return
+     * @throws IOException
+     * @throws AbnormalTerminationException
+     */
     static public int run(String... args)
             throws IOException, AbnormalTerminationException {
         // Allows this method to be called more than once

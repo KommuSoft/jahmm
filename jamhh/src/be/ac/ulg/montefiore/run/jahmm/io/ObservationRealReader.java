@@ -32,6 +32,7 @@ public class ObservationRealReader
      * @param st A stream tokenizer.
      * @return The {@link be.ac.ulg.montefiore.run.jahmm.ObservationReal
      *         ObservationReal} read.
+     * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
     public ObservationReal read(StreamTokenizer st)
             throws IOException, FileFormatException {

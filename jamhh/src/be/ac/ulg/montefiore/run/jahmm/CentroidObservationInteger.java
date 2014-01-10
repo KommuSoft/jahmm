@@ -15,6 +15,10 @@ public class CentroidObservationInteger
 
     private double value;
 
+    /**
+     *
+     * @param o
+     */
     public CentroidObservationInteger(ObservationInteger o) {
         this.value = o.value;
     }

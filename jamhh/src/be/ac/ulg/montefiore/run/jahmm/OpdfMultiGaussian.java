@@ -142,6 +142,10 @@ public class OpdfMultiGaussian
         distribution = new MultiGaussianDistribution(mean, covariance);
     }
 
+    /**
+     *
+     * @return
+     */
     public OpdfMultiGaussian clone() {
         try {
             return (OpdfMultiGaussian) super.clone();
@@ -150,6 +154,10 @@ public class OpdfMultiGaussian
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String toString() {
         return toString(NumberFormat.getInstance());
     }

@@ -9,12 +9,19 @@ import be.ac.ulg.montefiore.run.distributions.GaussianDistribution;
 import be.ac.ulg.montefiore.run.distributions.RandomDistribution;
 import be.ac.ulg.montefiore.run.jahmm.*;
 
+/**
+ *
+ * @author kommusoft
+ */
 public class GaussianTest
         extends TestCase {
 
     final static private double DELTA = 5.E-2;
     final static private int nbObservations = 10000;
 
+    /**
+     *
+     */
     public void testGaussianFit() {
         double[] mean = {2., 4.};
         double[][] covariance = {{3., 2.}, {2., 4.}};
@@ -49,6 +56,9 @@ public class GaussianTest
         }
     }
 
+    /**
+     *
+     */
     public void testGaussianMixture() {
         /*
          * Generates observations related to 2 gaussians : (0., 1.) and (4., 2.).
@@ -87,6 +97,9 @@ public class GaussianTest
                 DELTA * 10.));
     }
 
+    /**
+     *
+     */
     public void testMultiGaussianFit() {
         double[] mean = {2., 4.};
         double[][] covariance = {{3., 2.}, {2., 4.}};

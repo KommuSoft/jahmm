@@ -18,6 +18,13 @@ import be.ac.ulg.montefiore.run.jahmm.toolbox.KullbackLeiblerDistanceCalculator;
  */
 public class KLActionHandler extends ActionHandler {
 
+    /**
+     *
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws FileFormatException
+     * @throws AbnormalTerminationException
+     */
     public void act() throws FileNotFoundException, IOException,
             FileFormatException, AbnormalTerminationException {
         EnumSet<Arguments> args = EnumSet.of(

@@ -26,16 +26,40 @@ public class ForwardBackwardCalculator {
      */
     public static enum Computation {
 
-        ALPHA, BETA
+        /**
+         *
+         */
+        ALPHA,
+
+        /**
+         *
+         */
+        BETA
     };
 
     /* alpha[t][i] = P(O(1), O(2),..., O(t+1), i(t+1) = i+1 | hmm), that is the
      probability of the beginning of the state sequence (up to time t+1)
      with the (t+1)th state being i+1. */
+
+    /**
+     *
+     */
+    
     protected double[][] alpha = null;
+
+    /**
+     *
+     */
     protected double[][] beta = null;
+
+    /**
+     *
+     */
     protected double probability;
 
+    /**
+     *
+     */
     protected ForwardBackwardCalculator() {
     }
 
@@ -46,6 +70,7 @@ public class ForwardBackwardCalculator {
 	 * Computes the probability of occurence of an observation sequence
 	 * given a Hidden Markov Model.
 	 *
+     * @param <O>
 	 * @param hmm A Hidden Markov Model;
 	 * @param oseq An observation sequence.
 	 * @param flags How the computation should be done. See the
@@ -74,6 +99,7 @@ public class ForwardBackwardCalculator {
      * Hidden Markov Model. This computation computes the <code>alpha</code>
      * array as a side effect.
      *
+     * @param hmm
      * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)
      */
     public <O extends Observation>
@@ -82,6 +108,14 @@ public class ForwardBackwardCalculator {
     }
 
     /* Computes the content of the alpha array */
+
+    /**
+     *
+     * @param <O>
+     * @param hmm
+     * @param oseq
+     */
+    
     protected <O extends Observation> void
             computeAlpha(Hmm<? super O> hmm, List<O> oseq) {
         alpha = new double[oseq.size()][hmm.nbStates()];
@@ -105,12 +139,31 @@ public class ForwardBackwardCalculator {
     }
 
     /* Computes alpha[0][i] */
+
+    /**
+     *
+     * @param <O>
+     * @param hmm
+     * @param o
+     * @param i
+     */
+    
     protected <O extends Observation> void
             computeAlphaInit(Hmm<? super O> hmm, O o, int i) {
         alpha[0][i] = hmm.getPi(i) * hmm.getOpdf(i).probability(o);
     }
 
     /* Computes alpha[t][j] (t > 0) */
+
+    /**
+     *
+     * @param <O>
+     * @param hmm
+     * @param o
+     * @param t
+     * @param j
+     */
+    
     protected <O extends Observation> void
             computeAlphaStep(Hmm<? super O> hmm, O o, int t, int j) {
         double sum = 0.;
@@ -124,6 +177,14 @@ public class ForwardBackwardCalculator {
 
     /* Computes the content of the beta array.  Needs a O(1) access time
      to the elements of oseq to get a theoretically optimal algorithm. */
+
+    /**
+     *
+     * @param <O>
+     * @param hmm
+     * @param oseq
+     */
+    
     protected <O extends Observation> void
             computeBeta(Hmm<? super O> hmm, List<O> oseq) {
         beta = new double[oseq.size()][hmm.nbStates()];
@@ -140,6 +201,16 @@ public class ForwardBackwardCalculator {
     }
 
     /* Computes beta[t][i] (t < obs. seq.le length - 1) */
+
+    /**
+     *
+     * @param <O>
+     * @param hmm
+     * @param o
+     * @param t
+     * @param i
+     */
+    
     protected <O extends Observation> void
             computeBetaStep(Hmm<? super O> hmm, O o, int t, int i) {
         double sum = 0.;
@@ -159,8 +230,6 @@ public class ForwardBackwardCalculator {
      * smaller than the length of the sequence that helped generating the
      * array).
      * @param i A state index of the HMM that helped generating the array.
-     * @throws {@link UnsupportedOperationException
-     *          UnsupportedOperationException} if alpha array has not been computed.
      * @return The <i>alpha</i> array (t, i) element.
      */
     public double alphaElement(int t, int i) {
@@ -178,8 +247,6 @@ public class ForwardBackwardCalculator {
      * @param t The temporal argument of the array (positive but smaller than
      * the length of the sequence that helped generating the array).
      * @param i A state index of the HMM that helped generating the array.
-     * @throws {@link UnsupportedOperationException
-     *          UnsupportedOperationException} if beta array has not been computed.
      * @return The <i>beta</i> beta (t, i) element.
      */
     public double betaElement(int t, int i) {

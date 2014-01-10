@@ -11,6 +11,9 @@ import be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.Arguments;
  */
 public class HelpActionHandler extends ActionHandler {
 
+    /**
+     *
+     */
     public void act() {
         String s = "Usage:\tCli (create|print|learn-kmeans|"
                 + "learn-bw|generate|distance-kl) <arguments>\n"

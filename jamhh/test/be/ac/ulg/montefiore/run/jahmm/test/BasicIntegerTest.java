@@ -10,6 +10,10 @@ import java.util.List;
 import junit.framework.TestCase;
 import be.ac.ulg.montefiore.run.jahmm.*;
 
+/**
+ *
+ * @author kommusoft
+ */
 public class BasicIntegerTest
         extends TestCase {
 
@@ -35,6 +39,9 @@ public class BasicIntegerTest
         }
     }
 
+    /**
+     *
+     */
     public void testForwardBackward() {
         ForwardBackwardCalculator fbc
                 = new ForwardBackwardCalculator(sequence, hmm);
@@ -47,6 +54,9 @@ public class BasicIntegerTest
         assertEquals(1.8697705349794245E-5, fbsc.probability(), DELTA);
     }
 
+    /**
+     *
+     */
     public void testViterbi() {
         ViterbiCalculator vc = new ViterbiCalculator(sequence, hmm);
 
@@ -54,6 +64,9 @@ public class BasicIntegerTest
                 Math.exp(vc.lnProbability()), DELTA);
     }
 
+    /**
+     *
+     */
     public void testKMeansCalculator() {
         int nbClusters = 20;
 

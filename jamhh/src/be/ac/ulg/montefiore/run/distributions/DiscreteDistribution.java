@@ -26,6 +26,7 @@ public interface DiscreteDistribution
      * Returns the probability of a given number.
      *
      * @param n An integer.
+     * @return 
      */
     public double probability(int n);
 }

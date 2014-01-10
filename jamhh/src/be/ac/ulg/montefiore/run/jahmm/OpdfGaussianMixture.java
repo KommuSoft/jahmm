@@ -274,6 +274,10 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
         return newVariances;
     }
 
+    /**
+     *
+     * @return
+     */
     public OpdfGaussianMixture clone() {
         try {
             return (OpdfGaussianMixture) super.clone();
@@ -282,6 +286,10 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String toString() {
         return toString(NumberFormat.getInstance());
     }

@@ -20,6 +20,7 @@ public class HmmBinaryWriter {
      * Writes a HMM to byte stream.
      *
      * @param stream Holds the byte stream the HMM is written to.
+     * @throws java.io.IOException
      */
     static public void write(OutputStream stream, Hmm<?> hmm)
             throws IOException {

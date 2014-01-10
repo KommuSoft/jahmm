@@ -13,6 +13,7 @@ import be.ac.ulg.montefiore.run.jahmm.Opdf;
 
 /**
  * Reads an observation distribution textual description.
+ * @param <O>
  */
 public abstract class OpdfReader<O extends Opdf<?>> {
 
@@ -34,6 +35,7 @@ public abstract class OpdfReader<O extends Opdf<?>> {
      *
      * @param st A stream tokenizer.
      * @return An Opdf.
+     * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
     public abstract O read(StreamTokenizer st)
             throws IOException, FileFormatException;
@@ -46,6 +48,7 @@ public abstract class OpdfReader<O extends Opdf<?>> {
      * @param length The expected length of the sequence or a strictly negative
      * number if it must not be checked.
      * @return The array read.
+     * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
     static protected double[] read(StreamTokenizer st, int length)
             throws IOException, FileFormatException {

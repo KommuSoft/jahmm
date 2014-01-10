@@ -15,6 +15,10 @@ public class CentroidObservationReal
 
     private double value;
 
+    /**
+     *
+     * @param o
+     */
     public CentroidObservationReal(ObservationReal o) {
         this.value = o.value;
     }

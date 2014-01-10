@@ -25,6 +25,7 @@ public class ObservationSequencesWriter {
      * character set.
      * @param ow The observation writer used to generate the observations.
      * @param sequences The set of observation sequences.
+     * @throws java.io.IOException
      */
     static public <O extends Observation> void
             write(Writer writer, ObservationWriter<? super O> ow,

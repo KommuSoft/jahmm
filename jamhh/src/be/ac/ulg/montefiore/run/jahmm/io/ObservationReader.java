@@ -16,6 +16,7 @@ import be.ac.ulg.montefiore.run.jahmm.Observation;
  * {@link ObservationSequencesReader ObservationSequencesReader} (<i>e.g.</i>
  * the backslash character is only used to escape a new line and can't appear in
  * an observation).
+ * @param <O>
  */
 public abstract class ObservationReader<O extends Observation> {
 
@@ -30,6 +31,7 @@ public abstract class ObservationReader<O extends Observation> {
      *
      * @param st A stream tokenizer.
      * @return An ObservationInteger.
+     * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
     public abstract O read(StreamTokenizer st)
             throws IOException, FileFormatException;

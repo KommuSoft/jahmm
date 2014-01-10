@@ -10,6 +10,7 @@ import be.ac.ulg.montefiore.run.jahmm.*;
 
 /**
  * An implementation of the K-Means learning algorithm.
+ * @param <O>
  */
 public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
 
@@ -65,6 +66,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
     /**
      * Returns <code>true</code> if the algorithm has reached a fix point, else
      * returns <code>false</code>.
+     * @return 
      */
     public boolean isTerminated() {
         return terminated;

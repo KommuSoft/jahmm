@@ -10,12 +10,24 @@ import java.util.*;
 /**
  * This class implements a distribution over a finite set of elements. This set
  * is implemented as an <code>enum</code>.
+ * @param <E>
  */
 public class OpdfDiscrete<E extends Enum<E>>
         implements Opdf<ObservationDiscrete<E>> {
 
+    /**
+     *
+     */
     protected OpdfInteger distribution;
+
+    /**
+     *
+     */
     protected final List<E> values;
+
+    /**
+     *
+     */
     protected final EnumMap<E, ObservationInteger> toIntegerMap;
 
     /**
@@ -106,6 +118,10 @@ public class OpdfDiscrete<E extends Enum<E>>
         distribution.fit(dco, weights);
     }
 
+    /**
+     *
+     * @return
+     */
     @SuppressWarnings("unchecked")
     public OpdfDiscrete<E> clone() {
         try {
@@ -117,6 +133,10 @@ public class OpdfDiscrete<E extends Enum<E>>
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public String toString() {
         return toString(NumberFormat.getInstance());
     }

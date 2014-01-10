@@ -22,6 +22,7 @@ public class HmmWriter {
      * @param opdfWriter The writer used to convert the observation's
      * distributions of the HMMs.
      * @param hmm The HMM to write.
+     * @throws java.io.IOException
      */
     static public <O extends Observation> void
             write(Writer writer, OpdfWriter<? extends Opdf<O>> opdfWriter, Hmm<O> hmm)

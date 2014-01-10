@@ -57,6 +57,7 @@ public class HmmReader {
      * @param reader The reader to read the HMM description from.
      * @param opdfReader The {@link OpdfReader} used to read the observation
      * distributions.
+     * @return 
      */
     public static <O extends Observation> Hmm<O>
             read(Reader reader, OpdfReader<? extends Opdf<O>> opdfReader)

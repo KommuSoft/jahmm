@@ -26,6 +26,7 @@ public class ViterbiCalculator {
      * Computes the most likely state sequence matching an observation sequence
      * given an HMM.
      *
+     * @param <O>
      * @param hmm A Hidden Markov Model;
      * @param oseq An observations sequence.
      */
