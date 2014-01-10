@@ -21,6 +21,7 @@ import java.util.List;
 
 /**
  * This class collects all the objects related to a specific observation type.
+ *
  * @param <O>
  */
 public interface RelatedObjs<O extends Observation & CentroidFactory<O>> {

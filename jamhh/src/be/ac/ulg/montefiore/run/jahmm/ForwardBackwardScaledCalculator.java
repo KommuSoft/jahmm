@@ -81,14 +81,12 @@ public class ForwardBackwardScaledCalculator
     }
 
     /* Computes the content of the scaled alpha array */
-
     /**
      *
      * @param <O>
      * @param hmm
      * @param oseq
      */
-    
     protected <O extends Observation> void
             computeAlpha(Hmm<? super O> hmm, List<O> oseq) {
         alpha = new double[oseq.size()][hmm.nbStates()];
@@ -115,14 +113,12 @@ public class ForwardBackwardScaledCalculator
 
     /* Computes the content of the scaled beta array.  The scaling factors are
      those computed for alpha. */
-
     /**
      *
      * @param <O>
      * @param hmm
      * @param oseq
      */
-    
     protected <O extends Observation> void
             computeBeta(Hmm<? super O> hmm, List<O> oseq) {
         beta = new double[oseq.size()][hmm.nbStates()];

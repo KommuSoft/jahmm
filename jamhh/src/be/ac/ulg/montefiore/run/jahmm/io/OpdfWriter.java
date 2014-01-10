@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 
 /**
  * Writes an observation distribution textual description.
+ *
  * @param <O>
  */
 public abstract class OpdfWriter<O extends Opdf<?>> {

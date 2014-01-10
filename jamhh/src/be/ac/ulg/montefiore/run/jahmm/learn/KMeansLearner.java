@@ -18,6 +18,7 @@ import java.util.List;
 
 /**
  * An implementation of the K-Means learning algorithm.
+ *
  * @param <O>
  */
 public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
@@ -46,8 +47,8 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
      * @param opdfFactory A class that builds the observation probability
      * distributions associated to the states of the HMM.
      * @param sequences A vector of observation sequences. Each observation
-     * sequences is a vector of      {@link be.ac.ulg.montefiore.run.jahmm.Observation
-	 *                observations} compatible with the      {@link be.ac.ulg.montefiore.run.jahmm.CentroidFactory
+     * sequences is a vector of null null null     {@link be.ac.ulg.montefiore.run.jahmm.Observation
+	 *                observations} compatible with the null null null     {@link be.ac.ulg.montefiore.run.jahmm.CentroidFactory
 	 *                k-means algorithm}.
      */
     public KMeansLearner(int nbStates,
@@ -84,7 +85,8 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
     /**
      * Returns <code>true</code> if the algorithm has reached a fix point, else
      * returns <code>false</code>.
-     * @return 
+     *
+     * @return
      */
     public boolean isTerminated() {
         return terminated;

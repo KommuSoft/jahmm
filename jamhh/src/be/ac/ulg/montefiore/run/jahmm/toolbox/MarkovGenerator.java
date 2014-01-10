@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * Generates sequences of markovian observations given a HMM.
+ *
  * @param <O>
  */
 public class MarkovGenerator<O extends Observation> {

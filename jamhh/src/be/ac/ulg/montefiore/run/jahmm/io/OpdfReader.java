@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Reads an observation distribution textual description.
+ *
  * @param <O>
  */
 public abstract class OpdfReader<O extends Opdf<?>> {

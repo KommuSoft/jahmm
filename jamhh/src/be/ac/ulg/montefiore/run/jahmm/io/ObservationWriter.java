@@ -13,6 +13,7 @@ import java.io.Writer;
  * <p>
  * The syntax of each observation must be compatible with the corresponding
  * {@link ObservationReader ObservationReader}.
+ *
  * @param <O>
  */
 public abstract class ObservationWriter<O extends Observation> {
@@ -24,7 +25,7 @@ public abstract class ObservationWriter<O extends Observation> {
      * @param observation The observation to write.
      * @param writer The <code>writer</code> used to write the observations.
      * @throws java.io.IOException
-	 *
+     *
      */
     public abstract void write(O observation, Writer writer)
             throws IOException;

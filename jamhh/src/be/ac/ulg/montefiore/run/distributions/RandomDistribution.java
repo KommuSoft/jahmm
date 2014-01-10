@@ -26,7 +26,7 @@ public interface RandomDistribution
      * Returns the probability (density) of a given number.
      *
      * @param n A number.
-     * @return 
+     * @return
      */
     public double probability(double n);
 }

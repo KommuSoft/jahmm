@@ -11,6 +11,7 @@ import java.util.Random;
  */
 public class MultiGaussianDistribution
         implements MultiRandomDistribution {
+
     private final static Random randomGenerator = new Random();
 
     private static final long serialVersionUID = -2438571303843585271L;

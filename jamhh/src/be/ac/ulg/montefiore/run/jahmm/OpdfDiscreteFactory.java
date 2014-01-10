@@ -7,6 +7,7 @@ package be.ac.ulg.montefiore.run.jahmm;
 /**
  * This class can build <code>OpdfInteger</code> observation probability
  * distribution functions.
+ *
  * @param <E>
  */
 public class OpdfDiscreteFactory<E extends Enum<E>>

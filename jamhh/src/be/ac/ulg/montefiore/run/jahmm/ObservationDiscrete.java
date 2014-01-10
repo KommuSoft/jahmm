@@ -9,6 +9,7 @@ import java.text.NumberFormat;
 /**
  * This class implements observations whose values are taken out of a finite set
  * implemented as an enumeration.
+ *
  * @param <E>
  */
 public class ObservationDiscrete<E extends Enum<E>>

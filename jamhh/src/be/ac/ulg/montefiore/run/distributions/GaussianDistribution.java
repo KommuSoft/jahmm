@@ -11,6 +11,7 @@ import java.util.Random;
  */
 public class GaussianDistribution
         implements RandomDistribution {
+
     private final static Random randomGenerator = new Random();
 
     private static final long serialVersionUID = 9127329839769283975L;

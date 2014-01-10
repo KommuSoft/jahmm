@@ -15,6 +15,7 @@ import java.util.List;
 /**
  * This class implements a distribution over a finite set of elements. This set
  * is implemented as an <code>enum</code>.
+ *
  * @param <E>
  */
 public class OpdfDiscrete<E extends Enum<E>>

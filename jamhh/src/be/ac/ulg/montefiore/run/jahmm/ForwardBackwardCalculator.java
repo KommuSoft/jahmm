@@ -22,11 +22,9 @@ public class ForwardBackwardCalculator {
     /* alpha[t][i] = P(O(1), O(2),..., O(t+1), i(t+1) = i+1 | hmm), that is the
      probability of the beginning of the state sequence (up to time t+1)
      with the (t+1)th state being i+1. */
-
     /**
      *
      */
-    
     protected double[][] alpha = null;
 
     /**
@@ -92,14 +90,12 @@ public class ForwardBackwardCalculator {
     }
 
     /* Computes the content of the alpha array */
-
     /**
      *
      * @param <O>
      * @param hmm
      * @param oseq
      */
-    
     protected <O extends Observation> void
             computeAlpha(Hmm<? super O> hmm, List<O> oseq) {
         alpha = new double[oseq.size()][hmm.nbStates()];
@@ -123,7 +119,6 @@ public class ForwardBackwardCalculator {
     }
 
     /* Computes alpha[0][i] */
-
     /**
      *
      * @param <O>
@@ -131,14 +126,12 @@ public class ForwardBackwardCalculator {
      * @param o
      * @param i
      */
-    
     protected <O extends Observation> void
             computeAlphaInit(Hmm<? super O> hmm, O o, int i) {
         alpha[0][i] = hmm.getPi(i) * hmm.getOpdf(i).probability(o);
     }
 
     /* Computes alpha[t][j] (t > 0) */
-
     /**
      *
      * @param <O>
@@ -147,7 +140,6 @@ public class ForwardBackwardCalculator {
      * @param t
      * @param j
      */
-    
     protected <O extends Observation> void
             computeAlphaStep(Hmm<? super O> hmm, O o, int t, int j) {
         double sum = 0.;
@@ -161,14 +153,12 @@ public class ForwardBackwardCalculator {
 
     /* Computes the content of the beta array.  Needs a O(1) access time
      to the elements of oseq to get a theoretically optimal algorithm. */
-
     /**
      *
      * @param <O>
      * @param hmm
      * @param oseq
      */
-    
     protected <O extends Observation> void
             computeBeta(Hmm<? super O> hmm, List<O> oseq) {
         beta = new double[oseq.size()][hmm.nbStates()];
@@ -185,7 +175,6 @@ public class ForwardBackwardCalculator {
     }
 
     /* Computes beta[t][i] (t < obs. seq.le length - 1) */
-
     /**
      *
      * @param <O>
@@ -194,7 +183,6 @@ public class ForwardBackwardCalculator {
      * @param t
      * @param i
      */
-    
     protected <O extends Observation> void
             computeBetaStep(Hmm<? super O> hmm, O o, int t, int i) {
         double sum = 0.;
@@ -282,7 +270,6 @@ public class ForwardBackwardCalculator {
          *
          */
         ALPHA,
-
         /**
          *
          */

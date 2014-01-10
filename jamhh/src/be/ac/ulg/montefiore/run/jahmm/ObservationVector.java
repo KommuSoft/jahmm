@@ -40,7 +40,8 @@ public class ObservationVector extends Observation
 
     /**
      * Returns the dimension of this vector.
-     * @return 
+     *
+     * @return
      */
     public int dimension() {
         return value.length;

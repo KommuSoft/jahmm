@@ -6,6 +6,7 @@ package be.ac.ulg.montefiore.run.jahmm;
 
 /**
  * Creates a centroid for type <O>. Used by the k-means algorithm.
+ *
  * @param <O>
  */
 public interface CentroidFactory<O> {

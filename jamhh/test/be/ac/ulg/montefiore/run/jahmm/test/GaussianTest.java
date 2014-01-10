@@ -24,11 +24,11 @@ public class GaussianTest
 
     static String toString(double[] a) {
         String s = "[ ";
-        
+
         for (double e : a) {
             s += e + " ";
         }
-        
+
         return s + "]";
     }
 
@@ -40,13 +40,13 @@ public class GaussianTest
         if (ea.length != ra.length) {
             return false;
         }
-        
+
         for (int i = 0; i < ra.length; i++) {
             if (Math.abs(ea[i] - ra[i]) > delta) {
                 return false;
             }
         }
-        
+
         return true;
     }
 
@@ -92,9 +92,9 @@ public class GaussianTest
      */
     public void testGaussianMixture() {
         /*
-        * Generates observations related to 2 gaussians : (0., 1.) and (4., 2.).
-        * Proportions : 1/3, 2/3
-        */
+         * Generates observations related to 2 gaussians : (0., 1.) and (4., 2.).
+         * Proportions : 1/3, 2/3
+         */
         ObservationReal[] observations = new ObservationReal[nbObservations];
 
         for (int g = 0, i = 0; g < 2; g++) {
@@ -116,16 +116,16 @@ public class GaussianTest
         assertTrue("Wrong proportion values (" + gm.proportions()[0] + ", "
                 + gm.proportions()[1] + ")",
                 equalsArrays(new double[]{1. / 3., 2. / 3.},
-                        gm.proportions(), DELTA));
-        
+                gm.proportions(), DELTA));
+
         assertTrue("Wrong mean values (" + gm.means()[0] + ", "
                 + gm.means()[1] + ")",
                 equalsArrays(new double[]{0., 4.}, gm.means(),
-                        DELTA * 10.));
+                DELTA * 10.));
         assertTrue("Wrong variance values (" + gm.variances()[0] + ", "
                 + gm.variances()[1] + ")",
                 equalsArrays(new double[]{1., 2.}, gm.variances(),
-                        DELTA * 10.));
+                DELTA * 10.));
     }
 
     /**

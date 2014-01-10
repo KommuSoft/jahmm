@@ -168,15 +168,12 @@ public class SimpleExample {
     /**
      *
      */
-    
-
     public enum Packet {
 
         /**
          *
          */
         OK,
-
         /**
          *
          */

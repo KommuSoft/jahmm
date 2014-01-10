@@ -15,6 +15,7 @@ import java.io.StreamTokenizer;
  * {@link ObservationSequencesReader ObservationSequencesReader} (<i>e.g.</i>
  * the backslash character is only used to escape a new line and can't appear in
  * an observation).
+ *
  * @param <O>
  */
 public abstract class ObservationReader<O extends Observation> {

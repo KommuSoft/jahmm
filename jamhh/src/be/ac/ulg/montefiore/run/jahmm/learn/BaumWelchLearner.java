@@ -216,14 +216,12 @@ public class BaumWelchLearner {
      * change if the xi array has been scaled (and should be changed with
      * the scaled alpha and beta arrays).
      */
-
     /**
      *
      * @param xi
      * @param fbc
      * @return
      */
-    
     protected double[][]
             estimateGamma(double[][][] xi, ForwardBackwardCalculator fbc) {
         double[][] gamma = new double[xi.length + 1][xi[0].length];
