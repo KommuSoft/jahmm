@@ -18,6 +18,7 @@ public class HmmWriter {
     /**
      * Writes a HMM description.
      *
+     * @param <O>
      * @param writer The writer to write the HMM to.
      * @param opdfWriter The writer used to convert the observation's
      * distributions of the HMMs.

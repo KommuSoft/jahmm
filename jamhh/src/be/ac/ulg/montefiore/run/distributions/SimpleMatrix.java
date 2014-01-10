@@ -47,9 +47,7 @@ class SimpleMatrix {
         double[][] mc = matrix(nbRows(m), nbColumns(m));
 
         for (int r = 0; r < nbRows(m); r++) {
-            for (int c = 0; c < nbColumns(m); c++) {
-                mc[r][c] = m[r][c];
-            }
+            System.arraycopy(m[r], 0, mc[r], 0, nbColumns(m));
         }
 
         return mc;

@@ -58,6 +58,7 @@ public class ObservationVectorReader
      * @param st A stream tokenizer.
      * @return An {@link be.ac.ulg.montefiore.run.jahmm.ObservationInteger
      *         ObservationInteger}.
+     * @throws java.io.IOException
      * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
     public ObservationVector read(StreamTokenizer st)
@@ -76,7 +77,7 @@ public class ObservationVectorReader
                     break;
 
                 case ']':
-                    if (values.size() == 0) {
+                    if (values.isEmpty()) {
                         throw new FileFormatException(st.lineno(),
                                 "Empty vector found");
                     }

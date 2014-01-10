@@ -40,7 +40,7 @@ class CommandLineArguments {
         Arguments(String argString, String... allowedValues) {
             this.isSet = false;
             this.argString = argString;
-            if (allowedValues.length == 1 && !allowedValues[0].equals("")) {
+            if (allowedValues.length == 1 && !allowedValues[0].isEmpty()) {
                 // Default value given
                 this.defaultValue = allowedValues[0];
                 this.allowedValues = new String[]{""};
@@ -144,7 +144,7 @@ class CommandLineArguments {
                         }
 
                         String subArg = args[++i];
-                        if (!arg.allowedValues[0].equals("")
+                        if (!arg.allowedValues[0].isEmpty()
                                 && !Arrays.asList(arg.allowedValues).
                                 contains(subArg)) {
                             throw new WrongArgumentsException("Invalid "

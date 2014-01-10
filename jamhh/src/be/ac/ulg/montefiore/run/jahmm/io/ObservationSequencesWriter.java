@@ -21,6 +21,7 @@ public class ObservationSequencesWriter {
     /**
      * Writes a set of sequences to file.
      *
+     * @param <O>
      * @param writer The writer to write to. It should use the "US-ASCII"
      * character set.
      * @param ow The observation writer used to generate the observations.

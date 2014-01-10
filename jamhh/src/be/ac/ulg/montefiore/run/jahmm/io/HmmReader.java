@@ -58,6 +58,7 @@ public class HmmReader {
      * @param opdfReader The {@link OpdfReader} used to read the observation
      * distributions.
      * @return 
+     * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException 
      */
     public static <O extends Observation> Hmm<O>
             read(Reader reader, OpdfReader<? extends Opdf<O>> opdfReader)

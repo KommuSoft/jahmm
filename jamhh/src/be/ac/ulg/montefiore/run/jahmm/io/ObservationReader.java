@@ -31,6 +31,7 @@ public abstract class ObservationReader<O extends Observation> {
      *
      * @param st A stream tokenizer.
      * @return An ObservationInteger.
+     * @throws java.io.IOException
      * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
     public abstract O read(StreamTokenizer st)

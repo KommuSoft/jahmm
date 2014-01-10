@@ -67,6 +67,7 @@ public class ForwardBackwardScaledCalculator
      * Hidden Markov Model. This computation computes the scaled
      * <code>alpha</code> array as a side effect.
      *
+     * @param oseq
      * @param hmm
      * @see #ForwardBackwardScaledCalculator(List, Hmm, EnumSet)
      */

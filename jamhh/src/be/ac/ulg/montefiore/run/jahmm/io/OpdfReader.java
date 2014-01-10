@@ -35,6 +35,7 @@ public abstract class OpdfReader<O extends Opdf<?>> {
      *
      * @param st A stream tokenizer.
      * @return An Opdf.
+     * @throws java.io.IOException
      * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
     public abstract O read(StreamTokenizer st)
@@ -48,6 +49,7 @@ public abstract class OpdfReader<O extends Opdf<?>> {
      * @param length The expected length of the sequence or a strictly negative
      * number if it must not be checked.
      * @return The array read.
+     * @throws java.io.IOException
      * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
     static protected double[] read(StreamTokenizer st, int length)
@@ -65,7 +67,7 @@ public abstract class OpdfReader<O extends Opdf<?>> {
                     "Wrong length of number sequence");
         }
 
-        if (l.size() == 0) {
+        if (l.isEmpty()) {
             throw new FileFormatException(st.lineno(),
                     "Invalid empty sequence");
         }

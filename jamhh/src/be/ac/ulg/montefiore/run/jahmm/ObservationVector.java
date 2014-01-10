@@ -35,10 +35,7 @@ public class ObservationVector extends Observation
      */
     public ObservationVector(double[] value) {
         this(value.length);
-
-        for (int i = 0; i < value.length; i++) {
-            this.value[i] = value[i];
-        }
+        System.arraycopy(value, 0, this.value, 0, value.length);
     }
 
     /**

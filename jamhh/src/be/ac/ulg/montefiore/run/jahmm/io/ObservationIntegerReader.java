@@ -56,6 +56,7 @@ public class ObservationIntegerReader
      * @param st A stream tokenizer.
      * @return The {@link be.ac.ulg.montefiore.run.jahmm.ObservationInteger
      *         ObservationInteger} read.
+     * @throws java.io.IOException
      * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
     public ObservationInteger read(StreamTokenizer st)
