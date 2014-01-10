@@ -71,7 +71,7 @@ class SimpleMatrix {
     }
 
     static double[] vector(double[] v) {
-        double[] vc = (double[]) v.clone();
+        double[] vc = v.clone();
 
         return vc;
     }

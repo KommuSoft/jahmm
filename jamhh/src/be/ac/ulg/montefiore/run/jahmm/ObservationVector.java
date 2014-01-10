@@ -70,6 +70,7 @@ public class ObservationVector extends Observation
      * Returns the centroid matching this observation.
      *
      * @return The corresponding observation.
+     * @throws java.lang.CloneNotSupportedException
      */
     public Centroid<ObservationVector> factor() throws CloneNotSupportedException {
         return new CentroidObservationVector(this);
@@ -103,9 +104,10 @@ public class ObservationVector extends Observation
      * @param c A scalar value.
      * @return An {@link ObservationVector ObservationVector} which is the
      * product of this observation and <code>c</code>.
+     * @throws java.lang.CloneNotSupportedException
      */
     public ObservationVector times(double c) throws CloneNotSupportedException {
-        ObservationVector p = (ObservationVector) clone();
+        ObservationVector p = clone();
 
         for (int i = 0; i < dimension(); i++) {
             p.value[i] *= c;
@@ -145,6 +147,11 @@ public class ObservationVector extends Observation
         return s + " ]";
     }
 
+    /**
+     *
+     * @return
+     * @throws CloneNotSupportedException
+     */
     public ObservationVector clone() throws CloneNotSupportedException {
         return new ObservationVector(value);
     }

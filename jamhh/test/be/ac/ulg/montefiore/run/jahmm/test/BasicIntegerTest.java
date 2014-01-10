@@ -72,6 +72,7 @@ public class BasicIntegerTest
 
     /**
      *
+     * @throws java.lang.CloneNotSupportedException
      */
     public void testKMeansCalculator() throws CloneNotSupportedException {
         int nbClusters = 20;

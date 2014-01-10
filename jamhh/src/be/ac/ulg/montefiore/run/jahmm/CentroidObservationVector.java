@@ -20,9 +20,10 @@ public class CentroidObservationVector
      * {@link ObservationVector ObservationVector}s.
      *
      * @param o The initial value of the new centroid.
+     * @throws java.lang.CloneNotSupportedException
      */
     public CentroidObservationVector(ObservationVector o) throws CloneNotSupportedException {
-        this.value = (ObservationVector) o.clone();
+        this.value = o.clone();
     }
 
     public void reevaluateAdd(ObservationVector e,

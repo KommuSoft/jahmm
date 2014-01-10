@@ -30,6 +30,7 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
      *
      * @param k The number of clusters to get.
      * @param elements The elements to divide in clusters.
+     * @throws java.lang.CloneNotSupportedException
      */
     public KMeansCalculator(int k, List<? extends K> elements) throws CloneNotSupportedException {
         if (k <= 0) {

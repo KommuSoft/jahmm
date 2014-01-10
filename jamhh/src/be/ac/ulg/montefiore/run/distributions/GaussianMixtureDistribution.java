@@ -41,11 +41,11 @@ public class GaussianMixtureDistribution
         double variances[] = new double[nbGaussians];
 
         for (int i = 0; i < nbGaussians; i++) {
-            means[i] = (1. + 2. * (double) i) / (2. * (double) nbGaussians);
+            means[i] = (1. + 2. * i) / (2. * nbGaussians);
         }
 
         Arrays.fill(variances, 1.);
-        Arrays.fill(proportions, 1. / ((double) nbGaussians));
+        Arrays.fill(proportions, 1. / nbGaussians);
 
         for (int i = 0; i < distributions.length; i++) {
             distributions[i] = new GaussianDistribution(means[i], variances[i]);

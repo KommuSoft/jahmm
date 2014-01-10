@@ -74,9 +74,9 @@ public class ObservationSequencesReader {
     static void initSyntaxTable(StreamTokenizer st) {
         st.resetSyntax();
         st.parseNumbers();
-        st.whitespaceChars(0, (int) ' ');
+        st.whitespaceChars(0, ' ');
         st.eolIsSignificant(true);
-        st.commentChar((int) '#');
+        st.commentChar('#');
     }
 
     /**

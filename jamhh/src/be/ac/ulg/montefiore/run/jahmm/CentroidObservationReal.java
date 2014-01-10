@@ -25,12 +25,12 @@ public class CentroidObservationReal
 
     public void reevaluateAdd(ObservationReal e,
             List<? extends ObservationReal> v) {
-        value = (value * (double) v.size() + e.value) / (v.size() + 1.);
+        value = (value * v.size() + e.value) / (v.size() + 1.);
     }
 
     public void reevaluateRemove(ObservationReal e,
             List<? extends ObservationReal> v) {
-        value = ((value * (double) v.size()) - e.value) / (v.size() - 1.);
+        value = ((value * v.size()) - e.value) / (v.size() - 1.);
     }
 
     /**
