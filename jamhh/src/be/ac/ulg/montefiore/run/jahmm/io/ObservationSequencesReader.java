@@ -4,10 +4,12 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import java.io.*;
-import java.util.*;
-
 import be.ac.ulg.montefiore.run.jahmm.Observation;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StreamTokenizer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class can read observations sequences from file.
@@ -35,6 +37,7 @@ public class ObservationSequencesReader {
      * Reads observation sequences file. Such a file holds a set of observation
      * sequences.
      *
+     * @param <O>
      * @param or An observation reader.
      * @param reader Holds the character stream reader the sequences are read
      * from.
@@ -80,6 +83,7 @@ public class ObservationSequencesReader {
      * Reads an observation sequence out of a file {@link java.io.Reader
      * Reader}.
      *
+     * @param <O>
      * @param oir An observation reader.
      * @param reader Holds the character reader the sequences are read from.
      * @return An observation sequence read from <code>st</code> or null if the

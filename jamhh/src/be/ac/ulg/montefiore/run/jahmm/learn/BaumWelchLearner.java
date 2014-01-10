@@ -4,9 +4,14 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.learn;
 
-import java.util.*;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
+import be.ac.ulg.montefiore.run.jahmm.ForwardBackwardCalculator;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
+import be.ac.ulg.montefiore.run.jahmm.Opdf;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * An implementation of the Baum-Welch learning algorithm. This algorithm finds

@@ -4,7 +4,7 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.text.*;
+import java.text.NumberFormat;
 
 /**
  * This class holds an integer observation.

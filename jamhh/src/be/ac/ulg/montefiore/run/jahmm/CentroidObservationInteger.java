@@ -4,7 +4,7 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * This class represents the centroid of a set of {@link ObservationInteger

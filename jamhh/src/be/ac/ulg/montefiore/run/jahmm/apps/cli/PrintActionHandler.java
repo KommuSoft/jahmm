@@ -4,12 +4,17 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 
-import java.io.*;
-import java.util.EnumSet;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.Arguments;
-import be.ac.ulg.montefiore.run.jahmm.io.*;
+import be.ac.ulg.montefiore.run.jahmm.io.FileFormatException;
+import be.ac.ulg.montefiore.run.jahmm.io.HmmReader;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfGenericReader;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.EnumSet;
 
 /**
  * Creates a Hmm and writes it to file.

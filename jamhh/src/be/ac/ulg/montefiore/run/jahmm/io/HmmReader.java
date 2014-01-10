@@ -4,11 +4,14 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import java.io.*;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
+import be.ac.ulg.montefiore.run.jahmm.Opdf;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.List;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
 
 /**
  * This class can read Hidden Markov Models represented as text files. The file
@@ -58,6 +61,7 @@ public class HmmReader {
      * @param opdfReader The {@link OpdfReader} used to read the observation
      * distributions.
      * @return 
+     * @throws java.io.IOException 
      * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException 
      */
     public static <O extends Observation> Hmm<O>

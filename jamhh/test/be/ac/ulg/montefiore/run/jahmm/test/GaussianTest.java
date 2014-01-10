@@ -4,10 +4,13 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.test;
 
-import junit.framework.TestCase;
 import be.ac.ulg.montefiore.run.distributions.GaussianDistribution;
 import be.ac.ulg.montefiore.run.distributions.RandomDistribution;
-import be.ac.ulg.montefiore.run.jahmm.*;
+import be.ac.ulg.montefiore.run.jahmm.ObservationReal;
+import be.ac.ulg.montefiore.run.jahmm.ObservationVector;
+import be.ac.ulg.montefiore.run.jahmm.OpdfGaussianMixture;
+import be.ac.ulg.montefiore.run.jahmm.OpdfMultiGaussian;
+import junit.framework.TestCase;
 
 /**
  *

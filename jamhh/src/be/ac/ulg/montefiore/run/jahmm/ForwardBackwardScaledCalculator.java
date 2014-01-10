@@ -4,7 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * This class can be used to compute the probability of a given observations
@@ -67,6 +70,7 @@ public class ForwardBackwardScaledCalculator
      * Hidden Markov Model. This computation computes the scaled
      * <code>alpha</code> array as a side effect.
      *
+     * @param <O>
      * @param oseq
      * @param hmm
      * @see #ForwardBackwardScaledCalculator(List, Hmm, EnumSet)

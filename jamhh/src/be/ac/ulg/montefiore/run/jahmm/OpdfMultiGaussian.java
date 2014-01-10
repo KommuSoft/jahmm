@@ -4,11 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
+import be.ac.ulg.montefiore.run.distributions.MultiGaussianDistribution;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Collection;
-
-import be.ac.ulg.montefiore.run.distributions.MultiGaussianDistribution;
 
 /**
  * This class represents a multivariate gaussian distribution function.

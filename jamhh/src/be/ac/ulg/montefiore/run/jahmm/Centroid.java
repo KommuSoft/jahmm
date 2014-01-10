@@ -4,7 +4,7 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * The centroid (basically, the mean) of a cluster. Used by the k-means

@@ -4,10 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.toolbox;
 
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
 import java.util.ArrayList;
 import java.util.List;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
 
 /**
  * Generates sequences of markovian observations given a HMM.

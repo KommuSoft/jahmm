@@ -4,10 +4,9 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 
+import be.ac.ulg.montefiore.run.jahmm.io.FileFormatException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import be.ac.ulg.montefiore.run.jahmm.io.FileFormatException;
 
 abstract class ActionHandler {
 

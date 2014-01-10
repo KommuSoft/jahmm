@@ -4,11 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import java.io.IOException;
-import java.io.StreamTokenizer;
-
 import be.ac.ulg.montefiore.run.jahmm.OpdfGaussian;
 import be.ac.ulg.montefiore.run.jahmm.OpdfGaussianMixture;
+import java.io.IOException;
+import java.io.StreamTokenizer;
 
 /**
  * This class implements a {@link OpdfGaussian} reader. The syntax of the

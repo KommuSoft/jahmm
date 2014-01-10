@@ -4,9 +4,9 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 
-import java.io.*;
-
 import be.ac.ulg.montefiore.run.jahmm.io.FileFormatException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * This class implements a command line interface for the Jahmm library.

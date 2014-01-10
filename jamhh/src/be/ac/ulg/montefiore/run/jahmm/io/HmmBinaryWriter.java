@@ -4,9 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import java.io.*;
-
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 
 /**
  * This class can write a Hidden Markov Models to a byte stream.

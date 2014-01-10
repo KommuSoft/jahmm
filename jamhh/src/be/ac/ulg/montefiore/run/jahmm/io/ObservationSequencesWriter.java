@@ -4,10 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import java.util.*;
-import java.io.*;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.List;
 
 /**
  * This class can write a set of observation sequences to a

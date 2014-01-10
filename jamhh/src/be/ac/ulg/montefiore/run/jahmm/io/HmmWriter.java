@@ -4,11 +4,12 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
+import be.ac.ulg.montefiore.run.jahmm.Opdf;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.DecimalFormat;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
 
 /**
  * Writes a HMM to a text file compatible with {@link HmmReader}.

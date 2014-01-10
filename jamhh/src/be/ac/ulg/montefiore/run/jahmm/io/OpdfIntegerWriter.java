@@ -4,11 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import java.io.IOException;
-import java.io.Writer;
-
 import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
 import be.ac.ulg.montefiore.run.jahmm.OpdfInteger;
+import java.io.IOException;
+import java.io.Writer;
 
 /**
  * This class can write a textual description of an {@link OpdfInteger}. It is

@@ -4,11 +4,17 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.test;
 
+import be.ac.ulg.montefiore.run.jahmm.ForwardBackwardCalculator;
+import be.ac.ulg.montefiore.run.jahmm.ForwardBackwardScaledCalculator;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.KMeansCalculator;
+import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
+import be.ac.ulg.montefiore.run.jahmm.OpdfInteger;
+import be.ac.ulg.montefiore.run.jahmm.OpdfIntegerFactory;
+import be.ac.ulg.montefiore.run.jahmm.ViterbiCalculator;
 import java.util.ArrayList;
 import java.util.List;
-
 import junit.framework.TestCase;
-import be.ac.ulg.montefiore.run.jahmm.*;
 
 /**
  *

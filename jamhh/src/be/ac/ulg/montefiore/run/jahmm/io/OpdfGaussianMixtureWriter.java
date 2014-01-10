@@ -4,10 +4,9 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
+import be.ac.ulg.montefiore.run.jahmm.OpdfGaussianMixture;
 import java.io.IOException;
 import java.io.Writer;
-
-import be.ac.ulg.montefiore.run.jahmm.OpdfGaussianMixture;
 
 /**
  * This class implements a {@link OpdfGaussianMixture} writer. It is compatible

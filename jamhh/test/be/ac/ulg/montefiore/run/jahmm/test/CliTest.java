@@ -4,11 +4,14 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.test;
 
-import java.io.*;
-
-import junit.framework.TestCase;
 import be.ac.ulg.montefiore.run.jahmm.apps.cli.AbnormalTerminationException;
 import be.ac.ulg.montefiore.run.jahmm.apps.cli.Cli;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintStream;
+import junit.framework.TestCase;
 
 /**
  *

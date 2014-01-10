@@ -4,10 +4,9 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
+import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
 import java.io.IOException;
 import java.io.StreamTokenizer;
-
-import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
 
 /**
  * Reads an {@link be.ac.ulg.montefiore.run.jahmm.ObservationInteger

@@ -4,7 +4,7 @@
  */
 package be.ac.ulg.montefiore.run.distributions;
 
-import java.util.*;
+import java.util.Random;
 
 /**
  * This class implements a Gaussian distribution.

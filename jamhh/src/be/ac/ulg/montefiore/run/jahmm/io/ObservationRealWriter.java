@@ -4,10 +4,9 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
+import be.ac.ulg.montefiore.run.jahmm.ObservationReal;
 import java.io.IOException;
 import java.io.Writer;
-
-import be.ac.ulg.montefiore.run.jahmm.ObservationReal;
 
 /**
  * Writes an {@link ObservationReal ObservationReal} up to (and including) the

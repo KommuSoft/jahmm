@@ -4,9 +4,17 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.learn;
 
-import java.util.*;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
+import be.ac.ulg.montefiore.run.jahmm.CentroidFactory;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.KMeansCalculator;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
+import be.ac.ulg.montefiore.run.jahmm.Opdf;
+import be.ac.ulg.montefiore.run.jahmm.OpdfFactory;
+import be.ac.ulg.montefiore.run.jahmm.ViterbiCalculator;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.List;
 
 /**
  * An implementation of the K-Means learning algorithm.

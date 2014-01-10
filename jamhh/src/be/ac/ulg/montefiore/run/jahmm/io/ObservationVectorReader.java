@@ -4,12 +4,11 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
+import be.ac.ulg.montefiore.run.jahmm.ObservationVector;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.List;
-
-import be.ac.ulg.montefiore.run.jahmm.ObservationVector;
 
 /**
  * Reads an {@link be.ac.ulg.montefiore.run.jahmm.ObservationVector

@@ -4,10 +4,9 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
+import be.ac.ulg.montefiore.run.jahmm.OpdfMultiGaussian;
 import java.io.IOException;
 import java.io.Writer;
-
-import be.ac.ulg.montefiore.run.jahmm.OpdfMultiGaussian;
 
 /**
  * This class implements a {@link OpdfMultiGaussian} writer. It is compatible

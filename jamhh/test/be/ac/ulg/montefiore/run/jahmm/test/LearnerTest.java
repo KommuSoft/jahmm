@@ -4,14 +4,17 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.test;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import junit.framework.TestCase;
-import be.ac.ulg.montefiore.run.jahmm.*;
-import be.ac.ulg.montefiore.run.jahmm.learn.*;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
+import be.ac.ulg.montefiore.run.jahmm.OpdfIntegerFactory;
+import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchLearner;
+import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchScaledLearner;
+import be.ac.ulg.montefiore.run.jahmm.learn.KMeansLearner;
 import be.ac.ulg.montefiore.run.jahmm.toolbox.KullbackLeiblerDistanceCalculator;
 import be.ac.ulg.montefiore.run.jahmm.toolbox.MarkovGenerator;
+import java.util.ArrayList;
+import java.util.List;
+import junit.framework.TestCase;
 
 /**
  *

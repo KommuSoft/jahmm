@@ -4,10 +4,9 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
+import be.ac.ulg.montefiore.run.jahmm.OpdfInteger;
 import java.io.IOException;
 import java.io.StreamTokenizer;
-
-import be.ac.ulg.montefiore.run.jahmm.OpdfInteger;
 
 /**
  * This class implements a {@link OpdfInteger} reader. The syntax of the

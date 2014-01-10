@@ -4,11 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.draw;
 
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.NumberFormat;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
 
 /**
  * An HMM to <i>dot</i> file converter. See

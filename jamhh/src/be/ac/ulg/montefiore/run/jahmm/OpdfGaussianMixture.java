@@ -4,12 +4,11 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
+import be.ac.ulg.montefiore.run.distributions.GaussianDistribution;
+import be.ac.ulg.montefiore.run.distributions.GaussianMixtureDistribution;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Collection;
-
-import be.ac.ulg.montefiore.run.distributions.GaussianDistribution;
-import be.ac.ulg.montefiore.run.distributions.GaussianMixtureDistribution;
 
 /**
  * This class implements a mixture of monovariate gaussian distributions.

@@ -4,12 +4,41 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.test;
 
-import java.io.*;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
+import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
+import be.ac.ulg.montefiore.run.jahmm.ObservationVector;
+import be.ac.ulg.montefiore.run.jahmm.Opdf;
+import be.ac.ulg.montefiore.run.jahmm.OpdfInteger;
+import be.ac.ulg.montefiore.run.jahmm.OpdfIntegerFactory;
+import be.ac.ulg.montefiore.run.jahmm.io.FileFormatException;
+import be.ac.ulg.montefiore.run.jahmm.io.HmmBinaryReader;
+import be.ac.ulg.montefiore.run.jahmm.io.HmmBinaryWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.HmmReader;
+import be.ac.ulg.montefiore.run.jahmm.io.HmmWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationIntegerReader;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationSequencesReader;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationVectorReader;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfGaussianMixtureReader;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfGaussianMixtureWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfGaussianReader;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfGaussianWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfIntegerReader;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfIntegerWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfMultiGaussianReader;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfMultiGaussianWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfReader;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfWriter;
+import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
+import java.io.PipedReader;
+import java.io.PipedWriter;
+import java.io.Reader;
+import java.io.StreamTokenizer;
+import java.io.StringReader;
 import java.util.List;
-
 import junit.framework.TestCase;
-import be.ac.ulg.montefiore.run.jahmm.*;
-import be.ac.ulg.montefiore.run.jahmm.io.*;
 
 /**
  *

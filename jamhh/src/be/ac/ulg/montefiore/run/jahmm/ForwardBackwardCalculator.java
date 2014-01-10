@@ -99,6 +99,7 @@ public class ForwardBackwardCalculator {
      * Hidden Markov Model. This computation computes the <code>alpha</code>
      * array as a side effect.
      *
+     * @param <O>
      * @param oseq
      * @param hmm
      * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)

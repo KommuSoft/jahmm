@@ -4,7 +4,9 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * This class can be used to divide a set of elements in clusters using the

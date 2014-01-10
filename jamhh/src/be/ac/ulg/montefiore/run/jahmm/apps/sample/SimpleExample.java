@@ -31,14 +31,18 @@ package be.ac.ulg.montefiore.run.jahmm.apps.sample;
  * 2006-02-05: Renamed, adapted to v0.6.0. (JMF)
  * 2009-06-06: Updated comments with new website URL
  */
-import java.util.*;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
+import be.ac.ulg.montefiore.run.jahmm.ObservationDiscrete;
+import be.ac.ulg.montefiore.run.jahmm.OpdfDiscrete;
+import be.ac.ulg.montefiore.run.jahmm.OpdfDiscreteFactory;
 import be.ac.ulg.montefiore.run.jahmm.draw.GenericHmmDrawerDot;
 import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchLearner;
 import be.ac.ulg.montefiore.run.jahmm.toolbox.KullbackLeiblerDistanceCalculator;
 import be.ac.ulg.montefiore.run.jahmm.toolbox.MarkovGenerator;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class demonstrates how to build a HMM with known parameters, how to

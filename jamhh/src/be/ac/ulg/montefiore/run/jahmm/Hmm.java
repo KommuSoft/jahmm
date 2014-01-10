@@ -6,7 +6,9 @@ package be.ac.ulg.montefiore.run.jahmm;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Main Hmm class; it implements an Hidden Markov Model. An HMM is composed of:

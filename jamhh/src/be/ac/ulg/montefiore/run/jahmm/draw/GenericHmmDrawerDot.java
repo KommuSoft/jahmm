@@ -4,7 +4,7 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.draw;
 
-import be.ac.ulg.montefiore.run.jahmm.*;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
 
 /**
  * An HMM to <i>dot</i> file converter. See

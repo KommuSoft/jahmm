@@ -4,9 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.toolbox;
 
+import be.ac.ulg.montefiore.run.jahmm.ForwardBackwardScaledCalculator;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
 import java.util.List;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
 
 /**
  * Computes the distance between HMMs.

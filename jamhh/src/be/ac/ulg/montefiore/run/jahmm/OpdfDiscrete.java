@@ -5,7 +5,12 @@
 package be.ac.ulg.montefiore.run.jahmm;
 
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.EnumMap;
+import java.util.EnumSet;
+import java.util.List;
 
 /**
  * This class implements a distribution over a finite set of elements. This set

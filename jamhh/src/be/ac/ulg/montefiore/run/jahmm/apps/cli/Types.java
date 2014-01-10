@@ -4,14 +4,41 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
+import be.ac.ulg.montefiore.run.jahmm.ObservationReal;
+import be.ac.ulg.montefiore.run.jahmm.ObservationVector;
+import be.ac.ulg.montefiore.run.jahmm.Opdf;
+import be.ac.ulg.montefiore.run.jahmm.OpdfFactory;
+import be.ac.ulg.montefiore.run.jahmm.OpdfGaussianFactory;
+import be.ac.ulg.montefiore.run.jahmm.OpdfGaussianMixtureFactory;
+import be.ac.ulg.montefiore.run.jahmm.OpdfIntegerFactory;
+import be.ac.ulg.montefiore.run.jahmm.OpdfMultiGaussianFactory;
+import be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.Arguments;
+import be.ac.ulg.montefiore.run.jahmm.io.FileFormatException;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationIntegerReader;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationIntegerWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationReader;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationRealReader;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationRealWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationSequencesReader;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationVectorReader;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationVectorWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfGaussianMixtureReader;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfGaussianMixtureWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfGaussianReader;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfGaussianWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfIntegerReader;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfIntegerWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfMultiGaussianReader;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfMultiGaussianWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfReader;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfWriter;
+import be.ac.ulg.montefiore.run.jahmm.toolbox.MarkovGenerator;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
-import be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.Arguments;
-import be.ac.ulg.montefiore.run.jahmm.io.*;
-import be.ac.ulg.montefiore.run.jahmm.toolbox.MarkovGenerator;
 
 /**
  * A repository of all the observation types and opdfs and the related readers,
