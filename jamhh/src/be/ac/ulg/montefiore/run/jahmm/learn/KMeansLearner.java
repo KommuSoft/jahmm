@@ -47,13 +47,13 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
      * @param opdfFactory A class that builds the observation probability
      * distributions associated to the states of the HMM.
      * @param sequences A vector of observation sequences. Each observation
-     * sequences is a vector of null null null     {@link be.ac.ulg.montefiore.run.jahmm.Observation
-	 *                observations} compatible with the null null null     {@link be.ac.ulg.montefiore.run.jahmm.CentroidFactory
+     * sequences is a vector of null null null null null null     {@link be.ac.ulg.montefiore.run.jahmm.Observation
+	 *                observations} compatible with the null null null null null null     {@link be.ac.ulg.montefiore.run.jahmm.CentroidFactory
 	 *                k-means algorithm}.
      */
     public KMeansLearner(int nbStates,
             OpdfFactory<? extends Opdf<O>> opdfFactory,
-            List<? extends List<? extends O>> sequences) {
+            List<? extends List<? extends O>> sequences) throws CloneNotSupportedException {
         this.obsSeqs = sequences;
         this.opdfFactory = opdfFactory;
         this.nbStates = nbStates;
@@ -212,7 +212,7 @@ class Clusters<O extends CentroidFactory<? super O>> {
     private final Hashtable<O, Value> clustersHash;
     private final ArrayList<Collection<O>> clusters;
 
-    Clusters(int k, List<? extends O> observations) {
+    Clusters(int k, List<? extends O> observations) throws CloneNotSupportedException {
 
         clustersHash = new Hashtable<O, Value>();
         clusters = new ArrayList<Collection<O>>();

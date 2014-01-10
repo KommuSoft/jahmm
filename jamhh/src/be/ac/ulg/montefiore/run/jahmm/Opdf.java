@@ -92,8 +92,7 @@ public interface Opdf<O extends Observation>
 
     /**
      *
-     * @return
-     * @throws java.lang.CloneNotSupportedException
+     * @return @throws java.lang.CloneNotSupportedException
      */
     public Opdf<O> clone() throws CloneNotSupportedException;
 }

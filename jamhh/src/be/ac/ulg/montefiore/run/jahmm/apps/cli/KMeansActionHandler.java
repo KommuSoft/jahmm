@@ -24,6 +24,8 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Applies the k-means learning algorithm.
@@ -46,8 +48,11 @@ class KMeansActionHandler
         Writer writer = new OutputStreamWriter(outStream);
         InputStream st = Arguments.IN_SEQ.getAsInputStream();
         Reader reader = new InputStreamReader(st);
-
-        learn(nbStates, Types.relatedObjs(), reader, writer);
+        try {
+            learn(nbStates, Types.relatedObjs(), reader, writer);
+        } catch (CloneNotSupportedException ex) {
+            Logger.getLogger(KMeansActionHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         writer.flush();
     }
@@ -55,7 +60,7 @@ class KMeansActionHandler
     private <O extends Observation & CentroidFactory<O>> void
             learn(int nbStates, RelatedObjs<O> relatedObjs, Reader reader,
                     Writer writer)
-            throws IOException, FileFormatException {
+            throws IOException, FileFormatException, CloneNotSupportedException {
         OpdfFactory<? extends Opdf<O>> opdfFactory = relatedObjs.opdfFactory();
         List<List<O>> seqs = relatedObjs.readSequences(reader);
         OpdfWriter<? extends Opdf<O>> opdfWriter = relatedObjs.opdfWriter();

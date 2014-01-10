@@ -13,8 +13,7 @@ public interface CentroidFactory<O> {
 
     /**
      *
-     * @return
-     * @throws java.lang.CloneNotSupportedException
+     * @return @throws java.lang.CloneNotSupportedException
      */
     public Centroid<O> factor() throws CloneNotSupportedException;
 }

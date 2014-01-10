@@ -66,7 +66,7 @@ public class LearnerTest
     /**
      *
      */
-    public void testKMeans() {
+    public void testKMeans() throws CloneNotSupportedException {
         KMeansLearner<ObservationInteger> kml
                 = new KMeansLearner<ObservationInteger>(5,
                         new OpdfIntegerFactory(10), sequences);

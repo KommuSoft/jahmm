@@ -149,8 +149,7 @@ public class ObservationVector extends Observation
 
     /**
      *
-     * @return
-     * @throws CloneNotSupportedException
+     * @return @throws CloneNotSupportedException
      */
     public ObservationVector clone() throws CloneNotSupportedException {
         return new ObservationVector(value);
