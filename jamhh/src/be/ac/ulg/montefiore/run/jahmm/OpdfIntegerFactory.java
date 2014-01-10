@@ -22,6 +22,7 @@ public class OpdfIntegerFactory
         this.nbEntries = nbEntries;
     }
 
+    @Override
     public OpdfInteger factor() {
         return new OpdfInteger(nbEntries);
     }

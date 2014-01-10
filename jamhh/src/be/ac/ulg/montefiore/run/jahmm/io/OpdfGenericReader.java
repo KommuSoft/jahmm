@@ -15,10 +15,12 @@ import java.io.StreamTokenizer;
 public class OpdfGenericReader
         extends OpdfReader<Opdf<?>> {
 
+    @Override
     String keyword() {
         throw new AssertionError("Cannot call method");
     }
 
+    @Override
     public Opdf<?> read(StreamTokenizer st)
             throws IOException, FileFormatException {
         if (st.nextToken() != StreamTokenizer.TT_WORD) {

@@ -50,7 +50,7 @@ public class ObservationSequencesReader {
     static public <O extends Observation> List<List<O>>
             readSequences(ObservationReader<O> or, Reader reader)
             throws IOException, FileFormatException {
-        List<List<O>> sequences = new ArrayList<List<O>>();
+        List<List<O>> sequences = new ArrayList<>();
         StreamTokenizer st = new StreamTokenizer(reader);
 
         initSyntaxTable(st);
@@ -58,7 +58,7 @@ public class ObservationSequencesReader {
         for (st.nextToken(); st.ttype != StreamTokenizer.TT_EOF;
                 st.nextToken()) {
             st.pushBack();
-            List<O> sequence = new ArrayList<O>(readSequence(or, st));
+            List<O> sequence = new ArrayList<>(readSequence(or, st));
 
             if (sequence == null) {
                 break;
@@ -115,7 +115,7 @@ public class ObservationSequencesReader {
             return null;
         }
 
-        List<O> sequence = new ArrayList<O>();
+        List<O> sequence = new ArrayList<>();
 
         do {
             st.pushBack();

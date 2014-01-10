@@ -23,12 +23,14 @@ public class CentroidObservationInteger
         this.value = o.value;
     }
 
+    @Override
     public void reevaluateAdd(ObservationInteger e,
             List<? extends ObservationInteger> v) {
         value = ((value * v.size())
                 + (e.value)) / (v.size() + 1.);
     }
 
+    @Override
     public void reevaluateRemove(ObservationInteger e,
             List<? extends ObservationInteger> v) {
         value = ((value * v.size())
@@ -44,6 +46,7 @@ public class CentroidObservationInteger
      *          ObservationInteger}.
      * @return The distance to the centroid.
      */
+    @Override
     public double distance(ObservationInteger e) {
         return Math.abs(e.value - value);
     }

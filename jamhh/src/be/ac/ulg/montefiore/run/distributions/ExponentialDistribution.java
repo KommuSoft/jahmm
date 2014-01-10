@@ -10,7 +10,7 @@ package be.ac.ulg.montefiore.run.distributions;
 public class ExponentialDistribution
         implements RandomDistribution {
 
-    private static final long serialVersionUID = 6359607459925864639L;
+    private static final long serialVersionUID = 6_359_607_459_925_864_639L;
 
     private double rate;
 
@@ -40,10 +40,12 @@ public class ExponentialDistribution
         return rate;
     }
 
+    @Override
     public double generate() {
         return -Math.log(Math.random()) / rate;
     }
 
+    @Override
     public double probability(double n) {
         return rate * Math.exp(-n * rate);
     }

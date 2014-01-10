@@ -11,6 +11,7 @@ package be.ac.ulg.montefiore.run.jahmm;
 public class OpdfGaussianFactory
         implements OpdfFactory<OpdfGaussian> {
 
+    @Override
     public OpdfGaussian factor() {
         return new OpdfGaussian();
     }

@@ -23,6 +23,7 @@ public class OpdfMultiGaussianFactory
         this.dimension = dimension;
     }
 
+    @Override
     public OpdfMultiGaussian factor() {
         return new OpdfMultiGaussian(dimension);
     }

@@ -25,8 +25,9 @@ public class GenerateTest
 
     private Hmm<ObservationInteger> hmm;
 
+    @Override
     protected void setUp() {
-        hmm = new Hmm<ObservationInteger>(4, new OpdfIntegerFactory(2));
+        hmm = new Hmm<>(4, new OpdfIntegerFactory(2));
     }
 
     /**

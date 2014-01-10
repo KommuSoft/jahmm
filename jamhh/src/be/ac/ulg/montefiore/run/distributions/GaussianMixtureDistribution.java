@@ -17,7 +17,7 @@ public class GaussianMixtureDistribution
 
     static private final Random random = new Random();
 
-    private static final long serialVersionUID = 2634624658500627331L;
+    private static final long serialVersionUID = 2_634_624_658_500_627_331L;
 
     private GaussianDistribution[] distributions;
     private double proportions[];
@@ -115,6 +115,7 @@ public class GaussianMixtureDistribution
         return proportions.clone();
     }
 
+    @Override
     public double generate() {
         double r = random.nextDouble();
         double sum = 0.;
@@ -130,6 +131,7 @@ public class GaussianMixtureDistribution
         throw new RuntimeException("Internal error");
     }
 
+    @Override
     public double probability(double n) {
         double sum = 0.;
 

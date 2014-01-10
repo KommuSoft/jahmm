@@ -56,18 +56,22 @@ public class OpdfGaussian
         return distribution.variance();
     }
 
+    @Override
     public double probability(ObservationReal o) {
         return distribution.probability(o.value);
     }
 
+    @Override
     public ObservationReal generate() {
         return new ObservationReal(distribution.generate());
     }
 
+    @Override
     public void fit(ObservationReal... oa) {
         fit(Arrays.asList(oa));
     }
 
+    @Override
     public void fit(Collection<? extends ObservationReal> co) {
         double[] weights = new double[co.size()];
         Arrays.fill(weights, 1. / co.size());
@@ -75,10 +79,12 @@ public class OpdfGaussian
         fit(co, weights);
     }
 
+    @Override
     public void fit(ObservationReal[] o, double[] weights) {
         fit(Arrays.asList(o), weights);
     }
 
+    @Override
     public void fit(Collection<? extends ObservationReal> co,
             double[] weights) {
         if (co.isEmpty() || co.size() != weights.length) {
@@ -104,6 +110,7 @@ public class OpdfGaussian
         distribution = new GaussianDistribution(mean, variance);
     }
 
+    @Override
     public OpdfGaussian clone() throws CloneNotSupportedException {
         try {
             return (OpdfGaussian) super.clone();
@@ -116,10 +123,12 @@ public class OpdfGaussian
      *
      * @return
      */
+    @Override
     public String toString() {
         return toString(NumberFormat.getInstance());
     }
 
+    @Override
     public String toString(NumberFormat numberFormat) {
         return "Gaussian distribution --- "
                 + "Mean: " + numberFormat.format(distribution.mean())

@@ -24,7 +24,7 @@ import java.util.List;
 public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
 
     static <T> List<T> flat(List<? extends List<? extends T>> lists) {
-        List<T> v = new ArrayList<T>();
+        List<T> v = new ArrayList<>();
 
         for (List<? extends T> list : lists) {
             v.addAll(list);
@@ -47,9 +47,12 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
      * @param opdfFactory A class that builds the observation probability
      * distributions associated to the states of the HMM.
      * @param sequences A vector of observation sequences. Each observation
-     * sequences is a vector of null null null null null null     {@link be.ac.ulg.montefiore.run.jahmm.Observation
-	 *                observations} compatible with the null null null null null null     {@link be.ac.ulg.montefiore.run.jahmm.CentroidFactory
+     * sequences is a vector of null null null null null null null null null
+     * null null null     {@link be.ac.ulg.montefiore.run.jahmm.Observation
+	 *                observations} compatible with the null null null null null null null null
+     * null null null null     {@link be.ac.ulg.montefiore.run.jahmm.CentroidFactory
 	 *                k-means algorithm}.
+     * @throws java.lang.CloneNotSupportedException
      */
     public KMeansLearner(int nbStates,
             OpdfFactory<? extends Opdf<O>> opdfFactory,
@@ -59,7 +62,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
         this.nbStates = nbStates;
 
         List<? extends O> observations = flat(sequences);
-        clusters = new Clusters<O>(nbStates, observations);
+        clusters = new Clusters<>(nbStates, observations);
         terminated = false;
     }
 
@@ -71,7 +74,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
      * @return A new, updated HMM.
      */
     public Hmm<O> iterate() {
-        Hmm<O> hmm = new Hmm<O>(nbStates, opdfFactory);
+        Hmm<O> hmm = new Hmm<>(nbStates, opdfFactory);
 
         learnPi(hmm);
         learnAij(hmm);
@@ -214,10 +217,10 @@ class Clusters<O extends CentroidFactory<? super O>> {
 
     Clusters(int k, List<? extends O> observations) throws CloneNotSupportedException {
 
-        clustersHash = new Hashtable<O, Value>();
-        clusters = new ArrayList<Collection<O>>();
+        clustersHash = new Hashtable<>();
+        clusters = new ArrayList<>();
 
-        KMeansCalculator<O> kmc = new KMeansCalculator<O>(k, observations);
+        KMeansCalculator<O> kmc = new KMeansCalculator<>(k, observations);
 
         for (int i = 0; i < k; i++) {
             Collection<O> cluster = kmc.cluster(i);

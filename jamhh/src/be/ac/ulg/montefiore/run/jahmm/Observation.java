@@ -24,6 +24,7 @@ public abstract class Observation {
      *
      * @return A descriptive string.
      */
+    @Override
     public String toString() {
         return toString(NumberFormat.getInstance());
     }

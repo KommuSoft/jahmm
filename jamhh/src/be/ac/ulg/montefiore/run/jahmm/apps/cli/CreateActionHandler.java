@@ -25,6 +25,7 @@ import java.util.EnumSet;
 class CreateActionHandler
         extends ActionHandler {
 
+    @Override
     public void act()
             throws FileNotFoundException, IOException, AbnormalTerminationException {
         EnumSet<Arguments> args = EnumSet.of(
@@ -48,7 +49,7 @@ class CreateActionHandler
         OpdfFactory<? extends Opdf<O>> opdfFactory = relatedObjs.opdfFactory();
         OpdfWriter<? extends Opdf<O>> opdfWriter = relatedObjs.opdfWriter();
 
-        Hmm<O> hmm = new Hmm<O>(nbStates, opdfFactory);
+        Hmm<O> hmm = new Hmm<>(nbStates, opdfFactory);
 
         HmmWriter.write(outWriter, opdfWriter, hmm);
     }

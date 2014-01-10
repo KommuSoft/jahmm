@@ -15,6 +15,7 @@ import java.io.Writer;
 public class OpdfGaussianMixtureWriter
         extends OpdfWriter<OpdfGaussianMixture> {
 
+    @Override
     public void write(Writer writer, OpdfGaussianMixture opdf)
             throws IOException {
         writer.write("GaussianMixtureOPDF [ ");

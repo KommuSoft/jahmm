@@ -22,6 +22,7 @@ import java.util.EnumSet;
 class PrintActionHandler extends ActionHandler {
 
     @SuppressWarnings({"unchecked"}) // We use a generic reader 
+    @Override
     public void act()
             throws FileFormatException, IOException, FileNotFoundException,
             AbnormalTerminationException {

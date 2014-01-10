@@ -33,10 +33,12 @@ import java.io.StreamTokenizer;
 public class OpdfMultiGaussianReader
         extends OpdfReader<OpdfMultiGaussian> {
 
+    @Override
     String keyword() {
         return "MultiGaussianOPDF";
     }
 
+    @Override
     public OpdfMultiGaussian read(StreamTokenizer st)
             throws IOException, FileFormatException {
         HmmReader.readWords(st, keyword(), "[");

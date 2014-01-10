@@ -26,6 +26,7 @@ public class CentroidObservationVector
         this.value = o.clone();
     }
 
+    @Override
     public void reevaluateAdd(ObservationVector e,
             List<? extends ObservationVector> v) {
         double[] evalues = e.value;
@@ -36,6 +37,7 @@ public class CentroidObservationVector
         }
     }
 
+    @Override
     public void reevaluateRemove(ObservationVector e,
             List<? extends ObservationVector> v) {
         double[] evalues = e.value;
@@ -54,6 +56,7 @@ public class CentroidObservationVector
      *          ObservationVector} with a dimension compatible with this centroid.
      * @return The distance between <code>element</code> and this centroid.
      */
+    @Override
     public double distance(ObservationVector e) {
         ObservationVector diff = value.minus(e);
         double sum = 0.;

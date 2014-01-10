@@ -29,14 +29,15 @@ public class LearnerTest
     private List<List<ObservationInteger>> sequences;
     private KullbackLeiblerDistanceCalculator klc;
 
+    @Override
     protected void setUp() {
-        hmm = new Hmm<ObservationInteger>(3, new OpdfIntegerFactory(10));
+        hmm = new Hmm<>(3, new OpdfIntegerFactory(10));
         hmm.getOpdf(0).fit(new ObservationInteger(1), new ObservationInteger(2));
 
         MarkovGenerator<ObservationInteger> mg
-                = new MarkovGenerator<ObservationInteger>(hmm);
+                = new MarkovGenerator<>(hmm);
 
-        sequences = new ArrayList<List<ObservationInteger>>();
+        sequences = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
             sequences.add(mg.observationSequence(100));
         }
@@ -65,10 +66,11 @@ public class LearnerTest
 
     /**
      *
+     * @throws java.lang.CloneNotSupportedException
      */
     public void testKMeans() throws CloneNotSupportedException {
         KMeansLearner<ObservationInteger> kml
-                = new KMeansLearner<ObservationInteger>(5,
+                = new KMeansLearner<>(5,
                         new OpdfIntegerFactory(10), sequences);
         assertEquals(0., klc.distance(kml.learn(), hmm), DELTA);
     }

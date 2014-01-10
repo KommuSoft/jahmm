@@ -63,10 +63,7 @@ public class Cli {
 
         try {
             actionHandler.act();
-        } catch (FileNotFoundException e) {
-            System.err.println(e);
-            return -1;
-        } catch (FileFormatException e) {
+        } catch (FileNotFoundException | FileFormatException e) {
             System.err.println(e);
             return -1;
         }

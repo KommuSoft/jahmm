@@ -37,7 +37,7 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
             throw new IllegalArgumentException("Illegal number of clusters");
         }
 
-        clusters = new ArrayList<Cluster<K>>(k);
+        clusters = new ArrayList<>(k);
 
         /* First, initialize clusters randomly */
         int clusterNb = 0;
@@ -57,13 +57,13 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
                 }
             }
 
-            clusters.add(new Cluster<K>(elements.get(elementNb)));
+            clusters.add(new Cluster<>(elements.get(elementNb)));
             clusterNb++;
         }
 
         for (; clusterNb < k && elementNb < elements.size();
                 elementNb++, clusterNb++) {
-            clusters.add(new Cluster<K>(elements.get(elementNb)));
+            clusters.add(new Cluster<>(elements.get(elementNb)));
         }
 
         for (; clusterNb < k; clusterNb++) {
@@ -149,7 +149,7 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
          * Creates a new empty cluster.
          */
         Cluster() {
-            elements = new ArrayList<L>();
+            elements = new ArrayList<>();
             centroid = null;
         }
 
@@ -159,7 +159,7 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
          * @param element The element that compose the new cluster.
          */
         Cluster(L e) throws CloneNotSupportedException {
-            elements = new ArrayList<L>();
+            elements = new ArrayList<>();
             elements.add(e);
             centroid = e.factor();
         }

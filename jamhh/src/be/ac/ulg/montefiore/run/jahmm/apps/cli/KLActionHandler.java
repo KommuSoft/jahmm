@@ -31,6 +31,7 @@ public class KLActionHandler extends ActionHandler {
      * @throws FileFormatException
      * @throws AbnormalTerminationException
      */
+    @Override
     public void act() throws FileNotFoundException, IOException,
             FileFormatException, AbnormalTerminationException {
         EnumSet<Arguments> args = EnumSet.of(

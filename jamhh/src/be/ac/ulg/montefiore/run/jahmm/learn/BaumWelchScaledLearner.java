@@ -36,6 +36,7 @@ public class BaumWelchScaledLearner
      * @param hmm
      * @return
      */
+    @Override
     protected <O extends Observation> ForwardBackwardCalculator
             generateForwardBackwardCalculator(List<? extends O> sequence,
                     Hmm<O> hmm) {
@@ -57,6 +58,7 @@ public class BaumWelchScaledLearner
      * @param hmm
      * @return
      */
+    @Override
     protected <O extends Observation> double[][][]
             estimateXi(List<? extends O> sequence, ForwardBackwardCalculator fbc,
                     Hmm<O> hmm) {

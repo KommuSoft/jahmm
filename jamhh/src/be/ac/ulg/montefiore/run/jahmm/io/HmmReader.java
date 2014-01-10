@@ -76,13 +76,13 @@ public class HmmReader {
 
         double[] pi = new double[nbStates];
         double[][] a = new double[nbStates][nbStates];
-        List<Opdf<O>> opdfs = new ArrayList<Opdf<O>>(nbStates);
+        List<Opdf<O>> opdfs = new ArrayList<>(nbStates);
 
         for (int i = 0; i < nbStates; i++) {
             readState(st, nbStates, i, pi, a, opdfs, opdfReader);
         }
 
-        return new Hmm<O>(pi, a, opdfs);
+        return new Hmm<>(pi, a, opdfs);
     }
 
     static private <O extends Observation> void

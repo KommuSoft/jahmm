@@ -15,6 +15,7 @@ import java.io.Writer;
 public class ObservationRealWriter
         extends ObservationWriter<ObservationReal> {
 
+    @Override
     public void write(ObservationReal observation, Writer writer)
             throws IOException {
         writer.write(observation.value + "; ");

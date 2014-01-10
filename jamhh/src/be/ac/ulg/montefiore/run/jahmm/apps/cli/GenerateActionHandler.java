@@ -33,6 +33,7 @@ import java.util.List;
 class GenerateActionHandler
         extends ActionHandler {
 
+    @Override
     public void act()
             throws FileNotFoundException, IOException, FileFormatException,
             AbnormalTerminationException {
@@ -62,9 +63,9 @@ class GenerateActionHandler
 
         MarkovGenerator<O> generator = relatedObjs.generator(hmm);
 
-        List<List<O>> seqs = new ArrayList<List<O>>();
+        List<List<O>> seqs = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            seqs.add(generator.observationSequence(1000));
+            seqs.add(generator.observationSequence(1_000));
         }
 
         ObservationSequencesWriter.write(seqsFileWriter, obsWriter, seqs);

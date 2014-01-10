@@ -20,7 +20,7 @@ public class GaussianTest
         extends TestCase {
 
     final static private double DELTA = 5.E-2;
-    final static private int nbObservations = 10000;
+    final static private int nbObservations = 10_000;
 
     static String toString(double[] a) {
         String s = "[ ";
@@ -139,7 +139,7 @@ public class GaussianTest
 
         assertEquals(omg1.dimension(), 2);
 
-        ObservationVector[] obs = new ObservationVector[100000];
+        ObservationVector[] obs = new ObservationVector[100_000];
         for (int i = 0; i < obs.length; i++) {
             obs[i] = omg1.generate();
         }

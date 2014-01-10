@@ -29,17 +29,18 @@ public class BasicIntegerTest
     private List<ObservationInteger> sequence;
     private List<ObservationInteger> randomSequence;
 
+    @Override
     protected void setUp() {
-        hmm = new Hmm<ObservationInteger>(5, new OpdfIntegerFactory(10));
+        hmm = new Hmm<>(5, new OpdfIntegerFactory(10));
         hmm.setOpdf(1, new OpdfInteger(6));
 
-        sequence = new ArrayList<ObservationInteger>();
+        sequence = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
             sequence.add(new ObservationInteger(i));
         }
 
-        randomSequence = new ArrayList<ObservationInteger>();
-        for (int i = 0; i < 30000; i++) {
+        randomSequence = new ArrayList<>();
+        for (int i = 0; i < 30_000; i++) {
             randomSequence.
                     add(new ObservationInteger((int) (Math.random() * 10.)));
         }
@@ -77,7 +78,7 @@ public class BasicIntegerTest
     public void testKMeansCalculator() throws CloneNotSupportedException {
         int nbClusters = 20;
 
-        KMeansCalculator<ObservationInteger> kmc = new KMeansCalculator<ObservationInteger>(nbClusters, randomSequence);
+        KMeansCalculator<ObservationInteger> kmc = new KMeansCalculator<>(nbClusters, randomSequence);
 
         assertEquals("KMeans did not produce expected number of clusters",
                 nbClusters, kmc.nbClusters());

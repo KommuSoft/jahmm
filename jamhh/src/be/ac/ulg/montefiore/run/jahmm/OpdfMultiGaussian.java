@@ -72,6 +72,7 @@ public class OpdfMultiGaussian
         return distribution.dimension();
     }
 
+    @Override
     public double probability(ObservationVector o) {
         if (o.dimension() != distribution.dimension()) {
             throw new IllegalArgumentException("Vector has a wrong "
@@ -81,14 +82,17 @@ public class OpdfMultiGaussian
         return distribution.probability(o.value);
     }
 
+    @Override
     public ObservationVector generate() {
         return new ObservationVector(distribution.generate());
     }
 
+    @Override
     public void fit(ObservationVector... oa) {
         fit(Arrays.asList(oa));
     }
 
+    @Override
     public void fit(Collection<? extends ObservationVector> co) {
         if (co.isEmpty()) {
             throw new IllegalArgumentException("Empty observation set");
@@ -100,10 +104,12 @@ public class OpdfMultiGaussian
         fit(co, weights);
     }
 
+    @Override
     public void fit(ObservationVector[] o, double[] weights) {
         fit(Arrays.asList(o), weights);
     }
 
+    @Override
     public void fit(Collection<? extends ObservationVector> co,
             double[] weights) {
         if (co.isEmpty() || co.size() != weights.length) {
@@ -143,6 +149,7 @@ public class OpdfMultiGaussian
         distribution = new MultiGaussianDistribution(mean, covariance);
     }
 
+    @Override
     public OpdfMultiGaussian clone() throws CloneNotSupportedException {
         try {
             return (OpdfMultiGaussian) super.clone();
@@ -155,10 +162,12 @@ public class OpdfMultiGaussian
      *
      * @return
      */
+    @Override
     public String toString() {
         return toString(NumberFormat.getInstance());
     }
 
+    @Override
     public String toString(NumberFormat numberFormat) {
         String s = "Multi-variate Gaussian distribution --- Mean: [ ";
         double[] mean = distribution.mean();

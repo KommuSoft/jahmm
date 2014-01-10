@@ -110,7 +110,7 @@ public class IOTest
         Hmm<?> hmm = null;
 
         try {
-            hmm = new Hmm<ObservationInteger>(4,
+            hmm = new Hmm<>(4,
                     new OpdfIntegerFactory(3));
             PipedOutputStream pos = new PipedOutputStream(pis);
 

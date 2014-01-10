@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 class KMeansActionHandler
         extends ActionHandler {
 
+    @Override
     public void act()
             throws FileNotFoundException, IOException, FileFormatException,
             AbnormalTerminationException {
@@ -65,7 +66,7 @@ class KMeansActionHandler
         List<List<O>> seqs = relatedObjs.readSequences(reader);
         OpdfWriter<? extends Opdf<O>> opdfWriter = relatedObjs.opdfWriter();
 
-        KMeansLearner<O> kl = new KMeansLearner<O>(nbStates, opdfFactory,
+        KMeansLearner<O> kl = new KMeansLearner<>(nbStates, opdfFactory,
                 seqs);
         Hmm<O> hmm = kl.learn();
 

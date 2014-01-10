@@ -29,7 +29,7 @@ public abstract class OpdfReader<O extends Opdf<?>> {
      * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
     protected static double[] read(StreamTokenizer st, int length) throws IOException, FileFormatException {
-        List<Double> l = new ArrayList<Double>();
+        List<Double> l = new ArrayList<>();
         HmmReader.readWords(st, "[");
         while (st.nextToken() == StreamTokenizer.TT_NUMBER) {
             l.add(st.nval);

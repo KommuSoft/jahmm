@@ -34,6 +34,7 @@ public class ObservationRealReader
      * @throws java.io.IOException
      * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
+    @Override
     public ObservationReal read(StreamTokenizer st)
             throws IOException, FileFormatException {
         ObservationReal or;

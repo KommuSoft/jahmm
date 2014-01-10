@@ -15,6 +15,7 @@ import java.io.Writer;
 public class OpdfMultiGaussianWriter
         extends OpdfWriter<OpdfMultiGaussian> {
 
+    @Override
     public void write(Writer writer, OpdfMultiGaussian opdf)
             throws IOException {
         writer.write("MultiGaussianOPDF [ ");

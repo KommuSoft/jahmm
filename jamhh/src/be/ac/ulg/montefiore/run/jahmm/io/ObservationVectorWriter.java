@@ -16,6 +16,7 @@ import java.io.Writer;
 public class ObservationVectorWriter
         extends ObservationWriter<ObservationVector> {
 
+    @Override
     public void write(ObservationVector observation, Writer writer)
             throws IOException {
         String s = "[ ";

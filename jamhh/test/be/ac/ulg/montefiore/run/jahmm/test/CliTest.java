@@ -23,6 +23,7 @@ public class CliTest extends TestCase {
     private PrintStream origOut;
     private PrintStream origErr;
 
+    @Override
     protected void setUp() {
         origIn = System.in;
         origOut = System.out;

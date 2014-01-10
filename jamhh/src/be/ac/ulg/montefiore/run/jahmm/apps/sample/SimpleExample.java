@@ -95,7 +95,7 @@ public class SimpleExample {
         ObservationDiscrete<Packet> packetLoss = Packet.LOSS.observation();
 
         List<ObservationDiscrete<Packet>> testSequence
-                = new ArrayList<ObservationDiscrete<Packet>>();
+                = new ArrayList<>();
         testSequence.add(packetOk);
         testSequence.add(packetOk);
         testSequence.add(packetLoss);
@@ -110,15 +110,15 @@ public class SimpleExample {
     /* The HMM this example is based on */
     static Hmm<ObservationDiscrete<Packet>> buildHmm() {
         Hmm<ObservationDiscrete<Packet>> hmm
-                = new Hmm<ObservationDiscrete<Packet>>(2,
-                        new OpdfDiscreteFactory<Packet>(Packet.class));
+                = new Hmm<>(2,
+                        new OpdfDiscreteFactory<>(Packet.class));
 
         hmm.setPi(0, 0.95);
         hmm.setPi(1, 0.05);
 
-        hmm.setOpdf(0, new OpdfDiscrete<Packet>(Packet.class,
+        hmm.setOpdf(0, new OpdfDiscrete<>(Packet.class,
                 new double[]{0.95, 0.05}));
-        hmm.setOpdf(1, new OpdfDiscrete<Packet>(Packet.class,
+        hmm.setOpdf(1, new OpdfDiscrete<>(Packet.class,
                 new double[]{0.20, 0.80}));
 
         hmm.setAij(0, 1, 0.05);
@@ -132,15 +132,15 @@ public class SimpleExample {
     /* Initial guess for the Baum-Welch algorithm */
     static Hmm<ObservationDiscrete<Packet>> buildInitHmm() {
         Hmm<ObservationDiscrete<Packet>> hmm
-                = new Hmm<ObservationDiscrete<Packet>>(2,
-                        new OpdfDiscreteFactory<Packet>(Packet.class));
+                = new Hmm<>(2,
+                        new OpdfDiscreteFactory<>(Packet.class));
 
         hmm.setPi(0, 0.50);
         hmm.setPi(1, 0.50);
 
-        hmm.setOpdf(0, new OpdfDiscrete<Packet>(Packet.class,
+        hmm.setOpdf(0, new OpdfDiscrete<>(Packet.class,
                 new double[]{0.8, 0.2}));
-        hmm.setOpdf(1, new OpdfDiscrete<Packet>(Packet.class,
+        hmm.setOpdf(1, new OpdfDiscrete<>(Packet.class,
                 new double[]{0.1, 0.9}));
 
         hmm.setAij(0, 1, 0.2);
@@ -154,9 +154,9 @@ public class SimpleExample {
     /* Generate several observation sequences using a HMM */
     static <O extends Observation> List<List<O>>
             generateSequences(Hmm<O> hmm) {
-        MarkovGenerator<O> mg = new MarkovGenerator<O>(hmm);
+        MarkovGenerator<O> mg = new MarkovGenerator<>(hmm);
 
-        List<List<O>> sequences = new ArrayList<List<O>>();
+        List<List<O>> sequences = new ArrayList<>();
         for (int i = 0; i < 200; i++) {
             sequences.add(mg.observationSequence(100));
         }
@@ -184,7 +184,7 @@ public class SimpleExample {
          * @return
          */
         public ObservationDiscrete<Packet> observation() {
-            return new ObservationDiscrete<Packet>(this);
+            return new ObservationDiscrete<>(this);
         }
     };
 }

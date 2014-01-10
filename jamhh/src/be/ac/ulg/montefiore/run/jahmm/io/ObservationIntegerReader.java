@@ -58,6 +58,7 @@ public class ObservationIntegerReader
      * @throws java.io.IOException
      * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
+    @Override
     public ObservationInteger read(StreamTokenizer st)
             throws IOException, FileFormatException {
         ObservationInteger oi;

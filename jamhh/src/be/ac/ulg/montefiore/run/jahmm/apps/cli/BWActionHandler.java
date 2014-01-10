@@ -32,6 +32,7 @@ import java.util.List;
 class BWActionHandler
         extends ActionHandler {
 
+    @Override
     public void act()
             throws IOException, FileFormatException,
             AbnormalTerminationException {

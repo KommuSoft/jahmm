@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class KullbackLeiblerDistanceCalculator {
 
-    private int sequencesLength = 1000;
+    private int sequencesLength = 1_000;
     private int nbSequences = 10;
 
     /**
@@ -45,7 +45,7 @@ public class KullbackLeiblerDistanceCalculator {
 
         for (int i = 0; i < nbSequences; i++) {
 
-            List<O> oseq = new MarkovGenerator<O>(hmm1).
+            List<O> oseq = new MarkovGenerator<>(hmm1).
                     observationSequence(sequencesLength);
 
             distance += (new ForwardBackwardScaledCalculator(oseq, hmm1).

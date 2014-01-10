@@ -14,6 +14,7 @@ public class HelpActionHandler extends ActionHandler {
     /**
      *
      */
+    @Override
     public void act() {
         String s = "Usage:\tCli (create|print|learn-kmeans|"
                 + "learn-bw|generate|distance-kl) <arguments>\n"

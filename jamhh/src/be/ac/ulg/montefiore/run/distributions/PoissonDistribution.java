@@ -24,7 +24,7 @@ public class PoissonDistribution
         64.55753862700633106, 67.88974313718153498, 71.25703896716800901
     };
 
-    private static final long serialVersionUID = 2516179242233627286L;
+    private static final long serialVersionUID = 2_516_179_242_233_627_286L;
 
     private final double mean;
 
@@ -56,6 +56,7 @@ public class PoissonDistribution
         return mean;
     }
 
+    @Override
     public int generate() {
         int count = 0;
         double product = 1.;
@@ -69,6 +70,7 @@ public class PoissonDistribution
         return count - 1;
     }
 
+    @Override
     public double probability(int n) {
         return Math.exp(n * Math.log(mean) - logFactorial(n) - mean);
     }

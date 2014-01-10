@@ -49,10 +49,12 @@ public class OpdfIntegerReader
         this.nbEntries = nbEntries;
     }
 
+    @Override
     String keyword() {
         return "IntegerOPDF";
     }
 
+    @Override
     public OpdfInteger read(StreamTokenizer st)
             throws IOException, FileFormatException {
         HmmReader.readWords(st, keyword());

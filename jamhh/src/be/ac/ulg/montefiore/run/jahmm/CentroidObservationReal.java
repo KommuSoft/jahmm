@@ -23,11 +23,13 @@ public class CentroidObservationReal
         this.value = o.value;
     }
 
+    @Override
     public void reevaluateAdd(ObservationReal e,
             List<? extends ObservationReal> v) {
         value = (value * v.size() + e.value) / (v.size() + 1.);
     }
 
+    @Override
     public void reevaluateRemove(ObservationReal e,
             List<? extends ObservationReal> v) {
         value = ((value * v.size()) - e.value) / (v.size() - 1.);
@@ -42,6 +44,7 @@ public class CentroidObservationReal
      *          ObservationReal}.
      * @return The distance to the centroid.
      */
+    @Override
     public double distance(ObservationReal e) {
         return Math.abs(e.value - value);
     }

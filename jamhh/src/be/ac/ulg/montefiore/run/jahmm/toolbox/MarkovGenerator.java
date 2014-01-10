@@ -65,7 +65,7 @@ public class MarkovGenerator<O extends Observation> {
             throw new IllegalArgumentException("Positive length required");
         }
 
-        ArrayList<O> sequence = new ArrayList<O>();
+        ArrayList<O> sequence = new ArrayList<>();
         while (length-- > 0) {
             sequence.add(observation());
         }

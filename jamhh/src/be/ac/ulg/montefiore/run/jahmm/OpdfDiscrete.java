@@ -47,7 +47,7 @@ public class OpdfDiscrete<E extends Enum<E>>
      * values.
      */
     public OpdfDiscrete(Class<E> valuesClass) {
-        values = new ArrayList<E>(EnumSet.allOf(valuesClass));
+        values = new ArrayList<>(EnumSet.allOf(valuesClass));
 
         if (values.isEmpty()) {
             throw new IllegalArgumentException();
@@ -68,7 +68,7 @@ public class OpdfDiscrete<E extends Enum<E>>
      * <code>values</code>.
      */
     public OpdfDiscrete(Class<E> valuesClass, double[] probabilities) {
-        values = new ArrayList<E>(EnumSet.allOf(valuesClass));
+        values = new ArrayList<>(EnumSet.allOf(valuesClass));
 
         if (probabilities.length == 0 || values.size() != probabilities.length) {
             throw new IllegalArgumentException();
@@ -80,7 +80,7 @@ public class OpdfDiscrete<E extends Enum<E>>
 
     private EnumMap<E, ObservationInteger> createMap(Class<E> valuesClass) {
         EnumMap<E, ObservationInteger> result
-                = new EnumMap<E, ObservationInteger>(valuesClass);
+                = new EnumMap<>(valuesClass);
 
         for (E value : values) {
             result.put(value, new ObservationInteger(value.ordinal()));
@@ -89,20 +89,24 @@ public class OpdfDiscrete<E extends Enum<E>>
         return result;
     }
 
+    @Override
     public double probability(ObservationDiscrete o) {
         return distribution.probability(toIntegerMap.get(o.value));
     }
 
+    @Override
     public ObservationDiscrete<E> generate() {
-        return new ObservationDiscrete<E>(values.get(distribution.generate().value));
+        return new ObservationDiscrete<>(values.get(distribution.generate().value));
     }
 
+    @Override
     public void fit(ObservationDiscrete<E>... oa) {
         fit(Arrays.asList(oa));
     }
 
+    @Override
     public void fit(Collection<? extends ObservationDiscrete<E>> co) {
-        List<ObservationInteger> dco = new ArrayList<ObservationInteger>();
+        List<ObservationInteger> dco = new ArrayList<>();
 
         for (ObservationDiscrete<E> o : co) {
             dco.add(toIntegerMap.get(o.value));
@@ -111,13 +115,15 @@ public class OpdfDiscrete<E extends Enum<E>>
         distribution.fit(dco);
     }
 
+    @Override
     public void fit(ObservationDiscrete<E>[] o, double[] weights) {
         fit(Arrays.asList(o), weights);
     }
 
+    @Override
     public void fit(Collection<? extends ObservationDiscrete<E>> co,
             double[] weights) {
-        List<ObservationInteger> dco = new ArrayList<ObservationInteger>();
+        List<ObservationInteger> dco = new ArrayList<>();
 
         for (ObservationDiscrete<E> o : co) {
             dco.add(toIntegerMap.get(o.value));
@@ -127,6 +133,7 @@ public class OpdfDiscrete<E extends Enum<E>>
     }
 
     @SuppressWarnings("unchecked")
+    @Override
     public OpdfDiscrete<E> clone() throws CloneNotSupportedException {
         try {
             OpdfDiscrete<E> opdfDiscrete = (OpdfDiscrete<E>) super.clone();
@@ -141,15 +148,17 @@ public class OpdfDiscrete<E extends Enum<E>>
      *
      * @return
      */
+    @Override
     public String toString() {
         return toString(NumberFormat.getInstance());
     }
 
+    @Override
     public String toString(NumberFormat numberFormat) {
         String s = "Discrete distribution --- ";
 
         for (int i = 0; i < values.size();) {
-            ObservationDiscrete o = new ObservationDiscrete<E>(values.get(i));
+            ObservationDiscrete o = new ObservationDiscrete<>(values.get(i));
 
             s += o + " " + numberFormat.format(probability(o))
                     + ((++i < values.size()) ? ", " : "");

@@ -14,7 +14,7 @@ public class GaussianDistribution
 
     private final static Random randomGenerator = new Random();
 
-    private static final long serialVersionUID = 9127329839769283975L;
+    private static final long serialVersionUID = 9_127_329_839_769_283_975L;
 
     private double mean;
     private double deviation;
@@ -62,10 +62,12 @@ public class GaussianDistribution
         return variance;
     }
 
+    @Override
     public double generate() {
         return randomGenerator.nextGaussian() * deviation + mean;
     }
 
+    @Override
     public double probability(double n) {
         double expArg = -.5 * (n - mean) * (n - mean) / variance;
         return Math.pow(2. * Math.PI * variance, -.5)

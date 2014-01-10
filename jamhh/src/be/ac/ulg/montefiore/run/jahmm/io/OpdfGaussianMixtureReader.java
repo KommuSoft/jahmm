@@ -28,10 +28,12 @@ import java.io.StreamTokenizer;
 public class OpdfGaussianMixtureReader
         extends OpdfReader<OpdfGaussianMixture> {
 
+    @Override
     String keyword() {
         return "GaussianMixtureOPDF";
     }
 
+    @Override
     public OpdfGaussianMixture read(StreamTokenizer st)
             throws IOException, FileFormatException {
         HmmReader.readWords(st, keyword(), "[");

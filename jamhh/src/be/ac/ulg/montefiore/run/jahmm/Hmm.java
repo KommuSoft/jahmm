@@ -56,7 +56,7 @@ public class Hmm<O extends Observation>
 
         pi = new double[nbStates];
         a = new double[nbStates][nbStates];
-        opdfs = new ArrayList<Opdf<O>>(nbStates);
+        opdfs = new ArrayList<>(nbStates);
 
         for (int i = 0; i < nbStates; i++) {
             pi[i] = 1. / nbStates;
@@ -97,7 +97,7 @@ public class Hmm<O extends Observation>
             this.a[i] = a[i].clone();
         }
 
-        this.opdfs = new ArrayList<Opdf<O>>(opdfs);
+        this.opdfs = new ArrayList<>(opdfs);
     }
 
     /**
@@ -115,7 +115,7 @@ public class Hmm<O extends Observation>
 
         pi = new double[nbStates];
         a = new double[nbStates][nbStates];
-        opdfs = new ArrayList<Opdf<O>>(nbStates);
+        opdfs = new ArrayList<>(nbStates);
 
         for (int i = 0; i < nbStates; i++) {
             opdfs.add(null);
@@ -301,6 +301,7 @@ public class Hmm<O extends Observation>
      *
      * @return A textual description of this HMM.
      */
+    @Override
     public String toString() {
         return toString(NumberFormat.getInstance());
     }
@@ -309,9 +310,10 @@ public class Hmm<O extends Observation>
      *
      * @return @throws CloneNotSupportedException
      */
+    @Override
     public Hmm<O> clone()
             throws CloneNotSupportedException {
-        Hmm<O> hmm = new Hmm<O>(nbStates());
+        Hmm<O> hmm = new Hmm<>(nbStates());
 
         hmm.pi = pi.clone();
         hmm.a = a.clone();

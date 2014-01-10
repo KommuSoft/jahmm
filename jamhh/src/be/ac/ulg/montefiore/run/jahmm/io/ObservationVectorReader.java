@@ -60,13 +60,14 @@ public class ObservationVectorReader
      * @throws java.io.IOException
      * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
+    @Override
     public ObservationVector read(StreamTokenizer st)
             throws IOException, FileFormatException {
         if (st.nextToken() != '[') {
             throw new FileFormatException(st.lineno(), "'[' expected");
         }
 
-        List<Double> values = new ArrayList<Double>();
+        List<Double> values = new ArrayList<>();
 
         loop:
         while (true) {

@@ -72,6 +72,7 @@ public class ObservationVector extends Observation
      * @return The corresponding observation.
      * @throws java.lang.CloneNotSupportedException
      */
+    @Override
     public Centroid<ObservationVector> factor() throws CloneNotSupportedException {
         return new CentroidObservationVector(this);
     }
@@ -137,6 +138,7 @@ public class ObservationVector extends Observation
         return d;
     }
 
+    @Override
     public String toString(NumberFormat numberFormat) {
         String s = "[";
 
@@ -151,6 +153,7 @@ public class ObservationVector extends Observation
      *
      * @return @throws CloneNotSupportedException
      */
+    @Override
     public ObservationVector clone() throws CloneNotSupportedException {
         return new ObservationVector(value);
     }

@@ -72,6 +72,7 @@ public class OpdfInteger
         return probabilities.length;
     }
 
+    @Override
     public double probability(ObservationInteger o) {
         if (o.value > probabilities.length - 1) {
             throw new IllegalArgumentException("Wrong observation value");
@@ -80,6 +81,7 @@ public class OpdfInteger
         return probabilities[o.value];
     }
 
+    @Override
     public ObservationInteger generate() {
         double rand = Math.random();
 
@@ -92,10 +94,12 @@ public class OpdfInteger
         return new ObservationInteger(probabilities.length - 1);
     }
 
+    @Override
     public void fit(ObservationInteger... oa) {
         fit(Arrays.asList(oa));
     }
 
+    @Override
     public void fit(Collection<? extends ObservationInteger> co) {
         if (co.isEmpty()) {
             throw new IllegalArgumentException("Empty observation set");
@@ -114,10 +118,12 @@ public class OpdfInteger
         }
     }
 
+    @Override
     public void fit(ObservationInteger[] o, double[] weights) {
         fit(Arrays.asList(o), weights);
     }
 
+    @Override
     public void fit(Collection<? extends ObservationInteger> co,
             double[] weights) {
         if (co.isEmpty() || co.size() != weights.length) {
@@ -132,6 +138,7 @@ public class OpdfInteger
         }
     }
 
+    @Override
     public OpdfInteger clone() throws CloneNotSupportedException {
         try {
             OpdfInteger opdf = (OpdfInteger) super.clone();
@@ -146,10 +153,12 @@ public class OpdfInteger
      *
      * @return
      */
+    @Override
     public String toString() {
         return toString(NumberFormat.getInstance());
     }
 
+    @Override
     public String toString(NumberFormat numberFormat) {
         String s = "Integer distribution --- ";
 

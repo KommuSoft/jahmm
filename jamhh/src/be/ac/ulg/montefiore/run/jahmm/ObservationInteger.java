@@ -31,10 +31,12 @@ public class ObservationInteger extends Observation
      *
      * @return The corresponding observation.
      */
+    @Override
     public Centroid<ObservationInteger> factor() {
         return new CentroidObservationInteger(this);
     }
 
+    @Override
     public String toString(NumberFormat numberFormat) {
         return numberFormat.format(value);
     }

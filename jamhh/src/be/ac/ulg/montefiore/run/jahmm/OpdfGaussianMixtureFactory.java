@@ -25,6 +25,7 @@ public class OpdfGaussianMixtureFactory
         this.gaussiansNb = gaussiansNb;
     }
 
+    @Override
     public OpdfGaussianMixture factor() {
         return new OpdfGaussianMixture(gaussiansNb);
     }

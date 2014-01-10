@@ -49,10 +49,12 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
                 proportions);
     }
 
+    @Override
     public double probability(ObservationReal o) {
         return distribution.probability(o.value);
     }
 
+    @Override
     public ObservationReal generate() {
         return new ObservationReal(distribution.generate());
     }
@@ -114,6 +116,7 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
      *
      * @param oa A set of observations compatible with this function.
      */
+    @Override
     public void fit(ObservationReal... oa) {
         fit(Arrays.asList(oa));
     }
@@ -125,6 +128,7 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
      *
      * @param co A set of observations compatible with this function.
      */
+    @Override
     public void fit(Collection<? extends ObservationReal> co) {
         double[] weights = new double[co.size()];
         Arrays.fill(weights, 1. / co.size());
@@ -142,6 +146,7 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
      * @param o A set of observations compatible with this function.
      * @param weights The weights associated to the observations.
      */
+    @Override
     public void fit(ObservationReal[] o, double[] weights) {
         fit(Arrays.asList(o), weights);
     }
@@ -156,6 +161,7 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
      * @param co A set of observations compatible with this function.
      * @param weights The weights associated to the observations.
      */
+    @Override
     public void fit(Collection<? extends ObservationReal> co,
             double[] weights) {
         if (co.isEmpty() || co.size() != weights.length) {
@@ -275,6 +281,7 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
         return newVariances;
     }
 
+    @Override
     public OpdfGaussianMixture clone() throws CloneNotSupportedException {
         try {
             return (OpdfGaussianMixture) super.clone();
@@ -287,10 +294,12 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
      *
      * @return
      */
+    @Override
     public String toString() {
         return toString(NumberFormat.getInstance());
     }
 
+    @Override
     public String toString(NumberFormat numberFormat) {
         String s = "Gaussian mixture distribution --- ";
 

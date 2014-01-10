@@ -28,7 +28,8 @@ public class OpdfDiscreteFactory<E extends Enum<E>>
         this.valuesClass = valuesClass;
     }
 
+    @Override
     public OpdfDiscrete<E> factor() {
-        return new OpdfDiscrete<E>(valuesClass);
+        return new OpdfDiscrete<>(valuesClass);
     }
 }

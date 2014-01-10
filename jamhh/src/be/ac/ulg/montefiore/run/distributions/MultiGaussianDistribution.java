@@ -14,7 +14,7 @@ public class MultiGaussianDistribution
 
     private final static Random randomGenerator = new Random();
 
-    private static final long serialVersionUID = -2438571303843585271L;
+    private static final long serialVersionUID = 2_438_571_303_843_585_271L;
 
     final private int dimension;
     final private double[] mean;
@@ -64,6 +64,7 @@ public class MultiGaussianDistribution
         covariance = SimpleMatrix.matrixIdentity(dimension);
     }
 
+    @Override
     public int dimension() {
         return dimension;
     }
@@ -121,6 +122,7 @@ public class MultiGaussianDistribution
      *
      * @return A pseudo-random vector.
      */
+    @Override
     public double[] generate() {
         double[] d = SimpleMatrix.vector(dimension);
 
@@ -131,6 +133,7 @@ public class MultiGaussianDistribution
         return SimpleMatrix.plus(SimpleMatrix.times(covarianceL(), d), mean);
     }
 
+    @Override
     public double probability(double[] v) {
         if (v.length != dimension) {
             throw new IllegalArgumentException("Argument array size is not "

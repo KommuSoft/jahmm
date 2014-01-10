@@ -16,6 +16,7 @@ import java.io.Writer;
 public class OpdfIntegerWriter
         extends OpdfWriter<OpdfInteger> {
 
+    @Override
     public void write(Writer writer, OpdfInteger opdf)
             throws IOException {
         String s = "IntegerOPDF [";
