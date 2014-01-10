@@ -1,7 +1,6 @@
 JAHMM   -   QUICK START GUIDE
 =============================
 
-
 Jahmm is a Java library implementing the various, well-known algorithms
 related to Hidden Makov Models (HMMs for short).
 
@@ -11,72 +10,42 @@ The source code of the library is available; it is licensed under GPL
 This library is short and simple.  It's been written for clarity.  It
 is particularly well suited for research and academic use.
 
-The website associated to this library is:
-http://jahmm.googlecode.com/
+The website associated to this library is: [http://jahmm.googlecode.com/]
 Most information related to this software can be found there.
 
-
+This repository is a fork of the original jahmm library that can be found here: [http://jahmm.googlecode.com/]
 
 COMPILING
 ---------
 
 To compile the library, you simply need to compile all the files held
-in the src/main/java directory.  Thus, simply calling 'javac' with all the
-.java files held in the 'src' directory as arguments compiles everything.
+in the `jahmm/src` directory.  Thus, simply calling `javac` with all the
+.java files held in the `jahmm/src` directory as arguments compiles everything.
 
-Compiling can be done using the 'maven' build tool (see maven.apache.org) by
-typing 'mvn compile' in the root directory of the distribution (where the
-'pom.xml' file resides).
-
-This can also be done using 'ant' (see http://ant.apache.org/) by
-typing 'ant' in the root directory of the distribution (where the 'build.xml'
-file resides).
-
-Jahmm requires Java 1.5.0.
-
-The generated .class files will be put in the 'target/classes' directory.
-
-
+Jahmm requires `Java 1.5.0`.
 
 RUNNING
 -------
 
-Notice that if you just want to try the library, you don't have to
-compile it.  '.jar' files for each jahmm release are available on the
-website; to use it, simply launch:
+To use it, simply launch:
 ```
 javac -classpath /path/to/jahmm-<version>.jar Myprogram.java
 ```
-...to compile your program, and:
+to compile your program, and:
 ```
 java -cp /path/to/jahmm-<version>.jar myMainClass
 ```
 (e.g. `java -cp /home/smith/java_class/jahmm-0.6.2.jar test/Testing`)
 
 ...to run it.
-You can also put the '.jar' file in your classpath.
+You can also put the `.jar` file in your classpath.
 
 
 
 TESTING
 -------
 
-Once the library has been compiled, you can launch a sample program by typing:
-
-mvn -Psample compile
-(if you use maven)
-
-or
-
-ant sample
-(if you use ant)
-
-...in the distribution root directory.  This launches the 'SimpleExample.java'
-sample program.
-
-Regression (JUnit) tests have also been written ; see build.xml/pom.xml and the 
-src/test/java/be/ac/ulg/montefiore/run/jahmm/test directory.  To launch those tests,
-use 'ant junit' or 'mvn test'.
+Regression (JUnit) tests have also been written ; see the `jahm/test` directory.
 
 
 FILES
@@ -84,24 +53,23 @@ FILES
 
 - pom.xml: the 'maven' project file.
 - build.xml: the 'ant' build file.
-- src/main/java:       all the .java files.
-  src/main/.../distributions: Pseudo random distributions.
-  src/main/.../jahmm: The jahmm library itself.  This directory holds one
+- `src/`:       all the .java files.
+  `src/.../distributions`: Pseudo random distributions.
+  `src/.../jahmm`: The jahmm library itself.  This directory holds one
              directory per java package; see the jahmm website for
              more information about each of them.
-  src/test/: Regression tests.
-  src/main/.../jahmm/apps: Simple applications.
-- examples: various example files
-- README: this file.
-- CHANGES: changelog.
-- LICENSE: license file.
-- THANKS: contributors.
+- `test/`: Regression tests.
+- `examples`: various example files
+- `README.md`: this file.
+- `CHANGES`: changelog.
+- `LICENSE`: license file.
+- `THANKS`: contributors.
 
 
 CONTACT
 -------
 
-Jahmm's author is Jean-Marc Francois.  
+`Jahmm's` original author is Jean-Marc Francois.  
 Feel free to send comments and questions related to this library at:
 - http://code.google.com/p/jahmm/issues/list (if you have an issue with the library)
 - http://groups.google.com/group/jahmm-discuss or jahmm-discuss@googlegroups.com
