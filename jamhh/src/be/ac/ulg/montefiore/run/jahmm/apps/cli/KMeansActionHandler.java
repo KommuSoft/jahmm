@@ -4,14 +4,31 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 
-import java.io.*;
-import java.util.EnumSet;
-import java.util.List;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
+import be.ac.ulg.montefiore.run.jahmm.CentroidFactory;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
+import be.ac.ulg.montefiore.run.jahmm.Opdf;
+import be.ac.ulg.montefiore.run.jahmm.OpdfFactory;
 import be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.Arguments;
-import be.ac.ulg.montefiore.run.jahmm.io.*;
+import static be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.checkArgs;
+import static be.ac.ulg.montefiore.run.jahmm.apps.cli.Types.relatedObjs;
+import be.ac.ulg.montefiore.run.jahmm.io.FileFormatException;
+import be.ac.ulg.montefiore.run.jahmm.io.HmmWriter;
+import static be.ac.ulg.montefiore.run.jahmm.io.HmmWriter.write;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfWriter;
 import be.ac.ulg.montefiore.run.jahmm.learn.KMeansLearner;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.util.EnumSet;
+import static java.util.EnumSet.of;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Applies the k-means learning algorithm.
@@ -19,15 +36,16 @@ import be.ac.ulg.montefiore.run.jahmm.learn.KMeansLearner;
 class KMeansActionHandler
         extends ActionHandler {
 
+    @Override
     public void act()
             throws FileNotFoundException, IOException, FileFormatException,
             AbnormalTerminationException {
-        EnumSet<Arguments> args = EnumSet.of(
+        EnumSet<Arguments> args = of(
                 Arguments.OPDF,
                 Arguments.NB_STATES,
                 Arguments.OUT_HMM,
                 Arguments.IN_SEQ);
-        CommandLineArguments.checkArgs(args);
+        checkArgs(args);
 
         int nbStates = Arguments.NB_STATES.getAsInt();
         OutputStream outStream = Arguments.OUT_HMM.getAsOutputStream();
@@ -35,7 +53,7 @@ class KMeansActionHandler
         InputStream st = Arguments.IN_SEQ.getAsInputStream();
         Reader reader = new InputStreamReader(st);
 
-        learn(nbStates, Types.relatedObjs(), reader, writer);
+        learn(nbStates, relatedObjs(), reader, writer);
 
         writer.flush();
     }
@@ -48,10 +66,11 @@ class KMeansActionHandler
         List<List<O>> seqs = relatedObjs.readSequences(reader);
         OpdfWriter<? extends Opdf<O>> opdfWriter = relatedObjs.opdfWriter();
 
-        KMeansLearner<O> kl = new KMeansLearner<O>(nbStates, opdfFactory,
+        KMeansLearner<O> kl = new KMeansLearner<>(nbStates, opdfFactory,
                 seqs);
         Hmm<O> hmm = kl.learn();
 
-        HmmWriter.write(writer, opdfWriter, hmm);
+        write(writer, opdfWriter, hmm);
     }
+    private static final Logger LOG = Logger.getLogger(KMeansActionHandler.class.getName());
 }

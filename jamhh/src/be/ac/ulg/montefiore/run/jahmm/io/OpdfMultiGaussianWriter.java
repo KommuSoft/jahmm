@@ -4,10 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
+import be.ac.ulg.montefiore.run.jahmm.OpdfMultiGaussian;
 import java.io.IOException;
 import java.io.Writer;
-
-import be.ac.ulg.montefiore.run.jahmm.OpdfMultiGaussian;
+import java.util.logging.Logger;
 
 /**
  * This class implements a {@link OpdfMultiGaussian} writer. It is compatible
@@ -16,6 +16,7 @@ import be.ac.ulg.montefiore.run.jahmm.OpdfMultiGaussian;
 public class OpdfMultiGaussianWriter
         extends OpdfWriter<OpdfMultiGaussian> {
 
+    @Override
     public void write(Writer writer, OpdfMultiGaussian opdf)
             throws IOException {
         writer.write("MultiGaussianOPDF [ ");
@@ -27,4 +28,5 @@ public class OpdfMultiGaussianWriter
         }
         writer.write(" ] ]");
     }
+    private static final Logger LOG = Logger.getLogger(OpdfMultiGaussianWriter.class.getName());
 }

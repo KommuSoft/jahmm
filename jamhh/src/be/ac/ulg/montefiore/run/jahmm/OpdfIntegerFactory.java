@@ -4,6 +4,8 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
+import java.util.logging.Logger;
+
 /**
  * This class can build <code>OpdfInteger</code> observation probability
  * functions.
@@ -11,7 +13,7 @@ package be.ac.ulg.montefiore.run.jahmm;
 public class OpdfIntegerFactory
         implements OpdfFactory<OpdfInteger> {
 
-    private int nbEntries;
+    private final int nbEntries;
 
     /**
      * Creates a factory for {@link OpdfInteger OpdfInteger} objects.
@@ -22,7 +24,9 @@ public class OpdfIntegerFactory
         this.nbEntries = nbEntries;
     }
 
+    @Override
     public OpdfInteger factor() {
         return new OpdfInteger(nbEntries);
     }
+    private static final Logger LOG = Logger.getLogger(OpdfIntegerFactory.class.getName());
 }

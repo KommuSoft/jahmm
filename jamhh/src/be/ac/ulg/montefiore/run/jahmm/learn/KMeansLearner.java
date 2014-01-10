@@ -4,19 +4,26 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.learn;
 
-import java.util.*;
+import be.ac.ulg.montefiore.run.jahmm.CentroidFactory;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.KMeansCalculator;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
+import be.ac.ulg.montefiore.run.jahmm.Opdf;
+import be.ac.ulg.montefiore.run.jahmm.OpdfFactory;
+import be.ac.ulg.montefiore.run.jahmm.ViterbiCalculator;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.logging.Logger;
 
-import be.ac.ulg.montefiore.run.jahmm.*;
 
-/**
- * An implementation of the K-Means learning algorithm.
- */
 public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
 
-    private Clusters<O> clusters;
-    private int nbStates;
-    private List<? extends List<? extends O>> obsSeqs;
-    private OpdfFactory<? extends Opdf<O>> opdfFactory;
+    private final Clusters<O> clusters;
+    private final int nbStates;
+    private final List<? extends List<? extends O>> obsSeqs;
+    private final OpdfFactory<? extends Opdf<O>> opdfFactory;
     private boolean terminated;
 
     /**
@@ -39,7 +46,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
         this.nbStates = nbStates;
 
         List<? extends O> observations = flat(sequences);
-        clusters = new Clusters<O>(nbStates, observations);
+        clusters = new Clusters<>(nbStates, observations);
         terminated = false;
     }
 
@@ -51,7 +58,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
      * @return A new, updated HMM.
      */
     public Hmm<O> iterate() {
-        Hmm<O> hmm = new Hmm<O>(nbStates, opdfFactory);
+        Hmm<O> hmm = new Hmm<>(nbStates, opdfFactory);
 
         learnPi(hmm);
         learnAij(hmm);
@@ -65,6 +72,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
     /**
      * Returns <code>true</code> if the algorithm has reached a fix point, else
      * returns <code>false</code>.
+     * @return 
      */
     public boolean isTerminated() {
         return terminated;
@@ -181,7 +189,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
     }
 
     static <T> List<T> flat(List<? extends List<? extends T>> lists) {
-        List<T> v = new ArrayList<T>();
+        List<T> v = new ArrayList<>();
 
         for (List<? extends T> list : lists) {
             v.addAll(list);
@@ -189,6 +197,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
 
         return v;
     }
+    private static final Logger LOG = Logger.getLogger(KMeansLearner.class.getName());
 }
 
 
@@ -214,15 +223,15 @@ class Clusters<O extends CentroidFactory<? super O>> {
         }
     }
 
-    private Hashtable<O, Value> clustersHash;
-    private ArrayList<Collection<O>> clusters;
+    private final Hashtable<O, Value> clustersHash;
+    private final ArrayList<Collection<O>> clusters;
 
     public Clusters(int k, List<? extends O> observations) {
 
-        clustersHash = new Hashtable<O, Value>();
-        clusters = new ArrayList<Collection<O>>();
+        clustersHash = new Hashtable<>();
+        clusters = new ArrayList<>();
 
-        KMeansCalculator<O> kmc = new KMeansCalculator<O>(k, observations);
+        KMeansCalculator<O> kmc = new KMeansCalculator<>(k, observations);
 
         for (int i = 0; i < k; i++) {
             Collection<O> cluster = kmc.cluster(i);
@@ -255,4 +264,5 @@ class Clusters<O extends CentroidFactory<? super O>> {
         clustersHash.get(o).setClusterNb(clusterNb);
         clusters.get(clusterNb).add(o);
     }
+    private static final Logger LOG = Logger.getLogger(Clusters.class.getName());
 }

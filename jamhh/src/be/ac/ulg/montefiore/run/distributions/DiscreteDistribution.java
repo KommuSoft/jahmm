@@ -4,7 +4,7 @@
  */
 package be.ac.ulg.montefiore.run.distributions;
 
-import java.io.*;
+import java.io.Serializable;
 
 /**
  * This interface must be implemented by all the package's classes implementing

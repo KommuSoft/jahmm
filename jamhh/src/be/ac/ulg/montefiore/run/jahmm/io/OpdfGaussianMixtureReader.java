@@ -4,11 +4,12 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import java.io.IOException;
-import java.io.StreamTokenizer;
-
 import be.ac.ulg.montefiore.run.jahmm.OpdfGaussian;
 import be.ac.ulg.montefiore.run.jahmm.OpdfGaussianMixture;
+import static be.ac.ulg.montefiore.run.jahmm.io.HmmReader.readWords;
+import java.io.IOException;
+import java.io.StreamTokenizer;
+import java.util.logging.Logger;
 
 /**
  * This class implements a {@link OpdfGaussian} reader. The syntax of the
@@ -29,21 +30,24 @@ import be.ac.ulg.montefiore.run.jahmm.OpdfGaussianMixture;
 public class OpdfGaussianMixtureReader
         extends OpdfReader<OpdfGaussianMixture> {
 
+    @Override
     String keyword() {
         return "GaussianMixtureOPDF";
     }
 
+    @Override
     public OpdfGaussianMixture read(StreamTokenizer st)
             throws IOException, FileFormatException {
-        HmmReader.readWords(st, keyword(), "[");
+        readWords(st, keyword(), "[");
 
         double[] means = OpdfReader.read(st, -1);
         double[] variances = OpdfReader.read(st, means.length);
         double[] proportions = OpdfReader.read(st, means.length);
 
-        HmmReader.readWords(st, "]");
+        readWords(st, "]");
 
         return new OpdfGaussianMixture(means, variances,
                 proportions);
     }
+    private static final Logger LOG = Logger.getLogger(OpdfGaussianMixtureReader.class.getName());
 }

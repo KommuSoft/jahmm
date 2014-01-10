@@ -4,10 +4,11 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
+import be.ac.ulg.montefiore.run.jahmm.ObservationReal;
+import be.ac.ulg.montefiore.run.jahmm.ObservationVector;
 import java.io.IOException;
 import java.io.Writer;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
+import java.util.logging.Logger;
 
 /**
  * Writes an {@link ObservationReal ObservationReal} up to (and including) the
@@ -16,6 +17,7 @@ import be.ac.ulg.montefiore.run.jahmm.*;
 public class ObservationVectorWriter
         extends ObservationWriter<ObservationVector> {
 
+    @Override
     public void write(ObservationVector observation, Writer writer)
             throws IOException {
         String s = "[ ";
@@ -26,4 +28,5 @@ public class ObservationVectorWriter
 
         writer.write(s + "]; ");
     }
+    private static final Logger LOG = Logger.getLogger(ObservationVectorWriter.class.getName());
 }

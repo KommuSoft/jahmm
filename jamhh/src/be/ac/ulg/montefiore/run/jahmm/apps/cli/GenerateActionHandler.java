@@ -4,13 +4,33 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 
-import java.io.*;
-import java.util.*;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
+import be.ac.ulg.montefiore.run.jahmm.CentroidFactory;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
+import be.ac.ulg.montefiore.run.jahmm.Opdf;
 import be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.Arguments;
-import be.ac.ulg.montefiore.run.jahmm.io.*;
+import static be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.checkArgs;
+import static be.ac.ulg.montefiore.run.jahmm.apps.cli.Types.relatedObjs;
+import be.ac.ulg.montefiore.run.jahmm.io.FileFormatException;
+import be.ac.ulg.montefiore.run.jahmm.io.HmmReader;
+import static be.ac.ulg.montefiore.run.jahmm.io.HmmReader.read;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationSequencesWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfReader;
 import be.ac.ulg.montefiore.run.jahmm.toolbox.MarkovGenerator;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import static java.util.EnumSet.of;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Generates observation sequences from a HMM and write it to file.
@@ -18,21 +38,22 @@ import be.ac.ulg.montefiore.run.jahmm.toolbox.MarkovGenerator;
 class GenerateActionHandler
         extends ActionHandler {
 
+    @Override
     public void act()
             throws FileNotFoundException, IOException, FileFormatException,
             AbnormalTerminationException {
-        EnumSet<Arguments> args = EnumSet.of(
+        EnumSet<Arguments> args = of(
                 Arguments.OPDF,
                 Arguments.OUT_SEQS,
                 Arguments.IN_HMM);
-        CommandLineArguments.checkArgs(args);
+        checkArgs(args);
 
         InputStream hmmStream = Arguments.IN_HMM.getAsInputStream();
         Reader hmmFileReader = new InputStreamReader(hmmStream);
         OutputStream seqsStream = Arguments.OUT_SEQS.getAsOutputStream();
         Writer seqsFileWriter = new OutputStreamWriter(seqsStream);
 
-        write(hmmFileReader, seqsFileWriter, Types.relatedObjs());
+        write(hmmFileReader, seqsFileWriter, relatedObjs());
 
         seqsFileWriter.flush();
     }
@@ -43,15 +64,16 @@ class GenerateActionHandler
             throws IOException, FileFormatException {
         ObservationWriter<O> obsWriter = relatedObjs.observationWriter();
         OpdfReader<? extends Opdf<O>> opdfReader = relatedObjs.opdfReader();
-        Hmm<O> hmm = HmmReader.read(hmmFileReader, opdfReader);
+        Hmm<O> hmm = read(hmmFileReader, opdfReader);
 
         MarkovGenerator<O> generator = relatedObjs.generator(hmm);
 
-        List<List<O>> seqs = new ArrayList<List<O>>();
+        List<List<O>> seqs = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
-            seqs.add(generator.observationSequence(1000));
+            seqs.add(generator.observationSequence(1_000));
         }
 
         ObservationSequencesWriter.write(seqsFileWriter, obsWriter, seqs);
     }
+    private static final Logger LOG = Logger.getLogger(GenerateActionHandler.class.getName());
 }

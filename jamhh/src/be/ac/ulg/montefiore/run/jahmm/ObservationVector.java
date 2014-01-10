@@ -5,6 +5,7 @@
 package be.ac.ulg.montefiore.run.jahmm;
 
 import java.text.NumberFormat;
+import java.util.logging.Logger;
 
 /**
  * This class holds an Observation described by a vector of reals.
@@ -35,14 +36,12 @@ public class ObservationVector extends Observation
      */
     public ObservationVector(double[] value) {
         this(value.length);
-
-        for (int i = 0; i < value.length; i++) {
-            this.value[i] = value[i];
-        }
+        System.arraycopy(value, 0, this.value, 0, value.length);
     }
 
     /**
      * Returns the dimension of this vector.
+     * @return 
      */
     public int dimension() {
         return value.length;
@@ -72,6 +71,7 @@ public class ObservationVector extends Observation
      *
      * @return The corresponding observation.
      */
+    @Override
     public Centroid<ObservationVector> factor() {
         return new CentroidObservationVector(this);
     }
@@ -136,6 +136,7 @@ public class ObservationVector extends Observation
         return d;
     }
 
+    @Override
     public String toString(NumberFormat numberFormat) {
         String s = "[";
 
@@ -146,7 +147,13 @@ public class ObservationVector extends Observation
         return s + " ]";
     }
 
+    /**
+     *
+     * @return
+     */
+    @Override
     public ObservationVector clone() {
         return new ObservationVector(value);
     }
+    private static final Logger LOG = Logger.getLogger(ObservationVector.class.getName());
 }

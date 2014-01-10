@@ -9,6 +9,7 @@ package be.ac.ulg.montefiore.run.jahmm;
  * probability distribution functions. The classes implementing
  * <code>OpdfFactory</code> are supposed to generate only a certain kind of
  * distribution (e.g. Gaussian).
+ * @param <D>
  */
 public interface OpdfFactory<D extends Opdf<?>> {
 

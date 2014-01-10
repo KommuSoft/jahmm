@@ -4,12 +4,12 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
+import be.ac.ulg.montefiore.run.jahmm.ObservationVector;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.util.ArrayList;
 import java.util.List;
-
-import be.ac.ulg.montefiore.run.jahmm.ObservationVector;
+import java.util.logging.Logger;
 
 /**
  * Reads an {@link be.ac.ulg.montefiore.run.jahmm.ObservationVector
@@ -58,14 +58,16 @@ public class ObservationVectorReader
      * @param st A stream tokenizer.
      * @return An {@link be.ac.ulg.montefiore.run.jahmm.ObservationInteger
      *         ObservationInteger}.
+     * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
+    @Override
     public ObservationVector read(StreamTokenizer st)
             throws IOException, FileFormatException {
         if (st.nextToken() != '[') {
             throw new FileFormatException(st.lineno(), "'[' expected");
         }
 
-        List<Double> values = new ArrayList<Double>();
+        List<Double> values = new ArrayList<>();
 
         loop:
         while (true) {
@@ -75,7 +77,7 @@ public class ObservationVectorReader
                     break;
 
                 case ']':
-                    if (values.size() == 0) {
+                    if (values.isEmpty()) {
                         throw new FileFormatException(st.lineno(),
                                 "Empty vector found");
                     }
@@ -104,4 +106,5 @@ public class ObservationVectorReader
 
         return new ObservationVector(valuesArray);
     }
+    private static final Logger LOG = Logger.getLogger(ObservationVectorReader.class.getName());
 }

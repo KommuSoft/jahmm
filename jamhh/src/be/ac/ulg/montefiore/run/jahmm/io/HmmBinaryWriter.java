@@ -4,9 +4,11 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import java.io.*;
-
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.util.logging.Logger;
 
 /**
  * This class can write a Hidden Markov Models to a byte stream.
@@ -20,6 +22,7 @@ public class HmmBinaryWriter {
      * Writes a HMM to byte stream.
      *
      * @param stream Holds the byte stream the HMM is written to.
+     * @throws java.io.IOException
      */
     static public void write(OutputStream stream, Hmm<?> hmm)
             throws IOException {
@@ -29,4 +32,5 @@ public class HmmBinaryWriter {
 
     private HmmBinaryWriter() {
     }
+    private static final Logger LOG = Logger.getLogger(HmmBinaryWriter.class.getName());
 }

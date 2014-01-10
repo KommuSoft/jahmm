@@ -4,7 +4,11 @@
  */
 package be.ac.ulg.montefiore.run.distributions;
 
-import java.util.*;
+import java.util.Arrays;
+import static java.util.Arrays.fill;
+import static java.util.Arrays.fill;
+import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  * This class implements a Gaussian mixture distribution.
@@ -41,8 +45,8 @@ public class GaussianMixtureDistribution
             means[i] = (1. + 2. * i) / (2. * nbGaussians);
         }
 
-        Arrays.fill(variances, 1.);
-        Arrays.fill(proportions, 1. / nbGaussians);
+        fill(variances, 1.);
+        fill(proportions, 1. / nbGaussians);
 
         for (int i = 0; i < distributions.length; i++) {
             distributions[i] = new GaussianDistribution(means[i], variances[i]);
@@ -112,6 +116,7 @@ public class GaussianMixtureDistribution
         return proportions.clone();
     }
 
+    @Override
     public double generate() {
         double r = random.nextDouble();
         double sum = 0.;
@@ -127,6 +132,7 @@ public class GaussianMixtureDistribution
         throw new RuntimeException("Internal error");
     }
 
+    @Override
     public double probability(double n) {
         double sum = 0.;
 
@@ -137,5 +143,6 @@ public class GaussianMixtureDistribution
         return sum;
     }
 
-    private static final long serialVersionUID = 2634624658500627331L;
+    private static final long serialVersionUID = 2_634_624_658_500_627_331L;
+    private static final Logger LOG = Logger.getLogger(GaussianMixtureDistribution.class.getName());
 }

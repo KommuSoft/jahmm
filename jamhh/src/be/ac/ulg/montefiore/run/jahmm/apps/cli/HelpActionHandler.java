@@ -5,12 +5,17 @@
 package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 
 import be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.Arguments;
+import java.util.logging.Logger;
 
 /**
  * This class implements an action that prints a usage message.
  */
 public class HelpActionHandler extends ActionHandler {
 
+    /**
+     *
+     */
+    @Override
     public void act() {
         String s = "Usage:\tCli (create|print|learn-kmeans|"
                 + "learn-bw|generate|distance-kl) <arguments>\n"
@@ -68,4 +73,5 @@ public class HelpActionHandler extends ActionHandler {
 
         System.out.println(s);
     }
+    private static final Logger LOG = Logger.getLogger(HelpActionHandler.class.getName());
 }

@@ -4,7 +4,15 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.util.*;
+import static java.lang.Math.exp;
+import static java.lang.Math.log;
+import java.util.Arrays;
+import static java.util.Arrays.fill;
+import java.util.EnumSet;
+import static java.util.EnumSet.of;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * This class can be used to compute the probability of a given observations
@@ -36,6 +44,7 @@ public class ForwardBackwardScaledCalculator
      * Hidden Markov Model. The algorithms implemented use scaling to avoid
      * underflows.
      *
+     * @param <O>
      * @param hmm A Hidden Markov Model;
      * @param oseq An observations sequence.
      * @param flags How the computation should be done. See the
@@ -50,7 +59,7 @@ public class ForwardBackwardScaledCalculator
         }
 
         ctFactors = new double[oseq.size()];
-        Arrays.fill(ctFactors, 0.);
+        fill(ctFactors, 0.);
 
         computeAlpha(hmm, oseq);
 
@@ -66,14 +75,24 @@ public class ForwardBackwardScaledCalculator
      * Hidden Markov Model. This computation computes the scaled
      * <code>alpha</code> array as a side effect.
      *
+     * @param hmm
      * @see #ForwardBackwardScaledCalculator(List, Hmm, EnumSet)
      */
     public <O extends Observation>
             ForwardBackwardScaledCalculator(List<? extends O> oseq, Hmm<O> hmm) {
-        this(oseq, hmm, EnumSet.of(Computation.ALPHA));
+        this(oseq, hmm, of(Computation.ALPHA));
     }
 
     /* Computes the content of the scaled alpha array */
+
+    /**
+     *
+     * @param <O>
+     * @param hmm
+     * @param oseq
+     */
+    
+    @Override
     protected <O extends Observation> void
             computeAlpha(Hmm<? super O> hmm, List<O> oseq) {
         alpha = new double[oseq.size()][hmm.nbStates()];
@@ -100,6 +119,15 @@ public class ForwardBackwardScaledCalculator
 
     /* Computes the content of the scaled beta array.  The scaling factors are
      those computed for alpha. */
+
+    /**
+     *
+     * @param <O>
+     * @param hmm
+     * @param oseq
+     */
+    
+    @Override
     protected <O extends Observation> void
             computeBeta(Hmm<? super O> hmm, List<O> oseq) {
         beta = new double[oseq.size()][hmm.nbStates()];
@@ -137,10 +165,10 @@ public class ForwardBackwardScaledCalculator
         lnProbability = 0.;
 
         for (int t = 0; t < oseq.size(); t++) {
-            lnProbability += Math.log(ctFactors[t]);
+            lnProbability += log(ctFactors[t]);
         }
 
-        probability = Math.exp(lnProbability);
+        probability = exp(lnProbability);
     }
 
     /**
@@ -152,4 +180,5 @@ public class ForwardBackwardScaledCalculator
     public double lnProbability() {
         return lnProbability;
     }
+    private static final Logger LOG = Logger.getLogger(ForwardBackwardScaledCalculator.class.getName());
 }

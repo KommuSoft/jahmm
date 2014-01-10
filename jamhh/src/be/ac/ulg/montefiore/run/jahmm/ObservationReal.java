@@ -4,7 +4,8 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.text.*;
+import java.text.NumberFormat;
+import java.util.logging.Logger;
 
 /**
  * This class implements observations made of a real value.
@@ -31,11 +32,14 @@ public class ObservationReal extends Observation
      *
      * @return The corresponding observation.
      */
+    @Override
     public Centroid<ObservationReal> factor() {
         return new CentroidObservationReal(this);
     }
 
+    @Override
     public String toString(NumberFormat numberFormat) {
         return numberFormat.format(value);
     }
+    private static final Logger LOG = Logger.getLogger(ObservationReal.class.getName());
 }

@@ -4,9 +4,20 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.learn;
 
-import java.util.*;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
+import be.ac.ulg.montefiore.run.jahmm.ForwardBackwardCalculator;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
+import be.ac.ulg.montefiore.run.jahmm.Opdf;
+import static be.ac.ulg.montefiore.run.jahmm.learn.KMeansLearner.flat;
+import java.util.Arrays;
+import static java.util.Arrays.fill;
+import static java.util.Arrays.fill;
+import static java.util.Arrays.fill;
+import java.util.EnumSet;
+import static java.util.EnumSet.allOf;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * An implementation of the Baum-Welch learning algorithm. This algorithm finds
@@ -29,6 +40,7 @@ public class BaumWelchLearner {
      * Performs one iteration of the Baum-Welch algorithm. In one iteration, a
      * new HMM is computed using a previously estimated HMM.
      *
+     * @param <O>
      * @param hmm A previously estimated HMM.
      * @param sequences The observation sequences on which the learning is
      * based. Each sequence must have a length higher or equal to 2.
@@ -54,9 +66,9 @@ public class BaumWelchLearner {
         double aijNum[][] = new double[hmm.nbStates()][hmm.nbStates()];
         double aijDen[] = new double[hmm.nbStates()];
 
-        Arrays.fill(aijDen, 0.);
+        fill(aijDen, 0.);
         for (int i = 0; i < hmm.nbStates(); i++) {
-            Arrays.fill(aijNum[i], 0.);
+            fill(aijNum[i], 0.);
         }
 
         int g = 0;
@@ -105,7 +117,7 @@ public class BaumWelchLearner {
 
         /* pdfs computation */
         for (int i = 0; i < hmm.nbStates(); i++) {
-            List<O> observations = KMeansLearner.flat(sequences);
+            List<O> observations = flat(sequences);
             double[] weights = new double[observations.size()];
             double sum = 0.;
             int j = 0;
@@ -129,16 +141,24 @@ public class BaumWelchLearner {
         return nhmm;
     }
 
+    /**
+     *
+     * @param <O>
+     * @param sequence
+     * @param hmm
+     * @return
+     */
     protected <O extends Observation> ForwardBackwardCalculator
             generateForwardBackwardCalculator(List<? extends O> sequence, Hmm<O> hmm) {
         return new ForwardBackwardCalculator(sequence, hmm,
-                EnumSet.allOf(ForwardBackwardCalculator.Computation.class));
+                allOf(ForwardBackwardCalculator.Computation.class));
     }
 
     /**
      * Does a fixed number of iterations (see {@link #getNbIterations}) of the
      * Baum-Welch algorithm.
      *
+     * @param <O>
      * @param initialHmm An initial estimation of the expected HMM. This
      * estimate is critical as the Baum-Welch algorithm only find local minima
      * of its likelihood function.
@@ -158,6 +178,14 @@ public class BaumWelchLearner {
         return hmm;
     }
 
+    /**
+     *
+     * @param <O>
+     * @param sequence
+     * @param fbc
+     * @param hmm
+     * @return
+     */
     protected <O extends Observation> double[][][]
             estimateXi(List<? extends O> sequence, ForwardBackwardCalculator fbc,
                     Hmm<O> hmm) {
@@ -194,12 +222,20 @@ public class BaumWelchLearner {
      * change if the xi array has been scaled (and should be changed with
      * the scaled alpha and beta arrays).
      */
+
+    /**
+     *
+     * @param xi
+     * @param fbc
+     * @return
+     */
+    
     protected double[][]
             estimateGamma(double[][][] xi, ForwardBackwardCalculator fbc) {
         double[][] gamma = new double[xi.length + 1][xi[0].length];
 
         for (int t = 0; t < xi.length + 1; t++) {
-            Arrays.fill(gamma[t], 0.);
+            fill(gamma[t], 0.);
         }
 
         for (int t = 0; t < xi.length; t++) {
@@ -240,4 +276,5 @@ public class BaumWelchLearner {
 
         nbIterations = nb;
     }
+    private static final Logger LOG = Logger.getLogger(BaumWelchLearner.class.getName());
 }

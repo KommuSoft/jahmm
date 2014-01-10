@@ -4,8 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
+import static java.lang.Math.log;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * This class can be used to compute the most probable state sequence matching a
@@ -26,6 +28,7 @@ public class ViterbiCalculator {
      * Computes the most likely state sequence matching an observation sequence
      * given an HMM.
      *
+     * @param <O>
      * @param hmm A Hidden Markov Model;
      * @param oseq An observations sequence.
      */
@@ -40,8 +43,8 @@ public class ViterbiCalculator {
         stateSequence = new int[oseq.size()];
 
         for (int i = 0; i < hmm.nbStates(); i++) {
-            delta[0][i] = -Math.log(hmm.getPi(i))
-                    - Math.log(hmm.getOpdf(i).probability(oseq.get(0)));
+            delta[0][i] = -log(hmm.getPi(i))
+                    - log(hmm.getOpdf(i).probability(oseq.get(0)));
             psy[0][i] = 0;
         }
 
@@ -86,7 +89,7 @@ public class ViterbiCalculator {
         int min_psy = 0;
 
         for (int i = 0; i < hmm.nbStates(); i++) {
-            double thisDelta = delta[t - 1][i] - Math.log(hmm.getAij(i, j));
+            double thisDelta = delta[t - 1][i] - log(hmm.getAij(i, j));
 
             if (minDelta > thisDelta) {
                 minDelta = thisDelta;
@@ -94,7 +97,7 @@ public class ViterbiCalculator {
             }
         }
 
-        delta[t][j] = minDelta - Math.log(hmm.getOpdf(j).probability(o));
+        delta[t][j] = minDelta - log(hmm.getOpdf(j).probability(o));
         psy[t][j] = min_psy;
     }
 
@@ -120,4 +123,5 @@ public class ViterbiCalculator {
     public int[] stateSequence() {
         return stateSequence.clone();
     }
+    private static final Logger LOG = Logger.getLogger(ViterbiCalculator.class.getName());
 }

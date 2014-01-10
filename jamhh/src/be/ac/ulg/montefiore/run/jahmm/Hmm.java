@@ -6,27 +6,13 @@ package be.ac.ulg.montefiore.run.jahmm;
 
 import java.io.Serializable;
 import java.text.NumberFormat;
-import java.util.*;
+import static java.text.NumberFormat.getInstance;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Logger;
 
-/**
- * Main Hmm class; it implements an Hidden Markov Model. An HMM is composed of:
- * <ul>
- * <li><i>states</i>: each state has a given probability of being initial
- * (<i>pi</i>) and an associated observation probability function (<i>opdf</i>).
- * Each state is associated to an index; the first state is numbered 0, the last
- * n-1 (where n is the number of states in the HMM); this number is given as an
- * argument to the various functions to refer to the matching state. </li>
- * <li><i>transition probabilities</i>: that is, the probability of going from
- * state <i>i</i> to state <i>j</i> (<i>a<sub>i,j</sub></i>).</li>
- * </ul>
- * <p>
- * Important objects extensively used with HMMs are {@link Observation
- * Observation}s, observation sequences and set of observation sequences. An
- * observation sequence is simply a {@link List List} of
- * {@link Observation Observation}s (in the right order, the i-th element of the
- * vector being the i-th element of the sequence). A set of observation
- * sequences is a {@link java.util.List List} of such sequences.
- */
+
 public class Hmm<O extends Observation>
         implements Serializable, Cloneable {
 
@@ -50,7 +36,7 @@ public class Hmm<O extends Observation>
 
         pi = new double[nbStates];
         a = new double[nbStates][nbStates];
-        opdfs = new ArrayList<Opdf<O>>(nbStates);
+        opdfs = new ArrayList<>(nbStates);
 
         for (int i = 0; i < nbStates; i++) {
             pi[i] = 1. / nbStates;
@@ -91,7 +77,7 @@ public class Hmm<O extends Observation>
             this.a[i] = a[i].clone();
         }
 
-        this.opdfs = new ArrayList<Opdf<O>>(opdfs);
+        this.opdfs = new ArrayList<>(opdfs);
     }
 
     /**
@@ -109,7 +95,7 @@ public class Hmm<O extends Observation>
 
         pi = new double[nbStates];
         a = new double[nbStates][nbStates];
-        opdfs = new ArrayList<Opdf<O>>(nbStates);
+        opdfs = new ArrayList<>(nbStates);
 
         for (int i = 0; i < nbStates; i++) {
             opdfs.add(null);
@@ -295,13 +281,20 @@ public class Hmm<O extends Observation>
      *
      * @return A textual description of this HMM.
      */
+    @Override
     public String toString() {
-        return toString(NumberFormat.getInstance());
+        return toString(getInstance());
     }
 
+    /**
+     *
+     * @return
+     * @throws CloneNotSupportedException
+     */
+    @Override
     public Hmm<O> clone()
             throws CloneNotSupportedException {
-        Hmm<O> hmm = new Hmm<O>(nbStates());
+        Hmm<O> hmm = new Hmm<>(nbStates());
 
         hmm.pi = pi.clone();
         hmm.a = a.clone();
@@ -318,4 +311,5 @@ public class Hmm<O extends Observation>
     }
 
     private static final long serialVersionUID = 2L;
+    private static final Logger LOG = Logger.getLogger(Hmm.class.getName());
 }

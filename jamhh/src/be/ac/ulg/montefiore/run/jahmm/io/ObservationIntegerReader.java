@@ -4,10 +4,11 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
+import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
+import static be.ac.ulg.montefiore.run.jahmm.io.ObservationSequencesReader.initSyntaxTable;
 import java.io.IOException;
 import java.io.StreamTokenizer;
-
-import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
+import java.util.logging.Logger;
 
 /**
  * Reads an {@link be.ac.ulg.montefiore.run.jahmm.ObservationInteger
@@ -56,7 +57,9 @@ public class ObservationIntegerReader
      * @param st A stream tokenizer.
      * @return The {@link be.ac.ulg.montefiore.run.jahmm.ObservationInteger
      *         ObservationInteger} read.
+     * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
+    @Override
     public ObservationInteger read(StreamTokenizer st)
             throws IOException, FileFormatException {
         ObservationInteger oi;
@@ -77,8 +80,9 @@ public class ObservationIntegerReader
             throw new FileFormatException(st.lineno(), "';' expected");
         }
 
-        ObservationSequencesReader.initSyntaxTable(st);
+        initSyntaxTable(st);
 
         return oi;
     }
+    private static final Logger LOG = Logger.getLogger(ObservationIntegerReader.class.getName());
 }

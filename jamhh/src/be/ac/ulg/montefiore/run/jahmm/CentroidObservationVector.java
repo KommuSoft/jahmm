@@ -4,7 +4,9 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.util.*;
+import static java.lang.Math.sqrt;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * This class represents the centroid of a set of {@link ObservationVector
@@ -13,7 +15,7 @@ import java.util.*;
 public class CentroidObservationVector
         implements Centroid<ObservationVector> {
 
-    private ObservationVector value;
+    private final ObservationVector value;
 
     /**
      * Creates a new centroid that represents the mean value of a set of
@@ -25,6 +27,7 @@ public class CentroidObservationVector
         this.value = o.clone();
     }
 
+    @Override
     public void reevaluateAdd(ObservationVector e,
             List<? extends ObservationVector> v) {
         double[] evalues = e.value;
@@ -35,6 +38,7 @@ public class CentroidObservationVector
         }
     }
 
+    @Override
     public void reevaluateRemove(ObservationVector e,
             List<? extends ObservationVector> v) {
         double[] evalues = e.value;
@@ -53,6 +57,7 @@ public class CentroidObservationVector
      *          ObservationVector} with a dimension compatible with this centroid.
      * @return The distance between <code>element</code> and this centroid.
      */
+    @Override
     public double distance(ObservationVector e) {
         ObservationVector diff = value.minus(e);
         double sum = 0.;
@@ -61,6 +66,7 @@ public class CentroidObservationVector
             sum += diff.value[i] * diff.value[i];
         }
 
-        return Math.sqrt(sum);
+        return sqrt(sum);
     }
+    private static final Logger LOG = Logger.getLogger(CentroidObservationVector.class.getName());
 }

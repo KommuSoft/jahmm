@@ -4,6 +4,8 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 
+import java.util.logging.Logger;
+
 /**
  * Implements an exception thrown when the CLI terminates abruptly.
  */
@@ -26,4 +28,5 @@ public class AbnormalTerminationException
     }
 
     private static final long serialVersionUID = 1;
+    private static final Logger LOG = Logger.getLogger(AbnormalTerminationException.class.getName());
 }

@@ -4,10 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 
+import static be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.parse;
+import be.ac.ulg.montefiore.run.jahmm.io.FileFormatException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import be.ac.ulg.montefiore.run.jahmm.io.FileFormatException;
 
 abstract class ActionHandler {
 
@@ -21,14 +21,15 @@ abstract class ActionHandler {
         GENERATE("generate", GenerateActionHandler.class),
         KL("distance-kl", KLActionHandler.class);
 
-        private String argument;
-        private Class<? extends ActionHandler> handler;
+        private final String argument;
+        private final Class<? extends ActionHandler> handler;
 
         Actions(String argument, Class<? extends ActionHandler> handler) {
             this.argument = argument;
             this.handler = handler;
         }
 
+        @Override
         public String toString() {
             return argument;
         }
@@ -40,7 +41,7 @@ abstract class ActionHandler {
 
     public void parseArguments(String args[])
             throws WrongArgumentsException {
-        CommandLineArguments.parse(args);
+        parse(args);
     }
 
     abstract public void act()

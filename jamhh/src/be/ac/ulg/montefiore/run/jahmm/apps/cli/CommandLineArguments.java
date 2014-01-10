@@ -4,9 +4,18 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 
-import java.io.*;
+import static be.ac.ulg.montefiore.run.jahmm.apps.cli.ActionHandler.Actions.values;
+import static be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.Arguments.values;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.EnumSet;
+import static java.util.EnumSet.complementOf;
+import java.util.logging.Logger;
 
 class CommandLineArguments {
     /*
@@ -34,13 +43,13 @@ class CommandLineArguments {
         final String argString;       // The expected string for the arg
         final String[] allowedValues; // Accepted values.  If "", any
         private String value;         // Sub-argument value
-        private String defaultValue;  // Sub-argument default value
+        private final String defaultValue;  // Sub-argument default value
         private boolean isSet;        // Has the argument being read?
 
         Arguments(String argString, String... allowedValues) {
             this.isSet = false;
             this.argString = argString;
-            if (allowedValues.length == 1 && !allowedValues[0].equals("")) {
+            if (allowedValues.length == 1 && !allowedValues[0].isEmpty()) {
                 // Default value given
                 this.defaultValue = allowedValues[0];
                 this.allowedValues = new String[]{""};
@@ -129,7 +138,7 @@ class CommandLineArguments {
             throws WrongArgumentsException {
         argLoop:
         for (int i = 1; i < args.length; i++) { // args[0] is main action
-            for (Arguments arg : Arguments.values()) {
+            for (Arguments arg : values()) {
                 if (arg.argString.equals(args[i])) {
                     if (arg.getIsSet()) {
                         throw new WrongArgumentsException("Argument '"
@@ -144,8 +153,8 @@ class CommandLineArguments {
                         }
 
                         String subArg = args[++i];
-                        if (!arg.allowedValues[0].equals("")
-                                && !Arrays.asList(arg.allowedValues).
+                        if (!arg.allowedValues[0].isEmpty()
+                                && !asList(arg.allowedValues).
                                 contains(subArg)) {
                             throw new WrongArgumentsException("Invalid "
                                     + "option '" + subArg + "'");
@@ -193,7 +202,7 @@ class CommandLineArguments {
             }
         }
 
-        for (Arguments arg : EnumSet.complementOf(args)) {
+        for (Arguments arg : complementOf(args)) {
             if (arg.getIsSet()) {
                 throw new WrongArgumentsException("Argument '"
                         + arg.argString + "' not expected");
@@ -207,7 +216,7 @@ class CommandLineArguments {
         }
 
         ActionHandler.Actions mainAction = null;
-        for (ActionHandler.Actions action : ActionHandler.Actions.values()) {
+        for (ActionHandler.Actions action : values()) {
             if (action.toString().equals(args[0])) {
                 mainAction = action;
             }
@@ -217,11 +226,12 @@ class CommandLineArguments {
     }
 
     static void reset() {
-        for (Arguments arg : Arguments.values()) {
+        for (Arguments arg : values()) {
             arg.setIsSet(false);
         }
     }
 
     private CommandLineArguments() {
     }
+    private static final Logger LOG = Logger.getLogger(CommandLineArguments.class.getName());
 }

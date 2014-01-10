@@ -4,6 +4,8 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
+import java.util.logging.Logger;
+
 /**
  * This class can build <code>OpdfMultiGaussian</code> observation probability
  * functions.
@@ -11,7 +13,7 @@ package be.ac.ulg.montefiore.run.jahmm;
 public class OpdfMultiGaussianFactory
         implements OpdfFactory<OpdfMultiGaussian> {
 
-    private int dimension;
+    private final int dimension;
 
     /**
      * Generates a new multivariate gaussian observation probability
@@ -23,7 +25,9 @@ public class OpdfMultiGaussianFactory
         this.dimension = dimension;
     }
 
+    @Override
     public OpdfMultiGaussian factor() {
         return new OpdfMultiGaussian(dimension);
     }
+    private static final Logger LOG = Logger.getLogger(OpdfMultiGaussianFactory.class.getName());
 }

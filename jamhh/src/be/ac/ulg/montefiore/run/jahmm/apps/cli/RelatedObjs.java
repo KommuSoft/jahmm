@@ -4,13 +4,20 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 
+import be.ac.ulg.montefiore.run.jahmm.CentroidFactory;
+import be.ac.ulg.montefiore.run.jahmm.Hmm;
+import be.ac.ulg.montefiore.run.jahmm.Observation;
+import be.ac.ulg.montefiore.run.jahmm.Opdf;
+import be.ac.ulg.montefiore.run.jahmm.OpdfFactory;
+import be.ac.ulg.montefiore.run.jahmm.io.FileFormatException;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationReader;
+import be.ac.ulg.montefiore.run.jahmm.io.ObservationWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfReader;
+import be.ac.ulg.montefiore.run.jahmm.io.OpdfWriter;
+import be.ac.ulg.montefiore.run.jahmm.toolbox.MarkovGenerator;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
-
-import be.ac.ulg.montefiore.run.jahmm.*;
-import be.ac.ulg.montefiore.run.jahmm.io.*;
-import be.ac.ulg.montefiore.run.jahmm.toolbox.MarkovGenerator;
 
 /**
  * This class collects all the objects related to a specific observation type.
