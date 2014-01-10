@@ -15,6 +15,8 @@ import java.util.Collection;
 public class OpdfInteger
         implements Opdf<ObservationInteger> {
 
+    private static final long serialVersionUID = 1L;
+
     private double[] probabilities;
 
     /**
@@ -164,6 +166,4 @@ public class OpdfInteger
 
         return s;
     }
-
-    private static final long serialVersionUID = 1L;
 }

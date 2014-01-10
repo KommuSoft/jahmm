@@ -138,4 +138,7 @@ public class ObservationSequencesReader {
 
         return sequence;
     }
+
+    private ObservationSequencesReader() {
+    }
 }

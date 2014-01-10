@@ -33,6 +33,8 @@ import java.util.List;
 public class Hmm<O extends Observation>
         implements Serializable, Cloneable {
 
+    private static final long serialVersionUID = 2L;
+
     private double pi[];
     private double a[][];
     private ArrayList<Opdf<O>> opdfs;
@@ -324,6 +326,4 @@ public class Hmm<O extends Observation>
 
         return hmm;
     }
-
-    private static final long serialVersionUID = 2L;
 }

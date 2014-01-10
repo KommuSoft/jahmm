@@ -60,6 +60,9 @@ class Types {
 
         throw new AssertionError("Unknown observation type");
     }
+
+    private Types() {
+    }
 }
 
 class IntegerRelatedObjects
@@ -67,7 +70,7 @@ class IntegerRelatedObjects
 
     final int range;
 
-    public IntegerRelatedObjects()
+    IntegerRelatedObjects()
             throws WrongArgumentsException {
         range = Arguments.INTEGER_RANGE.getAsInt();
     }
@@ -110,7 +113,7 @@ class RealRelatedObjects
     public final String opdf;
     public final int nb;
 
-    public RealRelatedObjects(String opdf)
+    RealRelatedObjects(String opdf)
             throws WrongArgumentsException {
         this.opdf = opdf;
         nb = Arguments.NB_GAUSSIANS.getAsInt();
@@ -167,7 +170,7 @@ class VectorRelatedObjects
 
     final int dimension;
 
-    public VectorRelatedObjects()
+    VectorRelatedObjects()
             throws WrongArgumentsException {
         dimension = Arguments.VECTOR_DIMENSION.getAsInt();
     }

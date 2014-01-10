@@ -321,4 +321,7 @@ class SimpleMatrix {
 
         return s + " ]\n";
     }
+
+    private SimpleMatrix() {
+    }
 }

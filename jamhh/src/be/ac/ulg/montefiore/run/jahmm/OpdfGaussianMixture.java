@@ -18,6 +18,8 @@ import java.util.Collection;
  */
 public class OpdfGaussianMixture implements Opdf<ObservationReal> {
 
+    private static final long serialVersionUID = 1L;
+
     private GaussianMixtureDistribution distribution;
 
     /**
@@ -310,6 +312,4 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
 
         return s;
     }
-
-    private static final long serialVersionUID = 1L;
 }

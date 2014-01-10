@@ -10,6 +10,15 @@ import java.io.IOException;
 
 abstract class ActionHandler {
 
+    public void parseArguments(String args[])
+            throws WrongArgumentsException {
+        CommandLineArguments.parse(args);
+    }
+
+    abstract public void act()
+            throws FileNotFoundException, IOException, FileFormatException,
+            AbnormalTerminationException;
+
     public static enum Actions {
 
         HELP("-help", HelpActionHandler.class),
@@ -36,13 +45,4 @@ abstract class ActionHandler {
             return handler;
         }
     };
-
-    public void parseArguments(String args[])
-            throws WrongArgumentsException {
-        CommandLineArguments.parse(args);
-    }
-
-    abstract public void act()
-            throws FileNotFoundException, IOException, FileFormatException,
-            AbnormalTerminationException;
 }

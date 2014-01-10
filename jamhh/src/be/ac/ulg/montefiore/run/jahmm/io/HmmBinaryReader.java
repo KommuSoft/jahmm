@@ -34,4 +34,7 @@ public class HmmBinaryReader {
             throw new RuntimeException(e);
         }
     }
+
+    private HmmBinaryReader() {
+    }
 }

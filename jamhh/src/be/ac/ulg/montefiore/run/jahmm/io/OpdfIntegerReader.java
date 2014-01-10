@@ -25,10 +25,6 @@ public class OpdfIntegerReader
 
     private final int nbEntries; // < 0 if number of entries is not checked.
 
-    String keyword() {
-        return "IntegerOPDF";
-    }
-
     /**
      * Implements a reader of distributions over integer observations.
      */
@@ -51,6 +47,10 @@ public class OpdfIntegerReader
         }
 
         this.nbEntries = nbEntries;
+    }
+
+    String keyword() {
+        return "IntegerOPDF";
     }
 
     public OpdfInteger read(StreamTokenizer st)

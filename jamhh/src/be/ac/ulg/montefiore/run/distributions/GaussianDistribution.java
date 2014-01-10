@@ -11,11 +11,13 @@ import java.util.Random;
  */
 public class GaussianDistribution
         implements RandomDistribution {
+    private final static Random randomGenerator = new Random();
+
+    private static final long serialVersionUID = 9127329839769283975L;
 
     private double mean;
     private double deviation;
     private double variance;
-    private final static Random randomGenerator = new Random();
 
     /**
      * Creates a new pseudo-random, Gaussian distribution with zero mean and
@@ -68,6 +70,4 @@ public class GaussianDistribution
         return Math.pow(2. * Math.PI * variance, -.5)
                 * Math.exp(expArg);
     }
-
-    private static final long serialVersionUID = 9127329839769283975L;
 }

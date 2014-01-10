@@ -19,24 +19,6 @@ import java.util.List;
  */
 public class ForwardBackwardCalculator {
 
-    /**
-     * Flags used to explain how the observation sequence probability should be
-     * computed (either forward, using the alpha array, or backward, using the
-     * beta array).
-     */
-    public static enum Computation {
-
-        /**
-         *
-         */
-        ALPHA,
-
-        /**
-         *
-         */
-        BETA
-    };
-
     /* alpha[t][i] = P(O(1), O(2),..., O(t+1), i(t+1) = i+1 | hmm), that is the
      probability of the beginning of the state sequence (up to time t+1)
      with the (t+1)th state being i+1. */
@@ -288,4 +270,22 @@ public class ForwardBackwardCalculator {
     public double probability() {
         return probability;
     }
+
+    /**
+     * Flags used to explain how the observation sequence probability should be
+     * computed (either forward, using the alpha array, or backward, using the
+     * beta array).
+     */
+    public static enum Computation {
+
+        /**
+         *
+         */
+        ALPHA,
+
+        /**
+         *
+         */
+        BETA
+    };
 }

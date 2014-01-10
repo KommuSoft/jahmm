@@ -55,4 +55,7 @@ public class HmmWriter {
         opdfWriter.write(writer, opdf);
         writer.write("\n\n");
     }
+
+    private HmmWriter() {
+    }
 }

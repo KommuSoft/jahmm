@@ -10,8 +10,6 @@ package be.ac.ulg.montefiore.run.distributions;
 public class PoissonDistribution
         implements DiscreteDistribution {
 
-    private final double mean;
-
     // First values of log(k!) (k up to 29)
     private static final double[] logFactTable = {
         0.00000000000000000, 0.00000000000000000, 0.69314718055994531,
@@ -25,6 +23,10 @@ public class PoissonDistribution
         54.78472939811231919, 58.00360522298051994, 61.26170176100200198,
         64.55753862700633106, 67.88974313718153498, 71.25703896716800901
     };
+
+    private static final long serialVersionUID = 2516179242233627286L;
+
+    private final double mean;
 
     private final double C0 = 9.18938533204672742e-01;
     private final double C1 = 8.33333333333333333e-02;
@@ -82,6 +84,4 @@ public class PoissonDistribution
             return logFactTable[n];
         }
     }
-
-    private static final long serialVersionUID = 2516179242233627286L;
 }

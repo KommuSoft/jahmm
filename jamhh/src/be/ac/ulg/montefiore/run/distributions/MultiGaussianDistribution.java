@@ -11,6 +11,9 @@ import java.util.Random;
  */
 public class MultiGaussianDistribution
         implements MultiRandomDistribution {
+    private final static Random randomGenerator = new Random();
+
+    private static final long serialVersionUID = -2438571303843585271L;
 
     final private int dimension;
     final private double[] mean;
@@ -18,7 +21,6 @@ public class MultiGaussianDistribution
     private double[][] covarianceL = null; // covariance' Cholesky decomposition
     private double[][] covarianceInv = null;
     private double covarianceDet;
-    private final static Random randomGenerator = new Random();
 
     /**
      * Creates a new pseudo-random, multivariate gaussian distribution.
@@ -144,6 +146,4 @@ public class MultiGaussianDistribution
                 / (Math.pow(2. * Math.PI, ((double) dimension) / 2.)
                 * Math.pow(covarianceDet(), .5));
     }
-
-    private static final long serialVersionUID = -2438571303843585271L;
 }

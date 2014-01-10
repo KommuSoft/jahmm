@@ -13,6 +13,106 @@ import java.util.Arrays;
 import java.util.EnumSet;
 
 class CommandLineArguments {
+
+    static void parse(String[] args)
+            throws WrongArgumentsException {
+        argLoop:
+        for (int i = 1; i < args.length; i++) { // args[0] is main action
+            for (Arguments arg : Arguments.values()) {
+                if (arg.argString.equals(args[i])) {
+                    if (arg.getIsSet()) {
+                        throw new WrongArgumentsException("Argument '"
+                                + args[i] + "' given twice");
+                    }
+                    arg.setIsSet(true);
+
+                    if (arg.hasAllowedValues()) {
+                        if (i == args.length - 1) {
+                            throw new WrongArgumentsException("Argument '"
+                                    + args[i] + "' calls for an option");
+                        }
+
+                        String subArg = args[++i];
+                        if (!arg.allowedValues[0].isEmpty()
+                                && !Arrays.asList(arg.allowedValues).
+                                contains(subArg)) {
+                            throw new WrongArgumentsException("Invalid "
+                                    + "option '" + subArg + "'");
+                        }
+
+                        arg.set(subArg);
+                    }
+
+                    continue argLoop;
+                }
+            }
+
+            throw new WrongArgumentsException("Unknown argument '"
+                    + args[i] + "'");
+        }
+    }
+
+    /**
+     * Checks the command line arguments.
+     *
+     * @param args A set of mandatory arguments. The arguments that directly
+     * depends on the opdf are automatically added.
+     */
+    static void checkArgs(EnumSet<Arguments> args)
+            throws WrongArgumentsException {
+        if (args.contains(Arguments.OPDF)) {
+            String opdf = Arguments.OPDF.get();
+
+            if (opdf.equals("integer")) {
+                args.add(Arguments.INTEGER_RANGE);
+            } else if (opdf.equals("multi_gaussian")) {
+                args.add(Arguments.VECTOR_DIMENSION);
+            } else if (opdf.equals("gaussian"))
+				; else if (opdf.equals("gaussian_mixture")) {
+                args.add(Arguments.NB_GAUSSIANS);
+            } else {
+                new AssertionError("Unknown observation type '" + opdf + "'");
+            }
+        }
+
+        for (Arguments arg : args) {
+            if (!arg.getIsSet() && !arg.hasDefaultValue()) {
+                throw new WrongArgumentsException("Argument '"
+                        + arg.argString + "' expected");
+            }
+        }
+
+        for (Arguments arg : EnumSet.complementOf(args)) {
+            if (arg.getIsSet()) {
+                throw new WrongArgumentsException("Argument '"
+                        + arg.argString + "' not expected");
+            }
+        }
+    }
+
+    static ActionHandler.Actions parseAction(String[] args) {
+        if (args.length == 0) {
+            return null;
+        }
+
+        ActionHandler.Actions mainAction = null;
+        for (ActionHandler.Actions action : ActionHandler.Actions.values()) {
+            if (action.toString().equals(args[0])) {
+                mainAction = action;
+            }
+        }
+
+        return mainAction;
+    }
+
+    static void reset() {
+        for (Arguments arg : Arguments.values()) {
+            arg.setIsSet(false);
+        }
+    }
+
+    private CommandLineArguments() {
+    }
     /*
      * Allowed command-line arguments description
      * The special allowed arguments list "" means any argument is allowed.
@@ -128,101 +228,4 @@ class CommandLineArguments {
             return new FileOutputStream(get());
         }
     };
-
-    static void parse(String[] args)
-            throws WrongArgumentsException {
-        argLoop:
-        for (int i = 1; i < args.length; i++) { // args[0] is main action
-            for (Arguments arg : Arguments.values()) {
-                if (arg.argString.equals(args[i])) {
-                    if (arg.getIsSet()) {
-                        throw new WrongArgumentsException("Argument '"
-                                + args[i] + "' given twice");
-                    }
-                    arg.setIsSet(true);
-
-                    if (arg.hasAllowedValues()) {
-                        if (i == args.length - 1) {
-                            throw new WrongArgumentsException("Argument '"
-                                    + args[i] + "' calls for an option");
-                        }
-
-                        String subArg = args[++i];
-                        if (!arg.allowedValues[0].isEmpty()
-                                && !Arrays.asList(arg.allowedValues).
-                                contains(subArg)) {
-                            throw new WrongArgumentsException("Invalid "
-                                    + "option '" + subArg + "'");
-                        }
-
-                        arg.set(subArg);
-                    }
-
-                    continue argLoop;
-                }
-            }
-
-            throw new WrongArgumentsException("Unknown argument '"
-                    + args[i] + "'");
-        }
-    }
-
-    /**
-     * Checks the command line arguments.
-     *
-     * @param args A set of mandatory arguments. The arguments that directly
-     * depends on the opdf are automatically added.
-     */
-    static void checkArgs(EnumSet<Arguments> args)
-            throws WrongArgumentsException {
-        if (args.contains(Arguments.OPDF)) {
-            String opdf = Arguments.OPDF.get();
-
-            if (opdf.equals("integer")) {
-                args.add(Arguments.INTEGER_RANGE);
-            } else if (opdf.equals("multi_gaussian")) {
-                args.add(Arguments.VECTOR_DIMENSION);
-            } else if (opdf.equals("gaussian"))
-				; else if (opdf.equals("gaussian_mixture")) {
-                args.add(Arguments.NB_GAUSSIANS);
-            } else {
-                new AssertionError("Unknown observation type '" + opdf + "'");
-            }
-        }
-
-        for (Arguments arg : args) {
-            if (!arg.getIsSet() && !arg.hasDefaultValue()) {
-                throw new WrongArgumentsException("Argument '"
-                        + arg.argString + "' expected");
-            }
-        }
-
-        for (Arguments arg : EnumSet.complementOf(args)) {
-            if (arg.getIsSet()) {
-                throw new WrongArgumentsException("Argument '"
-                        + arg.argString + "' not expected");
-            }
-        }
-    }
-
-    static ActionHandler.Actions parseAction(String[] args) {
-        if (args.length == 0) {
-            return null;
-        }
-
-        ActionHandler.Actions mainAction = null;
-        for (ActionHandler.Actions action : ActionHandler.Actions.values()) {
-            if (action.toString().equals(args[0])) {
-                mainAction = action;
-            }
-        }
-
-        return mainAction;
-    }
-
-    static void reset() {
-        for (Arguments arg : Arguments.values()) {
-            arg.setIsSet(false);
-        }
-    }
 }

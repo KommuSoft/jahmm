@@ -15,6 +15,8 @@ import java.util.Collection;
 public class OpdfMultiGaussian
         implements Opdf<ObservationVector> {
 
+    private static final long serialVersionUID = 1L;
+
     private MultiGaussianDistribution distribution;
 
     /**
@@ -171,6 +173,4 @@ public class OpdfMultiGaussian
 
         return s + "]";
     }
-
-    private static final long serialVersionUID = 1L;
 }

@@ -26,7 +26,7 @@ class HmmDrawerDot<H extends Hmm<?>> {
     /**
      * This class converts an HMM to a dot file.
      */
-    public HmmDrawerDot() {
+    HmmDrawerDot() {
         probabilityFormat = NumberFormat.getInstance();
         probabilityFormat.setMaximumFractionDigits(2);
     }

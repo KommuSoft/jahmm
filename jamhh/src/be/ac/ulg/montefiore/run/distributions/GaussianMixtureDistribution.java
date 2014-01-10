@@ -17,6 +17,8 @@ public class GaussianMixtureDistribution
 
     static private final Random random = new Random();
 
+    private static final long serialVersionUID = 2634624658500627331L;
+
     private GaussianDistribution[] distributions;
     private double proportions[];
 
@@ -137,6 +139,4 @@ public class GaussianMixtureDistribution
 
         return sum;
     }
-
-    private static final long serialVersionUID = 2634624658500627331L;
 }

@@ -11,6 +11,8 @@ package be.ac.ulg.montefiore.run.jahmm.io;
 public class FileFormatException
         extends Exception {
 
+    private static final long serialVersionUID = 2;
+
     /**
      * Creates a new object reporting the reading of an invalid file.
      */
@@ -35,6 +37,4 @@ public class FileFormatException
     public FileFormatException(int lineNb, String s) {
         super("Line " + lineNb + ": " + s);
     }
-
-    private static final long serialVersionUID = 2;
 }

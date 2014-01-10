@@ -57,6 +57,7 @@ public class HmmReader {
     /**
      * Reads a HMM from a text file.
      *
+     * @param <O>
      * @param reader The reader to read the HMM description from.
      * @param opdfReader The {@link OpdfReader} used to read the observation
      * distributions.
@@ -159,5 +160,8 @@ public class HmmReader {
         st.whitespaceChars((int) '\t', (int) '\t');
         st.eolIsSignificant(false);
         st.commentChar((int) '#');
+    }
+
+    private HmmReader() {
     }
 }

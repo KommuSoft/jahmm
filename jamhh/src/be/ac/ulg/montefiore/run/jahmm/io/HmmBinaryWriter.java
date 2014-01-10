@@ -29,4 +29,7 @@ public class HmmBinaryWriter {
         ObjectOutputStream oos = new ObjectOutputStream(stream);
         oos.writeObject(hmm);
     }
+
+    private HmmBinaryWriter() {
+    }
 }

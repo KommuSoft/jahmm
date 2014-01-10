@@ -17,30 +17,6 @@ import java.util.List;
 public abstract class OpdfReader<O extends Opdf<?>> {
 
     /**
-     * Returns the keyword identifying the distribution read. It must be the
-     * word beginning the distribution's description.
-     *
-     * @return The keyword.
-     */
-    abstract String keyword();
-
-    /**
-     * Reads an {@link be.ac.ulg.montefiore.run.jahmm.Opdf Opdf} out of a
-     * {@link java.io.StreamTokenizer}.
-     * <p>
-     * The stream tokenizer syntax table must be set according to of <code>HmmReader.initSyntaxTable(StreamTokenizer)
-     * </code> before the call to this method and reset to this state if
-     * modified before it returns.
-     *
-     * @param st A stream tokenizer.
-     * @return An Opdf.
-     * @throws java.io.IOException
-     * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
-     */
-    public abstract O read(StreamTokenizer st)
-            throws IOException, FileFormatException;
-
-    /**
      * Reads a sequence of numbers. The sequence is between brackets and numbers
      * are separated by spaces. Empty array are not allowed.
      *
@@ -51,8 +27,7 @@ public abstract class OpdfReader<O extends Opdf<?>> {
      * @throws java.io.IOException
      * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
-    static protected double[] read(StreamTokenizer st, int length)
-            throws IOException, FileFormatException {
+    protected static double[] read(StreamTokenizer st, int length) throws IOException, FileFormatException {
         List<Double> l = new ArrayList<Double>();
         HmmReader.readWords(st, "[");
         while (st.nextToken() == StreamTokenizer.TT_NUMBER) {
@@ -78,4 +53,28 @@ public abstract class OpdfReader<O extends Opdf<?>> {
 
         return a;
     }
+
+    /**
+     * Returns the keyword identifying the distribution read. It must be the
+     * word beginning the distribution's description.
+     *
+     * @return The keyword.
+     */
+    abstract String keyword();
+
+    /**
+     * Reads an {@link be.ac.ulg.montefiore.run.jahmm.Opdf Opdf} out of a
+     * {@link java.io.StreamTokenizer}.
+     * <p>
+     * The stream tokenizer syntax table must be set according to of <code>HmmReader.initSyntaxTable(StreamTokenizer)
+     * </code> before the call to this method and reset to this state if
+     * modified before it returns.
+     *
+     * @param st A stream tokenizer.
+     * @return An Opdf.
+     * @throws java.io.IOException
+     * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
+     */
+    public abstract O read(StreamTokenizer st)
+            throws IOException, FileFormatException;
 }

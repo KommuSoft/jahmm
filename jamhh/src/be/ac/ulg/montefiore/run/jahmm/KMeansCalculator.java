@@ -25,62 +25,6 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
     private ArrayList<Cluster<K>> clusters;
 
     /**
-     * This class represents a cluster of elements.
-     */
-    class Cluster<L extends CentroidFactory<? super L>> {
-
-        private List<L> elements;
-        private Centroid<? super L> centroid;
-
-        /**
-         * Creates a new empty cluster.
-         */
-        public Cluster() {
-            elements = new ArrayList<L>();
-            centroid = null;
-        }
-
-        /**
-         * Creates a new cluster composed of one element.
-         *
-         * @param element The element that compose the new cluster.
-         */
-        public Cluster(L e) {
-            elements = new ArrayList<L>();
-            elements.add(e);
-            centroid = e.factor();
-        }
-
-        /**
-         * Returns all the elements of this cluster.
-         *
-         * @return The elements of this cluster.
-         */
-        public List<L> elements() {
-            return elements;
-        }
-
-        public void add(L e) {
-            if (centroid == null) {
-                centroid = e.factor();
-            } else {
-                centroid.reevaluateAdd(e, elements);
-            }
-
-            elements.add(e);
-        }
-
-        public void remove(int i) {
-            centroid.reevaluateRemove(elements.get(i), elements);
-            elements.remove(i);
-        }
-
-        public Centroid<? super L> centroid() {
-            return centroid;
-        }
-    }
-
-    /**
      * This class divides a set of elements in a given number of clusters.
      *
      * @param k The number of clusters to get.
@@ -192,5 +136,61 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
      */
     public int nbClusters() {
         return clusters.size();
+    }
+
+    /**
+     * This class represents a cluster of elements.
+     */
+    class Cluster<L extends CentroidFactory<? super L>> {
+
+        private List<L> elements;
+        private Centroid<? super L> centroid;
+
+        /**
+         * Creates a new empty cluster.
+         */
+        Cluster() {
+            elements = new ArrayList<L>();
+            centroid = null;
+        }
+
+        /**
+         * Creates a new cluster composed of one element.
+         *
+         * @param element The element that compose the new cluster.
+         */
+        Cluster(L e) {
+            elements = new ArrayList<L>();
+            elements.add(e);
+            centroid = e.factor();
+        }
+
+        /**
+         * Returns all the elements of this cluster.
+         *
+         * @return The elements of this cluster.
+         */
+        public List<L> elements() {
+            return elements;
+        }
+
+        public void add(L e) {
+            if (centroid == null) {
+                centroid = e.factor();
+            } else {
+                centroid.reevaluateAdd(e, elements);
+            }
+            
+            elements.add(e);
+        }
+
+        public void remove(int i) {
+            centroid.reevaluateRemove(elements.get(i), elements);
+            elements.remove(i);
+        }
+
+        public Centroid<? super L> centroid() {
+            return centroid;
+        }
     }
 }

@@ -57,33 +57,6 @@ import java.util.List;
  * jammed).
  */
 public class SimpleExample {
-    /* Possible packet reception status */
-
-    /**
-     *
-     */
-    
-
-    public enum Packet {
-
-        /**
-         *
-         */
-        OK,
-
-        /**
-         *
-         */
-        LOSS;
-
-        /**
-         *
-         * @return
-         */
-        public ObservationDiscrete<Packet> observation() {
-            return new ObservationDiscrete<Packet>(this);
-        }
-    };
 
     /**
      *
@@ -190,4 +163,31 @@ public class SimpleExample {
 
         return sequences;
     }
+    /* Possible packet reception status */
+
+    /**
+     *
+     */
+    
+
+    public enum Packet {
+
+        /**
+         *
+         */
+        OK,
+
+        /**
+         *
+         */
+        LOSS;
+
+        /**
+         *
+         * @return
+         */
+        public ObservationDiscrete<Packet> observation() {
+            return new ObservationDiscrete<Packet>(this);
+        }
+    };
 }

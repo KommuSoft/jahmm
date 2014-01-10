@@ -22,6 +22,16 @@ import java.util.List;
  */
 public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
 
+    static <T> List<T> flat(List<? extends List<? extends T>> lists) {
+        List<T> v = new ArrayList<T>();
+
+        for (List<? extends T> list : lists) {
+            v.addAll(list);
+        }
+
+        return v;
+    }
+
     private Clusters<O> clusters;
     private int nbStates;
     private List<? extends List<? extends O>> obsSeqs;
@@ -189,16 +199,6 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
 
         return !modif;
     }
-
-    static <T> List<T> flat(List<? extends List<? extends T>> lists) {
-        List<T> v = new ArrayList<T>();
-
-        for (List<? extends T> list : lists) {
-            v.addAll(list);
-        }
-
-        return v;
-    }
 }
 
 
@@ -207,27 +207,10 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
  */
 class Clusters<O extends CentroidFactory<? super O>> {
 
-    class Value {
-
-        private int clusterNb;
-
-        Value(int clusterNb) {
-            this.clusterNb = clusterNb;
-        }
-
-        void setClusterNb(int clusterNb) {
-            this.clusterNb = clusterNb;
-        }
-
-        int getClusterNb() {
-            return clusterNb;
-        }
-    }
-
     private Hashtable<O, Value> clustersHash;
     private ArrayList<Collection<O>> clusters;
 
-    public Clusters(int k, List<? extends O> observations) {
+    Clusters(int k, List<? extends O> observations) {
 
         clustersHash = new Hashtable<O, Value>();
         clusters = new ArrayList<Collection<O>>();
@@ -264,5 +247,22 @@ class Clusters<O extends CentroidFactory<? super O>> {
     public void put(O o, int clusterNb) {
         clustersHash.get(o).setClusterNb(clusterNb);
         clusters.get(clusterNb).add(o);
+    }
+
+    class Value {
+
+        private int clusterNb;
+
+        Value(int clusterNb) {
+            this.clusterNb = clusterNb;
+        }
+
+        void setClusterNb(int clusterNb) {
+            this.clusterNb = clusterNb;
+        }
+
+        int getClusterNb() {
+            return clusterNb;
+        }
     }
 }

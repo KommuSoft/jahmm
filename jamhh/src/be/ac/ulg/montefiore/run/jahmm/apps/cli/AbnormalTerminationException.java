@@ -10,6 +10,8 @@ package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 public class AbnormalTerminationException
         extends Exception {
 
+    private static final long serialVersionUID = 1;
+
     /**
      * Creates an exception thrown when the CLI terminates abruptly.
      */
@@ -24,6 +26,4 @@ public class AbnormalTerminationException
     public AbnormalTerminationException(String s) {
         super(s);
     }
-
-    private static final long serialVersionUID = 1;
 }

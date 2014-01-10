@@ -10,6 +10,8 @@ package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 public class WrongArgumentsException
         extends AbnormalTerminationException {
 
+    private static final long serialVersionUID = 1;
+
     /**
      * Creates an exception thrown when the CLI is given wrong arguments.
      */
@@ -25,6 +27,4 @@ public class WrongArgumentsException
     public WrongArgumentsException(String s) {
         super(s + ". Use 'Cli -help' for help.");
     }
-
-    private static final long serialVersionUID = 1;
 }

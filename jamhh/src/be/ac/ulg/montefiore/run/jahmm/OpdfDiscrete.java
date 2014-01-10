@@ -20,6 +20,8 @@ import java.util.List;
 public class OpdfDiscrete<E extends Enum<E>>
         implements Opdf<ObservationDiscrete<E>> {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      *
      */
@@ -158,6 +160,4 @@ public class OpdfDiscrete<E extends Enum<E>>
 
         return s;
     }
-
-    private static final long serialVersionUID = 1L;
 }

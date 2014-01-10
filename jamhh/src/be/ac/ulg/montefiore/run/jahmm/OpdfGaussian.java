@@ -15,6 +15,8 @@ import java.util.Collection;
 public class OpdfGaussian
         implements Opdf<ObservationReal> {
 
+    private static final long serialVersionUID = 1L;
+
     private GaussianDistribution distribution;
 
     /**
@@ -127,6 +129,4 @@ public class OpdfGaussian
                 + "Mean: " + numberFormat.format(distribution.mean())
                 + " Variance " + numberFormat.format(distribution.variance());
     }
-
-    private static final long serialVersionUID = 1L;
 }
