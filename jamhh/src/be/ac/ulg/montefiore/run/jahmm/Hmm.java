@@ -29,16 +29,16 @@ import java.util.List;
  * vector being the i-th element of the sequence). A set of observation
  * sequences is a {@link java.util.List List} of such sequences.
  *
- * @param <O>
+ * @param <O> the type of the observations.
  */
 public class Hmm<O extends Observation>
         implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 2L;
 
-    private double pi[];
-    private double a[][];
-    private ArrayList<Opdf<O>> opdfs;
+    protected double pi[];
+    protected double a[][];
+    protected ArrayList<Opdf<O>> opdfs;
 
     /**
      * Creates a new HMM. Each state has the same <i>pi</i> value and the
@@ -307,8 +307,10 @@ public class Hmm<O extends Observation>
     }
 
     /**
-     *
-     * @return @throws CloneNotSupportedException
+     * Creates a duplicate object of the HMM.
+     * @return An IHHM that contains the same date as this object.
+     * @throws CloneNotSupportedException An exception such that classes
+     * lower in the hierarchy can fail to clone.
      */
     @Override
     public Hmm<O> clone()
