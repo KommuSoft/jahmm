@@ -11,7 +11,7 @@ package be.ac.ulg.montefiore.run.jahmm;
 public class OpdfMultiGaussianFactory
         implements OpdfFactory<OpdfMultiGaussian> {
 
-    private int dimension;
+    private final int dimension;
 
     /**
      * Generates a new multivariate gaussian observation probability

@@ -29,8 +29,8 @@ abstract class ActionHandler {
         GENERATE("generate", GenerateActionHandler.class),
         KL("distance-kl", KLActionHandler.class);
 
-        private String argument;
-        private Class<? extends ActionHandler> handler;
+        private final String argument;
+        private final Class<? extends ActionHandler> handler;
 
         Actions(String argument, Class<? extends ActionHandler> handler) {
             this.argument = argument;

@@ -138,8 +138,7 @@ class CommandLineArguments {
         final String argString;       // The expected string for the arg
         final String[] allowedValues; // Accepted values.  If "", any
         private String value;         // Sub-argument value
-        private String defaultValue;  // Sub-argument default value
-        private boolean isSet;        // Has the argument being read?
+        private final String defaultValue;          private boolean isSet;        // Has the argument being read?
 
         Arguments(String argString, String... allowedValues) {
             this.isSet = false;

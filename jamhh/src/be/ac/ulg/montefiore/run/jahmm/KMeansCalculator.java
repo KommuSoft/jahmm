@@ -141,7 +141,7 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
 
     class Cluster<L extends CentroidFactory<? super L>> {
 
-        private List<L> elements;
+        private final List<L> elements;
         private Centroid<? super L> centroid;
 
         /**

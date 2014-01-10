@@ -13,7 +13,7 @@ import java.util.List;
 public class CentroidObservationVector
         implements Centroid<ObservationVector> {
 
-    private ObservationVector value;
+    private final ObservationVector value;
 
     /**
      * Creates a new centroid that represents the mean value of a set of

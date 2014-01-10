@@ -11,7 +11,7 @@ package be.ac.ulg.montefiore.run.jahmm;
 public class OpdfIntegerFactory
         implements OpdfFactory<OpdfInteger> {
 
-    private int nbEntries;
+    private final int nbEntries;
 
     /**
      * Creates a factory for {@link OpdfInteger OpdfInteger} objects.

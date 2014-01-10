@@ -33,10 +33,10 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
         return v;
     }
 
-    private Clusters<O> clusters;
-    private int nbStates;
-    private List<? extends List<? extends O>> obsSeqs;
-    private OpdfFactory<? extends Opdf<O>> opdfFactory;
+    private final Clusters<O> clusters;
+    private final int nbStates;
+    private final List<? extends List<? extends O>> obsSeqs;
+    private final OpdfFactory<? extends Opdf<O>> opdfFactory;
     private boolean terminated;
 
     /**
@@ -209,8 +209,8 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
  */
 class Clusters<O extends CentroidFactory<? super O>> {
 
-    private Hashtable<O, Value> clustersHash;
-    private ArrayList<Collection<O>> clusters;
+    private final Hashtable<O, Value> clustersHash;
+    private final ArrayList<Collection<O>> clusters;
 
     Clusters(int k, List<? extends O> observations) {
 
