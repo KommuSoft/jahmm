@@ -29,6 +29,7 @@ public class HmmBinaryWriter {
         ObjectOutputStream oos = new ObjectOutputStream(stream);
         oos.writeObject(hmm);
     }
+<<<<<<< OURS
 <<<<<<< HEAD
 
     private HmmBinaryWriter() {
@@ -36,4 +37,6 @@ public class HmmBinaryWriter {
     private static final Logger LOG = Logger.getLogger(HmmBinaryWriter.class.getName());
 =======
 >>>>>>> parent of e8b9e16... refactorings
+=======
+>>>>>>> THEIRS
 }

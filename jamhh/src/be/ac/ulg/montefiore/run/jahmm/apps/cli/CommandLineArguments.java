@@ -230,6 +230,7 @@ class CommandLineArguments {
             arg.setIsSet(false);
         }
     }
+<<<<<<< OURS
 <<<<<<< HEAD
 
     private CommandLineArguments() {
@@ -237,4 +238,6 @@ class CommandLineArguments {
     private static final Logger LOG = Logger.getLogger(CommandLineArguments.class.getName());
 =======
 >>>>>>> parent of e8b9e16... refactorings
+=======
+>>>>>>> THEIRS
 }

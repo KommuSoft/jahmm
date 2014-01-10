@@ -35,6 +35,7 @@ public class HmmBinaryReader {
             throw new RuntimeException(e);
         }
     }
+<<<<<<< OURS
 <<<<<<< HEAD
 
     private HmmBinaryReader() {
@@ -42,4 +43,6 @@ public class HmmBinaryReader {
     private static final Logger LOG = Logger.getLogger(HmmBinaryReader.class.getName());
 =======
 >>>>>>> parent of e8b9e16... refactorings
+=======
+>>>>>>> THEIRS
 }

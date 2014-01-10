@@ -44,14 +44,8 @@ public class GaussianMixtureDistribution
         for (int i = 0; i < nbGaussians; i++) {
             means[i] = (1. + 2. * (double) i) / (2. * (double) nbGaussians);
         }
-
-<<<<<<< HEAD
-        fill(variances, 1.);
-        fill(proportions, 1. / nbGaussians);
-=======
         Arrays.fill(variances, 1.);
         Arrays.fill(proportions, 1. / ((double) nbGaussians));
->>>>>>> parent of e8b9e16... refactorings
 
         for (int i = 0; i < distributions.length; i++) {
             distributions[i] = new GaussianDistribution(means[i], variances[i]);

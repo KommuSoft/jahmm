@@ -134,10 +134,13 @@ public class ObservationSequencesReader {
         }
 
         return sequence;
+<<<<<<< OURS
     }
 <<<<<<< HEAD
 
     private ObservationSequencesReader() {
+=======
+>>>>>>> THEIRS
     }
     private static final Logger LOG = Logger.getLogger(ObservationSequencesReader.class.getName());
 =======
