@@ -2,10 +2,7 @@
  * Copyright (c) 2004-2009, Jean-Marc François. All Rights Reserved.
  * Licensed under the New BSD license.  See the LICENSE file.
  */
-
 package be.ac.ulg.montefiore.run.jahmm;
-
-
 
 /**
  * Implements a factory of Gaussian mixtures distributions.
@@ -13,26 +10,22 @@ package be.ac.ulg.montefiore.run.jahmm;
  * @author Benjamin Chung (Creation)
  * @author Jean-Marc Francois (Minor adaptions)
  */
-public class OpdfGaussianMixtureFactory 
-implements OpdfFactory<OpdfGaussianMixture>
-{
+public class OpdfGaussianMixtureFactory
+        implements OpdfFactory<OpdfGaussianMixture> {
+
     final private int gaussiansNb;
-    
-    
+
     /**
      * Creates a new factory of Gaussian mixtures.
      *
      * @param gaussiansNb The number of Gaussian distributions involved in the
-     *                    generated distributions.
+     * generated distributions.
      */
-    public OpdfGaussianMixtureFactory(int gaussiansNb)
-    {
+    public OpdfGaussianMixtureFactory(int gaussiansNb) {
         this.gaussiansNb = gaussiansNb;
     }
-    
-    
-    public OpdfGaussianMixture factor()
-    {
+
+    public OpdfGaussianMixture factor() {
         return new OpdfGaussianMixture(gaussiansNb);
     }
 }
