@@ -4,13 +4,11 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import be.ac.ulg.montefiore.run.jahmm.Hmm;
-import be.ac.ulg.montefiore.run.jahmm.Observation;
-import be.ac.ulg.montefiore.run.jahmm.Opdf;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.DecimalFormat;
-import java.util.logging.Logger;
+
+import be.ac.ulg.montefiore.run.jahmm.*;
 
 /**
  * Writes a HMM to a text file compatible with {@link HmmReader}.
@@ -24,7 +22,6 @@ public class HmmWriter {
      * @param opdfWriter The writer used to convert the observation's
      * distributions of the HMMs.
      * @param hmm The HMM to write.
-     * @throws java.io.IOException
      */
     static public <O extends Observation> void
             write(Writer writer, OpdfWriter<? extends Opdf<O>> opdfWriter, Hmm<O> hmm)
@@ -55,14 +52,4 @@ public class HmmWriter {
         opdfWriter.write(writer, opdf);
         writer.write("\n\n");
     }
-<<<<<<< OURS
-<<<<<<< HEAD
-
-    private HmmWriter() {
-    }
-    private static final Logger LOG = Logger.getLogger(HmmWriter.class.getName());
-=======
->>>>>>> parent of e8b9e16... refactorings
-=======
->>>>>>> THEIRS
 }

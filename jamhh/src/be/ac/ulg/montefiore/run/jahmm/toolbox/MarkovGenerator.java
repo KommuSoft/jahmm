@@ -4,14 +4,14 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.toolbox;
 
-import be.ac.ulg.montefiore.run.jahmm.Hmm;
-import be.ac.ulg.montefiore.run.jahmm.Observation;
-import static java.lang.Math.random;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
+import be.ac.ulg.montefiore.run.jahmm.*;
 
+/**
+ * Generates sequences of markovian observations given a HMM.
+ */
 public class MarkovGenerator<O extends Observation> {
 
     private final Hmm<O> hmm;
@@ -39,7 +39,7 @@ public class MarkovGenerator<O extends Observation> {
      */
     public O observation() {
         O o = hmm.getOpdf(stateNb).generate();
-        double rand = random();
+        double rand = Math.random();
 
         for (int j = 0; j < hmm.nbStates() - 1; j++) {
             if ((rand -= hmm.getAij(stateNb, j)) < 0) {
@@ -63,7 +63,7 @@ public class MarkovGenerator<O extends Observation> {
             throw new IllegalArgumentException("Positive length required");
         }
 
-        ArrayList<O> sequence = new ArrayList<>();
+        ArrayList<O> sequence = new ArrayList<O>();
         while (length-- > 0) {
             sequence.add(observation());
         }
@@ -77,7 +77,7 @@ public class MarkovGenerator<O extends Observation> {
      * state.
      */
     public void newSequence() {
-        double rand = random(), current = 0.;
+        double rand = Math.random(), current = 0.;
 
         for (int i = 0; i < hmm.nbStates() - 1; i++) {
             current += hmm.getPi(i);
@@ -99,5 +99,4 @@ public class MarkovGenerator<O extends Observation> {
     public int stateNb() {
         return stateNb;
     }
-    private static final Logger LOG = Logger.getLogger(MarkovGenerator.class.getName());
 }

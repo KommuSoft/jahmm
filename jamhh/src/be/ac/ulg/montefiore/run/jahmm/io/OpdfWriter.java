@@ -4,11 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import be.ac.ulg.montefiore.run.jahmm.Opdf;
-import java.io.IOException;
-import java.io.StreamTokenizer;
-import java.io.Writer;
+import java.io.*;
 import java.text.DecimalFormat;
+
+import be.ac.ulg.montefiore.run.jahmm.Opdf;
 
 /**
  * Writes an observation distribution textual description.

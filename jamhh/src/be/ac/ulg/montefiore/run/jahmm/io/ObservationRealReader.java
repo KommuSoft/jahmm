@@ -4,10 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import be.ac.ulg.montefiore.run.jahmm.ObservationReal;
 import java.io.IOException;
 import java.io.StreamTokenizer;
-import java.util.logging.Logger;
+
+import be.ac.ulg.montefiore.run.jahmm.ObservationReal;
 
 /**
  * Reads an {@link be.ac.ulg.montefiore.run.jahmm.ObservationReal
@@ -32,9 +32,7 @@ public class ObservationRealReader
      * @param st A stream tokenizer.
      * @return The {@link be.ac.ulg.montefiore.run.jahmm.ObservationReal
      *         ObservationReal} read.
-     * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
-    @Override
     public ObservationReal read(StreamTokenizer st)
             throws IOException, FileFormatException {
         ObservationReal or;
@@ -65,5 +63,4 @@ public class ObservationRealReader
 
         return or;
     }
-    private static final Logger LOG = Logger.getLogger(ObservationRealReader.class.getName());
 }

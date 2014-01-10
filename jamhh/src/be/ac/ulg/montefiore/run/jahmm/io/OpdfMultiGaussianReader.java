@@ -4,11 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import be.ac.ulg.montefiore.run.jahmm.OpdfMultiGaussian;
-import static be.ac.ulg.montefiore.run.jahmm.io.HmmReader.readWords;
 import java.io.IOException;
 import java.io.StreamTokenizer;
-import java.util.logging.Logger;
+
+import be.ac.ulg.montefiore.run.jahmm.OpdfMultiGaussian;
 
 /**
  * This class implements a {@link OpdfMultiGaussian} reader. The syntax of the
@@ -35,28 +34,25 @@ import java.util.logging.Logger;
 public class OpdfMultiGaussianReader
         extends OpdfReader<OpdfMultiGaussian> {
 
-    @Override
     String keyword() {
         return "MultiGaussianOPDF";
     }
 
-    @Override
     public OpdfMultiGaussian read(StreamTokenizer st)
             throws IOException, FileFormatException {
-        readWords(st, keyword(), "[");
+        HmmReader.readWords(st, keyword(), "[");
 
         double[] means = OpdfReader.read(st, -1);
         double[][] covariance = new double[means.length][];
 
-        readWords(st, "[");
+        HmmReader.readWords(st, "[");
         for (int l = 0; l < covariance.length; l++) {
             covariance[l] = OpdfReader.read(st, means.length);
         }
-        readWords(st, "]");
+        HmmReader.readWords(st, "]");
 
-        readWords(st, "]");
+        HmmReader.readWords(st, "]");
 
         return new OpdfMultiGaussian(means, covariance);
     }
-    private static final Logger LOG = Logger.getLogger(OpdfMultiGaussianReader.class.getName());
 }

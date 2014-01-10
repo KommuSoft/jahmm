@@ -4,11 +4,9 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.toolbox;
 
-import be.ac.ulg.montefiore.run.jahmm.ForwardBackwardScaledCalculator;
-import be.ac.ulg.montefiore.run.jahmm.Hmm;
-import be.ac.ulg.montefiore.run.jahmm.Observation;
 import java.util.List;
-import java.util.logging.Logger;
+
+import be.ac.ulg.montefiore.run.jahmm.*;
 
 /**
  * Computes the distance between HMMs.
@@ -26,13 +24,12 @@ import java.util.logging.Logger;
  */
 public class KullbackLeiblerDistanceCalculator {
 
-    private int sequencesLength = 1_000;
+    private int sequencesLength = 1000;
     private int nbSequences = 10;
 
     /**
      * Computes the Kullback-Leibler distance between two HMMs.
      *
-     * @param <O>
      * @param hmm1 The first HMM against which the distance is computed. The
      * distance is mesured with regard to this HMM (this must be defined since
      * the Kullback-Leibler distance is not symetric).
@@ -46,7 +43,7 @@ public class KullbackLeiblerDistanceCalculator {
 
         for (int i = 0; i < nbSequences; i++) {
 
-            List<O> oseq = new MarkovGenerator<>(hmm1).
+            List<O> oseq = new MarkovGenerator<O>(hmm1).
                     observationSequence(sequencesLength);
 
             distance += (new ForwardBackwardScaledCalculator(oseq, hmm1).
@@ -93,5 +90,4 @@ public class KullbackLeiblerDistanceCalculator {
     public void setSequencesLength(int length) {
         this.sequencesLength = length;
     }
-    private static final Logger LOG = Logger.getLogger(KullbackLeiblerDistanceCalculator.class.getName());
 }

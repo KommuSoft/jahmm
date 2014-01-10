@@ -4,15 +4,13 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.util.logging.Logger;
-
-
+/**
+ * This class can build <code>OpdfInteger</code> observation probability
+ * distribution functions.
+ */
 public class OpdfDiscreteFactory<E extends Enum<E>>
         implements OpdfFactory<OpdfDiscrete<E>> {
 
-    /**
-     *
-     */
     final protected Class<E> valuesClass;
 
     /**
@@ -25,9 +23,7 @@ public class OpdfDiscreteFactory<E extends Enum<E>>
         this.valuesClass = valuesClass;
     }
 
-    @Override
     public OpdfDiscrete<E> factor() {
-        return new OpdfDiscrete<>(valuesClass);
+        return new OpdfDiscrete<E>(valuesClass);
     }
-    private static final Logger LOG = Logger.getLogger(OpdfDiscreteFactory.class.getName());
 }

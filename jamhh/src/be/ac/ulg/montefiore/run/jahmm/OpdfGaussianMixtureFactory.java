@@ -4,8 +4,6 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.util.logging.Logger;
-
 /**
  * Implements a factory of Gaussian mixtures distributions.
  *
@@ -27,9 +25,7 @@ public class OpdfGaussianMixtureFactory
         this.gaussiansNb = gaussiansNb;
     }
 
-    @Override
     public OpdfGaussianMixture factor() {
         return new OpdfGaussianMixture(gaussiansNb);
     }
-    private static final Logger LOG = Logger.getLogger(OpdfGaussianMixtureFactory.class.getName());
 }

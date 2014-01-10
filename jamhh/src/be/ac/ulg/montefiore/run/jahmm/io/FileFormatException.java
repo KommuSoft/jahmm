@@ -4,8 +4,6 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import java.util.logging.Logger;
-
 /**
  * This exception reports the reading of an invalid (syntatically or lexically
  * incorrect) file.
@@ -39,5 +37,4 @@ public class FileFormatException
     }
 
     private static final long serialVersionUID = 2;
-    private static final Logger LOG = Logger.getLogger(FileFormatException.class.getName());
 }

@@ -4,10 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.logging.Logger;
+
+import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
 
 /**
  * Writes an {@link ObservationInteger ObservationInteger} up to (and including)
@@ -16,10 +16,8 @@ import java.util.logging.Logger;
 public class ObservationIntegerWriter
         extends ObservationWriter<ObservationInteger> {
 
-    @Override
     public void write(ObservationInteger observation, Writer writer)
             throws IOException {
         writer.write(observation.value + "; ");
     }
-    private static final Logger LOG = Logger.getLogger(ObservationIntegerWriter.class.getName());
 }

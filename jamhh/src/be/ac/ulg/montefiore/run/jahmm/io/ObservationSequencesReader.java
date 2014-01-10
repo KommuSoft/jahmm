@@ -4,13 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
+import java.io.*;
+import java.util.*;
+
 import be.ac.ulg.montefiore.run.jahmm.Observation;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StreamTokenizer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * This class can read observations sequences from file.
@@ -44,12 +41,11 @@ public class ObservationSequencesReader {
      * @return A {@link java.util.Vector Vector} of
      * {@link java.util.Vector Vector}s of
      * {@link be.ac.ulg.montefiore.run.jahmm.Observation Observation}s.
-     * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
     static public <O extends Observation> List<List<O>>
             readSequences(ObservationReader<O> or, Reader reader)
             throws IOException, FileFormatException {
-        List<List<O>> sequences = new ArrayList<>();
+        List<List<O>> sequences = new ArrayList<List<O>>();
         StreamTokenizer st = new StreamTokenizer(reader);
 
         initSyntaxTable(st);
@@ -57,7 +53,7 @@ public class ObservationSequencesReader {
         for (st.nextToken(); st.ttype != StreamTokenizer.TT_EOF;
                 st.nextToken()) {
             st.pushBack();
-            List<O> sequence = new ArrayList<>(readSequence(or, st));
+            List<O> sequence = new ArrayList<O>(readSequence(or, st));
 
             if (sequence == null) {
                 break;
@@ -86,7 +82,6 @@ public class ObservationSequencesReader {
      * @param reader Holds the character reader the sequences are read from.
      * @return An observation sequence read from <code>st</code> or null if the
      * end of the file is reached before any sequence is found.
-     * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
     static public <O extends Observation> List<O>
             readSequence(ObservationReader<O> oir, Reader reader)
@@ -112,7 +107,7 @@ public class ObservationSequencesReader {
             return null;
         }
 
-        List<O> sequence = new ArrayList<>();
+        List<O> sequence = new ArrayList<O>();
 
         do {
             st.pushBack();
@@ -134,15 +129,5 @@ public class ObservationSequencesReader {
         }
 
         return sequence;
-<<<<<<< OURS
     }
-<<<<<<< HEAD
-
-    private ObservationSequencesReader() {
-=======
->>>>>>> THEIRS
-    }
-    private static final Logger LOG = Logger.getLogger(ObservationSequencesReader.class.getName());
-=======
->>>>>>> parent of e8b9e16... refactorings
 }

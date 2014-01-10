@@ -4,24 +4,18 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import be.ac.ulg.montefiore.run.jahmm.Opdf;
 import java.io.IOException;
 import java.io.StreamTokenizer;
-import java.util.logging.Logger;
 
-/**
- *
- * @author kommusoft
- */
+import be.ac.ulg.montefiore.run.jahmm.Opdf;
+
 public class OpdfGenericReader
         extends OpdfReader<Opdf<?>> {
 
-    @Override
     String keyword() {
         throw new AssertionError("Cannot call method");
     }
 
-    @Override
     public Opdf<?> read(StreamTokenizer st)
             throws IOException, FileFormatException {
         if (st.nextToken() != StreamTokenizer.TT_WORD) {
@@ -41,5 +35,4 @@ public class OpdfGenericReader
 
         throw new FileFormatException("Unknown distribution");
     }
-    private static final Logger LOG = Logger.getLogger(OpdfGenericReader.class.getName());
 }

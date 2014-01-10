@@ -4,8 +4,7 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.draw;
 
-import be.ac.ulg.montefiore.run.jahmm.Hmm;
-import java.util.logging.Logger;
+import be.ac.ulg.montefiore.run.jahmm.*;
 
 /**
  * An HMM to <i>dot</i> file converter. See
@@ -17,5 +16,4 @@ import java.util.logging.Logger;
  */
 public class GenericHmmDrawerDot
         extends HmmDrawerDot<Hmm<?>> {
-    private static final Logger LOG = Logger.getLogger(GenericHmmDrawerDot.class.getName());
 }

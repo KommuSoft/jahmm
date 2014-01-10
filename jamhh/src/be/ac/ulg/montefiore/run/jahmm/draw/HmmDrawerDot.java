@@ -4,12 +4,11 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.draw;
 
-import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.NumberFormat;
-import static java.text.NumberFormat.getInstance;
-import java.util.logging.Logger;
+
+import be.ac.ulg.montefiore.run.jahmm.*;
 
 /**
  * An HMM to <i>dot</i> file converter. See
@@ -29,7 +28,7 @@ class HmmDrawerDot<H extends Hmm<?>> {
      * This class converts an HMM to a dot file.
      */
     public HmmDrawerDot() {
-        probabilityFormat = getInstance();
+        probabilityFormat = NumberFormat.getInstance();
         probabilityFormat.setMaximumFractionDigits(2);
     }
 
@@ -97,9 +96,8 @@ class HmmDrawerDot<H extends Hmm<?>> {
      * @param filename The resulting 'dot' file filename.
      */
     public void write(H hmm, String filename) throws IOException {
-        try (FileWriter fw = new FileWriter(filename)) {
-            fw.write(convert(hmm));
-        }
+        FileWriter fw = new FileWriter(filename);
+        fw.write(convert(hmm));
+        fw.close();
     }
-    private static final Logger LOG = Logger.getLogger(HmmDrawerDot.class.getName());
 }

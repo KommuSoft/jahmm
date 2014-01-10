@@ -4,24 +4,13 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 
-import be.ac.ulg.montefiore.run.jahmm.CentroidFactory;
-import be.ac.ulg.montefiore.run.jahmm.Hmm;
-import be.ac.ulg.montefiore.run.jahmm.Observation;
-import be.ac.ulg.montefiore.run.jahmm.Opdf;
-import be.ac.ulg.montefiore.run.jahmm.OpdfFactory;
+import java.io.*;
+import java.util.EnumSet;
+
+import be.ac.ulg.montefiore.run.jahmm.*;
 import be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.Arguments;
-import static be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.checkArgs;
-import static be.ac.ulg.montefiore.run.jahmm.apps.cli.Types.relatedObjs;
 import be.ac.ulg.montefiore.run.jahmm.io.HmmWriter;
 import be.ac.ulg.montefiore.run.jahmm.io.OpdfWriter;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-import java.util.EnumSet;
-import static java.util.EnumSet.of;
-import java.util.logging.Logger;
 
 /**
  * Creates a Hmm and write it to file.
@@ -29,20 +18,19 @@ import java.util.logging.Logger;
 class CreateActionHandler
         extends ActionHandler {
 
-    @Override
     public void act()
             throws FileNotFoundException, IOException, AbnormalTerminationException {
-        EnumSet<Arguments> args = of(
+        EnumSet<Arguments> args = EnumSet.of(
                 Arguments.OPDF,
                 Arguments.NB_STATES,
                 Arguments.OUT_HMM);
-        checkArgs(args);
+        CommandLineArguments.checkArgs(args);
 
         int nbStates = Arguments.NB_STATES.getAsInt();
         OutputStream outStream = Arguments.OUT_HMM.getAsOutputStream();
         Writer outWriter = new OutputStreamWriter(outStream);
 
-        write(outWriter, nbStates, relatedObjs());
+        write(outWriter, nbStates, Types.relatedObjs());
 
         outWriter.flush();
     }
@@ -53,9 +41,8 @@ class CreateActionHandler
         OpdfFactory<? extends Opdf<O>> opdfFactory = relatedObjs.opdfFactory();
         OpdfWriter<? extends Opdf<O>> opdfWriter = relatedObjs.opdfWriter();
 
-        Hmm<O> hmm = new Hmm<>(nbStates, opdfFactory);
+        Hmm<O> hmm = new Hmm<O>(nbStates, opdfFactory);
 
         HmmWriter.write(outWriter, opdfWriter, hmm);
     }
-    private static final Logger LOG = Logger.getLogger(CreateActionHandler.class.getName());
 }

@@ -4,14 +4,11 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import be.ac.ulg.montefiore.run.distributions.MultiGaussianDistribution;
 import java.text.NumberFormat;
-import static java.text.NumberFormat.getInstance;
 import java.util.Arrays;
-import static java.util.Arrays.asList;
-import static java.util.Arrays.fill;
 import java.util.Collection;
-import java.util.logging.Logger;
+
+import be.ac.ulg.montefiore.run.distributions.MultiGaussianDistribution;
 
 /**
  * This class represents a multivariate gaussian distribution function.
@@ -74,7 +71,6 @@ public class OpdfMultiGaussian
         return distribution.dimension();
     }
 
-    @Override
     public double probability(ObservationVector o) {
         if (o.dimension() != distribution.dimension()) {
             throw new IllegalArgumentException("Vector has a wrong "
@@ -84,34 +80,29 @@ public class OpdfMultiGaussian
         return distribution.probability(o.value);
     }
 
-    @Override
     public ObservationVector generate() {
         return new ObservationVector(distribution.generate());
     }
 
-    @Override
     public void fit(ObservationVector... oa) {
-        fit(asList(oa));
+        fit(Arrays.asList(oa));
     }
 
-    @Override
     public void fit(Collection<? extends ObservationVector> co) {
         if (co.isEmpty()) {
             throw new IllegalArgumentException("Empty observation set");
         }
 
         double[] weights = new double[co.size()];
-        fill(weights, 1. / co.size());
+        Arrays.fill(weights, 1. / co.size());
 
         fit(co, weights);
     }
 
-    @Override
     public void fit(ObservationVector[] o, double[] weights) {
-        fit(asList(o), weights);
+        fit(Arrays.asList(o), weights);
     }
 
-    @Override
     public void fit(Collection<? extends ObservationVector> co,
             double[] weights) {
         if (co.isEmpty() || co.size() != weights.length) {
@@ -151,11 +142,6 @@ public class OpdfMultiGaussian
         distribution = new MultiGaussianDistribution(mean, covariance);
     }
 
-    /**
-     *
-     * @return
-     */
-    @Override
     public OpdfMultiGaussian clone() {
         try {
             return (OpdfMultiGaussian) super.clone();
@@ -164,16 +150,10 @@ public class OpdfMultiGaussian
         }
     }
 
-    /**
-     *
-     * @return
-     */
-    @Override
     public String toString() {
-        return toString(getInstance());
+        return toString(NumberFormat.getInstance());
     }
 
-    @Override
     public String toString(NumberFormat numberFormat) {
         String s = "Multi-variate Gaussian distribution --- Mean: [ ";
         double[] mean = distribution.mean();
@@ -186,5 +166,4 @@ public class OpdfMultiGaussian
     }
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(OpdfMultiGaussian.class.getName());
 }

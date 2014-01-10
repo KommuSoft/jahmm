@@ -4,8 +4,7 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.text.NumberFormat;
-import java.util.logging.Logger;
+import java.text.*;
 
 /**
  * This class holds an integer observation.
@@ -32,14 +31,11 @@ public class ObservationInteger extends Observation
      *
      * @return The corresponding observation.
      */
-    @Override
     public Centroid<ObservationInteger> factor() {
         return new CentroidObservationInteger(this);
     }
 
-    @Override
     public String toString(NumberFormat numberFormat) {
         return numberFormat.format(value);
     }
-    private static final Logger LOG = Logger.getLogger(ObservationInteger.class.getName());
 }

@@ -4,9 +4,9 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.io.Serializable;
+import java.util.*;
+import java.io.*;
 import java.text.NumberFormat;
-import java.util.Collection;
 
 /**
  * Objects implementing this interface represent an observation probability

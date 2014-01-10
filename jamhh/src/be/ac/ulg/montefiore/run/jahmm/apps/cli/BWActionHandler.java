@@ -9,28 +9,13 @@ import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.Observation;
 import be.ac.ulg.montefiore.run.jahmm.Opdf;
 import be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.Arguments;
-import static be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.checkArgs;
-import static be.ac.ulg.montefiore.run.jahmm.apps.cli.Types.relatedObjs;
-import be.ac.ulg.montefiore.run.jahmm.io.FileFormatException;
-import be.ac.ulg.montefiore.run.jahmm.io.HmmReader;
-import static be.ac.ulg.montefiore.run.jahmm.io.HmmReader.read;
-import be.ac.ulg.montefiore.run.jahmm.io.HmmWriter;
-import static be.ac.ulg.montefiore.run.jahmm.io.HmmWriter.write;
-import be.ac.ulg.montefiore.run.jahmm.io.OpdfReader;
-import be.ac.ulg.montefiore.run.jahmm.io.OpdfWriter;
+import be.ac.ulg.montefiore.run.jahmm.io.*;
 import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchLearner;
 import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchScaledLearner;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Reader;
-import java.io.Writer;
+
+import java.io.*;
 import java.util.EnumSet;
-import static java.util.EnumSet.of;
 import java.util.List;
-import java.util.logging.Logger;
 
 /**
  * Applies the Baum-Welch learning algorithm.
@@ -38,17 +23,16 @@ import java.util.logging.Logger;
 class BWActionHandler
         extends ActionHandler {
 
-    @Override
     public void act()
             throws IOException, FileFormatException,
             AbnormalTerminationException {
-        EnumSet<Arguments> args = of(
+        EnumSet<Arguments> args = EnumSet.of(
                 Arguments.OPDF,
                 Arguments.OUT_HMM,
                 Arguments.IN_HMM,
                 Arguments.IN_SEQ,
                 Arguments.NB_ITERATIONS);
-        checkArgs(args);
+        CommandLineArguments.checkArgs(args);
 
         int nbIterations = Arguments.NB_ITERATIONS.getAsInt();
         OutputStream outStream = Arguments.OUT_HMM.getAsOutputStream();
@@ -58,7 +42,7 @@ class BWActionHandler
         Reader hmmReader = new InputStreamReader(hmmStream, Cli.CHARSET);
         Reader seqReader = new InputStreamReader(seqStream, Cli.CHARSET);
 
-        learn(relatedObjs(), hmmReader, seqReader, hmmWriter,
+        learn(Types.relatedObjs(), hmmReader, seqReader, hmmWriter,
                 nbIterations);
 
         hmmWriter.flush();
@@ -73,11 +57,10 @@ class BWActionHandler
         OpdfReader<? extends Opdf<O>> opdfReader = relatedObjs.opdfReader();
         OpdfWriter<? extends Opdf<O>> opdfWriter = relatedObjs.opdfWriter();
 
-        Hmm<O> initHmm = read(hmmFileReader, opdfReader);
+        Hmm<O> initHmm = HmmReader.read(hmmFileReader, opdfReader);
         BaumWelchLearner bw = new BaumWelchScaledLearner();
         bw.setNbIterations(nbIterations);
         Hmm<O> hmm = bw.learn(initHmm, seqs);
-        write(hmmFileWriter, opdfWriter, hmm);
+        HmmWriter.write(hmmFileWriter, opdfWriter, hmm);
     }
-    private static final Logger LOG = Logger.getLogger(BWActionHandler.class.getName());
 }

@@ -4,15 +4,11 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import be.ac.ulg.montefiore.run.jahmm.Hmm;
-import be.ac.ulg.montefiore.run.jahmm.Observation;
-import be.ac.ulg.montefiore.run.jahmm.Opdf;
-import java.io.IOException;
-import java.io.Reader;
-import java.io.StreamTokenizer;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
+
+import be.ac.ulg.montefiore.run.jahmm.*;
 
 /**
  * This class can read Hidden Markov Models represented as text files. The file
@@ -61,7 +57,6 @@ public class HmmReader {
      * @param reader The reader to read the HMM description from.
      * @param opdfReader The {@link OpdfReader} used to read the observation
      * distributions.
-     * @return 
      */
     public static <O extends Observation> Hmm<O>
             read(Reader reader, OpdfReader<? extends Opdf<O>> opdfReader)
@@ -74,13 +69,13 @@ public class HmmReader {
 
         double[] pi = new double[nbStates];
         double[][] a = new double[nbStates][nbStates];
-        List<Opdf<O>> opdfs = new ArrayList<>(nbStates);
+        List<Opdf<O>> opdfs = new ArrayList<Opdf<O>>(nbStates);
 
         for (int i = 0; i < nbStates; i++) {
             readState(st, nbStates, i, pi, a, opdfs, opdfReader);
         }
 
-        return new Hmm<>(pi, a, opdfs);
+        return new Hmm<O>(pi, a, opdfs);
     }
 
     static private <O extends Observation> void
@@ -159,5 +154,4 @@ public class HmmReader {
         st.eolIsSignificant(false);
         st.commentChar((int) '#');
     }
-    private static final Logger LOG = Logger.getLogger(HmmReader.class.getName());
 }

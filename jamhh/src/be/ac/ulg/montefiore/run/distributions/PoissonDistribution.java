@@ -4,11 +4,6 @@
  */
 package be.ac.ulg.montefiore.run.distributions;
 
-import static java.lang.Math.exp;
-import static java.lang.Math.log;
-import static java.lang.Math.random;
-import java.util.logging.Logger;
-
 /**
  * This class implements a generator of Poisson distributed numbers.
  */
@@ -59,23 +54,21 @@ public class PoissonDistribution
         return mean;
     }
 
-    @Override
     public int generate() {
         int count = 0;
         double product = 1.;
-        final double elambda = exp(-mean);
+        final double elambda = Math.exp(-mean);
 
         while (product > elambda) {
-            product *= random();
+            product *= Math.random();
             count++;
         }
 
         return count - 1;
     }
 
-    @Override
     public double probability(int n) {
-        return exp(n * log(mean) - logFactorial(n) - mean);
+        return Math.exp(n * Math.log(mean) - logFactorial(n) - mean);
     }
 
     // Based on Stirling approximation
@@ -83,13 +76,12 @@ public class PoissonDistribution
         if (n >= logFactTable.length) {
             double r = 1. / (double) n;
 
-            return (n + .5) * log(n) - n + C0
+            return (n + .5) * Math.log(n) - n + C0
                     + r * (C1 + r * r * (C3 + r * r * (C5 + r * r * C7)));
         } else {
             return logFactTable[n];
         }
     }
 
-    private static final long serialVersionUID = 2_516_179_242_233_627_286L;
-    private static final Logger LOG = Logger.getLogger(PoissonDistribution.class.getName());
+    private static final long serialVersionUID = 2516179242233627286L;
 }

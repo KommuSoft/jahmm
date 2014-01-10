@@ -4,9 +4,7 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import static java.lang.Math.abs;
-import java.util.List;
-import java.util.logging.Logger;
+import java.util.*;
 
 /**
  * This class represents the centroid of a set of {@link ObservationInteger
@@ -17,22 +15,16 @@ public class CentroidObservationInteger
 
     private double value;
 
-    /**
-     *
-     * @param o
-     */
     public CentroidObservationInteger(ObservationInteger o) {
         this.value = o.value;
     }
 
-    @Override
     public void reevaluateAdd(ObservationInteger e,
             List<? extends ObservationInteger> v) {
         value = ((value * (double) v.size())
                 + ((double) (e.value))) / (v.size() + 1.);
     }
 
-    @Override
     public void reevaluateRemove(ObservationInteger e,
             List<? extends ObservationInteger> v) {
         value = ((value * (double) v.size())
@@ -48,9 +40,7 @@ public class CentroidObservationInteger
      *          ObservationInteger}.
      * @return The distance to the centroid.
      */
-    @Override
     public double distance(ObservationInteger e) {
-        return abs(e.value - value);
+        return Math.abs(e.value - value);
     }
-    private static final Logger LOG = Logger.getLogger(CentroidObservationInteger.class.getName());
 }

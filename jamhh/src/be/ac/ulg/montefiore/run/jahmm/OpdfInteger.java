@@ -4,14 +4,9 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import static java.lang.Math.random;
 import java.text.NumberFormat;
-import static java.text.NumberFormat.getInstance;
 import java.util.Arrays;
-import static java.util.Arrays.asList;
-import static java.util.Arrays.fill;
 import java.util.Collection;
-import java.util.logging.Logger;
 
 /**
  * This class represents a distribution of a finite number of positive integer
@@ -75,7 +70,6 @@ public class OpdfInteger
         return probabilities.length;
     }
 
-    @Override
     public double probability(ObservationInteger o) {
         if (o.value > probabilities.length - 1) {
             throw new IllegalArgumentException("Wrong observation value");
@@ -84,9 +78,8 @@ public class OpdfInteger
         return probabilities[o.value];
     }
 
-    @Override
     public ObservationInteger generate() {
-        double rand = random();
+        double rand = Math.random();
 
         for (int i = 0; i < probabilities.length - 1; i++) {
             if ((rand -= probabilities[i]) < 0.) {
@@ -97,12 +90,10 @@ public class OpdfInteger
         return new ObservationInteger(probabilities.length - 1);
     }
 
-    @Override
     public void fit(ObservationInteger... oa) {
-        fit(asList(oa));
+        fit(Arrays.asList(oa));
     }
 
-    @Override
     public void fit(Collection<? extends ObservationInteger> co) {
         if (co.isEmpty()) {
             throw new IllegalArgumentException("Empty observation set");
@@ -121,19 +112,17 @@ public class OpdfInteger
         }
     }
 
-    @Override
     public void fit(ObservationInteger[] o, double[] weights) {
-        fit(asList(o), weights);
+        fit(Arrays.asList(o), weights);
     }
 
-    @Override
     public void fit(Collection<? extends ObservationInteger> co,
             double[] weights) {
         if (co.isEmpty() || co.size() != weights.length) {
             throw new IllegalArgumentException();
         }
 
-        fill(probabilities, 0.);
+        Arrays.fill(probabilities, 0.);
 
         int i = 0;
         for (ObservationInteger o : co) {
@@ -141,11 +130,6 @@ public class OpdfInteger
         }
     }
 
-    /**
-     *
-     * @return
-     */
-    @Override
     public OpdfInteger clone() {
         try {
             OpdfInteger opdf = (OpdfInteger) super.clone();
@@ -156,16 +140,10 @@ public class OpdfInteger
         }
     }
 
-    /**
-     *
-     * @return
-     */
-    @Override
     public String toString() {
-        return toString(getInstance());
+        return toString(NumberFormat.getInstance());
     }
 
-    @Override
     public String toString(NumberFormat numberFormat) {
         String s = "Integer distribution --- ";
 
@@ -180,5 +158,4 @@ public class OpdfInteger
     }
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(OpdfInteger.class.getName());
 }

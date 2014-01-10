@@ -4,12 +4,19 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.logging.Logger;
+import java.util.*;
 
-
+/**
+ * This class can be used to divide a set of elements in clusters using the
+ * k-means algorithm.
+ * <p>
+ * The algorithm used is just the plain old k-means algorithm as explained in
+ * <i>Clustering and the Continuous k-Means Algorithm</i> (Vance Faber,
+ * <i>Los Alamos Science</i> number 22).
+ * <p>
+ * In order to get the theoretical complexity, the list of elements to be
+ * clustered must be accessible in O(1).
+ */
 public class KMeansCalculator<K extends CentroidFactory<? super K>> {
 
     private ArrayList<Cluster<K>> clusters;
@@ -19,14 +26,14 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
      */
     class Cluster<L extends CentroidFactory<? super L>> {
 
-        private final List<L> elements;
+        private List<L> elements;
         private Centroid<? super L> centroid;
 
         /**
          * Creates a new empty cluster.
          */
         public Cluster() {
-            elements = new ArrayList<>();
+            elements = new ArrayList<L>();
             centroid = null;
         }
 
@@ -36,7 +43,7 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
          * @param element The element that compose the new cluster.
          */
         public Cluster(L e) {
-            elements = new ArrayList<>();
+            elements = new ArrayList<L>();
             elements.add(e);
             centroid = e.factor();
         }
@@ -81,7 +88,7 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
             throw new IllegalArgumentException("Illegal number of clusters");
         }
 
-        clusters = new ArrayList<>(k);
+        clusters = new ArrayList<Cluster<K>>(k);
 
         /* First, initialize clusters randomly */
         int clusterNb = 0;
@@ -101,13 +108,13 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
                 }
             }
 
-            clusters.add(new Cluster<>(elements.get(elementNb)));
+            clusters.add(new Cluster<K>(elements.get(elementNb)));
             clusterNb++;
         }
 
         for (; clusterNb < k && elementNb < elements.size();
                 elementNb++, clusterNb++) {
-            clusters.add(new Cluster<>(elements.get(elementNb)));
+            clusters.add(new Cluster<K>(elements.get(elementNb)));
         }
 
         for (; clusterNb < k; clusterNb++) {
@@ -183,5 +190,4 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
     public int nbClusters() {
         return clusters.size();
     }
-    private static final Logger LOG = Logger.getLogger(KMeansCalculator.class.getName());
 }

@@ -4,53 +4,38 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.apps.cli;
 
-import static be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.parseAction;
-import static be.ac.ulg.montefiore.run.jahmm.apps.cli.CommandLineArguments.reset;
+import java.io.*;
+
 import be.ac.ulg.montefiore.run.jahmm.io.FileFormatException;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import static java.lang.System.exit;
-import java.util.logging.Logger;
 
 /**
  * This class implements a command line interface for the Jahmm library.
  */
 public class Cli {
 
-    /**
-     *
-     */
     public final static String CHARSET = "ISO-8859-1";
 
     /**
      * The entry point of the CLI.
      *
      * @param args Command line arguments.
-     * @throws java.io.IOException
      */
     public static void main(String... args)
             throws IOException {
         try {
-            exit(run(args));
+            System.exit(run(args));
         } catch (AbnormalTerminationException e) {
             System.err.println(e);
-            exit(-1);
+            System.exit(-1);
         }
     }
 
-    /**
-     *
-     * @param args
-     * @return
-     * @throws IOException
-     * @throws AbnormalTerminationException
-     */
     static public int run(String... args)
             throws IOException, AbnormalTerminationException {
         // Allows this method to be called more than once
-        reset();
+        CommandLineArguments.reset();
 
-        ActionHandler.Actions action = parseAction(args);
+        ActionHandler.Actions action = CommandLineArguments.parseAction(args);
         if (action == null) {
             throw new WrongArgumentsException("Valid action required");
         }
@@ -59,7 +44,7 @@ public class Cli {
 
         try {
             actionHandler = action.handler().newInstance();
-        } catch (IllegalAccessException | InstantiationException e) {
+        } catch (Exception e) {
             throw new InternalError(e.toString());
         }
 
@@ -67,12 +52,14 @@ public class Cli {
 
         try {
             actionHandler.act();
-        } catch (FileNotFoundException | FileFormatException e) {
+        } catch (FileNotFoundException e) {
+            System.err.println(e);
+            return -1;
+        } catch (FileFormatException e) {
             System.err.println(e);
             return -1;
         }
 
         return 0;
     }
-    private static final Logger LOG = Logger.getLogger(Cli.class.getName());
 }

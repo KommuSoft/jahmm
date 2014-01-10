@@ -4,10 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import be.ac.ulg.montefiore.run.jahmm.OpdfGaussianMixture;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.logging.Logger;
+
+import be.ac.ulg.montefiore.run.jahmm.OpdfGaussianMixture;
 
 /**
  * This class implements a {@link OpdfGaussianMixture} writer. It is compatible
@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 public class OpdfGaussianMixtureWriter
         extends OpdfWriter<OpdfGaussianMixture> {
 
-    @Override
     public void write(Writer writer, OpdfGaussianMixture opdf)
             throws IOException {
         writer.write("GaussianMixtureOPDF [ ");
@@ -29,5 +28,4 @@ public class OpdfGaussianMixtureWriter
 
         writer.write(" ]");
     }
-    private static final Logger LOG = Logger.getLogger(OpdfGaussianMixtureWriter.class.getName());
 }

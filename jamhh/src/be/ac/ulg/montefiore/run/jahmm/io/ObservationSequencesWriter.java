@@ -4,11 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import be.ac.ulg.montefiore.run.jahmm.Observation;
-import java.io.IOException;
-import java.io.Writer;
-import java.util.List;
-import java.util.logging.Logger;
+import java.util.*;
+import java.io.*;
+
+import be.ac.ulg.montefiore.run.jahmm.*;
 
 /**
  * This class can write a set of observation sequences to a
@@ -26,7 +25,6 @@ public class ObservationSequencesWriter {
      * character set.
      * @param ow The observation writer used to generate the observations.
      * @param sequences The set of observation sequences.
-     * @throws java.io.IOException
      */
     static public <O extends Observation> void
             write(Writer writer, ObservationWriter<? super O> ow,
@@ -50,14 +48,4 @@ public class ObservationSequencesWriter {
 
         writer.write("\n");
     }
-<<<<<<< OURS
-<<<<<<< HEAD
-
-    private ObservationSequencesWriter() {
-    }
-    private static final Logger LOG = Logger.getLogger(ObservationSequencesWriter.class.getName());
-=======
->>>>>>> parent of e8b9e16... refactorings
-=======
->>>>>>> THEIRS
 }

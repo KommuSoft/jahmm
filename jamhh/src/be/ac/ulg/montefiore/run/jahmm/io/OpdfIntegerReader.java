@@ -4,11 +4,10 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.io;
 
-import be.ac.ulg.montefiore.run.jahmm.OpdfInteger;
-import static be.ac.ulg.montefiore.run.jahmm.io.HmmReader.readWords;
 import java.io.IOException;
 import java.io.StreamTokenizer;
-import java.util.logging.Logger;
+
+import be.ac.ulg.montefiore.run.jahmm.OpdfInteger;
 
 /**
  * This class implements a {@link OpdfInteger} reader. The syntax of the
@@ -27,7 +26,6 @@ public class OpdfIntegerReader
 
     private final int nbEntries; // < 0 if number of entries is not checked.
 
-    @Override
     String keyword() {
         return "IntegerOPDF";
     }
@@ -56,10 +54,9 @@ public class OpdfIntegerReader
         this.nbEntries = nbEntries;
     }
 
-    @Override
     public OpdfInteger read(StreamTokenizer st)
             throws IOException, FileFormatException {
-        readWords(st, keyword());
+        HmmReader.readWords(st, keyword());
 
         double[] probabilities = OpdfReader.read(st, -1);
 
@@ -71,5 +68,4 @@ public class OpdfIntegerReader
 
         return new OpdfInteger(probabilities);
     }
-    private static final Logger LOG = Logger.getLogger(OpdfIntegerReader.class.getName());
 }

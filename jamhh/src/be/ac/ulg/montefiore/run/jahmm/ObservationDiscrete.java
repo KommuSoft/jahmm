@@ -5,9 +5,11 @@
 package be.ac.ulg.montefiore.run.jahmm;
 
 import java.text.NumberFormat;
-import java.util.logging.Logger;
 
-
+/**
+ * This class implements observations whose values are taken out of a finite set
+ * implemented as an enumeration.
+ */
 public class ObservationDiscrete<E extends Enum<E>>
         extends Observation {
 
@@ -16,22 +18,15 @@ public class ObservationDiscrete<E extends Enum<E>>
      */
     public final E value;
 
-    /**
-     *
-     * @param value
-     */
     public ObservationDiscrete(E value) {
         this.value = value;
     }
 
-    @Override
     public String toString() {
         return value.toString();
     }
 
-    @Override
     public String toString(NumberFormat nf) {
         return toString();
     }
-    private static final Logger LOG = Logger.getLogger(ObservationDiscrete.class.getName());
 }
