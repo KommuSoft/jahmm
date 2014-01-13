@@ -31,13 +31,9 @@ import java.util.List;
 * @param <O> the type of the observations.
  */
 public class Hmm<O extends Observation>
-        implements AbstractHmm<O> {
+        extends HmmBase<O,double[][],ArrayList<Opdf<O>>> {
 
     private static final long serialVersionUID = 2L;
-
-    protected double pi[];
-    protected double a[][];
-    protected ArrayList<Opdf<O>> opdfs;
 
     /**
      * Creates a new HMM. Each state has the same <i>pi</i> value and the
@@ -55,11 +51,11 @@ public class Hmm<O extends Observation>
 
         pi = new double[nbStates];
         a = new double[nbStates][nbStates];
-        opdfs = new ArrayList<>(nbStates);
+        b = new ArrayList<>(nbStates);
 
         for (int i = 0; i < nbStates; i++) {
             pi[i] = 1. / nbStates;
-            opdfs.add(opdfFactory.factor());
+            b.add(opdfFactory.factor());
 
             for (int j = 0; j < nbStates; j++) {
                 a[i][j] = 1. / nbStates;
@@ -96,7 +92,7 @@ public class Hmm<O extends Observation>
             this.a[i] = a[i].clone();
         }
 
-        this.opdfs = new ArrayList<>(opdfs);
+        this.b = new ArrayList<>(opdfs);
     }
 
     /**
@@ -114,10 +110,10 @@ public class Hmm<O extends Observation>
 
         pi = new double[nbStates];
         a = new double[nbStates][nbStates];
-        opdfs = new ArrayList<>(nbStates);
+        b = new ArrayList<>(nbStates);
 
         for (int i = 0; i < nbStates; i++) {
-            opdfs.add(null);
+            b.add(null);
         }
     }
 
@@ -126,6 +122,7 @@ public class Hmm<O extends Observation>
      *     
 * @return The number of states of this HMM.
      */
+    @Override
     public int nbStates() {
         return pi.length;
     }
@@ -137,6 +134,7 @@ public class Hmm<O extends Observation>
      * <code>0 &le; stateNb &lt; nbStates()</code>
      * @return The <i>pi</i> value associated to <code>stateNb</code>.
      */
+    @Override
     public double getPi(int stateNb) {
         return pi[stateNb];
     }
@@ -160,8 +158,9 @@ public class Hmm<O extends Observation>
      * <code>0 &le; stateNb &lt; nbStates()</code>.
      * @return The opdf associated to state <code>stateNb</code>.
      */
+    @Override
     public Opdf<O> getOpdf(int stateNb) {
-        return opdfs.get(stateNb);
+        return b.get(stateNb);
     }
 
     /**
@@ -172,7 +171,7 @@ public class Hmm<O extends Observation>
      * @param opdf An observation probability function.
      */
     public void setOpdf(int stateNb, Opdf<O> opdf) {
-        opdfs.set(stateNb, opdf);
+        b.set(stateNb, opdf);
     }
 
     /**
@@ -186,6 +185,7 @@ public class Hmm<O extends Observation>
      * @return The probability associated to the transition going from
      * <code>i</code> to state <code>j</code>.
      */
+    @Override
     public double getAij(int i, int j) {
         return a[i][j];
     }
@@ -215,6 +215,7 @@ public class Hmm<O extends Observation>
      * @return An array containing the most likely sequence of state numbers.
      * This array can be modified.
      */
+    @Override
     public int[] mostLikelyStateSequence(List<? extends O> oseq) {
         return (new ViterbiCalculator(oseq, this)).stateSequence();
     }
@@ -225,6 +226,7 @@ public class Hmm<O extends Observation>
 * @param oseq A non-empty observation sequence.
      * @return The probability of this sequence.
      */
+    @Override
     public double probability(List<? extends O> oseq) {
         return (new ForwardBackwardCalculator(oseq, this)).probability();
     }
@@ -237,6 +239,7 @@ public class Hmm<O extends Observation>
 * @param oseq A non-empty observation sequence.
      * @return The probability of this sequence.
      */
+    @Override
     public double lnProbability(List<? extends O> oseq) {
         return (new ForwardBackwardScaledCalculator(oseq, this)).
                 lnProbability();
@@ -251,6 +254,7 @@ public class Hmm<O extends Observation>
      * of this array must be equal to the length of <code>oseq</code>
      * @return The probability P[oseq,sseq|H], where H is this HMM.
      */
+    @Override
     public double probability(List<? extends O> oseq, int[] sseq) {
         if (oseq.size() != sseq.length || oseq.isEmpty()) {
             throw new IllegalArgumentException();
@@ -276,6 +280,7 @@ public class Hmm<O extends Observation>
 * @param nf A number formatter used to print numbers (e.g. Aij values).
      * @return A textual description of this HMM.
      */
+    @Override
     public String toString(NumberFormat nf) {
         String s = "HMM with " + nbStates() + " state(s)\n";
 
@@ -324,8 +329,8 @@ public class Hmm<O extends Observation>
             hmm.a[i] = a[i].clone();
         }
 
-        for (int i = 0; i < hmm.opdfs.size(); i++) {
-            hmm.opdfs.set(i, opdfs.get(i).clone());
+        for (int i = 0; i < hmm.b.size(); i++) {
+            hmm.b.set(i, b.get(i).clone());
         }
 
         return hmm;

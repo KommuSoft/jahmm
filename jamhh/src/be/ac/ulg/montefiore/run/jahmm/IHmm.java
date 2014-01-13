@@ -4,6 +4,7 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -31,14 +32,10 @@ import java.util.logging.Logger;
  *
  * @param <O> the type of observations
  */
-public class IHmm<O extends Observation> extends Hmm<O> {
+public class IHmm<O extends Observation> extends HmmBase<O, double[][][], ArrayList<Opdf<O>>> {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(IHmm.class.getName());
-
-    protected double pi[];
-    protected double a[][][];
-    protected ArrayList<Opdf<O>> opdfs;
 
     /**
      * Creates a new IHMM. Each state has the same <i>pi</i> value and the
@@ -56,12 +53,12 @@ public class IHmm<O extends Observation> extends Hmm<O> {
         }
         pi = new double[nbStates];
         a = new double[nbStates][nbSymbols][nbStates];
-        opdfs = new ArrayList<>(nbStates);
+        b = new ArrayList<>(nbStates);
 
-        double ac = 1. / (nbStates*nbSymbols);
+        double ac = 1. / (nbStates * nbSymbols);
         for (int i = 0; i < nbStates; i++) {
             pi[i] = 1. / nbStates;
-            opdfs.add(opdfFactory.factor());
+            b.add(opdfFactory.factor());
             for (int j = 0; j < nbSymbols; j++) {
                 for (int k = 0; k < nbStates; k++) {
                     a[i][j][k] = ac;
@@ -75,15 +72,15 @@ public class IHmm<O extends Observation> extends Hmm<O> {
      *
      * @param pi The initial probability values.  <code>pi[i]</code> is the
      * initial probability of state <code>i</code>. This array is copied.
-     * @param a The state transition probability array. <code>a[i][j][k]</code> is
-     * the probability of going from state <code>k</code> given input symbol <code>j</code> to state
-     * <code>j</code>. This array is copied.
+     * @param a The state transition probability array. <code>a[i][j][k]</code>
+     * is the probability of going from state <code>k</code> given input symbol
+     * <code>j</code> to state <code>j</code>. This array is copied.
      * @param opdfs The observation distributions.  <code>opdfs.get(i)</code> is
      * the observation distribution associated with state <code>i</code>. The
      * distributions are not copied.
      */
     public IHmm(double[] pi, double[][][] a, List<? extends Opdf<O>> opdfs) {
-        
+
     }
 
     /**
@@ -103,9 +100,9 @@ public class IHmm<O extends Observation> extends Hmm<O> {
         }
         pi = new double[nbStates];
         a = new double[nbStates][nbSymbols][nbStates];
-        opdfs = new ArrayList<>(nbStates);
+        b = new ArrayList<>(nbStates);
 
-        double ac = 1. / (nbStates*nbSymbols);
+        double ac = 1. / (nbStates * nbSymbols);
         for (int i = 0; i < nbStates; i++) {
             pi[i] = 1. / nbStates;
             for (int j = 0; j < nbSymbols; j++) {
@@ -115,7 +112,7 @@ public class IHmm<O extends Observation> extends Hmm<O> {
             }
         }
     }
-    
+
     /**
      * Returns the number of states of this HMM.
      *
@@ -125,7 +122,7 @@ public class IHmm<O extends Observation> extends Hmm<O> {
     public int nbStates() {
         return a.length;
     }
-    
+
     /**
      * Returns the number of symbols of this IHMM.
      *
@@ -143,10 +140,45 @@ public class IHmm<O extends Observation> extends Hmm<O> {
      * in the hierarchy can fail to clone.
      */
     @Override
-    public Hmm<O> clone()
+    public IHmm<O> clone()
             throws CloneNotSupportedException {
         IHmm<O> ihmm = new IHmm<>(nbSymbols(), nbStates());
         return ihmm;
+    }
+
+    /**
+     * Gives a description of this IHMM.
+     *     
+* @return A textual description of this IHMM.
+     */
+    @Override
+    public String toString() {
+        return toString(NumberFormat.getInstance());
+    }
+
+    /**
+     * Gives a description of this HMM.
+     *     
+* @param nf A number formatter used to print numbers (e.g. Aij values).
+     * @return A textual description of this HMM.
+     */
+    public String toString(NumberFormat nf) {
+        String s = "HMM with " + nbStates() + " state(s)\n";
+
+        for (int i = 0; i < nbStates(); i++) {
+            s += "\nState " + i + "\n";
+            s += " Pi: " + getPi(i) + "\n";
+            s += " Aij:";
+
+            for (int j = 0; j < nbStates(); j++) {
+                s += " " + nf.format(getAij(i, j));
+            }
+            s += "\n";
+
+            s += " Opdf: " + getOpdf(i).toString(nf) + "\n";
+        }
+
+        return s;
     }
 
 }

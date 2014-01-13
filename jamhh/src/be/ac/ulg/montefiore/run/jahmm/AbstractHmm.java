@@ -33,7 +33,7 @@ public interface AbstractHmm<O extends Observation> extends Cloneable, Serializa
      * @throws CloneNotSupportedException An exception such that classes
      * lower in the hierarchy can fail to clone.
      */
-    Hmm<O> clone() throws CloneNotSupportedException;
+    AbstractHmm<O> clone() throws CloneNotSupportedException;
 
     /**
      * Returns the probability associated with the transition going from state
