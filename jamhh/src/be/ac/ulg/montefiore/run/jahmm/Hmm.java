@@ -1,17 +1,16 @@
 /*
  * Copyright (c) 2004-2009, Jean-Marc François. All Rights Reserved.
- * Licensed under the New BSD license.  See the LICENSE file.
+ * Licensed under the New BSD license. See the LICENSE file.
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 /**
- * Main Hmm class; it implements an Hidden Markov Model. An HMM is composed of:
+ * Main Hmm class; it implements a Hidden Markov Model. An HMM is composed of:
  * <ul>
  * <li><i>states</i>: each state has a given probability of being initial
  * (<i>pi</i>) and an associated observation probability function (<i>opdf</i>).
@@ -28,11 +27,11 @@ import java.util.List;
  * {@link Observation Observation}s (in the right order, the i-th element of the
  * vector being the i-th element of the sequence). A set of observation
  * sequences is a {@link java.util.List List} of such sequences.
- *
- * @param <O> the type of the observations.
+ * 
+* @param <O> the type of the observations.
  */
 public class Hmm<O extends Observation>
-        implements Serializable, Cloneable {
+        implements AbstractHmm<O> {
 
     private static final long serialVersionUID = 2L;
 
@@ -43,8 +42,8 @@ public class Hmm<O extends Observation>
     /**
      * Creates a new HMM. Each state has the same <i>pi</i> value and the
      * transition probabilities are all equal.
-     *
-     * @param nbStates The (strictly positive) number of states of the HMM.
+     *     
+* @param nbStates The (strictly positive) number of states of the HMM.
      * @param opdfFactory A pdf generator that is used to build the pdfs
      * associated to each state.
      */
@@ -70,13 +69,13 @@ public class Hmm<O extends Observation>
 
     /**
      * Creates a new HMM. All the HMM parameters are given as arguments.
-     *
-     * @param pi The initial probability values.  <code>pi[i]</code> is the
+     *     
+* @param pi The initial probability values. <code>pi[i]</code> is the
      * initial probability of state <code>i</code>. This array is copied.
      * @param a The state transition probability array. <code>a[i][j]</code> is
      * the probability of going from state <code>i</code> to state
      * <code>j</code>. This array is copied.
-     * @param opdfs The observation distributions.  <code>opdfs.get(i)</code> is
+     * @param opdfs The observation distributions. <code>opdfs.get(i)</code> is
      * the observation distribution associated with state <code>i</code>. The
      * distributions are not copied.
      */
@@ -104,8 +103,8 @@ public class Hmm<O extends Observation>
      * Creates a new HMM. The parameters of the created HMM set to
      * <code>null</code> specified and must be set using the appropriate
      * methods.
-     *
-     * @param nbStates The (strictly positive) number of states of the HMM.
+     *     
+* @param nbStates The (strictly positive) number of states of the HMM.
      */
     protected Hmm(int nbStates) {
         if (nbStates <= 0) {
@@ -124,8 +123,8 @@ public class Hmm<O extends Observation>
 
     /**
      * Returns the number of states of this HMM.
-     *
-     * @return The number of states of this HMM.
+     *     
+* @return The number of states of this HMM.
      */
     public int nbStates() {
         return pi.length;
@@ -133,8 +132,8 @@ public class Hmm<O extends Observation>
 
     /**
      * Returns the <i>pi</i> value associated with a given state.
-     *
-     * @param stateNb A state number such that
+     *     
+* @param stateNb A state number such that
      * <code>0 &le; stateNb &lt; nbStates()</code>
      * @return The <i>pi</i> value associated to <code>stateNb</code>.
      */
@@ -144,8 +143,8 @@ public class Hmm<O extends Observation>
 
     /**
      * Sets the <i>pi</i> value associated with a given state.
-     *
-     * @param stateNb A state number such that
+     *     
+* @param stateNb A state number such that
      * <code>0 &le; stateNb &lt; nbStates()</code>.
      * @param value The <i>pi</i> value to associate to state number
      * <code>stateNb</code>
@@ -156,8 +155,8 @@ public class Hmm<O extends Observation>
 
     /**
      * Returns the opdf associated with a given state.
-     *
-     * @param stateNb A state number such that
+     *     
+* @param stateNb A state number such that
      * <code>0 &le; stateNb &lt; nbStates()</code>.
      * @return The opdf associated to state <code>stateNb</code>.
      */
@@ -167,8 +166,8 @@ public class Hmm<O extends Observation>
 
     /**
      * Sets the opdf associated with a given state.
-     *
-     * @param stateNb A state number such that
+     *     
+* @param stateNb A state number such that
      * <code>0 &le; stateNb &lt; nbStates()</code>.
      * @param opdf An observation probability function.
      */
@@ -179,8 +178,8 @@ public class Hmm<O extends Observation>
     /**
      * Returns the probability associated with the transition going from state
      * <i>i</i> to state <i>j</i> (<i>a<sub>i,j</sub></i>).
-     *
-     * @param i The first state number such that
+     *     
+* @param i The first state number such that
      * <code>0 &le; i &lt; nbStates()</code>.
      * @param j The second state number such that
      * <code>0 &le; j &lt; nbStates()</code>.
@@ -194,8 +193,8 @@ public class Hmm<O extends Observation>
     /**
      * Sets the probability associated to the transition going from state
      * <i>i</i> to state <i>j</i> (<i>A<sub>i,j</sub></i>).
-     *
-     * @param i The first state number such that
+     *     
+* @param i The first state number such that
      * <code>0 &le; i &lt; nbStates()</code>.
      * @param j The second state number such that
      * <code>0 &le; j &lt; nbStates()</code>.
@@ -211,8 +210,8 @@ public class Hmm<O extends Observation>
      * maximizes the probability of <code>P[I|O,Model]</code> where
      * <code>O</code> is the observation sequence and <code>Model</code> this
      * HMM model.
-     *
-     * @param oseq A non-empty observation sequence.
+     *     
+* @param oseq A non-empty observation sequence.
      * @return An array containing the most likely sequence of state numbers.
      * This array can be modified.
      */
@@ -222,8 +221,8 @@ public class Hmm<O extends Observation>
 
     /**
      * Returns the probability of an observation sequence given this HMM.
-     *
-     * @param oseq A non-empty observation sequence.
+     *     
+* @param oseq A non-empty observation sequence.
      * @return The probability of this sequence.
      */
     public double probability(List<? extends O> oseq) {
@@ -234,8 +233,8 @@ public class Hmm<O extends Observation>
      * Returns the neperian logarithm of observation sequence's probability
      * given this HMM. A <i>scaling</i> procedure is used in order to avoid
      * underflows when computing the probability of long sequences.
-     *
-     * @param oseq A non-empty observation sequence.
+     *     
+* @param oseq A non-empty observation sequence.
      * @return The probability of this sequence.
      */
     public double lnProbability(List<? extends O> oseq) {
@@ -246,8 +245,8 @@ public class Hmm<O extends Observation>
     /**
      * Returns the probability of an observation sequence along a state sequence
      * given this HMM.
-     *
-     * @param oseq A non-empty observation sequence.
+     *     
+* @param oseq A non-empty observation sequence.
      * @param sseq An array containing a sequence of state numbers. The length
      * of this array must be equal to the length of <code>oseq</code>
      * @return The probability P[oseq,sseq|H], where H is this HMM.
@@ -273,8 +272,8 @@ public class Hmm<O extends Observation>
 
     /**
      * Gives a description of this HMM.
-     *
-     * @param nf A number formatter used to print numbers (e.g. Aij values).
+     *     
+* @param nf A number formatter used to print numbers (e.g. Aij values).
      * @return A textual description of this HMM.
      */
     public String toString(NumberFormat nf) {
@@ -282,15 +281,15 @@ public class Hmm<O extends Observation>
 
         for (int i = 0; i < nbStates(); i++) {
             s += "\nState " + i + "\n";
-            s += "  Pi: " + getPi(i) + "\n";
-            s += "  Aij:";
+            s += " Pi: " + getPi(i) + "\n";
+            s += " Aij:";
 
             for (int j = 0; j < nbStates(); j++) {
                 s += " " + nf.format(getAij(i, j));
             }
             s += "\n";
 
-            s += "  Opdf: " + getOpdf(i).toString(nf) + "\n";
+            s += " Opdf: " + getOpdf(i).toString(nf) + "\n";
         }
 
         return s;
@@ -298,8 +297,8 @@ public class Hmm<O extends Observation>
 
     /**
      * Gives a description of this HMM.
-     *
-     * @return A textual description of this HMM.
+     *     
+* @return A textual description of this HMM.
      */
     @Override
     public String toString() {
@@ -308,9 +307,10 @@ public class Hmm<O extends Observation>
 
     /**
      * Creates a duplicate object of the HMM.
+     *
      * @return An IHHM that contains the same date as this object.
-     * @throws CloneNotSupportedException An exception such that classes
-     * lower in the hierarchy can fail to clone.
+     * @throws CloneNotSupportedException An exception such that classes lower
+     * in the hierarchy can fail to clone.
      */
     @Override
     public Hmm<O> clone()
