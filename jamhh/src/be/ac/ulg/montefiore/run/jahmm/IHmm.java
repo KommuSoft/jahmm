@@ -220,5 +220,26 @@ public class IHmm<O extends Observation> extends HmmBase<O, double[][][], ArrayL
 
         return s;
     }
+    
+    @Override
+    public void fold(int n) {
+        int m = pi.length;
+        double[] pia = new double[m], pib = this.pi, tmp;
+        for(int i = 0x00; i < n; i++) {
+            tmp = pia;
+            pia = pib;
+            pib = tmp;
+            for(int j = 0x00; j < m; j++) {
+                double tot = 0.0d;
+                for(int k = 0x00; k < m; k++) {
+                    tot += 1.0d;//TODO
+                }
+                pib[j] = tot;
+            }
+        }
+        if((n&0x01) != 0x00) {
+            this.pi = pib;
+        }
+    }
 
 }
