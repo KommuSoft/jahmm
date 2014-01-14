@@ -4,6 +4,7 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
@@ -97,23 +98,24 @@ public class ForwardBackwardCalculator {
      * @param oseq
      */
     protected <O extends Observation> void
-            computeAlpha(Hmm<? super O> hmm, List<O> oseq) {
+            computeAlpha(Hmm<? super O> hmm, Collection<O> oseq) {
         alpha = new double[oseq.size()][hmm.nbStates()];
 
-        for (int i = 0; i < hmm.nbStates(); i++) {
-            computeAlphaInit(hmm, oseq.get(0), i);
-        }
-
         Iterator<O> seqIterator = oseq.iterator();
+        O observation;
         if (seqIterator.hasNext()) {
-            seqIterator.next();
-        }
-
-        for (int t = 1; t < oseq.size(); t++) {
-            O observation = seqIterator.next();
+            observation = seqIterator.next();
 
             for (int i = 0; i < hmm.nbStates(); i++) {
-                computeAlphaStep(hmm, observation, t, i);
+                computeAlphaInit(hmm, observation, i);
+            }
+
+            for (int t = 1; t < oseq.size(); t++) {
+                observation = seqIterator.next();
+
+                for (int i = 0; i < hmm.nbStates(); i++) {
+                    computeAlphaStep(hmm, observation, t, i);
+                }
             }
         }
     }

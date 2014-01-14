@@ -215,7 +215,7 @@ public class IHmm<O extends Observation> extends HmmBase<O, double[][][], ArrayL
             }
             s += "\n";
 
-            s += " Opdf: " + getOpdf(i).toString(nf) + "\n";
+            s += " Opdf: " ;//TODO+ getOpdf(i).toString(nf) + "\n";
         }
 
         return s;
@@ -240,6 +240,31 @@ public class IHmm<O extends Observation> extends HmmBase<O, double[][][], ArrayL
         if((n&0x01) != 0x00) {
             this.pi = pib;
         }
+    }
+
+    @Override
+    public Opdf<O> getOpdf(int stateNb) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double lnProbability(List<? extends O> oseq) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int[] mostLikelyStateSequence(List<? extends O> oseq) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double probability(List<? extends O> oseq) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double probability(List<? extends O> oseq, int[] sseq) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

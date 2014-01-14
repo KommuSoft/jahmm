@@ -5,6 +5,7 @@
 package be.ac.ulg.montefiore.run.jahmm;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
@@ -89,26 +90,27 @@ public class ForwardBackwardScaledCalculator
      */
     @Override
     protected <O extends Observation> void
-            computeAlpha(Hmm<? super O> hmm, List<O> oseq) {
-        alpha = new double[oseq.size()][hmm.nbStates()];
-
-        for (int i = 0; i < hmm.nbStates(); i++) {
-            computeAlphaInit(hmm, oseq.get(0), i);
-        }
-        scale(ctFactors, alpha, 0);
-
+            computeAlpha(Hmm<? super O> hmm, Collection<O> oseq) {
         Iterator<? extends O> seqIterator = oseq.iterator();
         if (seqIterator.hasNext()) {
-            seqIterator.next();
-        }
 
-        for (int t = 1; t < oseq.size(); t++) {
             O observation = seqIterator.next();
 
+            alpha = new double[oseq.size()][hmm.nbStates()];
+
             for (int i = 0; i < hmm.nbStates(); i++) {
-                computeAlphaStep(hmm, observation, t, i);
+                computeAlphaInit(hmm, observation, i);
             }
-            scale(ctFactors, alpha, t);
+            scale(ctFactors, alpha, 0);
+
+            for (int t = 1; t < oseq.size(); t++) {
+                observation = seqIterator.next();
+
+                for (int i = 0; i < hmm.nbStates(); i++) {
+                    computeAlphaStep(hmm, observation, t, i);
+                }
+                scale(ctFactors, alpha, t);
+            }
         }
     }
 
