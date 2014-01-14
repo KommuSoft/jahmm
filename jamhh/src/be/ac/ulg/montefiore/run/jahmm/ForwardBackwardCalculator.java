@@ -18,25 +18,9 @@ import java.util.List;
  * Computing the <i>beta</i> array requires a O(1) access time to the
  * observation sequence to get a theoretically optimal performance.
  */
-public class ForwardBackwardCalculator implements AbstractForwardBackwardCalculator {
+public class ForwardBackwardCalculator implements AbstractForwardBackwardCalculator<double[][], double[][]> {
 
-    /* alpha[t][i] = P(O(1), O(2),..., O(t+1), i(t+1) = i+1 | hmm), that is the
-     probability of the beginning of the state sequence (up to time t+1)
-     with the (t+1)th state being i+1. */
-    /**
-     *
-     */
-    protected double[][] alpha = null;
-
-    /**
-     *
-     */
-    protected double[][] beta = null;
-
-    /**
-     *
-     */
-    protected double probability;
+    public static final ForwardBackwardCalculator Instance = new ForwardBackwardCalculator();
 
     /**
      *
@@ -48,7 +32,7 @@ public class ForwardBackwardCalculator implements AbstractForwardBackwardCalcula
 	
 	
 	/**
-	 * Computes the probability of occurence of an observation sequence
+	 * Computes the probability of occurrence of an observation sequence
 	 * given a Hidden Markov Model.
 	 *
      * @param <O>
@@ -56,50 +40,59 @@ public class ForwardBackwardCalculator implements AbstractForwardBackwardCalcula
 	 * @param oseq An observation sequence.
 	 * @param flags How the computation should be done. See the
 	 *              {@link ComputationType ComputationType} enum.
+     * @return 
 	 */
-	public <O extends Observation>
-            ForwardBackwardCalculator(List<? extends O> oseq,
-                    Hmm<O> hmm, EnumSet<ComputationType> flags) {
+    @Override
+    public <O extends Observation> double
+            calculate(List<? extends O> oseq, Hmm<O> hmm, Collection<ComputationType> flags) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException("Invalid empty sequence");
         }
 
+        double[][] alpha = null, beta = null;
+
         if (flags.contains(ComputationType.ALPHA)) {
-            computeAlpha(hmm, oseq);
+            alpha = computeAlpha(hmm, oseq);
         }
 
         if (flags.contains(ComputationType.BETA)) {
-            computeBeta(hmm, oseq);
+            beta = computeBeta(hmm, oseq);
         }
 
-        computeProbability(oseq, hmm, flags);
+        return computeProbability(oseq, hmm, flags, alpha, beta);
     }
 
     /**
-     * Computes the probability of occurence of an observation sequence given a
+     * Computes the probability of occurrence of an observation sequence given a
      * Hidden Markov Model. This computation computes the <code>alpha</code>
      * array as a side effect.
      *
      * @param <O>
      * @param oseq
      * @param hmm
+     * @return
      * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)
      */
-    public <O extends Observation>
-            ForwardBackwardCalculator(List<? extends O> oseq, Hmm<O> hmm) {
-        this(oseq, hmm, EnumSet.of(ComputationType.ALPHA));
+    @Override
+    public <O extends Observation> double
+            calculate(List<? extends O> oseq, Hmm<O> hmm) {
+        return calculate(oseq, hmm, EnumSet.of(ComputationType.ALPHA));
     }
 
-    /* Computes the content of the alpha array */
     /**
+     * Computes the content of the alpha array
      *
      * @param <O>
      * @param hmm
      * @param oseq
+     * @return alpha[t][i] = P(O(1), O(2),..., O(t+1), i(t+1) = i+1 | hmm), that
+     * is the probability of the beginning of the state sequence (up to time
+     * t+1) with the (t+1)th state being i+1.
      */
-    public <O extends Observation> void
+    @Override
+    public <O extends Observation> double[][]
             computeAlpha(Hmm<? super O> hmm, Collection<O> oseq) {
-        alpha = new double[oseq.size()][hmm.nbStates()];
+        double[][] alpha = new double[oseq.size()][hmm.nbStates()];
 
         Iterator<O> seqIterator = oseq.iterator();
         O observation;
@@ -107,50 +100,22 @@ public class ForwardBackwardCalculator implements AbstractForwardBackwardCalcula
             observation = seqIterator.next();
 
             for (int i = 0; i < hmm.nbStates(); i++) {
-                computeAlphaInit(hmm, observation, i);
+                alpha[0][i] = hmm.getPi(i) * hmm.getOpdf(i).probability(observation);
             }
 
             for (int t = 1; t < oseq.size(); t++) {
                 observation = seqIterator.next();
 
                 for (int i = 0; i < hmm.nbStates(); i++) {
-                    computeAlphaStep(hmm, observation, t, i);
+                    double sum = 0.;
+                    for (int j = 0; j < hmm.nbStates(); j++) {
+                        sum += alpha[t - 1][j] * hmm.getAij(j, i);
+                    }
+                    alpha[t][i] = sum * hmm.getOpdf(i).probability(observation);
                 }
             }
         }
-    }
-
-    /* Computes alpha[0][i] */
-    /**
-     *
-     * @param <O>
-     * @param hmm
-     * @param o
-     * @param i
-     */
-    protected <O extends Observation> void
-            computeAlphaInit(Hmm<? super O> hmm, O o, int i) {
-        alpha[0][i] = hmm.getPi(i) * hmm.getOpdf(i).probability(o);
-    }
-
-    /* Computes alpha[t][j] (t > 0) */
-    /**
-     *
-     * @param <O>
-     * @param hmm
-     * @param o
-     * @param t
-     * @param j
-     */
-    protected <O extends Observation> void
-            computeAlphaStep(Hmm<? super O> hmm, O o, int t, int j) {
-        double sum = 0.;
-
-        for (int i = 0; i < hmm.nbStates(); i++) {
-            sum += alpha[t - 1][i] * hmm.getAij(i, j);
-        }
-
-        alpha[t][j] = sum * hmm.getOpdf(j).probability(o);
+        return alpha;
     }
 
     /* Computes the content of the beta array.  Needs a O(1) access time
@@ -161,9 +126,11 @@ public class ForwardBackwardCalculator implements AbstractForwardBackwardCalcula
      * @param hmm
      * @param oseq
      */
-    public <O extends Observation> void
+    @Override
+    public <O extends Observation> double[][]
             computeBeta(Hmm<? super O> hmm, List<O> oseq) {
-        beta = new double[oseq.size()][hmm.nbStates()];
+        double[][] beta = new double[oseq.size()][hmm.nbStates()];
+        O observation;
 
         for (int i = 0; i < hmm.nbStates(); i++) {
             beta[oseq.size() - 1][i] = 1.;
@@ -171,71 +138,23 @@ public class ForwardBackwardCalculator implements AbstractForwardBackwardCalcula
 
         for (int t = oseq.size() - 2; t >= 0; t--) {
             for (int i = 0; i < hmm.nbStates(); i++) {
-                computeBetaStep(hmm, oseq.get(t + 1), t, i);
+                observation = oseq.get(t + 1);
+                double sum = 0.;
+                for (int j = 0; j < hmm.nbStates(); j++) {
+                    sum += beta[t + 1][j] * hmm.getAij(i, j)
+                            * hmm.getOpdf(j).probability(observation);
+                }
+                beta[t][i] = sum;
             }
         }
+        return beta;
     }
 
-    /* Computes beta[t][i] (t < obs. seq.le length - 1) */
-    /**
-     *
-     * @param <O>
-     * @param hmm
-     * @param o
-     * @param t
-     * @param i
-     */
-    protected <O extends Observation> void
-            computeBetaStep(Hmm<? super O> hmm, O o, int t, int i) {
-        double sum = 0.;
-
-        for (int j = 0; j < hmm.nbStates(); j++) {
-            sum += beta[t + 1][j] * hmm.getAij(i, j)
-                    * hmm.getOpdf(j).probability(o);
-        }
-
-        beta[t][i] = sum;
-    }
-
-    /**
-     * Returns an element of the <i>alpha</i> array.
-     *
-     * @param t The temporal argument of the array (positive but strictly
-     * smaller than the length of the sequence that helped generating the
-     * array).
-     * @param i A state index of the HMM that helped generating the array.
-     * @return The <i>alpha</i> array (t, i) element.
-     */
-    public double alphaElement(int t, int i) {
-        if (alpha == null) {
-            throw new UnsupportedOperationException("Alpha array has not "
-                    + "been computed");
-        }
-
-        return alpha[t][i];
-    }
-
-    /**
-     * Returns an element of the <i>beta</i> array.
-     *
-     * @param t The temporal argument of the array (positive but smaller than
-     * the length of the sequence that helped generating the array).
-     * @param i A state index of the HMM that helped generating the array.
-     * @return The <i>beta</i> beta (t, i) element.
-     */
-    public double betaElement(int t, int i) {
-        if (beta == null) {
-            throw new UnsupportedOperationException("Beta array has not "
-                    + "been computed");
-        }
-
-        return beta[t][i];
-    }
-
-    private <O extends Observation> void
+    @Override
+    public <O extends Observation> double
             computeProbability(List<O> oseq, Hmm<? super O> hmm,
-                    EnumSet<ComputationType> flags) {
-        probability = 0.;
+                    Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
+        double probability = 0.;
 
         if (flags.contains(ComputationType.ALPHA)) {
             for (int i = 0; i < hmm.nbStates(); i++) {
@@ -248,16 +167,6 @@ public class ForwardBackwardCalculator implements AbstractForwardBackwardCalcula
                         * hmm.getOpdf(i).probability(oseq.get(0)) * beta[0][i];
             }
         }
-    }
-
-    /**
-     * Return the probability of the sequence that generated this object. For
-     * long sequences, this probability might be very small, or even meaningless
-     * because of underflows.
-     *
-     * @return The probability of the sequence of interest.
-     */
-    public double probability() {
         return probability;
     }
 }

@@ -31,7 +31,7 @@ import java.util.List;
 * @param <O> the type of the observations.
  */
 public class Hmm<O extends Observation>
-        extends HmmBase<O,double[][],ArrayList<Opdf<O>>> {
+        extends HmmBase<O, double[][], ArrayList<Opdf<O>>> {
 
     private static final long serialVersionUID = 2L;
 
@@ -194,7 +194,7 @@ public class Hmm<O extends Observation>
      */
     @Override
     public double probability(List<? extends O> oseq) {
-        return (new ForwardBackwardCalculator(oseq, this)).probability();
+        return ForwardBackwardCalculator.Instance.calculate(oseq, this);
     }
 
     /**
@@ -306,19 +306,19 @@ public class Hmm<O extends Observation>
     public void fold(int n) {
         int m = pi.length;
         double[] pia = new double[m], pib = this.pi, tmp;
-        for(int i = 0x00; i < n; i++) {
+        for (int i = 0x00; i < n; i++) {
             tmp = pia;
             pia = pib;
             pib = tmp;
-            for(int j = 0x00; j < m; j++) {
+            for (int j = 0x00; j < m; j++) {
                 double tot = 0.0d;
-                for(int k = 0x00; k < m; k++) {
-                    tot += a[k][j]*pia[k];
+                for (int k = 0x00; k < m; k++) {
+                    tot += a[k][j] * pia[k];
                 }
                 pib[j] = tot;
             }
         }
-        if((n&0x01) != 0x00) {
+        if ((n & 0x01) != 0x00) {
             this.pi = pib;
         }
     }

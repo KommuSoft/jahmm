@@ -36,7 +36,7 @@ public class ForwardBackwardScaledCalculator
     private double lnProbability;
 
     /**
-     * Computes the probability of occurence of an observation sequence given a
+     * Computes the probability of occurrence of an observation sequence given a
      * Hidden Markov Model. The algorithms implemented use scaling to avoid
      * underflows.
      *
@@ -67,7 +67,7 @@ public class ForwardBackwardScaledCalculator
     }
 
     /**
-     * Computes the probability of occurence of an observation sequence given a
+     * Computes the probability of occurrence of an observation sequence given a
      * Hidden Markov Model. This computation computes the scaled
      * <code>alpha</code> array as a side effect.
      *
