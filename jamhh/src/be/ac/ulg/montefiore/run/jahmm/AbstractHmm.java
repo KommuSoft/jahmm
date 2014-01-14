@@ -130,6 +130,10 @@ public interface AbstractHmm<O extends Observation> extends Cloneable, Serializa
      * @return A textual description of this HMM.
      */
     String toString(NumberFormat nf);
+    
+    void fold ();
+    
+    void fold (int n);
 
     
     

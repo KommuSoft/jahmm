@@ -118,40 +118,6 @@ public class Hmm<O extends Observation>
     }
 
     /**
-     * Returns the number of states of this HMM.
-     *     
-* @return The number of states of this HMM.
-     */
-    @Override
-    public int nbStates() {
-        return pi.length;
-    }
-
-    /**
-     * Returns the <i>pi</i> value associated with a given state.
-     *     
-* @param stateNb A state number such that
-     * <code>0 &le; stateNb &lt; nbStates()</code>
-     * @return The <i>pi</i> value associated to <code>stateNb</code>.
-     */
-    @Override
-    public double getPi(int stateNb) {
-        return pi[stateNb];
-    }
-
-    /**
-     * Sets the <i>pi</i> value associated with a given state.
-     *     
-* @param stateNb A state number such that
-     * <code>0 &le; stateNb &lt; nbStates()</code>.
-     * @param value The <i>pi</i> value to associate to state number
-     * <code>stateNb</code>
-     */
-    public void setPi(int stateNb, double value) {
-        pi[stateNb] = value;
-    }
-
-    /**
      * Returns the opdf associated with a given state.
      *     
 * @param stateNb A state number such that
@@ -334,5 +300,26 @@ public class Hmm<O extends Observation>
         }
 
         return hmm;
+    }
+
+    @Override
+    public void fold(int n) {
+        int m = pi.length;
+        double[] pia = new double[m], pib = this.pi, tmp;
+        for(int i = 0x00; i < n; i++) {
+            tmp = pia;
+            pia = pib;
+            pib = tmp;
+            for(int j = 0x00; j < m; j++) {
+                double tot = 0.0d;
+                for(int k = 0x00; k < m; k++) {
+                    tot += a[k][j]*pia[k];
+                }
+                pib[j] = tot;
+            }
+        }
+        if((n&0x01) != 0x00) {
+            this.pi = pib;
+        }
     }
 }

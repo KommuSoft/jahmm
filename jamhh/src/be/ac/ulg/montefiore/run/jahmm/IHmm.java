@@ -96,7 +96,7 @@ public class IHmm<O extends Observation> extends HmmBase<O, double[][][], ArrayL
             throw new IllegalArgumentException("Number of symbols must be strictly positive");
         }
         if (nbStates <= 0) {
-            throw new IllegalArgumentException("Number of symbols must be strictly positive");
+            throw new IllegalArgumentException("Number of states must be strictly positive");
         }
         pi = new double[nbStates];
         a = new double[nbStates][nbSymbols][nbStates];
@@ -143,7 +143,46 @@ public class IHmm<O extends Observation> extends HmmBase<O, double[][][], ArrayL
     public IHmm<O> clone()
             throws CloneNotSupportedException {
         IHmm<O> ihmm = new IHmm<>(nbSymbols(), nbStates());
+        //TODO
         return ihmm;
+    }
+
+    /**
+     * Returns the probability associated with the transition going from state
+     * <i>i</i> to state <i>j</i> (<i>a<sub>i,j</sub></i>).
+     *     
+* @param i The first state number such that
+     * <code>0 &le; i &lt; nbStates()</code>.
+     * @param j The second state number such that
+     * <code>0 &le; j &lt; nbStates()</code>.
+     * @return The probability associated to the transition going from
+     * <code>i</code> to state <code>j</code> regardless of the input.
+     */
+    @Override
+    public double getAij(int i, int j) {
+        double total = 0.0d;
+        int n = a[0x00].length;
+        for (int k = 0x00; k < n; k++) {
+            total += a[i][k][j];
+        }
+        return total;
+    }
+
+    /**
+     * Returns the probability associated with the transition going from state
+     * <i>i</i> to state <i>j</i> (<i>a<sub>i,j</sub></i>).
+     *     
+* @param i The first state number such that
+     * <code>0 &le; i &lt; nbStates()</code>.
+     * @param j The second state number such that
+     * <code>0 &le; j &lt; nbStates()</code>.
+     * @param k The input symbol such that
+     * <code>0 &le; k &lt; nbSymbols()</code>.
+     * @return The probability associated to the transition going from
+     * <code>i</code> to state <code>j</code>.
+     */
+    public double getAij(int i, int k, int j) {
+        return a[i][k][j];
     }
 
     /**
@@ -162,6 +201,7 @@ public class IHmm<O extends Observation> extends HmmBase<O, double[][][], ArrayL
 * @param nf A number formatter used to print numbers (e.g. Aij values).
      * @return A textual description of this HMM.
      */
+    @Override
     public String toString(NumberFormat nf) {
         String s = "HMM with " + nbStates() + " state(s)\n";
 
