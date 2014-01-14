@@ -150,8 +150,7 @@ public class ForwardBackwardCalculator implements AbstractForwardBackwardCalcula
         return beta;
     }
 
-    @Override
-    public <O extends Observation> double
+    private static <O extends Observation> double
             computeProbability(List<O> oseq, Hmm<? super O> hmm,
                     Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
         double probability = 0.;

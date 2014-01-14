@@ -50,15 +50,10 @@ public class BasicIntegerTest
      *
      */
     public void testForwardBackward() {
-        ForwardBackwardCalculator fbc
-                = new ForwardBackwardCalculator(sequence, hmm);
 
-        assertEquals(1.8697705349794245E-5, fbc.probability(), DELTA);
+        assertEquals(1.8697705349794245E-5, ForwardBackwardCalculator.Instance.calculate(sequence, hmm), DELTA);
 
-        ForwardBackwardScaledCalculator fbsc
-                = new ForwardBackwardScaledCalculator(sequence, hmm);
-
-        assertEquals(1.8697705349794245E-5, fbsc.probability(), DELTA);
+        assertEquals(1.8697705349794245E-5, ForwardBackwardCalculator.Instance.calculate(sequence, hmm), DELTA);
     }
 
     /**

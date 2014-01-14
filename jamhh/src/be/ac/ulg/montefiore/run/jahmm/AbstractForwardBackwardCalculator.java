@@ -25,6 +25,4 @@ public interface AbstractForwardBackwardCalculator<TAlpha, TBeta> {
     
     public <O extends Observation> double calculate(List<? extends O> oseq, Hmm<O> hmm);
 
-    public <O extends Observation> double computeProbability(List<O> oseq, Hmm<? super O> hmm, Collection<ComputationType> flags, TAlpha alpha, TBeta beta);
-
 }

@@ -198,7 +198,7 @@ public class Hmm<O extends Observation>
     }
 
     /**
-     * Returns the neperian logarithm of observation sequence's probability
+     * Returns the neperian logarithm of observation sequences probability
      * given this HMM. A <i>scaling</i> procedure is used in order to avoid
      * underflows when computing the probability of long sequences.
      *     
@@ -207,8 +207,7 @@ public class Hmm<O extends Observation>
      */
     @Override
     public double lnProbability(List<? extends O> oseq) {
-        return (new ForwardBackwardScaledCalculator(oseq, this)).
-                lnProbability();
+        return ForwardBackwardScaledCalculator.Instance.calculate(oseq, this);
     }
 
     /**
