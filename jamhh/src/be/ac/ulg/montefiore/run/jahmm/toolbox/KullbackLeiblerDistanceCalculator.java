@@ -18,8 +18,8 @@ import java.util.List;
  * <i>Rabiner</i> and <i>Juang</i> (AT&T Technical Journal, vol. 64, Feb. 1985,
  * pages 391-408).
  * <p>
- * This distance measure is not symetric: <code>distance(hmm1, hmm2)</code> is
- * not necessary equal to <code>distance(hmm2, hmm1)</code>. To get a symetric
+ * This distance measure is not symmetric: <code>distance(hmm1, hmm2)</code> is
+ * not necessary equal to <code>distance(hmm2, hmm1)</code>. To get a symmetric
  * distance definition, compute
  * <code>(distance(hmm1, hmm2) + distance(hmm2, hmm1)) / 2</code>.
  */
@@ -33,8 +33,8 @@ public class KullbackLeiblerDistanceCalculator {
      *
      * @param <O>
      * @param hmm1 The first HMM against which the distance is computed. The
-     * distance is mesured with regard to this HMM (this must be defined since
-     * the Kullback-Leibler distance is not symetric).
+     * distance is measured with regard to this HMM (this must be defined since
+     * the Kullback-Leibler distance is not symmetric).
      * @param hmm2 The second HMM against which the distance is computed.
      * @return The distance between <code>hmm1</code> and <code>hmm2</code> with
      * regard to <code>hmm1</code>
@@ -48,10 +48,8 @@ public class KullbackLeiblerDistanceCalculator {
             List<O> oseq = new MarkovGenerator<>(hmm1).
                     observationSequence(sequencesLength);
 
-            distance += (new ForwardBackwardScaledCalculator(oseq, hmm1).
-                    lnProbability()
-                    - new ForwardBackwardScaledCalculator(oseq, hmm2).
-                    lnProbability()) / sequencesLength;
+            distance += (ForwardBackwardScaledCalculator.Instance.computeProbability(oseq, hmm1)
+                    - ForwardBackwardScaledCalculator.Instance.computeProbability(oseq, hmm2)) / sequencesLength;
         }
 
         return distance / nbSequences;

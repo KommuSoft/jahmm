@@ -194,7 +194,7 @@ public class Hmm<O extends Observation>
      */
     @Override
     public double probability(List<? extends O> oseq) {
-        return ForwardBackwardCalculator.Instance.calculate(oseq, this);
+        return ForwardBackwardCalculator.Instance.computeProbability(oseq, this);
     }
 
     /**
@@ -207,7 +207,7 @@ public class Hmm<O extends Observation>
      */
     @Override
     public double lnProbability(List<? extends O> oseq) {
-        return ForwardBackwardScaledCalculator.Instance.calculate(oseq, this);
+        return ForwardBackwardScaledCalculator.Instance.computeProbability(oseq, this);
     }
 
     /**

@@ -12,6 +12,7 @@ import be.ac.ulg.montefiore.run.jahmm.Observation;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import jutils.tuple.Tuple3;
 
 /**
  * An implementation of the Baum-Welch learning algorithm. It uses a scaling
@@ -29,20 +30,9 @@ public class BaumWelchScaledLearner
      */
     public BaumWelchScaledLearner() {
     }
-
-    /**
-     *
-     * @param <O>
-     * @param sequence
-     * @param hmm
-     * @return
-     */
-    @Override
-    protected <O extends Observation> ForwardBackwardCalculator
-            generateForwardBackwardCalculator(List<? extends O> sequence,
-                    Hmm<O> hmm) {
-        return new ForwardBackwardScaledCalculator(sequence, hmm,
-                EnumSet.allOf(ComputationType.class));
+    
+    protected<O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(Hmm<O> hmm, List<? extends O> obsSeq) {
+        return ForwardBackwardScaledCalculator.Instance.computeAll(hmm, obsSeq);
     }
 
     /* Here, the xi (and, thus, gamma) values are not divided by the
@@ -61,7 +51,7 @@ public class BaumWelchScaledLearner
      */
     @Override
     protected <O extends Observation> double[][][]
-            estimateXi(List<? extends O> sequence, ForwardBackwardCalculator fbc,
+            estimateXi(List<? extends O> sequence, Tuple3<double[][],double[][],Double> abp,
                     Hmm<O> hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too "
@@ -70,6 +60,9 @@ public class BaumWelchScaledLearner
 
         double xi[][][]
                 = new double[sequence.size() - 1][hmm.nbStates()][hmm.nbStates()];
+        
+        double[][] alpha = abp.getItem1();
+        double[][] beta = abp.getItem2();
 
         Iterator<? extends O> seqIterator = sequence.iterator();
         seqIterator.next();
@@ -79,10 +72,10 @@ public class BaumWelchScaledLearner
 
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int j = 0; j < hmm.nbStates(); j++) {
-                    xi[t][i][j] = fbc.alphaElement(t, i)
+                    xi[t][i][j] = alpha[t][i]
                             * hmm.getAij(i, j)
                             * hmm.getOpdf(j).probability(observation)
-                            * fbc.betaElement(t + 1, j);
+                            * beta[t + 1][j];
                 }
             }
         }

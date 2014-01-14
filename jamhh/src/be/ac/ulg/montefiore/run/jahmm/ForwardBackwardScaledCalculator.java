@@ -76,7 +76,7 @@ public class ForwardBackwardScaledCalculator
      * @see #ForwardBackwardScaledCalculator(List, Hmm, EnumSet)
      */
     public <O extends Observation> double
-            calculate(List<? extends O> oseq, Hmm<O> hmm) {
+            computeProbability(List<? extends O> oseq, Hmm<O> hmm) {
         return calculate(oseq, hmm, EnumSet.of(ComputationType.ALPHA));
     }
 

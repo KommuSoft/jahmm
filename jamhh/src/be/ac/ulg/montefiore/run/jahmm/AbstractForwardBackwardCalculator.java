@@ -8,6 +8,7 @@ package be.ac.ulg.montefiore.run.jahmm;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
+import jutils.tuple.Tuple3;
 
 /**
  *
@@ -21,8 +22,10 @@ public interface AbstractForwardBackwardCalculator<TAlpha, TBeta> {
 
     public <O extends Observation> TBeta computeBeta(Hmm<? super O> hmm, List<O> oseq);
 
-    public <O extends Observation> double calculate(List<? extends O> oseq, Hmm<O> hmm, Collection<ComputationType> flags);
-    
-    public <O extends Observation> double calculate(List<? extends O> oseq, Hmm<O> hmm);
+    public <O extends Observation> Tuple3<TAlpha, TBeta, Double> computeAll(Hmm<? super O> hmm, List<O> oseq);
+
+    public <O extends Observation> double computeProbability(List<? extends O> oseq, Hmm<O> hmm, Collection<ComputationType> flags);
+
+    public <O extends Observation> double computeProbability(List<? extends O> oseq, Hmm<O> hmm);
 
 }

@@ -51,9 +51,9 @@ public class BasicIntegerTest
      */
     public void testForwardBackward() {
 
-        assertEquals(1.8697705349794245E-5, ForwardBackwardCalculator.Instance.calculate(sequence, hmm), DELTA);
+        assertEquals(1.8697705349794245E-5, ForwardBackwardCalculator.Instance.computeProbability(sequence, hmm), DELTA);
 
-        assertEquals(1.8697705349794245E-5, ForwardBackwardCalculator.Instance.calculate(sequence, hmm), DELTA);
+        assertEquals(1.8697705349794245E-5, ForwardBackwardCalculator.Instance.computeProbability(sequence, hmm), DELTA);
     }
 
     /**

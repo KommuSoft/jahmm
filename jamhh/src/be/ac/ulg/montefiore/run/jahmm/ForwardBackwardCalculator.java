@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import jutils.tuple.Tuple3;
 
 /**
  * This class can be used to compute the probability of a given observations
@@ -44,7 +45,7 @@ public class ForwardBackwardCalculator implements AbstractForwardBackwardCalcula
 	 */
     @Override
     public <O extends Observation> double
-            calculate(List<? extends O> oseq, Hmm<O> hmm, Collection<ComputationType> flags) {
+            computeProbability(List<? extends O> oseq, Hmm<O> hmm, Collection<ComputationType> flags) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException("Invalid empty sequence");
         }
@@ -75,8 +76,8 @@ public class ForwardBackwardCalculator implements AbstractForwardBackwardCalcula
      */
     @Override
     public <O extends Observation> double
-            calculate(List<? extends O> oseq, Hmm<O> hmm) {
-        return calculate(oseq, hmm, EnumSet.of(ComputationType.ALPHA));
+            computeProbability(List<? extends O> oseq, Hmm<O> hmm) {
+        return computeProbability(oseq, hmm, EnumSet.of(ComputationType.ALPHA));
     }
 
     /**
@@ -167,5 +168,13 @@ public class ForwardBackwardCalculator implements AbstractForwardBackwardCalcula
             }
         }
         return probability;
+    }
+
+    @Override
+    public <O extends Observation> Tuple3<double[][], double[][], Double> computeAll(Hmm<? super O> hmm, List<O> oseq) {
+        double[][] alpha = computeAlpha(hmm, oseq);
+        double[][] beta = computeBeta(hmm, oseq);
+        double probability = computeProbability(oseq, hmm, EnumSet.of(ComputationType.ALPHA), alpha, beta);
+        return new Tuple3<>(alpha, beta, probability);
     }
 }

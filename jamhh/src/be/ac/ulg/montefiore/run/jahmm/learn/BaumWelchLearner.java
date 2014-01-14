@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import jutils.tuple.Tuple3;
 
 /**
  * An implementation of the Baum-Welch learning algorithm. This algorithm finds
@@ -68,11 +69,11 @@ public class BaumWelchLearner {
 
         int g = 0;
         for (List<? extends O> obsSeq : sequences) {
-            ForwardBackwardCalculator fbc
-                    = generateForwardBackwardCalculator(obsSeq, hmm);
 
-            double xi[][][] = estimateXi(obsSeq, fbc, hmm);
-            double gamma[][] = allGamma[g++] = estimateGamma(xi, fbc);
+            Tuple3<double[][], double[][], Double> abp = getAlphaBetaProbability(hmm, obsSeq);
+
+            double xi[][][] = estimateXi(obsSeq, abp, hmm);
+            double gamma[][] = allGamma[g++] = estimateGamma(xi);
 
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int t = 0; t < obsSeq.size() - 1; t++) {
@@ -136,17 +137,8 @@ public class BaumWelchLearner {
         return nhmm;
     }
 
-    /**
-     *
-     * @param <O>
-     * @param sequence
-     * @param hmm
-     * @return
-     */
-    protected <O extends Observation> ForwardBackwardCalculator
-            generateForwardBackwardCalculator(List<? extends O> sequence, Hmm<O> hmm) {
-        return new ForwardBackwardCalculator(sequence, hmm,
-                EnumSet.allOf(ComputationType.class));
+    protected<O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(Hmm<O> hmm, List<? extends O> obsSeq) {
+        return ForwardBackwardCalculator.Instance.computeAll(hmm, obsSeq);
     }
 
     /**
@@ -182,16 +174,19 @@ public class BaumWelchLearner {
      * @return
      */
     protected <O extends Observation> double[][][]
-            estimateXi(List<? extends O> sequence, ForwardBackwardCalculator fbc,
+            estimateXi(List<? extends O> sequence, Tuple3<double[][], double[][], Double> abp,
                     Hmm<O> hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too "
                     + "short");
         }
 
+        double[][] a = abp.getItem1();
+        double[][] b = abp.getItem1();
+        double pinv = 1.0d / abp.getItem3();
+
         double xi[][][]
                 = new double[sequence.size() - 1][hmm.nbStates()][hmm.nbStates()];
-        double probability = fbc.probability();
 
         Iterator<? extends O> seqIterator = sequence.iterator();
         seqIterator.next();
@@ -201,10 +196,10 @@ public class BaumWelchLearner {
 
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int j = 0; j < hmm.nbStates(); j++) {
-                    xi[t][i][j] = fbc.alphaElement(t, i)
+                    xi[t][i][j] = a[t][i]
                             * hmm.getAij(i, j)
                             * hmm.getOpdf(j).probability(o)
-                            * fbc.betaElement(t + 1, j) / probability;
+                            * b[t + 1][j] * pinv;
                 }
             }
         }
@@ -224,7 +219,7 @@ public class BaumWelchLearner {
      * @return
      */
     protected double[][]
-            estimateGamma(double[][][] xi, ForwardBackwardCalculator fbc) {
+            estimateGamma(double[][][] xi) {
         double[][] gamma = new double[xi.length + 1][xi[0].length];
 
         for (int t = 0; t < xi.length + 1; t++) {
