@@ -4,6 +4,7 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.learn;
 
+import be.ac.ulg.montefiore.run.jahmm.ComputationType;
 import be.ac.ulg.montefiore.run.jahmm.ForwardBackwardCalculator;
 import be.ac.ulg.montefiore.run.jahmm.ForwardBackwardScaledCalculator;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
@@ -41,7 +42,7 @@ public class BaumWelchScaledLearner
             generateForwardBackwardCalculator(List<? extends O> sequence,
                     Hmm<O> hmm) {
         return new ForwardBackwardScaledCalculator(sequence, hmm,
-                EnumSet.allOf(ForwardBackwardCalculator.Computation.class));
+                EnumSet.allOf(ComputationType.class));
     }
 
     /* Here, the xi (and, thus, gamma) values are not divided by the

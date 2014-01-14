@@ -55,20 +55,20 @@ public class ForwardBackwardCalculator {
 	 * @param hmm A Hidden Markov Model;
 	 * @param oseq An observation sequence.
 	 * @param flags How the computation should be done. See the
-	 *              {@link Computation Computation} enum.
+	 *              {@link ComputationType ComputationType} enum.
 	 */
 	public <O extends Observation>
             ForwardBackwardCalculator(List<? extends O> oseq,
-                    Hmm<O> hmm, EnumSet<Computation> flags) {
+                    Hmm<O> hmm, EnumSet<ComputationType> flags) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException("Invalid empty sequence");
         }
 
-        if (flags.contains(Computation.ALPHA)) {
+        if (flags.contains(ComputationType.ALPHA)) {
             computeAlpha(hmm, oseq);
         }
 
-        if (flags.contains(Computation.BETA)) {
+        if (flags.contains(ComputationType.BETA)) {
             computeBeta(hmm, oseq);
         }
 
@@ -87,7 +87,7 @@ public class ForwardBackwardCalculator {
      */
     public <O extends Observation>
             ForwardBackwardCalculator(List<? extends O> oseq, Hmm<O> hmm) {
-        this(oseq, hmm, EnumSet.of(Computation.ALPHA));
+        this(oseq, hmm, EnumSet.of(ComputationType.ALPHA));
     }
 
     /* Computes the content of the alpha array */
@@ -234,10 +234,10 @@ public class ForwardBackwardCalculator {
 
     private <O extends Observation> void
             computeProbability(List<O> oseq, Hmm<? super O> hmm,
-                    EnumSet<Computation> flags) {
+                    EnumSet<ComputationType> flags) {
         probability = 0.;
 
-        if (flags.contains(Computation.ALPHA)) {
+        if (flags.contains(ComputationType.ALPHA)) {
             for (int i = 0; i < hmm.nbStates(); i++) {
                 probability += alpha[oseq.size() - 1][i];
             }
@@ -260,21 +260,4 @@ public class ForwardBackwardCalculator {
     public double probability() {
         return probability;
     }
-
-    /**
-     * Flags used to explain how the observation sequence probability should be
-     * computed (either forward, using the alpha array, or backward, using the
-     * beta array).
-     */
-    public static enum Computation {
-
-        /**
-         *
-         */
-        ALPHA,
-        /**
-         *
-         */
-        BETA
-    };
 }

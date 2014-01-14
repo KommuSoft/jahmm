@@ -44,12 +44,12 @@ public class ForwardBackwardScaledCalculator
      * @param hmm A Hidden Markov Model;
      * @param oseq An observations sequence.
      * @param flags How the computation should be done. See the
-     * {@link ForwardBackwardCalculator.Computation}. The alpha array is always
-     * computed.
+     * {@link ForwardBackwardCalculator.ComputationType}. The alpha array is
+     * always computed.
      */
     public <O extends Observation>
             ForwardBackwardScaledCalculator(List<? extends O> oseq,
-                    Hmm<O> hmm, EnumSet<Computation> flags) {
+                    Hmm<O> hmm, EnumSet<ComputationType> flags) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException();
         }
@@ -59,7 +59,7 @@ public class ForwardBackwardScaledCalculator
 
         computeAlpha(hmm, oseq);
 
-        if (flags.contains(Computation.BETA)) {
+        if (flags.contains(ComputationType.BETA)) {
             computeBeta(hmm, oseq);
         }
 
@@ -78,7 +78,7 @@ public class ForwardBackwardScaledCalculator
      */
     public <O extends Observation>
             ForwardBackwardScaledCalculator(List<? extends O> oseq, Hmm<O> hmm) {
-        this(oseq, hmm, EnumSet.of(Computation.ALPHA));
+        this(oseq, hmm, EnumSet.of(ComputationType.ALPHA));
     }
 
     /* Computes the content of the scaled alpha array */
@@ -156,7 +156,7 @@ public class ForwardBackwardScaledCalculator
 
     private <O extends Observation> void
             computeProbability(List<O> oseq, Hmm<? super O> hmm,
-                    EnumSet<Computation> flags) {
+                    EnumSet<ComputationType> flags) {
         lnProbability = 0.;
 
         for (int t = 0; t < oseq.size(); t++) {
