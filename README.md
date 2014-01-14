@@ -74,3 +74,7 @@ Feel free to send comments and questions related to this library at:
 - http://code.google.com/p/jahmm/issues/list (if you have an issue with the library)
 - http://groups.google.com/group/jahmm-discuss or jahmm-discuss@googlegroups.com
   (for questions/comments)
+  
+The author of this repository is Willem Van Onsem <Willem.VanOnsem@cs.kuleuven.be>
+this version aims to improve speed and enables the use of more sophisticated hidden markov
+models like the Input-Output Hidden Markov Model (IOHMM)
