@@ -89,7 +89,7 @@ public class ForwardBackwardScaledCalculator
      * @param oseq
      */
     @Override
-    protected <O extends Observation> void
+    public <O extends Observation> void
             computeAlpha(Hmm<? super O> hmm, Collection<O> oseq) {
         Iterator<? extends O> seqIterator = oseq.iterator();
         if (seqIterator.hasNext()) {
@@ -123,7 +123,7 @@ public class ForwardBackwardScaledCalculator
      * @param oseq
      */
     @Override
-    protected <O extends Observation> void
+    public <O extends Observation> void
             computeBeta(Hmm<? super O> hmm, List<O> oseq) {
         beta = new double[oseq.size()][hmm.nbStates()];
 

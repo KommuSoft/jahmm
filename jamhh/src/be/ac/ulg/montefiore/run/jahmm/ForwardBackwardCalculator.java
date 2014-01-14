@@ -18,7 +18,7 @@ import java.util.List;
  * Computing the <i>beta</i> array requires a O(1) access time to the
  * observation sequence to get a theoretically optimal performance.
  */
-public class ForwardBackwardCalculator {
+public class ForwardBackwardCalculator implements AbstractForwardBackwardCalculator {
 
     /* alpha[t][i] = P(O(1), O(2),..., O(t+1), i(t+1) = i+1 | hmm), that is the
      probability of the beginning of the state sequence (up to time t+1)
@@ -97,7 +97,7 @@ public class ForwardBackwardCalculator {
      * @param hmm
      * @param oseq
      */
-    protected <O extends Observation> void
+    public <O extends Observation> void
             computeAlpha(Hmm<? super O> hmm, Collection<O> oseq) {
         alpha = new double[oseq.size()][hmm.nbStates()];
 
@@ -161,7 +161,7 @@ public class ForwardBackwardCalculator {
      * @param hmm
      * @param oseq
      */
-    protected <O extends Observation> void
+    public <O extends Observation> void
             computeBeta(Hmm<? super O> hmm, List<O> oseq) {
         beta = new double[oseq.size()][hmm.nbStates()];
 
