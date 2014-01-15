@@ -32,7 +32,7 @@ import jutlis.lists.ListArray;
 * @param <O> the type of the observations.
  */
 public class Hmm<O extends Observation>
-        extends HmmBase<O, double[][], ArrayList<Opdf<O>>> {
+        extends HmmBase<O, double[][], List<Opdf<O>>> {
 
     private static final long serialVersionUID = 2L;
 
@@ -95,9 +95,9 @@ public class Hmm<O extends Observation>
 
         this.b = new ArrayList<>(opdfs);
     }
-    
+
     public Hmm(double[] pi, double[][] a, Opdf<O>... opdfs) {
-        this(pi,a,new ListArray<>(opdfs));
+        this(pi, a, new ListArray<>(opdfs));
     }
 
     /**
@@ -199,13 +199,13 @@ public class Hmm<O extends Observation>
      */
     @Override
     public double probability(List<? extends O> oseq) {
-        return ForwardBackwardCalculator.Instance.computeProbability(oseq, this);
+        return ForwardBackwardCalculator.Instance.computeProbability(this, oseq);
     }
 
     /**
-     * Returns the natural logarithm of observation sequences probability
-     * given this HMM. A <i>scaling</i> procedure is used in order to avoid
-     * underflows when computing the probability of long sequences.
+     * Returns the natural logarithm of observation sequences probability given
+     * this HMM. A <i>scaling</i> procedure is used in order to avoid underflows
+     * when computing the probability of long sequences.
      *     
 * @param oseq A non-empty observation sequence.
      * @return The probability of this sequence.

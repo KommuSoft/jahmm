@@ -24,8 +24,12 @@ public interface AbstractForwardBackwardCalculator<TAlpha, TBeta> {
 
     public <O extends Observation> Tuple3<TAlpha, TBeta, Double> computeAll(Hmm<? super O> hmm, List<O> oseq);
 
-    public <O extends Observation> double computeProbability(List<? extends O> oseq, Hmm<O> hmm, Collection<ComputationType> flags);
+    public <O extends Observation> double computeProbability(Hmm<O> hmm, Collection<ComputationType> flags, List<? extends O> oseq);
 
-    public <O extends Observation> double computeProbability(List<? extends O> oseq, Hmm<O> hmm);
+    public <O extends Observation> double computeProbability(Hmm<O> hmm, List<? extends O> oseq);
+
+    public <O extends Observation> double computeProbability(Hmm<O> hmm, Collection<ComputationType> flags, O... oseq);
+
+    public <O extends Observation> double computeProbability(Hmm<O> hmm, O... oseq);
 
 }

@@ -9,6 +9,7 @@ import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import jutils.tuples.Tuple3;
+import jutlis.lists.ListArray;
 
 /**
  * This class can be used to compute the probability of a given observations
@@ -45,7 +46,7 @@ public class ForwardBackwardCalculator implements AbstractForwardBackwardCalcula
 	 */
     @Override
     public <O extends Observation> double
-            computeProbability(List<? extends O> oseq, Hmm<O> hmm, Collection<ComputationType> flags) {
+            computeProbability(Hmm<O> hmm, Collection<ComputationType> flags, List<? extends O> oseq) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException("Invalid empty sequence");
         }
@@ -65,6 +66,23 @@ public class ForwardBackwardCalculator implements AbstractForwardBackwardCalcula
 
     /**
      * Computes the probability of occurrence of an observation sequence given a
+     * Hidden Markov Model.
+     *
+     * @param <O>
+     * @param hmm A Hidden Markov Model;
+     * @param oseq An observation sequence.
+     * @param flags How the computation should be done. See the
+     * {@link ComputationType ComputationType} enum.
+     * @return
+     */
+    @Override
+    public <O extends Observation> double
+            computeProbability(Hmm<O> hmm, Collection<ComputationType> flags, O... oseq) {
+        return computeProbability(hmm, flags, new ListArray<>(oseq));
+    }
+
+    /**
+     * Computes the probability of occurrence of an observation sequence given a
      * Hidden Markov Model. This computation computes the <code>alpha</code>
      * array as a side effect.
      *
@@ -76,8 +94,25 @@ public class ForwardBackwardCalculator implements AbstractForwardBackwardCalcula
      */
     @Override
     public <O extends Observation> double
-            computeProbability(List<? extends O> oseq, Hmm<O> hmm) {
-        return computeProbability(oseq, hmm, EnumSet.of(ComputationType.ALPHA));
+            computeProbability(Hmm<O> hmm, List<? extends O> oseq) {
+        return computeProbability(hmm, EnumSet.of(ComputationType.ALPHA), oseq);
+    }
+
+    /**
+     * Computes the probability of occurrence of an observation sequence given a
+     * Hidden Markov Model. This computation computes the <code>alpha</code>
+     * array as a side effect.
+     *
+     * @param <O>
+     * @param oseq
+     * @param hmm
+     * @return
+     * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)
+     */
+    @Override
+    public <O extends Observation> double
+            computeProbability(Hmm<O> hmm, O... oseq) {
+        return computeProbability(hmm, EnumSet.of(ComputationType.ALPHA), new ListArray<>(oseq));
     }
 
     /**
