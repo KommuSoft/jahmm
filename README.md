@@ -1,7 +1,7 @@
-JAHMM   -   QUICK START GUIDE
-=============================
+JAHMM
+=====
 
-Jahmm is a Java library implementing the various, well-known algorithms
+`Jahmm` is a Java library implementing the various, well-known algorithms
 related to Hidden Makov Models (HMMs for short).
 
 The source code of the library is available; it is licensed under GPL
@@ -15,7 +15,7 @@ Most information related to this software can be found there.
 
 This repository is a fork of the original jahmm library that can be found here: [http://jahmm.googlecode.com/]
 
-COMPILING
+Compiling
 ---------
 
 To compile the library, you simply need to compile all the files held
@@ -24,7 +24,7 @@ in the `jahmm/src` directory.  Thus, simply calling `javac` with all the
 
 Jahmm requires `Java 1.5.0`.
 
-RUNNING
+Running
 -------
 
 To use it, simply launch:
@@ -42,13 +42,13 @@ You can also put the `.jar` file in your classpath.
 
 
 
-TESTING
+Testing
 -------
 
 Regression (JUnit) tests have also been written ; see the `jahm/test` directory.
 
 
-FILES
+Files
 -----
 
 - pom.xml: the 'maven' project file.
@@ -65,8 +65,13 @@ FILES
 - `LICENSE`: license file.
 - `THANKS`: contributors.
 
+Jutils
+------
 
-CONTACT
+The program uses a java library called `jutils` that can be found here: <https://github.com/KommuSoft/jutil>
+
+
+Contact
 -------
 
 `Jahmm's` original author is Jean-Marc Francois.  

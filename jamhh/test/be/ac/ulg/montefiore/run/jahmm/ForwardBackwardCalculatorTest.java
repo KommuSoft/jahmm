@@ -21,7 +21,7 @@ public class ForwardBackwardCalculatorTest {
     @Test
     public void testComputeProbability() {
         double expResult = 0.2;
-        Hmm hmm = new Hmm(new double[]{0.5,0.5},new double[][] {{0.7,0.3},{0.3,0.7}},new OpdfInteger(0.9,0.1),new OpdfInteger(0.2,0.8));
+        Hmm hmm = new Hmm(new double[]{1.0},new double[][] {{1.0}},new OpdfInteger(0.9,0.1));
         double result = ForwardBackwardCalculator.Instance.computeProbability(null,hmm);
         assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
