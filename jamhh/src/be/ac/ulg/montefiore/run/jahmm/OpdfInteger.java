@@ -48,7 +48,7 @@ public class OpdfInteger
      * argument value (<i>i.e.</i> such that <code>probabilities[i]</code> is
      * the probability of the observation <code>i</code>.
      */
-    public OpdfInteger(double[] probabilities) {
+    public OpdfInteger(double... probabilities) {
         if (probabilities.length == 0) {
             throw new IllegalArgumentException("Invalid empty array");
         }

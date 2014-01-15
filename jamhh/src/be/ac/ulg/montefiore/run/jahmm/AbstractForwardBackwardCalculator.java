@@ -8,7 +8,7 @@ package be.ac.ulg.montefiore.run.jahmm;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
-import jutils.tuple.Tuple3;
+import jutils.tuples.Tuple3;
 
 /**
  *

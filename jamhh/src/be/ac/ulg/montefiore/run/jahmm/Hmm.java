@@ -8,6 +8,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import jutlis.lists.ListArray;
 
 /**
  * Main Hmm class; it implements a Hidden Markov Model. An HMM is composed of:
@@ -93,6 +94,10 @@ public class Hmm<O extends Observation>
         }
 
         this.b = new ArrayList<>(opdfs);
+    }
+    
+    public Hmm(double[] pi, double[][] a, Opdf<O>... opdfs) {
+        this(pi,a,new ListArray<Opdf<O>>(opdfs));
     }
 
     /**

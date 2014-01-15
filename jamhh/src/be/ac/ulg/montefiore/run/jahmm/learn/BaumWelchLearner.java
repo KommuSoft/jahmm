@@ -13,7 +13,7 @@ import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
-import jutils.tuple.Tuple3;
+import jutils.tuples.Tuple3;
 
 /**
  * An implementation of the Baum-Welch learning algorithm. This algorithm finds
