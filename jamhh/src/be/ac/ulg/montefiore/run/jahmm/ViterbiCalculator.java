@@ -100,7 +100,7 @@ public class ViterbiCalculator {
     }
 
     /**
-     * Returns the neperian logarithm of the probability of the given
+     * Returns the natural logarithm of the probability of the given
      * observation sequence on the most likely state sequence of the given HMM.
      *
      * @return <code>ln(P[O,S|H])</code> where <code>O</code> is the given

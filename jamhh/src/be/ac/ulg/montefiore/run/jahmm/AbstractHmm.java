@@ -67,7 +67,7 @@ public interface AbstractHmm<O extends Observation> extends Cloneable, Serializa
     double getPi(int stateNb);
 
     /**
-     * Returns the neperian logarithm of observation sequence's probability
+     * Returns the natural logarithm of observation sequence's probability
      * given this HMM. A <i>scaling</i> procedure is used in order to avoid
      * underflows when computing the probability of long sequences.
      *

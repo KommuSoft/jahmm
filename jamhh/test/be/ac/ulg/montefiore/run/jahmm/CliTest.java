@@ -2,7 +2,7 @@
  * Copyright (c) 2004-2009, Jean-Marc François. All Rights Reserved.
  * Licensed under the New BSD license.  See the LICENSE file.
  */
-package be.ac.ulg.montefiore.run.jahmm.test;
+package be.ac.ulg.montefiore.run.jahmm;
 
 import be.ac.ulg.montefiore.run.jahmm.apps.cli.AbnormalTerminationException;
 import be.ac.ulg.montefiore.run.jahmm.apps.cli.Cli;

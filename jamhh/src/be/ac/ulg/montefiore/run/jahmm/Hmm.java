@@ -97,7 +97,7 @@ public class Hmm<O extends Observation>
     }
     
     public Hmm(double[] pi, double[][] a, Opdf<O>... opdfs) {
-        this(pi,a,new ListArray<Opdf<O>>(opdfs));
+        this(pi,a,new ListArray<>(opdfs));
     }
 
     /**
@@ -203,7 +203,7 @@ public class Hmm<O extends Observation>
     }
 
     /**
-     * Returns the neperian logarithm of observation sequences probability
+     * Returns the natural logarithm of observation sequences probability
      * given this HMM. A <i>scaling</i> procedure is used in order to avoid
      * underflows when computing the probability of long sequences.
      *     
