@@ -327,7 +327,7 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
     }
 
     @Override
-    public void fold(Iterable<O> interaction) {
+    public void fold(Iterable<? extends O> interaction) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

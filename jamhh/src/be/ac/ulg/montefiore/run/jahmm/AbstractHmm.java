@@ -5,24 +5,25 @@ import java.text.NumberFormat;
 import java.util.List;
 
 /**
- *Abstract Hmm class; it specifies a Hidden Markov Model. An HMM is composed of:
-* <ul>
-* <li><i>states</i>: each state has a given probability of being initial
-* (<i>pi</i>) and an associated observation probability function (<i>opdf</i>).
-* Each state is associated to an index; the first state is numbered 0, the last
-* n-1 (where n is the number of states in the HMM); this number is given as an
-* argument to the various functions to refer to the matching state. </li>
-* <li><i>transition probabilities</i>: that is, the probability of going from
-* state <i>i</i> to state <i>j</i> (<i>a<sub>i,j</sub></i>).</li>
-* </ul>
-* <p>
-* Important objects extensively used with HMMs are {@link Observation
-* Observation}s, observation sequences and set of observation sequences. An
-* observation sequence is simply a {@link List List} of
-* {@link Observation Observation}s (in the right order, the i-th element of the
-* vector being the i-th element of the sequence). A set of observation
-* sequences is a {@link java.util.List List} of such sequences.
-*
+ * Abstract Hmm class; it specifies a Hidden Markov Model. An HMM is composed
+ * of:
+ * <ul>
+ * <li><i>states</i>: each state has a given probability of being initial
+ * (<i>pi</i>) and an associated observation probability function (<i>opdf</i>).
+ * Each state is associated to an index; the first state is numbered 0, the last
+ * n-1 (where n is the number of states in the HMM); this number is given as an
+ * argument to the various functions to refer to the matching state. </li>
+ * <li><i>transition probabilities</i>: that is, the probability of going from
+ * state <i>i</i> to state <i>j</i> (<i>a<sub>i,j</sub></i>).</li>
+ * </ul>
+ * <p>
+ * Important objects extensively used with HMMs are {@link Observation
+ * Observation}s, observation sequences and set of observation sequences. An
+ * observation sequence is simply a {@link List List} of
+ * {@link Observation Observation}s (in the right order, the i-th element of the
+ * vector being the i-th element of the sequence). A set of observation
+ * sequences is a {@link java.util.List List} of such sequences.
+ * 
 * @param <TObs> the type of the observations.
  * @param <TInt> the type for the interactions of the hidden Markov model.
  */
@@ -30,11 +31,12 @@ public interface AbstractHmm<TObs extends Observation, TInt extends Observation>
 
     /**
      * Creates a duplicate object of the HMM.
+     *
      * @return An IHHM that contains the same date as this object.
-     * @throws CloneNotSupportedException An exception such that classes
-     * lower in the hierarchy can fail to clone.
+     * @throws CloneNotSupportedException An exception such that classes lower
+     * in the hierarchy can fail to clone.
      */
-    AbstractHmm<TObs,TInt> clone() throws CloneNotSupportedException;
+    AbstractHmm<TObs, TInt> clone() throws CloneNotSupportedException;
 
     /**
      * Returns the probability associated with the transition going from state
@@ -68,9 +70,9 @@ public interface AbstractHmm<TObs extends Observation, TInt extends Observation>
     double getPi(int stateNb);
 
     /**
-     * Returns the natural logarithm of observation sequences probability
-     * given this HMM. A <i>scaling</i> procedure is used in order to avoid
-     * underflows when computing the probability of long sequences.
+     * Returns the natural logarithm of observation sequences probability given
+     * this HMM. A <i>scaling</i> procedure is used in order to avoid underflows
+     * when computing the probability of long sequences.
      *
      * @param oseq A non-empty observation sequence.
      * @return The probability of this sequence.
@@ -131,13 +133,11 @@ public interface AbstractHmm<TObs extends Observation, TInt extends Observation>
      * @return A textual description of this HMM.
      */
     String toString(NumberFormat nf);
-    
-    void fold ();
-    
-    void fold (int n);
-    
-    void fold (Iterable<TInt> interaction);
 
-    
-    
+    void fold();
+
+    void fold(int n);
+
+    void fold(Iterable<? extends TInt> interaction);
+
 }

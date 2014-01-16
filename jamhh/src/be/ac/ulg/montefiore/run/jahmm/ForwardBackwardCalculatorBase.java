@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package be.ac.ulg.montefiore.run.jahmm;
 
 import java.util.Collection;
@@ -81,5 +80,5 @@ public abstract class ForwardBackwardCalculatorBase<TAlpha, TBeta> implements Ab
     public <O extends Observation> double computeProbability(Hmm<O> hmm, O... oseq) {
         return this.computeProbability(hmm, new ListArray<>(oseq));
     }
-    
+
 }

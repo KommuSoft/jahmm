@@ -31,7 +31,7 @@ import java.util.logging.Logger;
  * sequences is a {@link java.util.List List} of such sequences.
  *
  */
-public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][], ArrayList<Opdf<Out>>> {
+public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][], ArrayList<Opdf<Out>>, InputObservationTuple<In, Out>> {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(IHmm.class.getName());
@@ -247,22 +247,27 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
     }
 
     @Override
-    public double lnProbability(List<? extends Out> oseq) {
+    public double lnProbability(List<? extends InputObservationTuple<In, Out>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public int[] mostLikelyStateSequence(List<? extends Out> oseq) {
+    public int[] mostLikelyStateSequence(List<? extends InputObservationTuple<In, Out>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double probability(List<? extends O> oseq) {
+    public double probability(List<? extends InputObservationTuple<In, Out>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double probability(List<? extends O> oseq, int[] sseq) {
+    public double probability(List<? extends InputObservationTuple<In, Out>> oseq, int[] sseq) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void fold(Iterable<? extends InputObservationTuple<In, Out>> interaction) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

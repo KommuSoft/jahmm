@@ -30,8 +30,8 @@ public class BaumWelchScaledLearner
      */
     public BaumWelchScaledLearner() {
     }
-    
-    protected<O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(Hmm<O> hmm, List<? extends O> obsSeq) {
+
+    protected <O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(Hmm<O> hmm, List<? extends O> obsSeq) {
         return ForwardBackwardScaledCalculator.Instance.computeAll(hmm, obsSeq);
     }
 
@@ -51,7 +51,7 @@ public class BaumWelchScaledLearner
      */
     @Override
     protected <O extends Observation> double[][][]
-            estimateXi(List<? extends O> sequence, Tuple3<double[][],double[][],Double> abp,
+            estimateXi(List<? extends O> sequence, Tuple3<double[][], double[][], Double> abp,
                     Hmm<O> hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too "
@@ -60,7 +60,7 @@ public class BaumWelchScaledLearner
 
         double xi[][][]
                 = new double[sequence.size() - 1][hmm.nbStates()][hmm.nbStates()];
-        
+
         double[][] alpha = abp.getItem1();
         double[][] beta = abp.getItem2();
 

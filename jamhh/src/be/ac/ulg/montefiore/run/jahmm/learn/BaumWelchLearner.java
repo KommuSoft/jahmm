@@ -137,7 +137,7 @@ public class BaumWelchLearner {
         return nhmm;
     }
 
-    protected<O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(Hmm<O> hmm, List<? extends O> obsSeq) {
+    protected <O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(Hmm<O> hmm, List<? extends O> obsSeq) {
         return ForwardBackwardCalculator.Instance.computeAll(hmm, obsSeq);
     }
 

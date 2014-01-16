@@ -12,5 +12,5 @@ public abstract class ObservationBase implements Observation {
     public String toString() {
         return this.toString(NumberFormat.getInstance());
     }
-    
+
 }
