@@ -21,7 +21,7 @@ import jutlis.lists.ListArray;
  * Computing the <i>beta</i> array requires a O(1) access time to the
  * observation sequence to get a theoretically optimal performance.
  */
-public class ForwardBackwardCalculator implements AbstractForwardBackwardCalculator<double[][], double[][]> {
+public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<double[][], double[][]> {
 
     public static final ForwardBackwardCalculator Instance = new ForwardBackwardCalculator();
 
@@ -63,57 +63,6 @@ public class ForwardBackwardCalculator implements AbstractForwardBackwardCalcula
         }
 
         return computeProbability(oseq, hmm, flags, alpha, beta);
-    }
-
-    /**
-     * Computes the probability of occurrence of an observation sequence given a
-     * Hidden Markov Model.
-     *
-     * @param <O>
-     * @param hmm A Hidden Markov Model;
-     * @param oseq An observation sequence.
-     * @param flags How the computation should be done. See the
-     * {@link ComputationType ComputationType} enum.
-     * @return
-     */
-    @Override
-    public <O extends Observation> double
-            computeProbability(Hmm<O> hmm, Collection<ComputationType> flags, O... oseq) {
-        return computeProbability(hmm, flags, new ListArray<>(oseq));
-    }
-
-    /**
-     * Computes the probability of occurrence of an observation sequence given a
-     * Hidden Markov Model. This computation computes the <code>alpha</code>
-     * array as a side effect.
-     *
-     * @param <O>
-     * @param oseq
-     * @param hmm
-     * @return
-     * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)
-     */
-    @Override
-    public <O extends Observation> double
-            computeProbability(Hmm<O> hmm, List<? extends O> oseq) {
-        return computeProbability(hmm, EnumSet.of(ComputationType.ALPHA), oseq);
-    }
-
-    /**
-     * Computes the probability of occurrence of an observation sequence given a
-     * Hidden Markov Model. This computation computes the <code>alpha</code>
-     * array as a side effect.
-     *
-     * @param <O>
-     * @param oseq
-     * @param hmm
-     * @return
-     * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)
-     */
-    @Override
-    public <O extends Observation> double
-            computeProbability(Hmm<O> hmm, O... oseq) {
-        return computeProbability(hmm, EnumSet.of(ComputationType.ALPHA), new ListArray<>(oseq));
     }
 
     /**

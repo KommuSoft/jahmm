@@ -19,10 +19,16 @@ import jutils.tuples.Tuple3;
 public interface AbstractForwardBackwardCalculator<TAlpha, TBeta> {
 
     public <O extends Observation> TAlpha computeAlpha(Hmm<? super O> hmm, Collection<O> oseq);
+    
+    public <O extends Observation> TAlpha computeAlpha(Hmm<? super O> hmm, O... oseq);
 
     public <O extends Observation> TBeta computeBeta(Hmm<? super O> hmm, List<O> oseq);
+    
+    public <O extends Observation> TBeta computeBeta(Hmm<? super O> hmm, O... oseq);
 
     public <O extends Observation> Tuple3<TAlpha, TBeta, Double> computeAll(Hmm<? super O> hmm, List<O> oseq);
+    
+    public <O extends Observation> Tuple3<TAlpha, TBeta, Double> computeAll(Hmm<? super O> hmm, O... oseq);
 
     public <O extends Observation> double computeProbability(Hmm<O> hmm, Collection<ComputationType> flags, List<? extends O> oseq);
 

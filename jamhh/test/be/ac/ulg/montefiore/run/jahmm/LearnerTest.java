@@ -4,9 +4,6 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import be.ac.ulg.montefiore.run.jahmm.Hmm;
-import be.ac.ulg.montefiore.run.jahmm.ObservationInteger;
-import be.ac.ulg.montefiore.run.jahmm.OpdfIntegerFactory;
 import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchLearner;
 import be.ac.ulg.montefiore.run.jahmm.learn.BaumWelchScaledLearner;
 import be.ac.ulg.montefiore.run.jahmm.learn.KMeansLearner;
