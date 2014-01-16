@@ -14,8 +14,13 @@ public class InputObservationTuple<I,O extends Observation> extends Tuple2<I,Obs
     }
 
     @Override
+    public String toString() {
+        return this.toString(NumberFormat.getInstance());
+    }
+    
+    @Override
     public String toString(NumberFormat numberFormat) {
-        return null;
+        return String.format("< %s ; %s >", this.getItem1().toString(),this.getItem2().toString(numberFormat));
     }
     
 }
