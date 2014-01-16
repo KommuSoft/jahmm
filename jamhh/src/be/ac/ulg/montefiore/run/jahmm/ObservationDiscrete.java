@@ -13,7 +13,7 @@ import java.text.NumberFormat;
  * @param <E>
  */
 public class ObservationDiscrete<E extends Enum<E>>
-        extends Observation {
+        extends ObservationBase {
 
     /**
      * This observation value.

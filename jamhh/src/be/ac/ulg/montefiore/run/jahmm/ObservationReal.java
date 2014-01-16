@@ -9,7 +9,7 @@ import java.text.NumberFormat;
 /**
  * This class implements observations made of a real value.
  */
-public class ObservationReal extends Observation
+public class ObservationReal extends ObservationBase
         implements CentroidFactory<ObservationReal> {
 
     /**

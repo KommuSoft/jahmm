@@ -4,13 +4,11 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import jutils.tuples.Tuple3;
-import jutlis.lists.ListArray;
 
 /**
  * This class can be used to compute the probability of a given observations
@@ -25,29 +23,42 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
 
     public static final ForwardBackwardCalculator Instance = new ForwardBackwardCalculator();
 
+    private static <O extends Observation> double computeProbability(List<O> oseq, Hmm<? super O> hmm, Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
+        double probability = 0.;
+
+        if (flags.contains(ComputationType.ALPHA)) {
+            for (int i = 0; i < hmm.nbStates(); i++) {
+                probability += alpha[oseq.size() - 1][i];
+            }
+        } else {
+            for (int i = 0; i < hmm.nbStates(); i++) {
+                probability
+                        += hmm.getPi(i)
+                        * hmm.getOpdf(i).probability(oseq.get(0)) * beta[0][i];
+            }
+        }
+        return probability;
+    }
+
     /**
      *
      */
     protected ForwardBackwardCalculator() {
     }
 
-    ;
-	
-	
-	/**
-	 * Computes the probability of occurrence of an observation sequence
-	 * given a Hidden Markov Model.
-	 *
+    /**
+     * Computes the probability of occurrence of an observation sequence given a
+     * Hidden Markov Model.
+     *
      * @param <O>
-	 * @param hmm A Hidden Markov Model;
-	 * @param oseq An observation sequence.
-	 * @param flags How the computation should be done. See the
-	 *              {@link ComputationType ComputationType} enum.
-     * @return 
-	 */
+     * @param hmm A Hidden Markov Model;
+     * @param oseq An observation sequence.
+     * @param flags How the computation should be done. See the
+     * {@link ComputationType ComputationType} enum.
+     * @return
+     */
     @Override
-    public <O extends Observation> double
-            computeProbability(Hmm<O> hmm, Collection<ComputationType> flags, List<? extends O> oseq) {
+    public <O extends Observation> double computeProbability(Hmm<O> hmm, Collection<ComputationType> flags, List<? extends O> oseq) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException("Invalid empty sequence");
         }
@@ -76,8 +87,7 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
      * t+1) with the (t+1)th state being i+1.
      */
     @Override
-    public <O extends Observation> double[][]
-            computeAlpha(Hmm<? super O> hmm, Collection<O> oseq) {
+    public <O extends Observation> double[][] computeAlpha(Hmm<? super O> hmm, Collection<O> oseq) {
         double[][] alpha = new double[oseq.size()][hmm.nbStates()];
 
         Iterator<O> seqIterator = oseq.iterator();
@@ -106,15 +116,8 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
 
     /* Computes the content of the beta array.  Needs a O(1) access time
      to the elements of oseq to get a theoretically optimal algorithm. */
-    /**
-     *
-     * @param <O>
-     * @param hmm
-     * @param oseq
-     */
     @Override
-    public <O extends Observation> double[][]
-            computeBeta(Hmm<? super O> hmm, List<O> oseq) {
+    public <O extends Observation> double[][] computeBeta(Hmm<? super O> hmm, List<O> oseq) {
         double[][] beta = new double[oseq.size()][hmm.nbStates()];
         O observation;
 
@@ -134,25 +137,6 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
             }
         }
         return beta;
-    }
-
-    private static <O extends Observation> double
-            computeProbability(List<O> oseq, Hmm<? super O> hmm,
-                    Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
-        double probability = 0.;
-
-        if (flags.contains(ComputationType.ALPHA)) {
-            for (int i = 0; i < hmm.nbStates(); i++) {
-                probability += alpha[oseq.size() - 1][i];
-            }
-        } else {
-            for (int i = 0; i < hmm.nbStates(); i++) {
-                probability
-                        += hmm.getPi(i)
-                        * hmm.getOpdf(i).probability(oseq.get(0)) * beta[0][i];
-            }
-        }
-        return probability;
     }
 
     @Override

@@ -9,7 +9,7 @@ import java.text.NumberFormat;
 /**
  * This class holds an integer observation.
  */
-public class ObservationInteger extends Observation
+public class ObservationInteger extends ObservationBase
         implements CentroidFactory<ObservationInteger> {
 
     /**
