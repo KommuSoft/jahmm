@@ -23,9 +23,10 @@ import java.util.List;
 * vector being the i-th element of the sequence). A set of observation
 * sequences is a {@link java.util.List List} of such sequences.
 *
-* @param <O> the type of the observations.
+* @param <TObs> the type of the observations.
+ * @param <TInt> the type for the interactions of the hidden Markov model.
  */
-public interface AbstractHmm<O extends Observation> extends Cloneable, Serializable {
+public interface AbstractHmm<TObs extends Observation, TInt extends Observation> extends Cloneable, Serializable {
 
     /**
      * Creates a duplicate object of the HMM.
@@ -33,7 +34,7 @@ public interface AbstractHmm<O extends Observation> extends Cloneable, Serializa
      * @throws CloneNotSupportedException An exception such that classes
      * lower in the hierarchy can fail to clone.
      */
-    AbstractHmm<O> clone() throws CloneNotSupportedException;
+    AbstractHmm<TObs,TInt> clone() throws CloneNotSupportedException;
 
     /**
      * Returns the probability associated with the transition going from state
@@ -55,7 +56,7 @@ public interface AbstractHmm<O extends Observation> extends Cloneable, Serializa
      * <code>0 &le; stateNb &lt; nbStates()</code>.
      * @return The opdf associated to state <code>stateNb</code>.
      */
-    Opdf<O> getOpdf(int stateNb);
+    Opdf<TObs> getOpdf(int stateNb);
 
     /**
      * Returns the <i>pi</i> value associated with a given state.
@@ -67,14 +68,14 @@ public interface AbstractHmm<O extends Observation> extends Cloneable, Serializa
     double getPi(int stateNb);
 
     /**
-     * Returns the natural logarithm of observation sequence's probability
+     * Returns the natural logarithm of observation sequences probability
      * given this HMM. A <i>scaling</i> procedure is used in order to avoid
      * underflows when computing the probability of long sequences.
      *
      * @param oseq A non-empty observation sequence.
      * @return The probability of this sequence.
      */
-    double lnProbability(List<? extends O> oseq);
+    double lnProbability(List<? extends TInt> oseq);
 
     /**
      * Returns an array containing the most likely state sequence matching an
@@ -87,7 +88,7 @@ public interface AbstractHmm<O extends Observation> extends Cloneable, Serializa
      * @return An array containing the most likely sequence of state numbers.
      * This array can be modified.
      */
-    int[] mostLikelyStateSequence(List<? extends O> oseq);
+    int[] mostLikelyStateSequence(List<? extends TInt> oseq);
 
     /**
      * Returns the number of states of this HMM.
@@ -102,7 +103,7 @@ public interface AbstractHmm<O extends Observation> extends Cloneable, Serializa
      * @param oseq A non-empty observation sequence.
      * @return The probability of this sequence.
      */
-    double probability(List<? extends O> oseq);
+    double probability(List<? extends TInt> oseq);
 
     /**
      * Returns the probability of an observation sequence along a state sequence
@@ -113,7 +114,7 @@ public interface AbstractHmm<O extends Observation> extends Cloneable, Serializa
      * of this array must be equal to the length of <code>oseq</code>
      * @return The probability P[oseq,sseq|H], where H is this HMM.
      */
-    double probability(List<? extends O> oseq, int[] sseq);
+    double probability(List<? extends TInt> oseq, int[] sseq);
 
     /**
      * Gives a description of this HMM.
@@ -134,6 +135,8 @@ public interface AbstractHmm<O extends Observation> extends Cloneable, Serializa
     void fold ();
     
     void fold (int n);
+    
+    void fold (Iterable<TInt> interaction);
 
     
     

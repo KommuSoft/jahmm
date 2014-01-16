@@ -1,16 +1,14 @@
 package be.ac.ulg.montefiore.run.jahmm;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author kommusoft
  */
-public abstract class HmmBase<O extends Observation, TA, TB> implements AbstractHmm<O> {
+public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends Observation> implements AbstractHmm<TObs, TInt> {
 
     protected double pi[];
-    protected TA a;
-    protected TB b;
+    protected TAMx a;
+    protected TBMx b;
 
     /**
      * Creates a duplicate object of the HMM.
@@ -20,7 +18,7 @@ public abstract class HmmBase<O extends Observation, TA, TB> implements Abstract
      * in the hierarchy can fail to clone.
      */
     @Override
-    public abstract HmmBase<O, TA, TB> clone() throws CloneNotSupportedException;
+    public abstract HmmBase<TObs, TAMx, TBMx, TInt> clone() throws CloneNotSupportedException;
 
     /**
      * Returns the number of states of this HMM.
@@ -55,8 +53,9 @@ public abstract class HmmBase<O extends Observation, TA, TB> implements Abstract
     public void setPi(int stateNb, double value) {
         pi[stateNb] = value;
     }
-    
-    public void fold () {
+
+    @Override
+    public void fold() {
         this.fold(0x01);
     }
 

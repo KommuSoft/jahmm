@@ -31,8 +31,7 @@ import jutlis.lists.ListArray;
  * 
 * @param <O> the type of the observations.
  */
-public class Hmm<O extends Observation>
-        extends HmmBase<O, double[][], List<Opdf<O>>> {
+public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf<O>>, O> {
 
     private static final long serialVersionUID = 2L;
 
@@ -325,5 +324,10 @@ public class Hmm<O extends Observation>
         if ((n & 0x01) != 0x00) {
             this.pi = pib;
         }
+    }
+
+    @Override
+    public void fold(Iterable<O> interaction) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

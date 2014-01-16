@@ -30,9 +30,8 @@ import java.util.logging.Logger;
  * vector being the i-th element of the sequence). A set of observation
  * sequences is a {@link java.util.List List} of such sequences.
  *
- * @param <O> the type of observations
  */
-public class IHmm<O extends Observation> extends HmmBase<O, double[][][], ArrayList<Opdf<O>>> {
+public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][], ArrayList<Opdf<Out>>> {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(IHmm.class.getName());
@@ -47,7 +46,7 @@ public class IHmm<O extends Observation> extends HmmBase<O, double[][][], ArrayL
      * @param opdfFactory A pdf generator that is used to build the pdfs
      * associated to each state.
      */
-    public IHmm(int nbSymbols, int nbStates, OpdfFactory<? extends Opdf<O>> opdfFactory) {
+    public IHmm(int nbSymbols, int nbStates, OpdfFactory<? extends Opdf<Out>> opdfFactory) {
         if (nbSymbols <= 0) {
             throw new IllegalArgumentException("Number of symbols must be strictly positive");
         }
@@ -79,7 +78,7 @@ public class IHmm<O extends Observation> extends HmmBase<O, double[][][], ArrayL
      * the observation distribution associated with state <code>i</code>. The
      * distributions are not copied.
      */
-    public IHmm(double[] pi, double[][][] a, List<? extends Opdf<O>> opdfs) {
+    public IHmm(double[] pi, double[][][] a, List<? extends Opdf<Out>> opdfs) {
 
     }
 
@@ -140,9 +139,9 @@ public class IHmm<O extends Observation> extends HmmBase<O, double[][][], ArrayL
      * in the hierarchy can fail to clone.
      */
     @Override
-    public IHmm<O> clone()
+    public IHmm<In, Out> clone()
             throws CloneNotSupportedException {
-        IHmm<O> ihmm = new IHmm<>(nbSymbols(), nbStates());
+        IHmm<In, Out> ihmm = new IHmm<>(nbSymbols(), nbStates());
         //TODO
         return ihmm;
     }
@@ -215,45 +214,45 @@ public class IHmm<O extends Observation> extends HmmBase<O, double[][][], ArrayL
             }
             s += "\n";
 
-            s += " Opdf: " ;//TODO+ getOpdf(i).toString(nf) + "\n";
+            s += " Opdf: ";//TODO+ getOpdf(i).toString(nf) + "\n";
         }
 
         return s;
     }
-    
+
     @Override
     public void fold(int n) {
         int m = pi.length;
         double[] pia = new double[m], pib = this.pi, tmp;
-        for(int i = 0x00; i < n; i++) {
+        for (int i = 0x00; i < n; i++) {
             tmp = pia;
             pia = pib;
             pib = tmp;
-            for(int j = 0x00; j < m; j++) {
+            for (int j = 0x00; j < m; j++) {
                 double tot = 0.0d;
-                for(int k = 0x00; k < m; k++) {
+                for (int k = 0x00; k < m; k++) {
                     tot += 1.0d;//TODO
                 }
                 pib[j] = tot;
             }
         }
-        if((n&0x01) != 0x00) {
+        if ((n & 0x01) != 0x00) {
             this.pi = pib;
         }
     }
 
     @Override
-    public Opdf<O> getOpdf(int stateNb) {
+    public Opdf<Out> getOpdf(int stateNb) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double lnProbability(List<? extends O> oseq) {
+    public double lnProbability(List<? extends Out> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public int[] mostLikelyStateSequence(List<? extends O> oseq) {
+    public int[] mostLikelyStateSequence(List<? extends Out> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
