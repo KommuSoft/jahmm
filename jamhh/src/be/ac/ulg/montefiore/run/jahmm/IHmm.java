@@ -4,10 +4,12 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
+import static be.ac.ulg.montefiore.run.jahmm.HmmBase.generatePi;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
+import jutlis.lists.ListArray;
 
 /**
  * Main Input-Hmm class; it implements an Hidden Markov Model with an input
@@ -36,6 +38,37 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(IHmm.class.getName());
 
+    protected static double[][][] cloneA(double[][][] a) {
+        int n = a.length;
+        int m = a[0x00].length;
+        double[][][] clone = new double[n][][];
+        for (int i = 0; i < n; i++) {
+            if (a[i].length != m) {
+                throw new IllegalArgumentException("'A' is not a consistent matrix.");
+            }
+            for (int j = 0; j < m; j++) {
+                if (a[i][j].length != n) {
+                    throw new IllegalArgumentException("'A' is not a square matrix.");
+                }
+                clone[i][j] = a[i][j].clone();
+            }
+        }
+        return clone;
+    }
+
+    protected static double[][][] generateA(int nbSymbols, int nbStates) {
+        double[][][] a = new double[nbStates][nbSymbols][nbStates];
+        double inv = 1.0d / nbStates;
+        for (int i = 0x00; i < nbStates; i++) {
+            for (int j = 0x00; j < nbSymbols; j++) {
+                for (int k = 0x00; k < nbStates; k++) {
+                    a[i][j][k] = inv;
+                }
+            }
+        }
+        return a;
+    }
+
     /**
      * Creates a new IHMM. Each state has the same <i>pi</i> value and the
      * transition probabilities are all equal.
@@ -47,23 +80,11 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
      * associated to each state.
      */
     public IHmm(int nbSymbols, int nbStates, OpdfFactory<? extends Opdf<Out>> opdfFactory) {
-        if (nbSymbols <= 0) {
-            throw new IllegalArgumentException("Number of symbols must be strictly positive");
-        }
-        pi = new double[nbStates];
-        a = new double[nbStates][nbSymbols][nbStates];
-        b = new ArrayList<>(nbStates);
-
-        double ac = 1. / (nbStates * nbSymbols);
+        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<Out>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
-            pi[i] = 1. / nbStates;
             b.add(opdfFactory.factor());
-            for (int j = 0; j < nbSymbols; j++) {
-                for (int k = 0; k < nbStates; k++) {
-                    a[i][j][k] = ac;
-                }
-            }
         }
+        this.checkConstraints();
     }
 
     /**
@@ -79,7 +100,24 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
      * distributions are not copied.
      */
     public IHmm(double[] pi, double[][][] a, List<? extends Opdf<Out>> opdfs) {
+        super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
+        this.checkConstraints();
+    }
 
+    /**
+     * Creates a new IHMM. All the HMM parameters are given as arguments.
+     *
+     * @param pi The initial probability values.  <code>pi[i]</code> is the
+     * initial probability of state <code>i</code>. This array is copied.
+     * @param a The state transition probability array. <code>a[i][j][k]</code>
+     * is the probability of going from state <code>k</code> given input symbol
+     * <code>j</code> to state <code>j</code>. This array is copied.
+     * @param opdfs The observation distributions.  <code>opdfs.get(i)</code> is
+     * the observation distribution associated with state <code>i</code>. The
+     * distributions are not copied.
+     */
+    public IHmm(double[] pi, double[][][] a, Opdf<Out>... opdfs) {
+        this(pi, a, new ListArray<>(opdfs));
     }
 
     /**
@@ -91,24 +129,16 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
      * @param nbStates The (strictly positive) number of states of the HMM.
      */
     protected IHmm(int nbSymbols, int nbStates) {
-        if (nbSymbols <= 0) {
-            throw new IllegalArgumentException("Number of symbols must be strictly positive");
-        }
-        if (nbStates <= 0) {
-            throw new IllegalArgumentException("Number of states must be strictly positive");
-        }
-        pi = new double[nbStates];
-        a = new double[nbStates][nbSymbols][nbStates];
-        b = new ArrayList<>(nbStates);
-
-        double ac = 1. / (nbStates * nbSymbols);
+        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<Out>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
-            pi[i] = 1. / nbStates;
-            for (int j = 0; j < nbSymbols; j++) {
-                for (int k = 0; k < nbStates; k++) {
-                    a[i][j][k] = ac;
-                }
-            }
+            this.b.add(null);
+        }
+        this.checkConstraints();
+    }
+
+    private void checkConstraints() {
+        if (a.length == 0 || pi.length != a.length || b.size() != a.length) {
+            throw new IllegalArgumentException("Wrong dimensions");
         }
     }
 
@@ -237,7 +267,7 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
             }
         }
         if ((n & 0x01) != 0x00) {
-            this.pi = pib;
+            System.arraycopy(pib, 0, pi, 0, m);
         }
     }
 

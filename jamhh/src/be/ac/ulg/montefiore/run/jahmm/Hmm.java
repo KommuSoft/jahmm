@@ -8,6 +8,7 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import jutlis.lists.ListArray;
 
 /**
@@ -34,77 +35,8 @@ import jutlis.lists.ListArray;
 public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf<O>>, O> {
 
     private static final long serialVersionUID = 2L;
+    private static final Logger LOG = Logger.getLogger(Hmm.class.getName());
 
-    /**
-     * Creates a new HMM. Each state has the same <i>pi</i> value and the
-     * transition probabilities are all equal.
-     *     
-* @param nbStates The (strictly positive) number of states of the HMM.
-     * @param opdfFactory A pdf generator that is used to build the pdfs
-     * associated to each state.
-     */
-    public Hmm(int nbStates, OpdfFactory<? extends Opdf<O>> opdfFactory) {
-        super(generatePi(nbStates), generateA(nbStates), new ArrayList<Opdf<O>>(nbStates));
-        for (int i = 0; i < nbStates; i++) {
-            b.add(opdfFactory.factor());
-        }
-        this.checkConstraints();
-    }
-
-    /**
-     * Creates a new HMM. All the HMM parameters are given as arguments.
-     *     
-* @param pi The initial probability values. <code>pi[i]</code> is the
-     * initial probability of state <code>i</code>. This array is copied.
-     * @param a The state transition probability array. <code>a[i][j]</code> is
-     * the probability of going from state <code>i</code> to state
-     * <code>j</code>. This array is copied.
-     * @param opdfs The observation distributions. <code>opdfs.get(i)</code> is
-     * the observation distribution associated with state <code>i</code>. The
-     * distributions are not copied.
-     */
-    public Hmm(double[] pi, double[][] a, List<? extends Opdf<O>> opdfs) {
-        super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
-        this.checkConstraints();
-    }
-
-    public Hmm(double[] pi, double[][] a, Opdf<O>... opdfs) {
-        this(pi, a, new ListArray<>(opdfs));
-        this.checkConstraints();
-    }
-
-    private void checkConstraints() {
-        if (a.length == 0 || pi.length != a.length || b.size() != a.length) {
-            throw new IllegalArgumentException("Wrong dimensions");
-        }
-    }
-
-    /**
-     * Creates a new HMM. The parameters of the created HMM set to
-     * <code>null</code> specified and must be set using the appropriate
-     * methods.
-     *     
-* @param nbStates The (strictly positive) number of states of the HMM.
-     */
-    protected Hmm(int nbStates) {
-        super(generatePi(nbStates), generateA(nbStates), new ArrayList<Opdf<O>>(nbStates));
-        for (int i = 0; i < nbStates; i++) {
-            this.b.add(null);
-        }
-        this.checkConstraints();
-    }
-
-    protected static double[] generatePi(int nbStates) {
-        if (nbStates <= 0) {
-            throw new IllegalArgumentException("Number of states must be positive");
-        }
-        double inv = 1.0d / nbStates;
-        double[] pi = new double[nbStates];
-        for (int i = 0x00; i < nbStates; i++) {
-            pi[i] = inv;
-        }
-        return pi;
-    }
 
     protected static double[][] cloneA(double[][] a) {
         int n = a.length;
@@ -127,6 +59,64 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
             }
         }
         return a;
+    }
+
+    /**
+     * Creates a new HMM. Each state has the same <i>pi</i> value and the
+     * transition probabilities are all equal.
+     *
+     * @param nbStates The (strictly positive) number of states of the HMM.
+     * @param opdfFactory A pdf generator that is used to build the pdfs
+     * associated to each state.
+     */
+    public Hmm(int nbStates, OpdfFactory<? extends Opdf<O>> opdfFactory) {
+        super(generatePi(nbStates), generateA(nbStates), new ArrayList<Opdf<O>>(nbStates));
+        for (int i = 0; i < nbStates; i++) {
+            b.add(opdfFactory.factor());
+        }
+        this.checkConstraints();
+    }
+
+    /**
+     * Creates a new HMM. All the HMM parameters are given as arguments.
+     *
+     * @param pi The initial probability values. <code>pi[i]</code> is the
+     * initial probability of state <code>i</code>. This array is copied.
+     * @param a The state transition probability array. <code>a[i][j]</code> is
+     * the probability of going from state <code>i</code> to state
+     * <code>j</code>. This array is copied.
+     * @param opdfs The observation distributions. <code>opdfs.get(i)</code> is
+     * the observation distribution associated with state <code>i</code>. The
+     * distributions are not copied.
+     */
+    public Hmm(double[] pi, double[][] a, List<? extends Opdf<O>> opdfs) {
+        super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
+        this.checkConstraints();
+    }
+
+    public Hmm(double[] pi, double[][] a, Opdf<O>... opdfs) {
+        this(pi, a, new ListArray<>(opdfs));
+    }
+
+    /**
+     * Creates a new HMM. The parameters of the created HMM set to
+     * <code>null</code> specified and must be set using the appropriate
+     * methods.
+     *
+     * @param nbStates The (strictly positive) number of states of the HMM.
+     */
+    protected Hmm(int nbStates) {
+        super(generatePi(nbStates), generateA(nbStates), new ArrayList<Opdf<O>>(nbStates));
+        for (int i = 0; i < nbStates; i++) {
+            this.b.add(null);
+        }
+        this.checkConstraints();
+    }
+
+    private void checkConstraints() {
+        if (a.length == 0 || pi.length != a.length || b.size() != a.length) {
+            throw new IllegalArgumentException("Wrong dimensions");
+        }
     }
 
     /**
@@ -295,22 +285,8 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
      * in the hierarchy can fail to clone.
      */
     @Override
-    public Hmm<O> clone()
-            throws CloneNotSupportedException {
-        Hmm<O> hmm = new Hmm<>(nbStates());
-
-        hmm.pi = pi.clone();
-        hmm.a = a.clone();
-
-        for (int i = 0; i < a.length; i++) {
-            hmm.a[i] = a[i].clone();
-        }
-
-        for (int i = 0; i < hmm.b.size(); i++) {
-            hmm.b.set(i, b.get(i).clone());
-        }
-
-        return hmm;
+    public Hmm<O> clone() throws CloneNotSupportedException {
+        return new Hmm<>(this.pi, this.a, this.b);
     }
 
     @Override
@@ -330,7 +306,7 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
             }
         }
         if ((n & 0x01) != 0x00) {
-            this.pi = pib;
+            System.arraycopy(pib, 0, pi, 0, m);
         }
     }
 

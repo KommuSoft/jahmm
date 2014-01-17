@@ -9,6 +9,18 @@ public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends
     protected final double pi[];
     protected final TAMx a;
     protected final TBMx b;
+    
+    protected static double[] generatePi(int nbStates) {
+        if (nbStates <= 0) {
+            throw new IllegalArgumentException("Number of states must be positive");
+        }
+        double inv = 1.0d / nbStates;
+        double[] pi = new double[nbStates];
+        for (int i = 0x00; i < nbStates; i++) {
+            pi[i] = inv;
+        }
+        return pi;
+    }
 
     protected HmmBase(double pi[], TAMx a, TBMx b) {
         this.pi = pi;
