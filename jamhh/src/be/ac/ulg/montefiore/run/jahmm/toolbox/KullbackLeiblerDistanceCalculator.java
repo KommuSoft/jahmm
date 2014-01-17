@@ -39,17 +39,17 @@ public class KullbackLeiblerDistanceCalculator {
      * @return The distance between <code>hmm1</code> and <code>hmm2</code> with
      * regard to <code>hmm1</code>
      */
-    public <O extends Observation> double
-            distance(Hmm<O> hmm1, Hmm<? super O> hmm2) {
+    public <O extends Observation> double distance(Hmm<O> hmm1, Hmm<? super O> hmm2) {
         double distance = 0.;
 
         for (int i = 0; i < nbSequences; i++) {
 
-            List<O> oseq = new MarkovGenerator<>(hmm1).
-                    observationSequence(sequencesLength);
+            List<O> oseq = new MarkovGenerator<>(hmm1).observationSequence(sequencesLength);
 
-            distance += (ForwardBackwardScaledCalculator.Instance.computeProbability(oseq, hmm1)
-                    - ForwardBackwardScaledCalculator.Instance.computeProbability(oseq, hmm2)) / sequencesLength;
+            System.out.println(ForwardBackwardScaledCalculator.Instance.computeProbability(hmm1, oseq));
+            System.out.println(ForwardBackwardScaledCalculator.Instance.computeProbability(hmm2, oseq));
+            
+            distance += (ForwardBackwardScaledCalculator.Instance.computeProbability(hmm1, oseq)- ForwardBackwardScaledCalculator.Instance.computeProbability(hmm2, oseq)) / sequencesLength;
         }
 
         return distance / nbSequences;

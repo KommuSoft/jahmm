@@ -23,7 +23,13 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
 
     public static final ForwardBackwardCalculator Instance = new ForwardBackwardCalculator();
 
-    private static <O extends Observation> double computeProbability(List<O> oseq, Hmm<? super O> hmm, Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
+    /**
+     *
+     */
+    protected ForwardBackwardCalculator() {
+    }
+
+    protected <O extends Observation> double computeProbability(List<O> oseq, Hmm<? super O> hmm, Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
         double probability = 0.;
 
         if (flags.contains(ComputationType.ALPHA)) {
@@ -38,12 +44,6 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
             }
         }
         return probability;
-    }
-
-    /**
-     *
-     */
-    protected ForwardBackwardCalculator() {
     }
 
     /**

@@ -209,7 +209,7 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
      */
     @Override
     public double lnProbability(List<? extends O> oseq) {
-        return ForwardBackwardScaledCalculator.Instance.computeProbability(oseq, this);
+        return ForwardBackwardScaledCalculator.Instance.computeProbability(this, oseq);
     }
 
     /**
