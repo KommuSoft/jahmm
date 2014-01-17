@@ -6,9 +6,15 @@ package be.ac.ulg.montefiore.run.jahmm;
  */
 public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends Observation> implements AbstractHmm<TObs, TInt> {
 
-    protected double pi[];
-    protected TAMx a;
-    protected TBMx b;
+    protected final double pi[];
+    protected final TAMx a;
+    protected final TBMx b;
+
+    protected HmmBase(double pi[], TAMx a, TBMx b) {
+        this.pi = pi;
+        this.a = a;
+        this.b = b;
+    }
 
     /**
      * Creates a duplicate object of the HMM.

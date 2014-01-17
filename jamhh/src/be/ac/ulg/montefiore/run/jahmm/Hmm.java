@@ -44,23 +44,11 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
      * associated to each state.
      */
     public Hmm(int nbStates, OpdfFactory<? extends Opdf<O>> opdfFactory) {
-        if (nbStates <= 0) {
-            throw new IllegalArgumentException("Number of states must be "
-                    + "strictly positive");
-        }
-
-        pi = new double[nbStates];
-        a = new double[nbStates][nbStates];
-        b = new ArrayList<>(nbStates);
-
+        super(generatePi(nbStates), generateA(nbStates), new ArrayList<Opdf<O>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
-            pi[i] = 1. / nbStates;
             b.add(opdfFactory.factor());
-
-            for (int j = 0; j < nbStates; j++) {
-                a[i][j] = 1. / nbStates;
-            }
         }
+        this.checkConstraints();
     }
 
     /**
@@ -76,27 +64,19 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
      * distributions are not copied.
      */
     public Hmm(double[] pi, double[][] a, List<? extends Opdf<O>> opdfs) {
-        if (a.length == 0 || pi.length != a.length
-                || opdfs.size() != a.length) {
-            throw new IllegalArgumentException("Wrong parameter");
-        }
-
-        this.pi = pi.clone();
-        this.a = new double[a.length][];
-
-        for (int i = 0; i < a.length; i++) {
-            if (a[i].length != a.length) {
-                throw new IllegalArgumentException("'A' is not a square"
-                        + "matrix");
-            }
-            this.a[i] = a[i].clone();
-        }
-
-        this.b = new ArrayList<>(opdfs);
+        super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
+        this.checkConstraints();
     }
 
     public Hmm(double[] pi, double[][] a, Opdf<O>... opdfs) {
         this(pi, a, new ListArray<>(opdfs));
+        this.checkConstraints();
+    }
+
+    private void checkConstraints() {
+        if (a.length == 0 || pi.length != a.length || b.size() != a.length) {
+            throw new IllegalArgumentException("Wrong dimensions");
+        }
     }
 
     /**
@@ -107,18 +87,46 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
 * @param nbStates The (strictly positive) number of states of the HMM.
      */
     protected Hmm(int nbStates) {
-        if (nbStates <= 0) {
-            throw new IllegalArgumentException("Number of states must be "
-                    + "positive");
-        }
-
-        pi = new double[nbStates];
-        a = new double[nbStates][nbStates];
-        b = new ArrayList<>(nbStates);
-
+        super(generatePi(nbStates), generateA(nbStates), new ArrayList<Opdf<O>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
-            b.add(null);
+            this.b.add(null);
         }
+        this.checkConstraints();
+    }
+
+    protected static double[] generatePi(int nbStates) {
+        if (nbStates <= 0) {
+            throw new IllegalArgumentException("Number of states must be positive");
+        }
+        double inv = 1.0d / nbStates;
+        double[] pi = new double[nbStates];
+        for (int i = 0x00; i < nbStates; i++) {
+            pi[i] = inv;
+        }
+        return pi;
+    }
+
+    protected static double[][] cloneA(double[][] a) {
+        int n = a.length;
+        double[][] clone = new double[n][];
+        for (int i = 0; i < n; i++) {
+            if (a[i].length != n) {
+                throw new IllegalArgumentException("'A' is not a square matrix");
+            }
+            clone[i] = a[i].clone();
+        }
+        return clone;
+    }
+
+    protected static double[][] generateA(int nbStates) {
+        double[][] a = new double[nbStates][nbStates];
+        double inv = 1.0d / nbStates;
+        for (int i = 0x00; i < nbStates; i++) {
+            for (int j = 0x00; j < nbStates; j++) {
+                a[i][j] = inv;
+            }
+        }
+        return a;
     }
 
     /**
