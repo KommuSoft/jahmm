@@ -8,8 +8,7 @@ package be.ac.ulg.montefiore.run.jahmm;
  * This class can build <code>OpdfInteger</code> observation probability
  * functions.
  */
-public class OpdfIntegerFactory
-        implements OpdfFactory<OpdfInteger> {
+public final class OpdfIntegerFactory implements OpdfFactory<OpdfInteger> {
 
     private final int nbEntries;
 

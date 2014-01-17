@@ -12,12 +12,11 @@ import java.util.Collection;
  * This class represents a distribution of a finite number of positive integer
  * observations.
  */
-public class OpdfInteger
-        implements Opdf<ObservationInteger> {
+public final class OpdfInteger implements Opdf<ObservationInteger> {
 
     private static final long serialVersionUID = 1L;
 
-    private double[] probabilities;
+    private final double[] probabilities;
 
     /**
      * Builds a new probability distribution which operates on integer values.
@@ -30,8 +29,7 @@ public class OpdfInteger
      */
     public OpdfInteger(int nbEntries) {
         if (nbEntries <= 0) {
-            throw new IllegalArgumentException("Argument must be strictly "
-                    + "positive");
+            throw new IllegalArgumentException("Argument must be strictly positive");
         }
 
         probabilities = new double[nbEntries];
@@ -140,13 +138,7 @@ public class OpdfInteger
 
     @Override
     public OpdfInteger clone() throws CloneNotSupportedException {
-        try {
-            OpdfInteger opdf = (OpdfInteger) super.clone();
-            opdf.probabilities = probabilities.clone();
-            return opdf;
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError(e);
-        }
+        return new OpdfInteger(this.probabilities);
     }
 
     /**
@@ -160,15 +152,11 @@ public class OpdfInteger
 
     @Override
     public String toString(NumberFormat numberFormat) {
-        String s = "Integer distribution --- ";
-
+        StringBuilder sb = new StringBuilder("Integer distribution --- ");
         for (int i = 0; i < nbEntries();) {
             ObservationInteger oi = new ObservationInteger(i);
-
-            s += numberFormat.format(probability(oi))
-                    + ((++i < nbEntries()) ? " " : "");
+            sb.append(numberFormat.format(probability(oi)) + ((++i < nbEntries()) ? " " : ""));
         }
-
-        return s;
+        return sb.toString();
     }
 }

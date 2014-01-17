@@ -8,8 +8,11 @@ package be.ac.ulg.montefiore.run.jahmm;
  * This class can build <code>OpdfMultiGaussian</code> observation probability
  * functions.
  */
-public class OpdfGaussianFactory
-        implements OpdfFactory<OpdfGaussian> {
+public final class OpdfGaussianFactory implements OpdfFactory<OpdfGaussian> {
+    
+    public static final OpdfGaussianFactory Instance = new OpdfGaussianFactory();
+    
+    private OpdfGaussianFactory () {}
 
     @Override
     public OpdfGaussian factor() {

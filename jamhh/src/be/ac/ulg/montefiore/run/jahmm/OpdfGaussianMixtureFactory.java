@@ -10,8 +10,7 @@ package be.ac.ulg.montefiore.run.jahmm;
  * @author Benjamin Chung (Creation)
  * @author Jean-Marc Francois (Minor adaptions)
  */
-public class OpdfGaussianMixtureFactory
-        implements OpdfFactory<OpdfGaussianMixture> {
+public final class OpdfGaussianMixtureFactory implements OpdfFactory<OpdfGaussianMixture> {
 
     final private int gaussiansNb;
 

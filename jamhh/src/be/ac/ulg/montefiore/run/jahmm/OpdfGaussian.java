@@ -10,17 +10,16 @@ import java.util.Arrays;
 import java.util.Collection;
 
 /**
- * This class represents a (monovariate) gaussian distribution function.
+ * This class represents a (mono variate) Gaussian distribution function.
  */
-public class OpdfGaussian
-        implements Opdf<ObservationReal> {
+public class OpdfGaussian implements Opdf<ObservationReal> {
 
     private static final long serialVersionUID = 1L;
 
     private GaussianDistribution distribution;
 
     /**
-     * Builds a new gaussian probability distribution with zero mean and unit
+     * Builds a new Gaussian probability distribution with zero mean and unit
      * variance.
      */
     public OpdfGaussian() {
@@ -28,7 +27,7 @@ public class OpdfGaussian
     }
 
     /**
-     * Builds a new gaussian probability distribution with a given mean and
+     * Builds a new Gaussian probability distribution with a given mean and
      * covariance matrix.
      *
      * @param mean The distribution's mean.
@@ -130,8 +129,6 @@ public class OpdfGaussian
 
     @Override
     public String toString(NumberFormat numberFormat) {
-        return "Gaussian distribution --- "
-                + "Mean: " + numberFormat.format(distribution.mean())
-                + " Variance " + numberFormat.format(distribution.variance());
+        return String.format("Gaussian distribution --- Mean: %s Variance %s", numberFormat.format(distribution.mean()), numberFormat.format(distribution.variance()));
     }
 }

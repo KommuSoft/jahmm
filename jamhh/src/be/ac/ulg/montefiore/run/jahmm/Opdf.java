@@ -18,8 +18,7 @@ import java.util.Collection;
  *
  * @param <O>
  */
-public interface Opdf<O extends Observation>
-        extends Cloneable, Serializable {
+public interface Opdf<O extends Observation> extends Cloneable, Serializable, INumberFormatString {
 
     /**
      * Returns the probability (density) of an observation given a distribution.
@@ -80,15 +79,6 @@ public interface Opdf<O extends Observation>
      * equals 1).
      */
     void fit(Collection<? extends O> co, double[] weights);
-
-    /**
-     * Returns a {@link java.lang.String String} describing this distribution.
-     *
-     * @param numberFormat A formatter used to convert the numbers (<i>e.g.</i>
-     * probabilities) to strings.
-     * @return A {@link java.lang.String String} describing this distribution.
-     */
-    public String toString(NumberFormat numberFormat);
 
     /**
      *

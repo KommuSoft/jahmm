@@ -11,15 +11,15 @@ import java.util.List;
  * This class can be used to compute the most probable state sequence matching a
  * given observation sequence (given an HMM).
  */
-public class ViterbiCalculator {
+public final class ViterbiCalculator {
     /*
      * The psy and delta values, as described in Rabiner and Juand classical
      * papers.
      */
 
-    private double[][] delta;
-    private int[][] psy;
-    private int[] stateSequence;
+    private final double[][] delta;
+    private final int[][] psy;
+    private final int[] stateSequence;
     private double lnProbability;
 
     /**

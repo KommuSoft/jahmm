@@ -46,8 +46,7 @@ import java.util.List;
  */
 class Types {
 
-    public static RelatedObjs<?> relatedObjs()
-            throws WrongArgumentsException {
+    public static RelatedObjs<?> relatedObjs() throws WrongArgumentsException {
         String opdf = Arguments.OPDF.get();
         switch (opdf) {
             case "integer":
@@ -66,13 +65,11 @@ class Types {
     }
 }
 
-class IntegerRelatedObjects
-        implements RelatedObjs<ObservationInteger> {
+class IntegerRelatedObjects implements RelatedObjs<ObservationInteger> {
 
     final int range;
 
-    IntegerRelatedObjects()
-            throws WrongArgumentsException {
+    IntegerRelatedObjects() throws WrongArgumentsException {
         range = Arguments.INTEGER_RANGE.getAsInt();
     }
 
@@ -102,27 +99,22 @@ class IntegerRelatedObjects
     }
 
     @Override
-    public List<List<ObservationInteger>> readSequences(Reader reader)
-            throws FileFormatException, IOException {
-        return ObservationSequencesReader.readSequences(observationReader(),
-                reader);
+    public List<List<ObservationInteger>> readSequences(Reader reader) throws FileFormatException, IOException {
+        return ObservationSequencesReader.readSequences(observationReader(),reader);
     }
 
     @Override
-    public MarkovGenerator<ObservationInteger>
-            generator(Hmm<ObservationInteger> hmm) {
+    public MarkovGenerator<ObservationInteger> generator(Hmm<ObservationInteger> hmm) {
         return new MarkovGenerator<>(hmm);
     }
 }
 
-class RealRelatedObjects
-        implements RelatedObjs<ObservationReal> {
+class RealRelatedObjects implements RelatedObjs<ObservationReal> {
 
     public final String opdf;
     public final int nb;
 
-    RealRelatedObjects(String opdf)
-            throws WrongArgumentsException {
+    RealRelatedObjects(String opdf) throws WrongArgumentsException {
         this.opdf = opdf;
         nb = Arguments.NB_GAUSSIANS.getAsInt();
     }
@@ -140,7 +132,7 @@ class RealRelatedObjects
     @Override
     public OpdfFactory<? extends Opdf<ObservationReal>> opdfFactory() {
         if (opdf.equals("gaussian")) {
-            return new OpdfGaussianFactory();
+            return OpdfGaussianFactory.Instance;
         } else { // Gaussian mixture
             return new OpdfGaussianMixtureFactory(nb);
         }
@@ -150,8 +142,7 @@ class RealRelatedObjects
     public OpdfReader<? extends Opdf<ObservationReal>> opdfReader() {
         if (opdf.equals("gaussian")) {
             return new OpdfGaussianReader();
-        } else // Gaussian mixture
-        {
+        } else { // Gaussian mixture
             return new OpdfGaussianMixtureReader();
         }
     }
@@ -160,33 +151,27 @@ class RealRelatedObjects
     public OpdfWriter<? extends Opdf<ObservationReal>> opdfWriter() {
         if (opdf.equals("gaussian")) {
             return new OpdfGaussianWriter();
-        } else // Gaussian mixture
-        {
+        } else { // Gaussian mixture
             return new OpdfGaussianMixtureWriter();
         }
     }
 
     @Override
-    public List<List<ObservationReal>> readSequences(Reader reader)
-            throws FileFormatException, IOException {
-        return ObservationSequencesReader.readSequences(observationReader(),
-                reader);
+    public List<List<ObservationReal>> readSequences(Reader reader) throws FileFormatException, IOException {
+        return ObservationSequencesReader.readSequences(observationReader(), reader);
     }
 
     @Override
-    public MarkovGenerator<ObservationReal>
-            generator(Hmm<ObservationReal> hmm) {
+    public MarkovGenerator<ObservationReal> generator(Hmm<ObservationReal> hmm) {
         return new MarkovGenerator<>(hmm);
     }
 }
 
-class VectorRelatedObjects
-        implements RelatedObjs<ObservationVector> {
+class VectorRelatedObjects implements RelatedObjs<ObservationVector> {
 
     final int dimension;
 
-    VectorRelatedObjects()
-            throws WrongArgumentsException {
+    VectorRelatedObjects() throws WrongArgumentsException {
         dimension = Arguments.VECTOR_DIMENSION.getAsInt();
     }
 
@@ -216,15 +201,12 @@ class VectorRelatedObjects
     }
 
     @Override
-    public List<List<ObservationVector>> readSequences(Reader reader)
-            throws FileFormatException, IOException {
-        return ObservationSequencesReader.readSequences(observationReader(),
-                reader);
+    public List<List<ObservationVector>> readSequences(Reader reader) throws FileFormatException, IOException {
+        return ObservationSequencesReader.readSequences(observationReader(), reader);
     }
 
     @Override
-    public MarkovGenerator<ObservationVector>
-            generator(Hmm<ObservationVector> hmm) {
+    public MarkovGenerator<ObservationVector> generator(Hmm<ObservationVector> hmm) {
         return new MarkovGenerator<>(hmm);
     }
 }

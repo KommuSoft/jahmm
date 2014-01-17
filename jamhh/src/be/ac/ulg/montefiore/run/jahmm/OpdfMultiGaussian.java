@@ -10,17 +10,16 @@ import java.util.Arrays;
 import java.util.Collection;
 
 /**
- * This class represents a multivariate gaussian distribution function.
+ * This class represents a multivariate Gaussian distribution function.
  */
-public class OpdfMultiGaussian
-        implements Opdf<ObservationVector> {
+public final class OpdfMultiGaussian implements Opdf<ObservationVector> {
 
     private static final long serialVersionUID = 1L;
 
     private MultiGaussianDistribution distribution;
 
     /**
-     * Builds a new gaussian probability distribution with zero mean and
+     * Builds a new Gaussian probability distribution with zero mean and
      * identity covariance matrix.
      *
      * @param dimension The dimension of the vectors.
@@ -30,7 +29,7 @@ public class OpdfMultiGaussian
     }
 
     /**
-     * Builds a new gaussian probability distribution with a given mean and
+     * Builds a new Gaussian probability distribution with a given mean and
      * covariance matrix.
      *
      * @param mean The distribution's mean.
@@ -75,8 +74,7 @@ public class OpdfMultiGaussian
     @Override
     public double probability(ObservationVector o) {
         if (o.dimension() != distribution.dimension()) {
-            throw new IllegalArgumentException("Vector has a wrong "
-                    + "dimension");
+            throw new IllegalArgumentException("Vector has a wrong dimension");
         }
 
         return distribution.probability(o.value);
@@ -169,13 +167,13 @@ public class OpdfMultiGaussian
 
     @Override
     public String toString(NumberFormat numberFormat) {
-        String s = "Multi-variate Gaussian distribution --- Mean: [ ";
+        StringBuilder sb = new StringBuilder("Multi-variate Gaussian distribution --- Mean: [ ");
         double[] mean = distribution.mean();
-
         for (int i = 0; i < mean.length; i++) {
-            s += numberFormat.format(mean[i]) + " ";
+            sb.append(numberFormat.format(mean[i]));
+            sb.append(' ');
         }
-
-        return s + "]";
+        sb.append(']');
+        return sb.toString();
     }
 }

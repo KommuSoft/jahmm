@@ -11,12 +11,12 @@ import java.util.Arrays;
 import java.util.Collection;
 
 /**
- * This class implements a mixture of monovariate gaussian distributions.
+ * This class implements a mixture of mono variate Gaussian distributions.
  *
  * @author Benjamin Chung (Creation)
  * @author Jean-Marc Francois (Adaptations / small fix)
  */
-public class OpdfGaussianMixture implements Opdf<ObservationReal> {
+public final class OpdfGaussianMixture implements Opdf<ObservationReal> {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,10 +24,11 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
 
     /**
      * Creates a Gaussian mixture distribution. The mean values of the
-     * distributions are evently distributed between 0 and 1 and each variance
-     * is equal to 1.
+     * distributions are evenly distributed between 0 and 1 and each variance is
+     * equal to 1.
      *
-     * @param nbGaussians The number of gaussians that compose this mixture.
+     * @param nbGaussians The number of Gaussian distributions that compose this
+     * mixture.
      */
     public OpdfGaussianMixture(int nbGaussians) {
         distribution = new GaussianMixtureDistribution(nbGaussians);
@@ -43,10 +44,8 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
      * normalized, but each element must be positive and the sum of its elements
      * must be strictly positive.
      */
-    public OpdfGaussianMixture(double[] means, double[] variances,
-            double[] proportions) {
-        distribution = new GaussianMixtureDistribution(means, variances,
-                proportions);
+    public OpdfGaussianMixture(double[] means, double[] variances, double[] proportions) {
+        distribution = new GaussianMixtureDistribution(means, variances, proportions);
     }
 
     @Override
@@ -69,7 +68,7 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
     }
 
     /**
-     * Returns the mixing proportions of each gaussian distribution.
+     * Returns the mixing proportions of each Gaussian distribution.
      *
      * @return A (copy of) array giving the distributions' proportion.
      */
@@ -176,8 +175,7 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
         double[] newMeans = computeNewMeans(delta, o, weights);
         double[] newVariances = computeNewVariances(delta, o, weights);
 
-        distribution = new GaussianMixtureDistribution(newMeans, newVariances,
-                newMixingProportions);
+        distribution = new GaussianMixtureDistribution(newMeans, newVariances, newMixingProportions);
     }
 
     /* 
@@ -301,20 +299,16 @@ public class OpdfGaussianMixture implements Opdf<ObservationReal> {
 
     @Override
     public String toString(NumberFormat numberFormat) {
-        String s = "Gaussian mixture distribution --- ";
+        StringBuilder sb = new StringBuilder("Gaussian mixture distribution --- ");
 
         double[] proportions = proportions();
         double[] means = means();
         double[] variances = variances();
 
         for (int i = 0; i < distribution.nbGaussians(); i++) {
-            s += "Gaussian " + (i + 1) + ":\n";
-            s += "\tMixing Prop = " + numberFormat.format(proportions[i])
-                    + "\n";
-            s += "\tMean = " + numberFormat.format(means[i]) + "\n";
-            s += "\tVariance = " + numberFormat.format(variances[i]) + "\n";
+            sb.append(String.format("Gaussian %s:\n\tMixing Prop = %s\n\tMean = %s\n\tVariance = %s\n", (i + 1), numberFormat.format(proportions[i]), numberFormat.format(means[i]), numberFormat.format(variances[i])));
         }
 
-        return s;
+        return sb.toString();
     }
 }

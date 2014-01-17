@@ -24,8 +24,7 @@ import java.util.List;
  * <i>Juang</i>'s <i>Fundamentals of speech recognition</i> (Prentice Hall,
  * 1993).
  */
-public class ForwardBackwardScaledCalculator
-        extends ForwardBackwardCalculator {
+public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalculator {
 
     public static final ForwardBackwardScaledCalculator Instance = new ForwardBackwardScaledCalculator();
 
