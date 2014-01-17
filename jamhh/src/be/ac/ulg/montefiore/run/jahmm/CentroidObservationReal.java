@@ -10,8 +10,7 @@ import java.util.List;
  * This class represents the centroid of a set of {@link ObservationReal
  * ObservationReal}.
  */
-public class CentroidObservationReal
-        implements Centroid<ObservationReal> {
+public class CentroidObservationReal implements Centroid<ObservationReal> {
 
     private double value;
 

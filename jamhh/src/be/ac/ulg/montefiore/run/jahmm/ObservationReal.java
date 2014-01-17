@@ -9,13 +9,12 @@ import java.text.NumberFormat;
 /**
  * This class implements observations made of a real value.
  */
-public class ObservationReal extends ObservationBase
-        implements CentroidFactory<ObservationReal> {
+public final class ObservationReal extends ObservationBase implements CentroidFactory<ObservationReal> {
 
     /**
      * The observation's value.
      */
-    final public double value;
+    public final double value;
 
     /**
      * An observation that can be described by a real.

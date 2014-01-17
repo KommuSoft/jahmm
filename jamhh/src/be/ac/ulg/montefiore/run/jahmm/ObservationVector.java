@@ -9,8 +9,7 @@ import java.text.NumberFormat;
 /**
  * This class holds an Observation described by a vector of reals.
  */
-public class ObservationVector extends ObservationBase
-        implements Cloneable, CentroidFactory<ObservationVector> {
+public final class ObservationVector extends ObservationBase implements Cloneable, CentroidFactory<ObservationVector> {
 
     final double[] value;
 
@@ -33,7 +32,7 @@ public class ObservationVector extends ObservationBase
      *
      * @param value The value of this observation. This array is copied.
      */
-    public ObservationVector(double[] value) {
+    public ObservationVector(double... value) {
         this(value.length);
         System.arraycopy(value, 0, this.value, 0, value.length);
     }

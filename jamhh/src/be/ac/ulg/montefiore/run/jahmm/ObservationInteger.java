@@ -9,13 +9,12 @@ import java.text.NumberFormat;
 /**
  * This class holds an integer observation.
  */
-public class ObservationInteger extends ObservationBase
-        implements CentroidFactory<ObservationInteger> {
+public final class ObservationInteger extends ObservationBase implements CentroidFactory<ObservationInteger> {
 
     /**
      * The observation's value.
      */
-    final public int value;
+    public final int value;
 
     /**
      * An observation that can be described by an integer.

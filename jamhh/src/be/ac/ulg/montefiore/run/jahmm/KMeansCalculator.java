@@ -23,7 +23,7 @@ import java.util.List;
  */
 public class KMeansCalculator<K extends CentroidFactory<? super K>> {
 
-    private ArrayList<Cluster<K>> clusters;
+    private final ArrayList<Cluster<K>> clusters;
 
     /**
      * This class divides a set of elements in a given number of clusters.
