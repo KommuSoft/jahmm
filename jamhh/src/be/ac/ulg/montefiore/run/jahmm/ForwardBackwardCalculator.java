@@ -31,16 +31,18 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
 
     protected <O extends Observation> double computeProbability(List<O> oseq, Hmm<? super O> hmm, Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
         double probability = 0.;
-
+        int n = hmm.nbStates();
+        double[] tmp;
         if (flags.contains(ComputationType.ALPHA)) {
-            for (int i = 0; i < hmm.nbStates(); i++) {
-                probability += alpha[oseq.size() - 1][i];
+            tmp = alpha[oseq.size() - 1];
+            for (int i = 0; i < n; i++) {
+                probability += tmp[i];
             }
         } else {
-            for (int i = 0; i < hmm.nbStates(); i++) {
-                probability
-                        += hmm.getPi(i)
-                        * hmm.getOpdf(i).probability(oseq.get(0)) * beta[0][i];
+            tmp = beta[0x00];
+            O observation = oseq.get(0x00);
+            for (int i = 0; i < n; i++) {
+                probability += hmm.getPi(i) * hmm.getOpdf(i).probability(observation) * tmp[i];
             }
         }
         return probability;

@@ -5,6 +5,7 @@
  */
 package be.ac.ulg.montefiore.run.jahmm;
 
+import java.util.EnumSet;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -18,7 +19,7 @@ public class ForwardBackwardCalculatorTest {
     }
 
     @Test
-    public void testComputeProbability1() {
+    public void testComputeProbability1A() {
         double expResult, result;
         @SuppressWarnings("unchecked")
         Hmm<ObservationInteger> hmm = new Hmm<>(new double[]{1.0}, new double[][]{{1.0}}, new OpdfInteger(0.9, 0.1));
@@ -37,12 +38,70 @@ public class ForwardBackwardCalculatorTest {
     }
 
     @Test
-    public void testComputeProbability2() {
+    public void testComputeProbability2A() {
         double expResult, result;
         @SuppressWarnings("unchecked")
         Hmm<ObservationInteger> hmm = new Hmm<>(new double[]{0.6, 0.4}, new double[][]{{0.7, 0.3}, {0.5, 0.5}}, new OpdfInteger(0.9, 0.1), new OpdfInteger(0.4, 0.6));
         expResult = 0.6 * 0.9 * 0.7 * 0.1 + 0.6 * 0.9 * 0.3 * 0.6 + 0.4 * 0.4 * 0.5 * 0.1 + 0.4 * 0.4 * 0.5 * 0.6;
         result = ForwardBackwardCalculator.Instance.computeProbability(hmm, new ObservationInteger(0x00), new ObservationInteger(0x01));
+        assertEquals(expResult, result, 1e-6);
+    }
+
+    @Test
+    public void testComputeProbability1B() {
+        double expResult, result;
+        @SuppressWarnings("unchecked")
+        Hmm<ObservationInteger> hmm = new Hmm<>(new double[]{1.0}, new double[][]{{1.0}}, new OpdfInteger(0.9, 0.1));
+        expResult = 0.09;
+        result = ForwardBackwardCalculator.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), new ObservationInteger(0x00), new ObservationInteger(0x01));
+        assertEquals(expResult, result, 1e-6);
+        expResult = 0.81;
+        result = ForwardBackwardCalculator.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), new ObservationInteger(0x00), new ObservationInteger(0x00));
+        assertEquals(expResult, result, 1e-6);
+        expResult = 0.09;
+        result = ForwardBackwardCalculator.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), new ObservationInteger(0x01), new ObservationInteger(0x00));
+        assertEquals(expResult, result, 1e-6);
+        expResult = 0.01;
+        result = ForwardBackwardCalculator.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), new ObservationInteger(0x01), new ObservationInteger(0x01));
+        assertEquals(expResult, result, 1e-6);
+    }
+
+    @Test
+    public void testComputeProbability2B() {
+        double expResult, result;
+        @SuppressWarnings("unchecked")
+        Hmm<ObservationInteger> hmm = new Hmm<>(new double[]{0.6, 0.4}, new double[][]{{0.7, 0.3}, {0.5, 0.5}}, new OpdfInteger(0.9, 0.1), new OpdfInteger(0.4, 0.6));
+        expResult = 0.6 * 0.9 * 0.7 * 0.1 + 0.6 * 0.9 * 0.3 * 0.6 + 0.4 * 0.4 * 0.5 * 0.1 + 0.4 * 0.4 * 0.5 * 0.6;
+        result = ForwardBackwardCalculator.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), new ObservationInteger(0x00), new ObservationInteger(0x01));
+        assertEquals(expResult, result, 1e-6);
+    }
+
+    @Test
+    public void testComputeProbability1AB() {
+        double expResult, result;
+        @SuppressWarnings("unchecked")
+        Hmm<ObservationInteger> hmm = new Hmm<>(new double[]{1.0}, new double[][]{{1.0}}, new OpdfInteger(0.9, 0.1));
+        expResult = 0.09;
+        result = ForwardBackwardCalculator.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), new ObservationInteger(0x00), new ObservationInteger(0x01));
+        assertEquals(expResult, result, 1e-6);
+        expResult = 0.81;
+        result = ForwardBackwardCalculator.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), new ObservationInteger(0x00), new ObservationInteger(0x00));
+        assertEquals(expResult, result, 1e-6);
+        expResult = 0.09;
+        result = ForwardBackwardCalculator.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), new ObservationInteger(0x01), new ObservationInteger(0x00));
+        assertEquals(expResult, result, 1e-6);
+        expResult = 0.01;
+        result = ForwardBackwardCalculator.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), new ObservationInteger(0x01), new ObservationInteger(0x01));
+        assertEquals(expResult, result, 1e-6);
+    }
+
+    @Test
+    public void testComputeProbability2AB() {
+        double expResult, result;
+        @SuppressWarnings("unchecked")
+        Hmm<ObservationInteger> hmm = new Hmm<>(new double[]{0.6, 0.4}, new double[][]{{0.7, 0.3}, {0.5, 0.5}}, new OpdfInteger(0.9, 0.1), new OpdfInteger(0.4, 0.6));
+        expResult = 0.6 * 0.9 * 0.7 * 0.1 + 0.6 * 0.9 * 0.3 * 0.6 + 0.4 * 0.4 * 0.5 * 0.1 + 0.4 * 0.4 * 0.5 * 0.6;
+        result = ForwardBackwardCalculator.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), new ObservationInteger(0x00), new ObservationInteger(0x01));
         assertEquals(expResult, result, 1e-6);
     }
 
