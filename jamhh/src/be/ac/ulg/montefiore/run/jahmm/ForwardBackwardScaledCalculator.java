@@ -79,7 +79,6 @@ public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalcul
 
         double[] ctFactors = new double[T];
         double[][] alpha = null, beta = null;
-        Arrays.fill(ctFactors, 0.);
 
         alpha = computeAlpha(hmm, oseq, ctFactors);
 

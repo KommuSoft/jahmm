@@ -4,7 +4,7 @@
  */
 package be.ac.ulg.montefiore.run.jahmm.toolbox;
 
-import be.ac.ulg.montefiore.run.jahmm.ForwardBackwardScaledCalculator;
+import be.ac.ulg.montefiore.run.jahmm.ForwardBackwardCalculator;
 import be.ac.ulg.montefiore.run.jahmm.Hmm;
 import be.ac.ulg.montefiore.run.jahmm.Observation;
 import java.util.List;
@@ -46,10 +46,14 @@ public class KullbackLeiblerDistanceCalculator {
 
             List<O> oseq = new MarkovGenerator<>(hmm1).observationSequence(sequencesLength);
 
-            System.out.println(ForwardBackwardScaledCalculator.Instance.computeProbability(hmm1, oseq));
-            System.out.println(ForwardBackwardScaledCalculator.Instance.computeProbability(hmm2, oseq));
+            //System.out.println(""+oseq);
             
-            distance += (ForwardBackwardScaledCalculator.Instance.computeProbability(hmm1, oseq)- ForwardBackwardScaledCalculator.Instance.computeProbability(hmm2, oseq)) / sequencesLength;
+            double da = ForwardBackwardCalculator.Instance.computeProbability(hmm1, oseq);
+            double db = ForwardBackwardCalculator.Instance.computeProbability(hmm2, oseq);
+            
+            System.out.println(da+"/"+db);
+            
+            distance += (da-db) / sequencesLength;
         }
 
         return distance / nbSequences;
