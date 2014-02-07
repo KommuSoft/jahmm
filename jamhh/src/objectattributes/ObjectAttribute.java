@@ -10,5 +10,6 @@ import utils.Name;
 public interface ObjectAttribute<TSource,TTarget> extends Name {
     
     TTarget getAttribute (TSource source);
+    ObjectAttributeType getType ();
     
 }
