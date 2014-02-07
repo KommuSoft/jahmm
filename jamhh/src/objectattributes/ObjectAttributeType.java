@@ -7,7 +7,7 @@ package objectattributes;
 public enum ObjectAttributeType {
     
     Nominal,
-    Discrete,
+    Enumerable,
     Continu
     
 }
