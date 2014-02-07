@@ -9,7 +9,7 @@ public class Utils {
     private Utils () {}
     
     public static <T> boolean isNominal (Class<T> classdef) {
-        return false;
+        return (classdef.isEnum() || classdef == char.class || classdef == boolean.class);
     }
     
 }
