@@ -4,9 +4,6 @@
  */
 package jahmm;
 
-import jahmm.ObservationInteger;
-import jahmm.Hmm;
-import jahmm.OpdfIntegerFactory;
 import jahmm.learn.BaumWelchLearner;
 import jahmm.learn.BaumWelchScaledLearner;
 import jahmm.learn.KMeansLearner;

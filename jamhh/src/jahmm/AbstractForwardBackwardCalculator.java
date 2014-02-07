@@ -6,7 +6,6 @@
 package jahmm;
 
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.List;
 import jutils.tuples.Tuple3;
 

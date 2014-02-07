@@ -4,13 +4,6 @@
  */
 package jahmm;
 
-import jahmm.Hmm;
-import jahmm.Observation;
-import jahmm.ObservationInteger;
-import jahmm.ObservationVector;
-import jahmm.Opdf;
-import jahmm.OpdfInteger;
-import jahmm.OpdfIntegerFactory;
 import jahmm.io.FileFormatException;
 import jahmm.io.HmmBinaryReader;
 import jahmm.io.HmmBinaryWriter;

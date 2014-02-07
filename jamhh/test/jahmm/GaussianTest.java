@@ -4,10 +4,6 @@
  */
 package jahmm;
 
-import jahmm.OpdfMultiGaussian;
-import jahmm.ObservationVector;
-import jahmm.OpdfGaussianMixture;
-import jahmm.ObservationReal;
 import distributions.GaussianDistribution;
 import distributions.RandomDistribution;
 import junit.framework.TestCase;

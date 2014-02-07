@@ -4,13 +4,11 @@
  */
 package jahmm.learn;
 
-import jahmm.ComputationType;
 import jahmm.ForwardBackwardCalculator;
 import jahmm.Hmm;
 import jahmm.Observation;
 import jahmm.Opdf;
 import java.util.Arrays;
-import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import jutils.tuples.Tuple3;

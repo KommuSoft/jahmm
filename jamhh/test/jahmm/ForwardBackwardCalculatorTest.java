@@ -5,11 +5,6 @@
  */
 package jahmm;
 
-import jahmm.ObservationInteger;
-import jahmm.ComputationType;
-import jahmm.Hmm;
-import jahmm.ForwardBackwardCalculator;
-import jahmm.OpdfInteger;
 import java.util.EnumSet;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
