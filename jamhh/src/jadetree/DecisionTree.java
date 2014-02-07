@@ -13,5 +13,14 @@ public class DecisionTree<TSource> {
     private final ArrayList<ObjectAttribute<? super TSource,?>> sourceattributes = new ArrayList<>();
     private final ArrayList<ObjectAttribute<? super TSource,?>> targetattributes = new ArrayList<>();
     
+    public class DecisionTreeNode<TTarget> {
+        
+        ObjectAttribute<? super TSource,TTarget> decisionattribute;
+        
+    }
+    
+    public void insert (TSource element) {
+        
+    }
     
 }
