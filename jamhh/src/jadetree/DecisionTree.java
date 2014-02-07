@@ -10,8 +10,8 @@ import objectattributes.ObjectAttribute;
  */
 public class DecisionTree<TSource> {
     
-    private final ArrayList<ObjectAttribute<? super TSource>> attributes = new ArrayList<ObjectAttribute<? super TSource>>();
-    
+    private final ArrayList<ObjectAttribute<? super TSource,?>> sourceattributes = new ArrayList<>();
+    private final ArrayList<ObjectAttribute<? super TSource,?>> targetattributes = new ArrayList<>();
     
     
 }

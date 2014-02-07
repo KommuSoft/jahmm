@@ -5,8 +5,8 @@ package objectattributes;
  * @author kommusoft
  * @param <TSource> The type of the source.
  */
-public interface ObjectAttribute<TSource> {
+public interface ObjectAttribute<TSource,TTarget> {
     
-    Object getAttribute (TSource source);
+    TTarget getAttribute (TSource source);
     
 }
