@@ -12,7 +12,7 @@ public abstract class NominalObjectAttribute<TSource,TTarget> implements ObjectA
     public ObjectAttributeType getType() {
         return ObjectAttributeType.Nominal;
     }
-    
-    public abstract Set<TTarget> getPossibleValues ();
+
+    public abstract Set<TTarget> getPossibleValues();
     
 }

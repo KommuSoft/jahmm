@@ -49,9 +49,15 @@ public class ObjectAttributeInspectorTest {
     
     private class Foo3 {
         
+        private final boolean value1;
+        
+        public Foo3 (boolean value1) {
+            this.value1 = value1;
+        }
+        
         @ObjectAttributeAnnotation(name="bar1")
         public boolean value1 () {
-            return true;
+            return value1;
         }
         
         @ObjectAttributeAnnotation(name="bar2")
