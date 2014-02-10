@@ -63,13 +63,17 @@ public class DecisionTree<TSource> {
         public void insert(TSource source) throws IllegalAccessException, InvocationTargetException {
             this.nextHop(source).insert(source);
         }
-        public abstract void makeDirty ();
+
+        public abstract void makeDirty();
+
+        public abstract DecisionLeaf getMaximumLeaf();
 
     }
 
     private abstract class AttributeDecisionNode extends DecisionNode {
 
         private final ObjectAttribute<? super TSource, ?> objectAttribute;
+        private DecisionLeaf maximumLeaf = null;
 
         protected AttributeDecisionNode(ObjectAttribute<? super TSource, ?> objectAttribute) {
             this.objectAttribute = objectAttribute;
@@ -77,7 +81,15 @@ public class DecisionTree<TSource> {
 
         @Override
         public double expandScore() {
-            return Double.NaN;
+            return this.getMaximumLeaf().expandScore();
+        }
+        
+        @Override
+        public DecisionLeaf getMaximumLeaf() {
+            if(this.maximumLeaf == null) {
+                this.maximumLeaf = this.recalcMaximumLeaf();
+            }
+            return this.maximumLeaf;
         }
 
         /**
@@ -90,6 +102,13 @@ public class DecisionTree<TSource> {
         protected Object getObjectAttribute(TSource source) throws IllegalAccessException, InvocationTargetException {
             return this.objectAttribute.getAttribute(source);
         }
+
+        @Override
+        public void makeDirty() {
+            this.maximumLeaf = null;
+        }
+
+        protected abstract DecisionLeaf recalcMaximumLeaf();
 
     }
 
@@ -119,9 +138,25 @@ public class DecisionTree<TSource> {
 
         @Override
         public void makeDirty() {
-            for(DecisionNode dn : this.map.values()) {
+            for (DecisionNode dn : this.map.values()) {
                 dn.makeDirty();
             }
+            super.makeDirty();
+        }
+
+        @Override
+        protected DecisionLeaf recalcMaximumLeaf() {
+            double max = Double.NEGATIVE_INFINITY, val;
+            DecisionLeaf leaf, maxLeaf = null;
+            for (DecisionNode dn : this.map.values()) {
+                leaf = dn.getMaximumLeaf();
+                val = leaf.expandScore();
+                if(val > max) {
+                    max = val;
+                    maxLeaf = leaf;
+                }
+            }
+            return maxLeaf;
         }
 
     }
@@ -131,13 +166,13 @@ public class DecisionTree<TSource> {
         private final ArrayList<TSource> memory = new ArrayList<>();
         private double score = Double.NaN;
         private int splitIndex = 0x00;
-        
-        public boolean isDirty () {
+
+        public boolean isDirty() {
             return Double.isNaN(this.score);
         }
-        
+
         @Override
-        public void makeDirty () {
+        public void makeDirty() {
             this.score = Double.NaN;
         }
 
@@ -148,7 +183,7 @@ public class DecisionTree<TSource> {
 
         @Override
         public double expandScore() {
-            if(this.isDirty()) {
+            if (this.isDirty()) {
                 this.calculateScore();
             }
             return this.score;
@@ -166,7 +201,12 @@ public class DecisionTree<TSource> {
         }
 
         private void calculateScore() {
-            
+
+        }
+
+        @Override
+        public DecisionLeaf getMaximumLeaf() {
+            return this;
         }
 
     }
