@@ -12,6 +12,7 @@ import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Test;
 import utils.AssertExtensions;
+import utils.Utils;
 
 /**
  *
@@ -39,6 +40,7 @@ public class ObjectAttributeInspectorTest {
         oa2 = itfoo2.next();
         AssertExtensions.assertTypeof(NominalInspectedObjectAttribute.class, oa2);
         Assert.assertEquals("bar1", oa2.getName());
+        Assert.assertEquals(Utils.BOOLEAN_SET, ((NominalObjectAttribute) oa2).getPossibleValues());
         Assert.assertEquals(Boolean.TRUE, oa2.getAttribute(foo2t));
         Assert.assertEquals(Boolean.FALSE, oa2.getAttribute(foo2f));
         Assert.assertEquals(0x02,resfoo3.size());
