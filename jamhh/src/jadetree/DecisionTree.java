@@ -20,6 +20,43 @@ public class DecisionTree<TSource> {
     }
     
     public void insert (TSource element) {
+    }
+    
+    private abstract class DecisionNode {
+        
+        public abstract boolean isLeaf ();
+        
+        public abstract DecisionNode nextHop (TSource source);
+        
+        public abstract double expandScore ();
+        
+        public abstract DecisionNode expand ();
+        
+    }
+    
+    private class DecisionLeaf extends DecisionNode {
+        
+        private final ArrayList<TSource> memory = new ArrayList<>();
+
+        @Override
+        public boolean isLeaf() {
+            return true;
+        }
+
+        @Override
+        public DecisionNode nextHop(TSource source) {
+            return this;
+        }
+
+        @Override
+        public double expandScore() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        @Override
+        public DecisionNode expand() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
         
     }
     
