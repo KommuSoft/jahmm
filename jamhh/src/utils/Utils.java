@@ -26,6 +26,7 @@ public class Utils {
         return (classdef.isEnum() || classdef == char.class || classdef == boolean.class);
     }
     
+    @SuppressWarnings("unchecked")
     public static <T> Set<T> getNominalSet (Class<T> classdef) {
         if(classdef == boolean.class) {
             return (Set<T>) getBooleanSet();

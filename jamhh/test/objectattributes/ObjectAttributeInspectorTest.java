@@ -7,8 +7,10 @@
 package objectattributes;
 
 import java.util.Collection;
+import java.util.Iterator;
 import org.junit.Assert;
 import org.junit.Test;
+import utils.AssertExtensions;
 
 /**
  *
@@ -21,9 +23,15 @@ public class ObjectAttributeInspectorTest {
 
     @Test
     public void testInspect() {
-        Assert.assertEquals(0x00,ObjectAttributeInspector.inspect(Foo1.class).size());
-        Assert.assertEquals(0x01,ObjectAttributeInspector.inspect(Foo2.class).size());
-        Assert.assertEquals(0x02,ObjectAttributeInspector.inspect(Foo3.class).size());
+        Collection<ObjectAttribute<Foo1,Object>> resfoo1 = ObjectAttributeInspector.inspect(Foo1.class);
+        Collection<ObjectAttribute<Foo2,Object>> resfoo2 = ObjectAttributeInspector.inspect(Foo2.class);
+        Collection<ObjectAttribute<Foo3,Object>> resfoo3 = ObjectAttributeInspector.inspect(Foo3.class);
+        Iterator<ObjectAttribute<Foo2,Object>> itfoo2 = resfoo2.iterator();
+        Assert.assertEquals(0x00,resfoo1.size());
+        Assert.assertEquals(0x01,resfoo2.size());
+        Assert.assertTrue(itfoo2.hasNext());
+        AssertExtensions.assertTypeof(NominalInspectedObjectAttribute.class, itfoo2.next());
+        Assert.assertEquals(0x02,resfoo3.size());
     }
     
     private class Foo1 {
