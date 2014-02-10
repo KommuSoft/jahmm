@@ -12,6 +12,7 @@ public class DecisionTree<TSource> {
     
     private final ArrayList<ObjectAttribute<? super TSource,?>> sourceattributes = new ArrayList<>();
     private final ArrayList<ObjectAttribute<? super TSource,?>> targetattributes = new ArrayList<>();
+    private DecisionNode root = new DecisionLeaf();
     
     public class DecisionTreeNode<TTarget> {
         
@@ -31,6 +32,10 @@ public class DecisionTree<TSource> {
         public abstract double expandScore ();
         
         public abstract DecisionNode expand ();
+        
+        public void insert () {
+            
+        }
         
     }
     
