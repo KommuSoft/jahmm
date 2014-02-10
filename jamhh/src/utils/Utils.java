@@ -1,6 +1,8 @@
 package utils;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -12,27 +14,19 @@ public class Utils {
     
     public static final BooleanSet BOOLEAN_SET = new BooleanSet();
 
-    private Utils() {
-    }
-
-    public static Set<Boolean> getBooleanSet() {
-        /*if(booleanSet == null) {
-         booleanSet = new HashSet<Boolean>();
-         booleanSet.add(Boolean.TRUE);
-         booleanSet.add(Boolean.FALSE);
-         }
-         return booleanSet;*/
-        return null;
-    }
+    private Utils() {}
 
     public static <T> boolean isNominal(Class<T> classdef) {
         return (classdef.isEnum() || classdef == char.class || classdef == boolean.class);
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked", "unchecked"})
     public static <T> Set<T> getNominalSet(Class<T> classdef) {
         if (classdef == boolean.class) {
-            return (Set<T>) getBooleanSet();
+            return (Set<T>) BOOLEAN_SET;
+        } else if(classdef.isEnum()) {
+            HashSet<T> res = new HashSet<>(Arrays.asList(classdef.getEnumConstants()));
+            return res;
         } else {
             return null;
         }
