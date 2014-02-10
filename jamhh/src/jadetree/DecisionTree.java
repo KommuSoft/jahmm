@@ -18,18 +18,22 @@ public class DecisionTree<TSource> {
 
     public void addSourceAttribute(ObjectAttribute<? super TSource, ?> sourceAttribute) {
         this.sourceAttributes.add(sourceAttribute);
+        this.root.makeDirty();
     }
 
     public void addTargetAttribute(ObjectAttribute<? super TSource, ?> targetAttribute) {
         this.targetAttributes.add(targetAttribute);
+        this.root.makeDirty();
     }
 
     public void removeSourceAttribute(ObjectAttribute<? super TSource, ?> sourceAttribute) {
         this.sourceAttributes.remove(sourceAttribute);
+        this.root.makeDirty();
     }
 
     public void removeTargetAttribute(ObjectAttribute<? super TSource, ?> targetAttribute) {
         this.targetAttributes.remove(targetAttribute);
+        this.root.makeDirty();
     }
 
     public void insert(TSource element) throws IllegalAccessException, InvocationTargetException {
@@ -59,6 +63,7 @@ public class DecisionTree<TSource> {
         public void insert(TSource source) throws IllegalAccessException, InvocationTargetException {
             this.nextHop(source).insert(source);
         }
+        public abstract void makeDirty ();
 
     }
 
@@ -112,11 +117,29 @@ public class DecisionTree<TSource> {
             throw new UnsupportedOperationException("Node already expanded.");
         }
 
+        @Override
+        public void makeDirty() {
+            for(DecisionNode dn : this.map.values()) {
+                dn.makeDirty();
+            }
+        }
+
     }
 
     private class DecisionLeaf extends DecisionNode {
 
         private final ArrayList<TSource> memory = new ArrayList<>();
+        private double score = Double.NaN;
+        private int splitIndex = 0x00;
+        
+        public boolean isDirty () {
+            return Double.isNaN(this.score);
+        }
+        
+        @Override
+        public void makeDirty () {
+            this.score = Double.NaN;
+        }
 
         @Override
         public boolean isLeaf() {
@@ -125,7 +148,10 @@ public class DecisionTree<TSource> {
 
         @Override
         public double expandScore() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            if(this.isDirty()) {
+                this.calculateScore();
+            }
+            return this.score;
         }
 
         @Override
@@ -135,7 +161,12 @@ public class DecisionTree<TSource> {
 
         @Override
         public void insert(TSource source) {
+            this.makeDirty();
             memory.add(source);
+        }
+
+        private void calculateScore() {
+            
         }
 
     }
