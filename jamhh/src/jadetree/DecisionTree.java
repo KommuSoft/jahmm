@@ -1,6 +1,8 @@
 package jadetree;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import objectattributes.ObjectAttribute;
 
 /**
@@ -10,11 +12,27 @@ import objectattributes.ObjectAttribute;
  */
 public class DecisionTree<TSource> {
 
-    private final ArrayList<ObjectAttribute<? super TSource, ?>> sourceattributes = new ArrayList<>();
-    private final ArrayList<ObjectAttribute<? super TSource, ?>> targetattributes = new ArrayList<>();
+    private final ArrayList<ObjectAttribute<? super TSource, ?>> sourceAttributes = new ArrayList<>();
+    private final ArrayList<ObjectAttribute<? super TSource, ?>> targetAttributes = new ArrayList<>();
     private DecisionNode root = new DecisionLeaf();
 
-    public void insert(TSource element) {
+    public void addSourceAttribute(ObjectAttribute<? super TSource, ?> sourceAttribute) {
+        this.sourceAttributes.add(sourceAttribute);
+    }
+
+    public void addTargetAttribute(ObjectAttribute<? super TSource, ?> targetAttribute) {
+        this.targetAttributes.add(targetAttribute);
+    }
+
+    public void removeSourceAttribute(ObjectAttribute<? super TSource, ?> sourceAttribute) {
+        this.sourceAttributes.remove(sourceAttribute);
+    }
+
+    public void removeTargetAttribute(ObjectAttribute<? super TSource, ?> targetAttribute) {
+        this.targetAttributes.remove(targetAttribute);
+    }
+
+    public void insert(TSource element) throws IllegalAccessException, InvocationTargetException {
         this.root.insert(element);
     }
 
@@ -26,16 +44,72 @@ public class DecisionTree<TSource> {
 
     private abstract class DecisionNode {
 
-        public abstract boolean isLeaf();
+        public boolean isLeaf() {
+            return false;
+        }
 
-        public abstract DecisionNode nextHop(TSource source);
+        public DecisionNode nextHop(TSource source) throws IllegalAccessException, InvocationTargetException {
+            return this;
+        }
 
         public abstract double expandScore();
 
         public abstract DecisionNode expand();
 
-        public void insert(TSource source) {
+        public void insert(TSource source) throws IllegalAccessException, InvocationTargetException {
             this.nextHop(source).insert(source);
+        }
+
+    }
+
+    private abstract class AttributeDecisionNode extends DecisionNode {
+
+        private final ObjectAttribute<? super TSource, ?> objectAttribute;
+
+        protected AttributeDecisionNode(ObjectAttribute<? super TSource, ?> objectAttribute) {
+            this.objectAttribute = objectAttribute;
+        }
+
+        @Override
+        public double expandScore() {
+            return Double.NaN;
+        }
+
+        /**
+         * @return the objectAttribute
+         */
+        protected ObjectAttribute<? super TSource, ?> getObjectAttribute() {
+            return objectAttribute;
+        }
+
+        protected Object getObjectAttribute(TSource source) throws IllegalAccessException, InvocationTargetException {
+            return this.objectAttribute.getAttribute(source);
+        }
+
+    }
+
+    private class EnumerableDecisionNode extends AttributeDecisionNode {
+
+        private final HashMap<Object, DecisionNode> map = new HashMap<>();
+
+        protected EnumerableDecisionNode(ObjectAttribute<? super TSource, ?> objectAttribute) {
+            super(objectAttribute);
+        }
+
+        @Override
+        public DecisionNode nextHop(TSource source) throws IllegalAccessException, InvocationTargetException {
+            Object key = this.getObjectAttribute(source);
+            DecisionNode value = map.get(key);
+            if (value == null) {
+                value = new DecisionLeaf();
+                this.map.put(key, value);
+            }
+            return value;
+        }
+
+        @Override
+        public DecisionNode expand() {
+            throw new UnsupportedOperationException("Node already expanded.");
         }
 
     }
@@ -47,11 +121,6 @@ public class DecisionTree<TSource> {
         @Override
         public boolean isLeaf() {
             return true;
-        }
-
-        @Override
-        public DecisionNode nextHop(TSource source) {
-            return this;
         }
 
         @Override
