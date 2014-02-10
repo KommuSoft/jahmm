@@ -30,7 +30,7 @@ public class ObjectAttributeInspector {
     }
 
     public static <T> ObjectAttribute<T,Object> generateObjectAttribute(Class<T> classdef, Method method, ObjectAttributeAnnotation oaa) {
-        if(Utils.isNominal(classdef)) {
+        if(Utils.isNominal(method.getReturnType())) {
             return new NominalInspectedObjectAttribute<T,Object>(method,oaa.name());
         }
         return null;
