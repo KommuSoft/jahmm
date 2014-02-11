@@ -6,6 +6,8 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.DelayQueue;
+import java.util.concurrent.Delayed;
 import javax.management.AttributeList;
 
 /**
@@ -269,6 +271,35 @@ public class CollectionFactoryMethods {
             }
 
             private FactoryMethod<CopyOnWriteArraySet<T>> initialize(Collection<? extends T> c) {
+                this.c = c;
+                return this;
+            }
+
+        }.initialize(c);
+    }
+
+    public static <T extends Delayed> FactoryMethod<DelayQueue<T>> delayQueueFactory() {
+        return new FactoryMethod<DelayQueue<T>>() {
+
+            @Override
+            public DelayQueue<T> generate() {
+                return new DelayQueue<>();
+            }
+
+        };
+    }
+
+    public static <T extends Delayed> FactoryMethod<DelayQueue<T>> delayQueueFactory(Collection<? extends T> c) {
+        return new FactoryMethod<DelayQueue<T>>() {
+
+            private Collection<? extends T> c;
+
+            @Override
+            public DelayQueue<T> generate() {
+                return new DelayQueue<>(c);
+            }
+
+            private FactoryMethod<DelayQueue<T>> initialize(DelayQueue<? extends T> c) {
                 this.c = c;
                 return this;
             }
