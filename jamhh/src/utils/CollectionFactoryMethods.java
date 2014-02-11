@@ -8,6 +8,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.SortedSet;
+import java.util.Stack;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -693,6 +694,17 @@ public class CollectionFactoryMethods {
             }
 
         }.initialize(c);
+    }
+
+    public static <T> FactoryMethod<Stack<T>> stackFactory() {
+        return new FactoryMethod<Stack<T>>() {
+
+            @Override
+            public Stack<T> generate() {
+                return new Stack<>();
+            }
+
+        };
     }
 
     private CollectionFactoryMethods() {
