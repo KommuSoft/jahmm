@@ -10,10 +10,10 @@ import objectattributes.ObjectAttribute;
  * @author kommusoft
  * @param <TSource> The source of the types to classify.
  */
-public class DecisionTree<TSource> {
+public class ClassificationTree<TSource> {
 
     private final ArrayList<ObjectAttribute<? super TSource, ?>> sourceAttributes = new ArrayList<>();
-    private final ArrayList<ObjectAttribute<? super TSource, ?>> targetAttributes = new ArrayList<>();
+    ObjectAttribute<? super TSource, ?> targetAttribute;
     private DecisionNode root = new DecisionLeaf();
 
     public void addSourceAttribute(ObjectAttribute<? super TSource, ?> sourceAttribute) {
@@ -21,18 +21,8 @@ public class DecisionTree<TSource> {
         this.root.makeDirty();
     }
 
-    public void addTargetAttribute(ObjectAttribute<? super TSource, ?> targetAttribute) {
-        this.targetAttributes.add(targetAttribute);
-        this.root.makeDirty();
-    }
-
     public void removeSourceAttribute(ObjectAttribute<? super TSource, ?> sourceAttribute) {
         this.sourceAttributes.remove(sourceAttribute);
-        this.root.makeDirty();
-    }
-
-    public void removeTargetAttribute(ObjectAttribute<? super TSource, ?> targetAttribute) {
-        this.targetAttributes.remove(targetAttribute);
         this.root.makeDirty();
     }
 
