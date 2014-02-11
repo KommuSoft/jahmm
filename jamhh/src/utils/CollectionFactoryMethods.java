@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CopyOnWriteArrayList;
 import javax.management.AttributeList;
 
 /**
@@ -196,6 +197,53 @@ public class CollectionFactoryMethods {
             }
 
         }.initialize(c);
+    }
+
+    public static <T> FactoryMethod<CopyOnWriteArrayList<T>> copyOnWriteArrayListFactory() {
+        return new FactoryMethod<CopyOnWriteArrayList<T>>() {
+
+            @Override
+            public CopyOnWriteArrayList<T> generate() {
+                return new CopyOnWriteArrayList<>();
+            }
+
+        };
+    }
+
+    public static <T> FactoryMethod<CopyOnWriteArrayList<T>> copyOnWriteArrayListFactory(Collection<? extends T> c) {
+        return new FactoryMethod<CopyOnWriteArrayList<T>>() {
+
+            private Collection<? extends T> c;
+
+            @Override
+            public CopyOnWriteArrayList<T> generate() {
+                return new CopyOnWriteArrayList<>(c);
+            }
+
+            private FactoryMethod<CopyOnWriteArrayList<T>> initialize(Collection<? extends T> c) {
+                this.c = c;
+                return this;
+            }
+
+        }.initialize(c);
+    }
+
+    public static <T> FactoryMethod<CopyOnWriteArrayList<T>> copyOnWriteArrayListFactory(T... toCopyIn) {
+        return new FactoryMethod<CopyOnWriteArrayList<T>>() {
+
+            private T[] toCopyIn;
+
+            @Override
+            public CopyOnWriteArrayList<T> generate() {
+                return new CopyOnWriteArrayList<>(toCopyIn);
+            }
+
+            private FactoryMethod<CopyOnWriteArrayList<T>> initialize(T[] toCopyIn) {
+                this.toCopyIn = toCopyIn;
+                return this;
+            }
+
+        }.initialize(toCopyIn);
     }
 
 }
