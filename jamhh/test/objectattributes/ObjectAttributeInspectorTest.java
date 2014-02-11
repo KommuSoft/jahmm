@@ -40,8 +40,8 @@ public class ObjectAttributeInspectorTest {
         AssertExtensions.assertTypeof(NominalInspectedObjectAttribute.class, oa2);
         Assert.assertEquals("bar1", oa2.getName());
         Assert.assertEquals(Utils.BOOLEAN_SET, ((NominalObjectAttribute) oa2).getPossibleValues());
-        Assert.assertEquals(Boolean.TRUE, oa2.getAttribute(foo2t));
-        Assert.assertEquals(Boolean.FALSE, oa2.getAttribute(foo2f));
+        Assert.assertEquals(Boolean.TRUE, oa2.evaluate(foo2t));
+        Assert.assertEquals(Boolean.FALSE, oa2.evaluate(foo2f));
         Assert.assertEquals(0x02, resfoo3.size());
     }
 

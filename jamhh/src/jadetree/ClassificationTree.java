@@ -92,7 +92,7 @@ public class ClassificationTree<TSource> {
         }
 
         protected Object getObjectAttribute(TSource source) throws IllegalAccessException, InvocationTargetException {
-            return this.objectAttribute.getAttribute(source);
+            return this.objectAttribute.evaluate(source);
         }
 
         @Override
