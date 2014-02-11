@@ -6,6 +6,6 @@ package objectattributes;
  * @param <TSource>
  * @param <TTarget>
  */
-public interface EnumerableObjectAttribute<TSource,TTarget> extends OrdinalObjectAttribute<TSource,TTarget> {
-    
+public interface EnumerableObjectAttribute<TSource, TTarget> extends OrdinalObjectAttribute<TSource, TTarget> {
+
 }

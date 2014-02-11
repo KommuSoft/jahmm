@@ -47,13 +47,12 @@ public class KullbackLeiblerDistanceCalculator {
             List<O> oseq = new MarkovGenerator<>(hmm1).observationSequence(sequencesLength);
 
             //System.out.println(""+oseq);
-            
             double da = ForwardBackwardCalculator.Instance.computeProbability(hmm1, oseq);
             double db = ForwardBackwardCalculator.Instance.computeProbability(hmm2, oseq);
-            
-            System.out.println(da+"/"+db);
-            
-            distance += (da-db) / sequencesLength;
+
+            System.out.println(da + "/" + db);
+
+            distance += (da - db) / sequencesLength;
         }
 
         return distance / nbSequences;

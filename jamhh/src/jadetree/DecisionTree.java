@@ -83,10 +83,10 @@ public class DecisionTree<TSource> {
         public double expandScore() {
             return this.getMaximumLeaf().expandScore();
         }
-        
+
         @Override
         public DecisionLeaf getMaximumLeaf() {
-            if(this.maximumLeaf == null) {
+            if (this.maximumLeaf == null) {
                 this.maximumLeaf = this.recalcMaximumLeaf();
             }
             return this.maximumLeaf;
@@ -151,7 +151,7 @@ public class DecisionTree<TSource> {
             for (DecisionNode dn : this.map.values()) {
                 leaf = dn.getMaximumLeaf();
                 val = leaf.expandScore();
-                if(val > max) {
+                if (val > max) {
                     max = val;
                     maxLeaf = leaf;
                 }

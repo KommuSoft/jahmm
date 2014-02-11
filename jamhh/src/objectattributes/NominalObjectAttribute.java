@@ -8,8 +8,8 @@ import java.util.Set;
  * @param <TSource> The type of object to derive the type from
  * @param <TTarget> The type of object to derive to.
  */
-public interface NominalObjectAttribute<TSource,TTarget> extends ObjectAttribute<TSource,TTarget> {
+public interface NominalObjectAttribute<TSource, TTarget> extends ObjectAttribute<TSource, TTarget> {
 
     public abstract Set<TTarget> getPossibleValues();
-    
+
 }

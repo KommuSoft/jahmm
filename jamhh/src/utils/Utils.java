@@ -11,10 +11,11 @@ import java.util.Set;
  * @author kommusoft
  */
 public class Utils {
-    
+
     public static final BooleanSet BOOLEAN_SET = new BooleanSet();
 
-    private Utils() {}
+    private Utils() {
+    }
 
     public static <T> boolean isNominal(Class<T> classdef) {
         return (classdef.isEnum() || classdef == char.class || classdef == boolean.class);
@@ -24,7 +25,7 @@ public class Utils {
     public static <T> Set<T> getNominalSet(Class<T> classdef) {
         if (classdef == boolean.class) {
             return (Set<T>) BOOLEAN_SET;
-        } else if(classdef.isEnum()) {
+        } else if (classdef.isEnum()) {
             HashSet<T> res = new HashSet<>(Arrays.asList(classdef.getEnumConstants()));
             return res;
         } else {
@@ -33,8 +34,9 @@ public class Utils {
     }
 
     public static class BooleanSet implements Set<Boolean> {
-        
-        private BooleanSet () {}
+
+        private BooleanSet() {
+        }
 
         @Override
         public int size() {

@@ -37,7 +37,6 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
     private static final long serialVersionUID = 2L;
     private static final Logger LOG = Logger.getLogger(Hmm.class.getName());
 
-
     protected static double[][] cloneA(double[][] a) {
         int n = a.length;
         double[][] clone = new double[n][];

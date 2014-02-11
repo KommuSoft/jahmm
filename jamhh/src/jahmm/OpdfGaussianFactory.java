@@ -9,10 +9,11 @@ package jahmm;
  * functions.
  */
 public final class OpdfGaussianFactory implements OpdfFactory<OpdfGaussian> {
-    
+
     public static final OpdfGaussianFactory Instance = new OpdfGaussianFactory();
-    
-    private OpdfGaussianFactory () {}
+
+    private OpdfGaussianFactory() {
+    }
 
     @Override
     public OpdfGaussian factor() {

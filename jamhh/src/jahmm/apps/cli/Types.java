@@ -100,7 +100,7 @@ class IntegerRelatedObjects implements RelatedObjs<ObservationInteger> {
 
     @Override
     public List<List<ObservationInteger>> readSequences(Reader reader) throws FileFormatException, IOException {
-        return ObservationSequencesReader.readSequences(observationReader(),reader);
+        return ObservationSequencesReader.readSequences(observationReader(), reader);
     }
 
     @Override

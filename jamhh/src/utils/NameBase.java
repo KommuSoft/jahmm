@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package utils;
 
 /**
@@ -11,13 +10,13 @@ package utils;
  * @author kommusoft
  */
 public abstract class NameBase implements Name {
-    
+
     private String name;
-    
+
     protected NameBase() {
         this("");
     }
-    
+
     protected NameBase(String name) {
         this.setName(name);
     }
@@ -36,6 +35,5 @@ public abstract class NameBase implements Name {
     public void setName(String name) {
         this.name = name;
     }
-    
-    
+
 }

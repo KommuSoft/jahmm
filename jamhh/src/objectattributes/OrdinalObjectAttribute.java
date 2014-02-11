@@ -8,6 +8,6 @@ import java.util.Comparator;
  * @param <TSource>
  * @param <TTarget>
  */
-public interface OrdinalObjectAttribute<TSource,TTarget> extends ObjectAttribute<TSource,TTarget>, Comparator<TSource> {
-    
+public interface OrdinalObjectAttribute<TSource, TTarget> extends ObjectAttribute<TSource, TTarget>, Comparator<TSource> {
+
 }

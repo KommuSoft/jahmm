@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package objectattributes;
 
 import java.lang.reflect.InvocationTargetException;
@@ -19,23 +18,23 @@ import utils.Utils;
  * @author kommusoft
  */
 public class ObjectAttributeInspectorTest {
-    
+
     public ObjectAttributeInspectorTest() {
     }
 
     @Test
     public void testInspect() throws IllegalAccessException, InvocationTargetException {
-        Collection<ObjectAttribute<Foo1,Object>> resfoo1 = ObjectAttributeInspector.inspect(Foo1.class);
-        Collection<ObjectAttribute<Foo2,Object>> resfoo2 = ObjectAttributeInspector.inspect(Foo2.class);
-        Collection<ObjectAttribute<Foo3,Object>> resfoo3 = ObjectAttributeInspector.inspect(Foo3.class);
-        Iterator<ObjectAttribute<Foo2,Object>> itfoo2 = resfoo2.iterator();
-        ObjectAttribute<Foo2,Object> oa2;
+        Collection<ObjectAttribute<Foo1, Object>> resfoo1 = ObjectAttributeInspector.inspect(Foo1.class);
+        Collection<ObjectAttribute<Foo2, Object>> resfoo2 = ObjectAttributeInspector.inspect(Foo2.class);
+        Collection<ObjectAttribute<Foo3, Object>> resfoo3 = ObjectAttributeInspector.inspect(Foo3.class);
+        Iterator<ObjectAttribute<Foo2, Object>> itfoo2 = resfoo2.iterator();
+        ObjectAttribute<Foo2, Object> oa2;
         Foo2 foo2t = new Foo2(true);
         Foo2 foo2f = new Foo2(false);
         Foo3 foo3t = new Foo3(true);
         Foo3 foo3f = new Foo3(false);
-        Assert.assertEquals(0x00,resfoo1.size());
-        Assert.assertEquals(0x01,resfoo2.size());
+        Assert.assertEquals(0x00, resfoo1.size());
+        Assert.assertEquals(0x01, resfoo2.size());
         Assert.assertTrue(itfoo2.hasNext());
         oa2 = itfoo2.next();
         AssertExtensions.assertTypeof(NominalInspectedObjectAttribute.class, oa2);
@@ -43,59 +42,59 @@ public class ObjectAttributeInspectorTest {
         Assert.assertEquals(Utils.BOOLEAN_SET, ((NominalObjectAttribute) oa2).getPossibleValues());
         Assert.assertEquals(Boolean.TRUE, oa2.getAttribute(foo2t));
         Assert.assertEquals(Boolean.FALSE, oa2.getAttribute(foo2f));
-        Assert.assertEquals(0x02,resfoo3.size());
+        Assert.assertEquals(0x02, resfoo3.size());
     }
-    
+
     private class Foo1 {
-        
+
     }
-    
+
     private class Foo2 {
-        
+
         private final boolean value1;
-        
-        public Foo2 (boolean value1) {
+
+        public Foo2(boolean value1) {
             this.value1 = value1;
         }
-        
-        @ObjectAttributeAnnotation(name="bar1")
-        public boolean value1 () {
+
+        @ObjectAttributeAnnotation(name = "bar1")
+        public boolean value1() {
             return value1;
         }
-        
-        public boolean value2 (int someparameter) {
+
+        public boolean value2(int someparameter) {
             return true;
         }
-        
-        public boolean value3 () {
+
+        public boolean value3() {
             return true;
         }
-        
+
     }
-    
+
     private class Foo3 {
-        
+
         private final boolean value1;
-        
-        public Foo3 (boolean value1) {
+
+        public Foo3(boolean value1) {
             this.value1 = value1;
         }
-        
-        @ObjectAttributeAnnotation(name="bar1")
-        public boolean value1 () {
+
+        @ObjectAttributeAnnotation(name = "bar1")
+        public boolean value1() {
             return value1;
         }
-        
-        @ObjectAttributeAnnotation(name="bar2")
-        public boolean value2 () {
+
+        @ObjectAttributeAnnotation(name = "bar2")
+        public boolean value2() {
             return true;
         }
-        
-        @ObjectAttributeAnnotation(name="bar3")
-        public boolean value2 (int someparameter) {
+
+        @ObjectAttributeAnnotation(name = "bar3")
+        public boolean value2(int someparameter) {
             return true;
         }
-        
+
     }
-    
+
 }

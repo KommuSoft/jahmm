@@ -10,8 +10,8 @@ import utils.Utils;
  *
  * @author kommusoft
  */
-public class NominalInspectedObjectAttribute<TSource,TTarget> implements NominalObjectAttribute<TSource,TTarget> {
-    
+public class NominalInspectedObjectAttribute<TSource, TTarget> implements NominalObjectAttribute<TSource, TTarget> {
+
     private final String name;
     private final Method method;
     private final Class<?> resultclass;
@@ -48,5 +48,5 @@ public class NominalInspectedObjectAttribute<TSource,TTarget> implements Nominal
     public void createDecisionNode(List<TSource> source) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }
