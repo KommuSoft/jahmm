@@ -21,7 +21,7 @@ public class CollectionFactoryMethods {
 
             @Override
             public ArrayBlockingQueue<T> generate() {
-                return new ArrayBlockingQueue<T>(capacity, fair, c);
+                return new ArrayBlockingQueue<>(capacity);
             }
 
             private FactoryMethod<ArrayBlockingQueue<T>> initialize(int capacity) {
@@ -40,7 +40,7 @@ public class CollectionFactoryMethods {
 
             @Override
             public ArrayBlockingQueue<T> generate() {
-                return new ArrayBlockingQueue<T>(capacity, fair, c);
+                return new ArrayBlockingQueue<>(capacity, fair);
             }
 
             private FactoryMethod<ArrayBlockingQueue<T>> initialize(int capacity, boolean fair) {
@@ -61,7 +61,7 @@ public class CollectionFactoryMethods {
 
             @Override
             public ArrayBlockingQueue<T> generate() {
-                return new ArrayBlockingQueue<T>(capacity, fair, c);
+                return new ArrayBlockingQueue<>(capacity, fair, c);
             }
 
             private FactoryMethod<ArrayBlockingQueue<T>> initialize(int capacity, boolean fair, Collection<? extends T> c) {
@@ -79,7 +79,7 @@ public class CollectionFactoryMethods {
 
             @Override
             public ArrayList<T> generate() {
-                return new ArrayList<T>();
+                return new ArrayList<>();
             }
 
         };
@@ -92,7 +92,7 @@ public class CollectionFactoryMethods {
 
             @Override
             public ArrayList<T> generate() {
-                return new ArrayList<T>(c);
+                return new ArrayList<>(c);
             }
 
             private FactoryMethod<ArrayList<T>> initialize(Collection<? extends T> c) {
@@ -110,7 +110,7 @@ public class CollectionFactoryMethods {
 
             @Override
             public ArrayList<T> generate() {
-                return new ArrayList<T>(initialCapacity);
+                return new ArrayList<>(initialCapacity);
             }
 
             private FactoryMethod<ArrayList<T>> initialize(int initialCapacity) {
