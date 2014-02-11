@@ -34,6 +34,13 @@ public class Utils {
         }
     }
 
+    public static <T1, T2> Map<T1, T2> setAllValues(Map<T1, T2> map, T2 value) {
+        for (T1 key : map.keySet()) {
+            map.put(key, value);
+        }
+        return map;
+    }
+
     public static <T> Map<T, Integer> incrementKey(Map<T, Integer> map, T key) {
         return incrementKey(map, key, 0x01);
     }
