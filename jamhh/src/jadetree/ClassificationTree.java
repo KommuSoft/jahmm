@@ -50,9 +50,7 @@ public class ClassificationTree<TSource> {
             return this;
         }
 
-        public abstract double expandScore();
-
-        public abstract DecisionNode expand();
+        public abstract double expandScore() throws IllegalAccessException, InvocationTargetException;
 
         public void insert(TSource source) throws IllegalAccessException, InvocationTargetException {
             this.nextHop(source).insert(source);
@@ -60,7 +58,7 @@ public class ClassificationTree<TSource> {
 
         public abstract void makeDirty();
 
-        public abstract DecisionLeaf getMaximumLeaf();
+        public abstract DecisionLeaf getMaximumLeaf() throws IllegalAccessException, InvocationTargetException;
 
     }
 
@@ -74,7 +72,7 @@ public class ClassificationTree<TSource> {
         }
 
         @Override
-        public double expandScore() {
+        public double expandScore() throws IllegalAccessException, InvocationTargetException {
             return this.getMaximumLeaf().expandScore();
         }
 
@@ -102,7 +100,7 @@ public class ClassificationTree<TSource> {
             this.maximumLeaf = null;
         }
 
-        protected abstract DecisionLeaf recalcMaximumLeaf();
+        protected abstract DecisionLeaf recalcMaximumLeaf() throws IllegalAccessException, InvocationTargetException;
 
     }
 
@@ -126,11 +124,6 @@ public class ClassificationTree<TSource> {
         }
 
         @Override
-        public DecisionNode expand() {
-            throw new UnsupportedOperationException("Node already expanded.");
-        }
-
-        @Override
         public void makeDirty() {
             for (DecisionNode dn : this.map.values()) {
                 dn.makeDirty();
@@ -139,7 +132,7 @@ public class ClassificationTree<TSource> {
         }
 
         @Override
-        protected DecisionLeaf recalcMaximumLeaf() {
+        protected DecisionLeaf recalcMaximumLeaf() throws IllegalAccessException, InvocationTargetException {
             double max = Double.NEGATIVE_INFINITY, val;
             DecisionLeaf leaf, maxLeaf = null;
             for (DecisionNode dn : this.map.values()) {
@@ -176,14 +169,13 @@ public class ClassificationTree<TSource> {
         }
 
         @Override
-        public double expandScore() {
+        public double expandScore() throws IllegalAccessException, InvocationTargetException {
             if (this.isDirty()) {
                 this.score = this.calculateScore();
             }
             return this.score;
         }
 
-        @Override
         public DecisionNode expand() {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
@@ -194,7 +186,7 @@ public class ClassificationTree<TSource> {
             memory.add(source);
         }
 
-        private double calculateScore() {
+        private double calculateScore() throws IllegalAccessException, InvocationTargetException {
             double maxScore = Double.NEGATIVE_INFINITY;
             int maxIndex = -0x01, i = 0x00;
             for (ObjectAttribute<? super TSource, ?> oa : ClassificationTree.this.sourceAttributes) {

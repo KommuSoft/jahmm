@@ -2,12 +2,14 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
+import java.util.logging.Logger;
 import javax.management.AttributeList;
 
 /**
@@ -16,8 +18,7 @@ import javax.management.AttributeList;
  */
 public class CollectionFactoryMethods {
 
-    private CollectionFactoryMethods() {
-    }
+    private static final Logger LOG = Logger.getLogger(CollectionFactoryMethods.class.getName());
 
     public static <T> FactoryMethod<ArrayBlockingQueue<T>> arrayBlockingQueueFactory(int capacity) {
         return new FactoryMethod<ArrayBlockingQueue<T>>() {
@@ -299,12 +300,26 @@ public class CollectionFactoryMethods {
                 return new DelayQueue<>(c);
             }
 
-            private FactoryMethod<DelayQueue<T>> initialize(DelayQueue<? extends T> c) {
+            private FactoryMethod<DelayQueue<T>> initialize(Collection<? extends T> c) {
                 this.c = c;
                 return this;
             }
 
         }.initialize(c);
+    }
+
+    public static <T> FactoryMethod<HashSet<T>> hashSetFactory() {
+        return new FactoryMethod<HashSet<T>>() {
+
+            @Override
+            public HashSet<T> generate() {
+                return new HashSet<>();
+            }
+
+        };
+    }
+
+    private CollectionFactoryMethods() {
     }
 
 }
