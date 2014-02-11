@@ -3,12 +3,9 @@ package objectattributes;
 /**
  *
  * @author kommusoft
+ * @param <TSource>
+ * @param <TTarget>
  */
-public abstract class EnumerableObjectAttribute<TSource,TTarget> implements ObjectAttribute<TSource,TTarget> {
-    
-    @Override
-    public ObjectAttributeType getType() {
-        return ObjectAttributeType.Enumerable;
-    }
+public interface EnumerableObjectAttribute<TSource,TTarget> extends OrdinalObjectAttribute<TSource,TTarget> {
     
 }

@@ -13,8 +13,6 @@ import utils.Name;
 public interface ObjectAttribute<TSource, TTarget> extends Name {
 
     TTarget getAttribute(TSource source) throws IllegalAccessException, InvocationTargetException;
-
-    ObjectAttributeType getType();
     
     double calculateScore (List<TSource> source);
     

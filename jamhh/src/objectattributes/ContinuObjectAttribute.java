@@ -1,7 +1,5 @@
 package objectattributes;
 
-import java.util.Comparator;
-
 
 /**
  *
@@ -9,12 +7,7 @@ import java.util.Comparator;
  * @param <TSource>
  * @param <TTarget>
  */
-public abstract class ContinuObjectAttribute<TSource,TTarget> implements ObjectAttribute<TSource,TTarget>, OrdinalObjectAttribute<TSource,TTarget> {
-    
-    @Override
-    public ObjectAttributeType getType() {
-        return ObjectAttributeType.Continu;
-    }
+public interface ContinuObjectAttribute<TSource,TTarget> extends ObjectAttribute<TSource,TTarget>, OrdinalObjectAttribute<TSource,TTarget> {
     
     public abstract TTarget getBetween(TSource source1, TSource source2);
     
