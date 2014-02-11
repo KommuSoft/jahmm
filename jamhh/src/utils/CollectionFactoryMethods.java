@@ -17,6 +17,7 @@ import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.SynchronousQueue;
 import java.util.logging.Logger;
 import javax.management.AttributeList;
 
@@ -705,6 +706,35 @@ public class CollectionFactoryMethods {
             }
 
         };
+    }
+
+    public static <T> FactoryMethod<SynchronousQueue<T>> synchronousQueueFactory() {
+        return new FactoryMethod<SynchronousQueue<T>>() {
+
+            @Override
+            public SynchronousQueue<T> generate() {
+                return new SynchronousQueue<>();
+            }
+
+        };
+    }
+
+    public static <T> FactoryMethod<SynchronousQueue<T>> arrayBlockingQueueFactory(boolean fair) {
+        return new FactoryMethod<SynchronousQueue<T>>() {
+
+            private boolean fair;
+
+            @Override
+            public SynchronousQueue<T> generate() {
+                return new SynchronousQueue<>(fair);
+            }
+
+            private FactoryMethod<SynchronousQueue<T>> initialize(boolean fair) {
+                this.fair = fair;
+                return this;
+            }
+
+        }.initialize(fair);
     }
 
     private CollectionFactoryMethods() {
