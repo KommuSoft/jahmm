@@ -19,5 +19,7 @@ public interface ObjectAttribute<TSource, TTarget> extends Name {
     public abstract void createDecisionNode(List<? extends TSource> source) throws IllegalAccessException, InvocationTargetException;
     
     public abstract double calculateEntropy (Iterable<? extends TSource> source) throws IllegalAccessException, InvocationTargetException;
+    
+    public abstract double calculateEntropyPartition (Iterable<? extends Iterable<? extends TSource>> source) throws IllegalAccessException, InvocationTargetException;
 
 }
