@@ -85,4 +85,40 @@ public class CollectionFactoryMethods {
         };
     }
     
+    public static <T> FactoryMethod<ArrayList<T>> arrayListFactory(Collection<? extends T> c) {
+        return new FactoryMethod<ArrayList<T>>() {
+            
+            private Collection<? extends T> c;
+            
+            @Override
+            public ArrayList<T> generate() {
+                return new ArrayList<T>(c);
+            }
+            
+            private FactoryMethod<ArrayList<T>> initialize(Collection<? extends T> c) {
+                this.c = c;
+                return this;
+            }
+            
+        }.initialize(c);
+    }
+    
+    public static <T> FactoryMethod<ArrayList<T>> arrayListFactory(int initialCapacity) {
+        return new FactoryMethod<ArrayList<T>>() {
+            
+            private int initialCapacity;
+            
+            @Override
+            public ArrayList<T> generate() {
+                return new ArrayList<T>(initialCapacity);
+            }
+            
+            private FactoryMethod<ArrayList<T>> initialize(int initialCapacity) {
+                this.initialCapacity = initialCapacity;
+                return this;
+            }
+            
+        }.initialize(initialCapacity);
+    }
+    
 }
