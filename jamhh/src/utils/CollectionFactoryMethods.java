@@ -3,6 +3,7 @@ package utils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import javax.management.AttributeList;
 
 /**
@@ -166,6 +167,35 @@ public class CollectionFactoryMethods {
             }
 
         }.initialize(initialCapacity);
+    }
+
+    public static <T> FactoryMethod<ConcurrentLinkedQueue<T>> concurrentLinkedQueueFactory() {
+        return new FactoryMethod<ConcurrentLinkedQueue<T>>() {
+
+            @Override
+            public ConcurrentLinkedQueue<T> generate() {
+                return new ConcurrentLinkedQueue<>();
+            }
+
+        };
+    }
+
+    public static <T> FactoryMethod<ConcurrentLinkedQueue<T>> concurrentLinkedQueueFactory(Collection<? extends T> c) {
+        return new FactoryMethod<ConcurrentLinkedQueue<T>>() {
+
+            private Collection<? extends T> c;
+
+            @Override
+            public ConcurrentLinkedQueue<T> generate() {
+                return new ConcurrentLinkedQueue<>(c);
+            }
+
+            private FactoryMethod<ConcurrentLinkedQueue<T>> initialize(Collection<? extends T> c) {
+                this.c = c;
+                return this;
+            }
+
+        }.initialize(c);
     }
 
 }
