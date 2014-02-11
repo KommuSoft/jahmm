@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 import javax.management.AttributeList;
 
 /**
@@ -244,6 +245,35 @@ public class CollectionFactoryMethods {
             }
 
         }.initialize(toCopyIn);
+    }
+
+    public static <T> FactoryMethod<CopyOnWriteArraySet<T>> copyOnWriteArraySetFactory() {
+        return new FactoryMethod<CopyOnWriteArraySet<T>>() {
+
+            @Override
+            public CopyOnWriteArraySet<T> generate() {
+                return new CopyOnWriteArraySet<>();
+            }
+
+        };
+    }
+
+    public static <T> FactoryMethod<CopyOnWriteArraySet<T>> copyOnWriteArraySetFactory(Collection<? extends T> c) {
+        return new FactoryMethod<CopyOnWriteArraySet<T>>() {
+
+            private Collection<? extends T> c;
+
+            @Override
+            public CopyOnWriteArraySet<T> generate() {
+                return new CopyOnWriteArraySet<>(c);
+            }
+
+            private FactoryMethod<CopyOnWriteArraySet<T>> initialize(Collection<? extends T> c) {
+                this.c = c;
+                return this;
+            }
+
+        }.initialize(c);
     }
 
 }
