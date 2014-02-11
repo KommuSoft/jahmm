@@ -9,6 +9,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
 import javax.management.AttributeList;
 
@@ -373,6 +374,53 @@ public class CollectionFactoryMethods {
             }
 
         }.initialize(initialCapacity, loadFactor);
+    }
+
+    public static <T> FactoryMethod<LinkedBlockingQueue<T>> linkedBlockingQueueFactory() {
+        return new FactoryMethod<LinkedBlockingQueue<T>>() {
+
+            @Override
+            public LinkedBlockingQueue<T> generate() {
+                return new LinkedBlockingQueue<>();
+            }
+
+        };
+    }
+
+    public static <T> FactoryMethod<LinkedBlockingQueue<T>> linkedBlockingQueueFactory(Collection<? extends T> c) {
+        return new FactoryMethod<LinkedBlockingQueue<T>>() {
+
+            private Collection<? extends T> c;
+
+            @Override
+            public LinkedBlockingQueue<T> generate() {
+                return new LinkedBlockingQueue<>(c);
+            }
+
+            private FactoryMethod<LinkedBlockingQueue<T>> initialize(Collection<? extends T> c) {
+                this.c = c;
+                return this;
+            }
+
+        }.initialize(c);
+    }
+
+    public static <T> FactoryMethod<LinkedBlockingQueue<T>> linkedBlockingQueueFactory(int capacity) {
+        return new FactoryMethod<LinkedBlockingQueue<T>>() {
+
+            private int capacity;
+
+            @Override
+            public LinkedBlockingQueue<T> generate() {
+                return new LinkedBlockingQueue<>(capacity);
+            }
+
+            private FactoryMethod<LinkedBlockingQueue<T>> initialize(int capacity) {
+                this.capacity = capacity;
+                return this;
+            }
+
+        }.initialize(capacity);
     }
 
     private CollectionFactoryMethods() {
