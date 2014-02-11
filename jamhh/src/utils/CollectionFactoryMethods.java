@@ -3,6 +3,7 @@ package utils;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -421,6 +422,73 @@ public class CollectionFactoryMethods {
             }
 
         }.initialize(capacity);
+    }
+
+    public static <T> FactoryMethod<LinkedHashSet<T>> linkedHashSetFactory() {
+        return new FactoryMethod<LinkedHashSet<T>>() {
+
+            @Override
+            public LinkedHashSet<T> generate() {
+                return new LinkedHashSet<>();
+            }
+
+        };
+    }
+
+    public static <T> FactoryMethod<LinkedHashSet<T>> linkedHashSetFactory(Collection<? extends T> c) {
+        return new FactoryMethod<LinkedHashSet<T>>() {
+
+            private Collection<? extends T> c;
+
+            @Override
+            public LinkedHashSet<T> generate() {
+                return new LinkedHashSet<>(c);
+            }
+
+            private FactoryMethod<LinkedHashSet<T>> initialize(Collection<? extends T> c) {
+                this.c = c;
+                return this;
+            }
+
+        }.initialize(c);
+    }
+
+    public static <T> FactoryMethod<LinkedHashSet<T>> linkedHashSetFactory(int initialCapacity) {
+        return new FactoryMethod<LinkedHashSet<T>>() {
+
+            private int initialCapacity;
+
+            @Override
+            public LinkedHashSet<T> generate() {
+                return new LinkedHashSet<>(initialCapacity);
+            }
+
+            private FactoryMethod<LinkedHashSet<T>> initialize(int initialCapacity) {
+                this.initialCapacity = initialCapacity;
+                return this;
+            }
+
+        }.initialize(initialCapacity);
+    }
+
+    public static <T> FactoryMethod<LinkedHashSet<T>> linkedHashSetFactory(int initialCapacity, float loadFactor) {
+        return new FactoryMethod<LinkedHashSet<T>>() {
+
+            private int initialCapacity;
+            private float loadFactor;
+
+            @Override
+            public LinkedHashSet<T> generate() {
+                return new LinkedHashSet<>(initialCapacity, loadFactor);
+            }
+
+            private FactoryMethod<LinkedHashSet<T>> initialize(int initialCapacity, float loadFactor) {
+                this.initialCapacity = initialCapacity;
+                this.loadFactor = loadFactor;
+                return this;
+            }
+
+        }.initialize(initialCapacity, loadFactor);
     }
 
     private CollectionFactoryMethods() {
