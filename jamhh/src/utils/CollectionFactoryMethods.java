@@ -2,8 +2,10 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -11,6 +13,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.DelayQueue;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.logging.Logger;
 import javax.management.AttributeList;
 
@@ -489,6 +492,102 @@ public class CollectionFactoryMethods {
             }
 
         }.initialize(initialCapacity, loadFactor);
+    }
+
+    public static <T> FactoryMethod<LinkedList<T>> linkedListFactory() {
+        return new FactoryMethod<LinkedList<T>>() {
+
+            @Override
+            public LinkedList<T> generate() {
+                return new LinkedList<>();
+            }
+
+        };
+    }
+
+    public static <T> FactoryMethod<LinkedList<T>> linkedListFactory(Collection<? extends T> c) {
+        return new FactoryMethod<LinkedList<T>>() {
+
+            private Collection<? extends T> c;
+
+            @Override
+            public LinkedList<T> generate() {
+                return new LinkedList<>(c);
+            }
+
+            private FactoryMethod<LinkedList<T>> initialize(Collection<? extends T> c) {
+                this.c = c;
+                return this;
+            }
+
+        }.initialize(c);
+    }
+
+    public static <T> FactoryMethod<PriorityBlockingQueue<T>> priorityBlockingQueueFactory() {
+        return new FactoryMethod<PriorityBlockingQueue<T>>() {
+
+            @Override
+            public PriorityBlockingQueue<T> generate() {
+                return new PriorityBlockingQueue<>();
+            }
+
+        };
+    }
+
+    public static <T> FactoryMethod<PriorityBlockingQueue<T>> priorityBlockingQueueFactory(Collection<? extends T> c) {
+        return new FactoryMethod<PriorityBlockingQueue<T>>() {
+
+            private Collection<? extends T> c;
+
+            @Override
+            public PriorityBlockingQueue<T> generate() {
+                return new PriorityBlockingQueue<>(c);
+            }
+
+            private FactoryMethod<PriorityBlockingQueue<T>> initialize(Collection<? extends T> c) {
+                this.c = c;
+                return this;
+            }
+
+        }.initialize(c);
+    }
+
+    public static <T> FactoryMethod<PriorityBlockingQueue<T>> priorityBlockingQueueFactory(int initialCapacity) {
+        return new FactoryMethod<PriorityBlockingQueue<T>>() {
+
+            private int initialCapacity;
+
+            @Override
+            public PriorityBlockingQueue<T> generate() {
+                return new PriorityBlockingQueue<>(initialCapacity);
+            }
+
+            private FactoryMethod<PriorityBlockingQueue<T>> initialize(int initialCapacity) {
+                this.initialCapacity = initialCapacity;
+                return this;
+            }
+
+        }.initialize(initialCapacity);
+    }
+
+    public static <T> FactoryMethod<PriorityBlockingQueue<T>> priorityBlockingQueueFactory(int initialCapacity, Comparator<? super T> comparator) {
+        return new FactoryMethod<PriorityBlockingQueue<T>>() {
+
+            private int initialCapacity;
+            Comparator<? super T> comparator;
+
+            @Override
+            public PriorityBlockingQueue<T> generate() {
+                return new PriorityBlockingQueue<>(initialCapacity, comparator);
+            }
+
+            private FactoryMethod<PriorityBlockingQueue<T>> initialize(int initialCapacity, Comparator<? super T> comparator) {
+                this.initialCapacity = initialCapacity;
+                this.comparator = comparator;
+                return this;
+            }
+
+        }.initialize(initialCapacity, comparator);
     }
 
     private CollectionFactoryMethods() {
