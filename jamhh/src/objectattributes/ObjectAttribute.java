@@ -12,10 +12,12 @@ import utils.Name;
  */
 public interface ObjectAttribute<TSource, TTarget> extends Name {
 
-    TTarget getAttribute(TSource source) throws IllegalAccessException, InvocationTargetException;
+    public abstract TTarget getAttribute(TSource source) throws IllegalAccessException, InvocationTargetException;
 
-    double calculateScore(List<? extends TSource> source);
+    public abstract double calculateScore(List<? extends TSource> source) throws IllegalAccessException, InvocationTargetException;
 
-    void createDecisionNode(List<? extends TSource> source);
+    public abstract void createDecisionNode(List<? extends TSource> source) throws IllegalAccessException, InvocationTargetException;
+    
+    public abstract double calculateEntropy (Iterable<? extends TSource> source) throws IllegalAccessException, InvocationTargetException;
 
 }

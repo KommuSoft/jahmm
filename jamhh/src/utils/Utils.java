@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -21,7 +22,7 @@ public class Utils {
         return (classdef.isEnum() || classdef == char.class || classdef == boolean.class);
     }
 
-    @SuppressWarnings({"unchecked", "unchecked"})
+    @SuppressWarnings("unchecked")
     public static <T> Set<T> getNominalSet(Class<T> classdef) {
         if (classdef == boolean.class) {
             return (Set<T>) BOOLEAN_SET;
@@ -31,6 +32,21 @@ public class Utils {
         } else {
             return null;
         }
+    }
+
+    public static <T> Map<T, Integer> incrementKey(Map<T, Integer> map, T key) {
+        return incrementKey(map, key, 0x01);
+    }
+
+    public static <T> Map<T, Integer> incrementKey(Map<T, Integer> map, T key, Integer deflt) {
+        Integer val = map.get(key);
+        if (val == null) {
+            val = deflt;
+        } else {
+            val++;
+        }
+        map.put(key, val);
+        return map;
     }
 
     public static class BooleanSet implements Set<Boolean> {
