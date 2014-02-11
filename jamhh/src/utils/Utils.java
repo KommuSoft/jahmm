@@ -41,13 +41,20 @@ public class Utils {
         return map;
     }
 
-    public static <TKey,TCollection extends Collection<TValue>,TValue> Map<TKey, TCollection> addtoList(Map<TKey, TCollection> map, TKey key, TValue value, FactoryMethod<TCollection> collectionFactory) {
+    public static <TKey, TCollection extends Collection<TValue>, TValue> Map<TKey, TCollection> addtoList(Map<TKey, TCollection> map, TKey key, TValue value, FactoryMethod<? extends TCollection> collectionFactory) {
         TCollection col = map.get(key);
         if (col == null) {
             col = collectionFactory.generate();
             map.put(key, col);
         }
         col.add(value);
+        return map;
+    }
+
+    public static <TKey, TCollection extends Collection<TValue>, TValue> Map<TKey, TCollection> classify(Map<TKey, TCollection> map, Collection<? extends TValue> items, Function<? super TValue, ? extends TKey> classifier, FactoryMethod<? extends TCollection> collectionFactory) {
+        for (TValue item : items) {
+            addtoList(map, classifier.evaluate(item), item, collectionFactory);
+        }
         return map;
     }
 
