@@ -319,6 +319,62 @@ public class CollectionFactoryMethods {
         };
     }
 
+    public static <T> FactoryMethod<HashSet<T>> hashSetFactory(Collection<? extends T> c) {
+        return new FactoryMethod<HashSet<T>>() {
+
+            private Collection<? extends T> c;
+
+            @Override
+            public HashSet<T> generate() {
+                return new HashSet<>(c);
+            }
+
+            private FactoryMethod<HashSet<T>> initialize(Collection<? extends T> c) {
+                this.c = c;
+                return this;
+            }
+
+        }.initialize(c);
+    }
+
+    public static <T> FactoryMethod<HashSet<T>> hashSetFactory(int initialCapacity) {
+        return new FactoryMethod<HashSet<T>>() {
+
+            private int initialCapacity;
+
+            @Override
+            public HashSet<T> generate() {
+                return new HashSet<>(initialCapacity);
+            }
+
+            private FactoryMethod<HashSet<T>> initialize(int initialCapacity) {
+                this.initialCapacity = initialCapacity;
+                return this;
+            }
+
+        }.initialize(initialCapacity);
+    }
+
+    public static <T> FactoryMethod<HashSet<T>> hashSetFactory(int initialCapacity, float loadFactor) {
+        return new FactoryMethod<HashSet<T>>() {
+
+            private int initialCapacity;
+            private float loadFactor;
+
+            @Override
+            public HashSet<T> generate() {
+                return new HashSet<>(initialCapacity, loadFactor);
+            }
+
+            private FactoryMethod<HashSet<T>> initialize(int initialCapacity, float loadFactor) {
+                this.initialCapacity = initialCapacity;
+                this.loadFactor = loadFactor;
+                return this;
+            }
+
+        }.initialize(initialCapacity, loadFactor);
+    }
+
     private CollectionFactoryMethods() {
     }
 

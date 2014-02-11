@@ -77,7 +77,7 @@ public class ClassificationTree<TSource> {
         }
 
         @Override
-        public DecisionLeaf getMaximumLeaf() {
+        public DecisionLeaf getMaximumLeaf() throws IllegalAccessException, InvocationTargetException {
             if (this.maximumLeaf == null) {
                 this.maximumLeaf = this.recalcMaximumLeaf();
             }
