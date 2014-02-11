@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.SortedSet;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -588,6 +590,109 @@ public class CollectionFactoryMethods {
             }
 
         }.initialize(initialCapacity, comparator);
+    }
+
+    public static <T> FactoryMethod<PriorityQueue<T>> priorityQueueFactory() {
+        return new FactoryMethod<PriorityQueue<T>>() {
+
+            @Override
+            public PriorityQueue<T> generate() {
+                return new PriorityQueue<>();
+            }
+
+        };
+    }
+
+    public static <T> FactoryMethod<PriorityQueue<T>> priorityQueueFactory(Collection<? extends T> c) {
+        return new FactoryMethod<PriorityQueue<T>>() {
+
+            private Collection<? extends T> c;
+
+            @Override
+            public PriorityQueue<T> generate() {
+                return new PriorityQueue<>(c);
+            }
+
+            private FactoryMethod<PriorityQueue<T>> initialize(Collection<? extends T> c) {
+                this.c = c;
+                return this;
+            }
+
+        }.initialize(c);
+    }
+
+    public static <T> FactoryMethod<PriorityQueue<T>> priorityQueueFactory(int initialCapacity) {
+        return new FactoryMethod<PriorityQueue<T>>() {
+
+            private int initialCapacity;
+
+            @Override
+            public PriorityQueue<T> generate() {
+                return new PriorityQueue<>(initialCapacity);
+            }
+
+            private FactoryMethod<PriorityQueue<T>> initialize(int initialCapacity) {
+                this.initialCapacity = initialCapacity;
+                return this;
+            }
+
+        }.initialize(initialCapacity);
+    }
+
+    public static <T> FactoryMethod<PriorityQueue<T>> priorityQueueFactory(int initialCapacity, Comparator<? super T> comparator) {
+        return new FactoryMethod<PriorityQueue<T>>() {
+
+            private int initialCapacity;
+            Comparator<? super T> comparator;
+
+            @Override
+            public PriorityQueue<T> generate() {
+                return new PriorityQueue<>(initialCapacity, comparator);
+            }
+
+            private FactoryMethod<PriorityQueue<T>> initialize(int initialCapacity, Comparator<? super T> comparator) {
+                this.initialCapacity = initialCapacity;
+                this.comparator = comparator;
+                return this;
+            }
+
+        }.initialize(initialCapacity, comparator);
+    }
+
+    public static <T> FactoryMethod<PriorityQueue<T>> priorityQueueFactory(PriorityQueue<? extends T> c) {
+        return new FactoryMethod<PriorityQueue<T>>() {
+
+            private PriorityQueue<? extends T> c;
+
+            @Override
+            public PriorityQueue<T> generate() {
+                return new PriorityQueue<>(c);
+            }
+
+            private FactoryMethod<PriorityQueue<T>> initialize(PriorityQueue<? extends T> c) {
+                this.c = c;
+                return this;
+            }
+
+        }.initialize(c);
+    }
+
+    public static <T> FactoryMethod<PriorityQueue<T>> priorityQueueFactory(SortedSet<? extends T> c) {
+        return new FactoryMethod<PriorityQueue<T>>() {
+
+            private SortedSet<? extends T> c;
+
+            @Override
+            public PriorityQueue<T> generate() {
+                return new PriorityQueue<>(c);
+            }
+
+            private FactoryMethod<PriorityQueue<T>> initialize(SortedSet<? extends T> c) {
+                this.c = c;
+                return this;
+            }
+
+        }.initialize(c);
     }
 
     private CollectionFactoryMethods() {
