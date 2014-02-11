@@ -10,6 +10,7 @@ import java.util.PriorityQueue;
 import java.util.SortedSet;
 import java.util.Stack;
 import java.util.TreeSet;
+import java.util.Vector;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -801,6 +802,73 @@ public class CollectionFactoryMethods {
             }
 
         }.initialize(s);
+    }
+
+    public static <T> FactoryMethod<Vector<T>> vectorFactory() {
+        return new FactoryMethod<Vector<T>>() {
+
+            @Override
+            public Vector<T> generate() {
+                return new Vector<>();
+            }
+
+        };
+    }
+
+    public static <T> FactoryMethod<Vector<T>> vectorFactory(Collection<? extends T> c) {
+        return new FactoryMethod<Vector<T>>() {
+
+            private Collection<? extends T> c;
+
+            @Override
+            public Vector<T> generate() {
+                return new Vector<>(c);
+            }
+
+            private FactoryMethod<Vector<T>> initialize(Collection<? extends T> c) {
+                this.c = c;
+                return this;
+            }
+
+        }.initialize(c);
+    }
+
+    public static <T> FactoryMethod<Vector<T>> vectorFactory(int initialCapacity) {
+        return new FactoryMethod<Vector<T>>() {
+
+            private int initialCapacity;
+
+            @Override
+            public Vector<T> generate() {
+                return new Vector<>(initialCapacity);
+            }
+
+            private FactoryMethod<Vector<T>> initialize(int initialCapacity) {
+                this.initialCapacity = initialCapacity;
+                return this;
+            }
+
+        }.initialize(initialCapacity);
+    }
+
+    public static <T> FactoryMethod<Vector<T>> vectorFactory(int initialCapacity, int capacityIncrement) {
+        return new FactoryMethod<Vector<T>>() {
+
+            private int initialCapacity;
+            private int capacityIncrement;
+
+            @Override
+            public Vector<T> generate() {
+                return new Vector<>(initialCapacity, capacityIncrement);
+            }
+
+            private FactoryMethod<Vector<T>> initialize(int initialCapacity, int capacityIncrement) {
+                this.initialCapacity = initialCapacity;
+                this.capacityIncrement = capacityIncrement;
+                return this;
+            }
+
+        }.initialize(initialCapacity, capacityIncrement);
     }
 
     private CollectionFactoryMethods() {
