@@ -40,12 +40,12 @@ public class NominalInspectedObjectAttribute<TSource, TTarget> implements Nomina
     }
 
     @Override
-    public double calculateScore(List<TSource> source) {
+    public double calculateScore(List<? extends TSource> source) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void createDecisionNode(List<TSource> source) {
+    public void createDecisionNode(List<? extends TSource> source) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
