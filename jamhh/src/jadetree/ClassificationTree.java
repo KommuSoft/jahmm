@@ -3,6 +3,8 @@ package jadetree;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Logger;
+import objectattributes.NominalObjectAttribute;
 import objectattributes.ObjectAttribute;
 
 /**
@@ -12,8 +14,10 @@ import objectattributes.ObjectAttribute;
  */
 public class ClassificationTree<TSource> {
 
+    private static final Logger LOG = Logger.getLogger(ClassificationTree.class.getName());
+
     private final ArrayList<ObjectAttribute<? super TSource, ?>> sourceAttributes = new ArrayList<>();
-    ObjectAttribute<? super TSource, ?> targetAttribute;
+    NominalObjectAttribute<? super TSource, ?> targetAttribute;
     private DecisionNode root = new DecisionLeaf();
 
     public void addSourceAttribute(ObjectAttribute<? super TSource, ?> sourceAttribute) {
@@ -36,7 +40,7 @@ public class ClassificationTree<TSource> {
 
     }
 
-    private abstract class DecisionNode {
+    public abstract class DecisionNode {
 
         public boolean isLeaf() {
             return false;
@@ -60,7 +64,7 @@ public class ClassificationTree<TSource> {
 
     }
 
-    private abstract class AttributeDecisionNode extends DecisionNode {
+    public abstract class AttributeDecisionNode extends DecisionNode {
 
         private final ObjectAttribute<? super TSource, ?> objectAttribute;
         private DecisionLeaf maximumLeaf = null;
@@ -102,7 +106,7 @@ public class ClassificationTree<TSource> {
 
     }
 
-    private class EnumerableDecisionNode extends AttributeDecisionNode {
+    public class EnumerableDecisionNode extends AttributeDecisionNode {
 
         private final HashMap<Object, DecisionNode> map = new HashMap<>();
 
@@ -151,7 +155,7 @@ public class ClassificationTree<TSource> {
 
     }
 
-    private class DecisionLeaf extends DecisionNode {
+    public class DecisionLeaf extends DecisionNode {
 
         private final ArrayList<TSource> memory = new ArrayList<>();
         private double score = Double.NaN;
@@ -174,7 +178,7 @@ public class ClassificationTree<TSource> {
         @Override
         public double expandScore() {
             if (this.isDirty()) {
-                this.calculateScore();
+                this.score = this.calculateScore();
             }
             return this.score;
         }
@@ -190,8 +194,19 @@ public class ClassificationTree<TSource> {
             memory.add(source);
         }
 
-        private void calculateScore() {
-
+        private double calculateScore() {
+            double maxScore = Double.NEGATIVE_INFINITY;
+            int maxIndex = -0x01, i = 0x00;
+            for (ObjectAttribute<? super TSource, ?> oa : ClassificationTree.this.sourceAttributes) {
+                double sc = oa.calculateScore(this.memory);
+                if (sc > maxScore) {
+                    maxScore = sc;
+                    maxIndex = i;
+                }
+                i++;
+            }
+            this.splitIndex = maxIndex;
+            return maxScore;
         }
 
         @Override

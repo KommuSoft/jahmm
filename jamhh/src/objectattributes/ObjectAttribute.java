@@ -14,8 +14,8 @@ public interface ObjectAttribute<TSource, TTarget> extends Name {
 
     TTarget getAttribute(TSource source) throws IllegalAccessException, InvocationTargetException;
 
-    double calculateScore(List<TSource> source);
+    double calculateScore(List<? extends TSource> source);
 
-    void createDecisionNode(List<TSource> source);
+    void createDecisionNode(List<? extends TSource> source);
 
 }
