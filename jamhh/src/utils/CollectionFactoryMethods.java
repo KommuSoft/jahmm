@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.SortedSet;
 import java.util.Stack;
+import java.util.TreeSet;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -735,6 +736,71 @@ public class CollectionFactoryMethods {
             }
 
         }.initialize(fair);
+    }
+
+    public static <T> FactoryMethod<TreeSet<T>> treeSetFactory() {
+        return new FactoryMethod<TreeSet<T>>() {
+
+            @Override
+            public TreeSet<T> generate() {
+                return new TreeSet<>();
+            }
+
+        };
+    }
+
+    public static <T> FactoryMethod<TreeSet<T>> treeSetFactory(Collection<? extends T> c) {
+        return new FactoryMethod<TreeSet<T>>() {
+
+            private Collection<? extends T> c;
+
+            @Override
+            public TreeSet<T> generate() {
+                return new TreeSet<>(c);
+            }
+
+            private FactoryMethod<TreeSet<T>> initialize(Collection<? extends T> c) {
+                this.c = c;
+                return this;
+            }
+
+        }.initialize(c);
+    }
+
+    public static <T> FactoryMethod<TreeSet<T>> treeSetFactory(Comparator<? super T> c) {
+        return new FactoryMethod<TreeSet<T>>() {
+
+            private Comparator<? super T> c;
+
+            @Override
+            public TreeSet<T> generate() {
+                return new TreeSet<>(c);
+            }
+
+            private FactoryMethod<TreeSet<T>> initialize(Comparator<? super T> c) {
+                this.c = c;
+                return this;
+            }
+
+        }.initialize(c);
+    }
+
+    public static <T> FactoryMethod<TreeSet<T>> treeSetFactory(SortedSet<T> s) {
+        return new FactoryMethod<TreeSet<T>>() {
+
+            private SortedSet<T> s;
+
+            @Override
+            public TreeSet<T> generate() {
+                return new TreeSet<>(s);
+            }
+
+            private FactoryMethod<TreeSet<T>> initialize(SortedSet<T> s) {
+                this.s = s;
+                return this;
+            }
+
+        }.initialize(s);
     }
 
     private CollectionFactoryMethods() {
