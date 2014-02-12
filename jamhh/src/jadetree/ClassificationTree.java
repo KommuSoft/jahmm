@@ -1,11 +1,11 @@
 package jadetree;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Logger;
 import objectattributes.NominalObjectAttribute;
 import objectattributes.ObjectAttribute;
+import utils.HolderBase;
 
 /**
  *
@@ -30,8 +30,12 @@ public class ClassificationTree<TSource> {
         this.root.makeDirty();
     }
 
-    public void insert(TSource element) throws IllegalAccessException, InvocationTargetException {
+    public void insert(TSource element) {
         this.root.insert(element);
+    }
+
+    public void reduceMemory() {
+        this.root.makeDirty();
     }
 
     public class DecisionTreeNode<TTarget> {
@@ -46,19 +50,19 @@ public class ClassificationTree<TSource> {
             return false;
         }
 
-        public DecisionNode nextHop(TSource source) throws IllegalAccessException, InvocationTargetException {
+        public DecisionNode nextHop(TSource source) {
             return this;
         }
 
-        public abstract double expandScore() throws IllegalAccessException, InvocationTargetException;
+        public abstract double expandScore();
 
-        public void insert(TSource source) throws IllegalAccessException, InvocationTargetException {
+        public void insert(TSource source) {
             this.nextHop(source).insert(source);
         }
 
         public abstract void makeDirty();
 
-        public abstract DecisionLeaf getMaximumLeaf() throws IllegalAccessException, InvocationTargetException;
+        public abstract DecisionLeaf getMaximumLeaf();
 
     }
 
@@ -72,12 +76,12 @@ public class ClassificationTree<TSource> {
         }
 
         @Override
-        public double expandScore() throws IllegalAccessException, InvocationTargetException {
+        public double expandScore() {
             return this.getMaximumLeaf().expandScore();
         }
 
         @Override
-        public DecisionLeaf getMaximumLeaf() throws IllegalAccessException, InvocationTargetException {
+        public DecisionLeaf getMaximumLeaf() {
             if (this.maximumLeaf == null) {
                 this.maximumLeaf = this.recalcMaximumLeaf();
             }
@@ -91,7 +95,7 @@ public class ClassificationTree<TSource> {
             return objectAttribute;
         }
 
-        protected Object getObjectAttribute(TSource source) throws IllegalAccessException, InvocationTargetException {
+        protected Object getObjectAttribute(TSource source) {
             return this.objectAttribute.evaluate(source);
         }
 
@@ -100,7 +104,7 @@ public class ClassificationTree<TSource> {
             this.maximumLeaf = null;
         }
 
-        protected abstract DecisionLeaf recalcMaximumLeaf() throws IllegalAccessException, InvocationTargetException;
+        protected abstract DecisionLeaf recalcMaximumLeaf();
 
     }
 
@@ -113,7 +117,7 @@ public class ClassificationTree<TSource> {
         }
 
         @Override
-        public DecisionNode nextHop(TSource source) throws IllegalAccessException, InvocationTargetException {
+        public DecisionNode nextHop(TSource source) {
             Object key = this.getObjectAttribute(source);
             DecisionNode value = map.get(key);
             if (value == null) {
@@ -132,7 +136,7 @@ public class ClassificationTree<TSource> {
         }
 
         @Override
-        protected DecisionLeaf recalcMaximumLeaf() throws IllegalAccessException, InvocationTargetException {
+        protected DecisionLeaf recalcMaximumLeaf() {
             double max = Double.NEGATIVE_INFINITY, val;
             DecisionLeaf leaf, maxLeaf = null;
             for (DecisionNode dn : this.map.values()) {
@@ -153,6 +157,7 @@ public class ClassificationTree<TSource> {
         private final ArrayList<TSource> memory = new ArrayList<>();
         private double score = Double.NaN;
         private int splitIndex = 0x00;
+        private final HolderBase<Object> splitData = new HolderBase<>();
 
         public boolean isDirty() {
             return Double.isNaN(this.score);
@@ -161,6 +166,7 @@ public class ClassificationTree<TSource> {
         @Override
         public void makeDirty() {
             this.score = Double.NaN;
+            splitData.setData(null);
         }
 
         @Override
@@ -169,7 +175,7 @@ public class ClassificationTree<TSource> {
         }
 
         @Override
-        public double expandScore() throws IllegalAccessException, InvocationTargetException {
+        public double expandScore() {
             if (this.isDirty()) {
                 this.score = this.calculateScore();
             }
@@ -186,14 +192,16 @@ public class ClassificationTree<TSource> {
             memory.add(source);
         }
 
-        private double calculateScore() throws IllegalAccessException, InvocationTargetException {
+        private double calculateScore() {
             double maxScore = Double.NEGATIVE_INFINITY;
             int maxIndex = -0x01, i = 0x00;
+            HolderBase<Object> curData = new HolderBase<>();
             for (ObjectAttribute<? super TSource, ?> oa : ClassificationTree.this.sourceAttributes) {
-                double sc = oa.calculateScore(this.memory);
+                double sc = oa.calculateScore(this.memory, curData);
                 if (sc > maxScore) {
                     maxScore = sc;
                     maxIndex = i;
+                    this.splitData.copyFrom(curData);
                 }
                 i++;
             }
