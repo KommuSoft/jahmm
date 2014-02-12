@@ -48,8 +48,8 @@ public abstract class NominalObjectAttributeBase<TSource, TTarget> implements No
         Holder<Integer> ttl = new HolderBase<>();
         int total = 0;
         int subtotal;
-        double entropy = 0.0;
-        double subentropy = 0.0;
+        double entropy = 0.0d;
+        double subentropy;
         for (Iterable<? extends TSource> subsource : sources) {
             subentropy = calculateEntropy(subsource, frequency, ttl);
             frequency.clear();

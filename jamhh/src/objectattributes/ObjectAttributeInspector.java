@@ -27,15 +27,15 @@ public class ObjectAttributeInspector {
         return ll;
     }
 
-    private ObjectAttributeInspector() {
-    }
-
     public static <T> ObjectAttribute<T, Object> generateObjectAttribute(Class<T> classdef, Method method, ObjectAttributeAnnotation oaa) {
         Class<?> result = method.getReturnType();
         if (Utils.isNominal(result)) {
-            return new NominalInspectedObjectAttribute<T, Object>(method, oaa.name(), result);
+            return new NominalInspectedObjectAttribute<>(method, oaa.name(), result);
         }
         return null;
+    }
+
+    private ObjectAttributeInspector() {
     }
 
 }
