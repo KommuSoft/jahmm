@@ -15,7 +15,7 @@ import utils.Utils;
  * @param <TSource>
  * @param <TTarget>
  */
-public abstract class NominalObjectAttributeBase<TSource, TTarget, TTempState> implements NominalObjectAttribute<TSource, TTarget> {
+public abstract class NominalObjectAttributeBase<TSource, TTarget> implements NominalObjectAttribute<TSource, TTarget> {
 
     @Override
     public double calculateEntropy(Iterable<? extends TSource> sources) {
