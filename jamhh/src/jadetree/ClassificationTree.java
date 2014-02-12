@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import objectattributes.NominalObjectAttribute;
 import objectattributes.ObjectAttribute;
 import utils.HolderBase;
+import utils.Predicate;
 
 /**
  *
@@ -66,13 +67,11 @@ public class ClassificationTree<TSource> {
 
     }
 
-    public abstract class AttributeDecisionNode extends DecisionNode {
+    public abstract class DecisionInode extends DecisionNode {
 
-        private final ObjectAttribute<? super TSource, ?> objectAttribute;
         private DecisionLeaf maximumLeaf = null;
 
-        protected AttributeDecisionNode(ObjectAttribute<? super TSource, ?> objectAttribute) {
-            this.objectAttribute = objectAttribute;
+        protected DecisionInode() {
         }
 
         @Override
@@ -88,6 +87,28 @@ public class ClassificationTree<TSource> {
             return this.maximumLeaf;
         }
 
+        @Override
+        public void makeDirty() {
+            this.maximumLeaf = null;
+        }
+
+        protected abstract DecisionLeaf recalcMaximumLeaf();
+
+    }
+
+    public abstract class AttributeDecisionNode extends DecisionInode {
+
+        private final ObjectAttribute<? super TSource, ?> objectAttribute;
+
+        protected AttributeDecisionNode(ObjectAttribute<? super TSource, ?> objectAttribute) {
+            this.objectAttribute = objectAttribute;
+        }
+
+        @Override
+        public double expandScore() {
+            return this.getMaximumLeaf().expandScore();
+        }
+
         /**
          * @return the objectAttribute
          */
@@ -99,12 +120,79 @@ public class ClassificationTree<TSource> {
             return this.objectAttribute.evaluate(source);
         }
 
-        @Override
-        public void makeDirty() {
-            this.maximumLeaf = null;
+    }
+
+    public class PredicateDecisionNode extends DecisionInode {
+
+        private final Predicate<? super TSource> predicate;
+        private DecisionNode trueNode;
+        private DecisionNode falseNode;
+
+        public PredicateDecisionNode(Predicate<? super TSource> predicate, DecisionNode trueNode, DecisionNode falseNode) {
+            this.predicate = predicate;
+            this.trueNode = trueNode;
+            this.falseNode = falseNode;
         }
 
-        protected abstract DecisionLeaf recalcMaximumLeaf();
+        public PredicateDecisionNode(Predicate<? super TSource> predicate) {
+            this(predicate, new DecisionLeaf(), new DecisionLeaf());
+        }
+
+        @Override
+        public DecisionNode nextHop(TSource source) {
+            if (this.getPredicate().evaluate(source)) {
+                return this.getTrueNode();
+            } else {
+                return this.getFalseNode();
+            }
+        }
+
+        @Override
+        public void makeDirty() {
+            this.getTrueNode().makeDirty();
+            this.getFalseNode().makeDirty();
+            super.makeDirty();
+        }
+
+        @Override
+        protected DecisionLeaf recalcMaximumLeaf() {
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        /**
+         * @return the predicate
+         */
+        public Predicate<? super TSource> getPredicate() {
+            return predicate;
+        }
+
+        /**
+         * @return the trueNode
+         */
+        public DecisionNode getTrueNode() {
+            return trueNode;
+        }
+
+        /**
+         * @param trueNode the trueNode to set
+         */
+        public void setTrueNode(DecisionNode trueNode) {
+            this.trueNode = trueNode;
+        }
+
+        /**
+         * @return the falseNode
+         */
+        public DecisionNode getFalseNode() {
+            return falseNode;
+        }
+
+        /**
+         * @param falseNode the falseNode to set
+         */
+        public void setFalseNode(DecisionNode falseNode) {
+            this.falseNode = falseNode;
+        }
 
     }
 
