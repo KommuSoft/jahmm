@@ -10,6 +10,6 @@ public interface ContinuObjectAttribute<TSource, TTarget> extends ObjectAttribut
 
     public abstract TTarget getBetween(TSource source1, TSource source2);
 
-    public abstract TTarget compareWith(TSource source, TTarget target);
+    public abstract int compareWith(TSource source, TTarget target);
 
 }
