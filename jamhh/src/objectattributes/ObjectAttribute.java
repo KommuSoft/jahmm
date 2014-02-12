@@ -2,6 +2,7 @@ package objectattributes;
 
 import java.util.List;
 import utils.Function;
+import utils.Holder;
 import utils.Name;
 
 /**
@@ -12,9 +13,9 @@ import utils.Name;
  */
 public interface ObjectAttribute<TSource, TTarget> extends Name, Function<TSource, TTarget> {
 
-    public abstract double calculateScore(List<? extends TSource> source);
+    public abstract double calculateScore(List<? extends TSource> source, Holder<Object> state);
 
-    public abstract void createDecisionNode(List<? extends TSource> source);
+    public abstract void createDecisionNode(List<? extends TSource> source, Holder<Object> state);
 
     public abstract double calculateEntropy(Iterable<? extends TSource> source);
 

@@ -1,7 +1,10 @@
 package objectattributes;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import utils.CollectionFactoryMethods;
+import utils.FactoryMethod;
 import utils.Holder;
 import utils.HolderBase;
 import utils.Utils;
@@ -12,7 +15,7 @@ import utils.Utils;
  * @param <TSource>
  * @param <TTarget>
  */
-public abstract class NominalObjectAttributeBase<TSource, TTarget> implements NominalObjectAttribute<TSource, TTarget> {
+public abstract class NominalObjectAttributeBase<TSource, TTarget, TTempState> implements NominalObjectAttribute<TSource, TTarget> {
 
     @Override
     public double calculateEntropy(Iterable<? extends TSource> sources) {
@@ -58,12 +61,16 @@ public abstract class NominalObjectAttributeBase<TSource, TTarget> implements No
     }
 
     @Override
-    public double calculateScore(List<? extends TSource> source) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public double calculateScore(List<? extends TSource> source, Holder<Object> state) {
+        final HashMap<TTarget, LinkedList<TSource>> classified = new HashMap<>();
+        FactoryMethod<LinkedList<TSource>> fm = CollectionFactoryMethods.linkedListFactory();
+        Utils.classify(classified, source, this, fm);
+        state.setData(classified);
+        return calculateEntropyPartition(classified.values());
     }
 
     @Override
-    public void createDecisionNode(List<? extends TSource> source) {
+    public void createDecisionNode(List<? extends TSource> source, Holder<Object> state) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
