@@ -10,9 +10,9 @@ import objectattributes.ObjectAttribute;
  */
 public interface DecisionTree<TSource> {
 
-    Iterable<ObjectAttribute<? super TSource, ?>> getSourceAttributes();
+    Iterable<ObjectAttribute<TSource, ?>> getSourceAttributes();
 
-    void addSourceAttribute(ObjectAttribute<? super TSource, ?> sourceAttribute);
+    void addSourceAttribute(ObjectAttribute<TSource, ?> sourceAttribute);
 
     void insert(TSource element);
 
@@ -22,8 +22,8 @@ public interface DecisionTree<TSource> {
 
     void reduceMemory();
 
-    void removeSourceAttribute(ObjectAttribute<? super TSource, ?> sourceAttribute);
+    void removeSourceAttribute(ObjectAttribute<TSource, ?> sourceAttribute);
 
-    NominalObjectAttribute<? super TSource, ?> getTargetAttribute();
+    NominalObjectAttribute<TSource, ? extends Object> getTargetAttribute();
 
 }

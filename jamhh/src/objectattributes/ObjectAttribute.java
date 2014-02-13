@@ -14,8 +14,8 @@ import jutlis.Name;
  */
 public interface ObjectAttribute<TSource, TTarget> extends Name, Function<TSource, TTarget> {
 
-    public abstract <TOtherTarget> double calculateScore(List<? extends TSource> source, ObjectAttribute<? super TSource, TOtherTarget> function, Holder<Object> state);
+    public abstract double calculateScore(List<? extends TSource> source, ObjectAttribute<? super TSource, ? extends Object> function, Holder<Object> state);
 
-    public abstract <TOtherTarget> DecisionNode<TSource> createDecisionNode(List<? extends TSource> source, ObjectAttribute<? super TSource, TOtherTarget> function, Holder<Object> state);
+    public abstract DecisionNode<TSource> createDecisionNode(List<? extends TSource> source, ObjectAttribute<? super TSource, ? extends Object> function, Holder<Object> state);
 
 }
