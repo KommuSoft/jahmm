@@ -26,6 +26,7 @@ public abstract class ContinuObjectAttributeBase<TSource, TTarget> implements Co
     @Override
     public DecisionNode<TSource> createDecisionNode(List<? extends TSource> source, Function<? super TSource, ? extends Object> function, Holder<Object> state) {
         //return new PredicateDecisionNode<>();
+        return null;
     }
 
 }

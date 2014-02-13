@@ -13,15 +13,29 @@ public class PredicateDecisionNode<TSource> extends DecisionInode<TSource> {
     DecisionNode<TSource> trueNode;
     DecisionNode<TSource> falseNode;
 
-    public PredicateDecisionNode(Predicate<? super TSource> predicate, DecisionNode<TSource> trueNode, DecisionNode<TSource> falseNode, final DecisionTree<TSource> tree) {
+    public PredicateDecisionNode(final DecisionTree<TSource> tree, Predicate<? super TSource> predicate, DecisionNode<TSource> trueNode, DecisionNode<TSource> falseNode) {
         super(tree);
         this.predicate = predicate;
         this.trueNode = trueNode;
         this.falseNode = falseNode;
     }
 
-    public PredicateDecisionNode(Predicate<? super TSource> predicate, final DecisionTree<TSource> tree) {
-        this(predicate, new DecisionLeaf<TSource>(tree), new DecisionLeaf<TSource>(tree), tree);
+    public PredicateDecisionNode(final DecisionTree<TSource> tree, Predicate<? super TSource> predicate, DecisionNode<TSource> trueNode, DecisionNode<TSource> falseNode, Iterable<TSource> toInsert) {
+        this(tree, predicate, trueNode, falseNode);
+        for (TSource source : toInsert) {
+            this.insert(source);
+        }
+    }
+
+    public PredicateDecisionNode(final DecisionTree<TSource> tree, Predicate<? super TSource> predicate) {
+        this(tree, predicate, new DecisionLeaf<TSource>(tree), new DecisionLeaf<TSource>(tree));
+    }
+
+    public PredicateDecisionNode(final DecisionTree<TSource> tree, Predicate<? super TSource> predicate, Iterable<TSource> toInsert) {
+        this(tree, predicate);
+        for (TSource source : toInsert) {
+            this.insert(source);
+        }
     }
 
     @Override

@@ -1,7 +1,7 @@
 package jadetree;
 
-import java.util.HashMap;
 import jadetree.objectattributes.ObjectAttribute;
+import java.util.HashMap;
 
 /**
  *
@@ -13,8 +13,8 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
 
     final HashMap<TTarget, DecisionNode<TSource>> map = new HashMap<>();
 
-    protected EnumerableDecisionNode(ObjectAttribute<? super TSource, ? extends TTarget> objectAttribute, final DecisionTree<TSource> tree) {
-        super(objectAttribute, tree);
+    protected EnumerableDecisionNode(final DecisionTree<TSource> tree, ObjectAttribute<? super TSource, ? extends TTarget> objectAttribute) {
+        super(tree, objectAttribute);
     }
 
     @Override
