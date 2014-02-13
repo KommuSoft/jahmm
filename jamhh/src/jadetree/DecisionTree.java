@@ -16,6 +16,10 @@ public interface DecisionTree<TSource> {
 
     void insert(TSource element);
 
+    void expand();
+
+    void reduce();
+
     void reduceMemory();
 
     void removeSourceAttribute(ObjectAttribute<? super TSource, ?> sourceAttribute);

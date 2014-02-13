@@ -1,12 +1,9 @@
 package jadetree;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.logging.Logger;
 import objectattributes.NominalObjectAttribute;
 import objectattributes.ObjectAttribute;
-import jutlis.HolderBase;
-import jutlis.Predicate;
 
 /**
  *
@@ -51,6 +48,16 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
     @Override
     public NominalObjectAttribute<? super TSource, ?> getTargetAttribute() {
         return this.targetAttribute;
+    }
+
+    @Override
+    public void expand() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void reduce() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
