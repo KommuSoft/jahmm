@@ -1,7 +1,7 @@
 package objectattributes;
 
 import java.util.List;
-import utils.Holder;
+import jutlis.Holder;
 
 /**
  *

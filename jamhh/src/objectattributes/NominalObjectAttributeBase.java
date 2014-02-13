@@ -3,10 +3,10 @@ package objectattributes;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import utils.CollectionFactoryMethods;
-import utils.FactoryMethod;
-import utils.Holder;
-import utils.HolderBase;
+import jutlis.CollectionFactoryMethods;
+import jutlis.FactoryMethod;
+import jutlis.Holder;
+import jutlis.HolderBase;
 import utils.Utils;
 
 /**

@@ -1,9 +1,9 @@
 package objectattributes;
 
 import java.util.List;
-import utils.Function;
-import utils.Holder;
-import utils.Name;
+import jutlis.Function;
+import jutlis.Holder;
+import jutlis.Name;
 
 /**
  *

@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.logging.Logger;
 import objectattributes.NominalObjectAttribute;
 import objectattributes.ObjectAttribute;
-import utils.HolderBase;
-import utils.Predicate;
+import jutlis.HolderBase;
+import jutlis.Predicate;
 
 /**
  *
