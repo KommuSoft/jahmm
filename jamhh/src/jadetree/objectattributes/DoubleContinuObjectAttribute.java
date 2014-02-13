@@ -1,17 +1,20 @@
 package jadetree.objectattributes;
 
 import jadetree.DecisionNode;
+import jadetree.DecisionTreeUtils;
 import java.util.Collections;
 import java.util.List;
 import jutlis.algebra.Function;
 import jutlis.tuples.Holder;
+import jutlis.tuples.Tuple2;
+import jutlis.tuples.Tuple2Base;
 
 /**
  *
  * @author kommusoft
  * @param <TSource>
  */
-public abstract class DoubleContinuObjectAttribute<TSource> implements ContinuObjectAttribute<TSource, Double> {
+public abstract class DoubleContinuObjectAttribute<TSource> extends ContinuObjectAttributeBase<TSource, Double> {
 
     @Override
     public Double getBetween(TSource source1, TSource source2) {
@@ -21,16 +24,6 @@ public abstract class DoubleContinuObjectAttribute<TSource> implements ContinuOb
     @Override
     public int compareWith(TSource source, Double target) {
         return this.evaluate(source).compareTo(target);
-    }
-
-    @Override
-    public double calculateScore(List<? extends TSource> list, Function<? super TSource, ? extends Object> target, Holder<Object> state) {
-        Collections.sort(list, this);
-        int n = list.size();
-        for (int i = 0x01; i < n; i++) {
-
-        }
-        return Double.NaN;//TODO: implement.
     }
 
     @Override
