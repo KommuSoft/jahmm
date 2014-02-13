@@ -1,5 +1,6 @@
 package jadetree;
 
+import objectattributes.NominalObjectAttribute;
 import objectattributes.ObjectAttribute;
 
 /**
@@ -18,5 +19,7 @@ public interface DecisionTree<TSource> {
     void reduceMemory();
 
     void removeSourceAttribute(ObjectAttribute<? super TSource, ?> sourceAttribute);
+
+    NominalObjectAttribute<? super TSource, ?> getTargetAttribute();
 
 }

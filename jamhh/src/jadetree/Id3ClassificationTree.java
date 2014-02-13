@@ -48,4 +48,9 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
         return this.sourceAttributes;
     }
 
+    @Override
+    public NominalObjectAttribute<? super TSource, ?> getTargetAttribute() {
+        return this.targetAttribute;
+    }
+
 }

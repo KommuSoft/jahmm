@@ -1,5 +1,6 @@
 package objectattributes;
 
+import java.util.Collections;
 import java.util.List;
 import jutlis.Holder;
 
@@ -7,7 +8,7 @@ import jutlis.Holder;
  *
  * @author kommusoft
  */
-public abstract class DoubleContinuAttribute<TSource> implements ContinuObjectAttribute<TSource, Double> {
+public abstract class DoubleContinuObjectAttribute<TSource> implements ContinuObjectAttribute<TSource, Double> {
 
     @Override
     public Double getBetween(TSource source1, TSource source2) {
@@ -20,22 +21,17 @@ public abstract class DoubleContinuAttribute<TSource> implements ContinuObjectAt
     }
 
     @Override
-    public double calculateScore(List<? extends TSource> source, Holder<Object> state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public double calculateScore(List<? extends TSource> list, Holder<Object> state) {
+        Collections.sort(list, this);
+        int n = list.size();
+        for(int i = 0x01; i < n; i++) {
+            
+        }
+        return Double.NaN;//TODO: implement.
     }
 
     @Override
     public void createDecisionNode(List<? extends TSource> source, Holder<Object> state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double calculateEntropy(Iterable<? extends TSource> source) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double calculateEntropyPartition(Iterable<? extends Iterable<? extends TSource>> source) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

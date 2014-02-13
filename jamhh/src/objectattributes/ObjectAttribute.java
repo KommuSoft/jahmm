@@ -17,8 +17,4 @@ public interface ObjectAttribute<TSource, TTarget> extends Name, Function<TSourc
 
     public abstract void createDecisionNode(List<? extends TSource> source, Holder<Object> state);
 
-    public abstract double calculateEntropy(Iterable<? extends TSource> source);
-
-    public abstract double calculateEntropyPartition(Iterable<? extends Iterable<? extends TSource>> source);
-
 }

@@ -17,7 +17,6 @@ import utils.Utils;
  */
 public abstract class NominalObjectAttributeBase<TSource, TTarget> implements NominalObjectAttribute<TSource, TTarget> {
 
-    @Override
     public double calculateEntropy(Iterable<? extends TSource> sources) {
         final HashMap<TTarget, Integer> frequency = new HashMap<>();
         return calculateEntropy(sources, frequency, null);
@@ -41,8 +40,7 @@ public abstract class NominalObjectAttributeBase<TSource, TTarget> implements No
         }
         return entropy;
     }
-
-    @Override
+    
     public double calculateEntropyPartition(Iterable<? extends Iterable<? extends TSource>> sources) {
         final HashMap<TTarget, Integer> frequency = new HashMap<>();
         Holder<Integer> ttl = new HolderBase<>();
