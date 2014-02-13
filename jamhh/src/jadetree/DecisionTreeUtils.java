@@ -6,6 +6,7 @@ import jutlis.algebra.Function;
 import jutlis.tuples.Holder;
 import jutlis.tuples.HolderBase;
 import jutlis.tuples.Tuple2;
+import jutlis.MathConstants;
 
 /**
  *
@@ -35,25 +36,47 @@ public class DecisionTreeUtils {
         if (subholder == null) {
             subholder = new HolderBase<>();
         }
-        double entropy = calculateRawEntropy(sources, frequency, function, total);
+        double rawentropy = calculateRawEntropy(sources, frequency, function, subholder);
         int ttl = subholder.getData();
-        return (entropy / ttl + Math.log(ttl)) / Math.log(2.0d);
+        if (ttl > 0x00) {
+            return (rawentropy / ttl + Math.log(ttl)) * MathConstants.INVLOG2;
+        } else {
+            return Double.NaN;
+        }
     }
 
     public static <TSource, TTarget> int calculateEntropyFlipIndex(Iterable<? extends TSource> sources, Function<TSource, TTarget> function, Tuple2<Integer, Double> total_entropy) {
-        final HashMap<TTarget, Integer> frequency = new HashMap<>();
-        int ttl = 0x00, maxFlip = -0x01;
-        double maxEntropy = 0.0d, rawEntropy = 0.0d;
+        final HashMap<TTarget, Integer> lFreq = new HashMap<>();
+        final HashMap<TTarget, Integer> rFreq = new HashMap<>();
+        Holder<Integer> subholder = total_entropy;
+        if (subholder == null) {
+            subholder = new HolderBase<>();
+        }
+        double rRawS = calculateRawEntropy(sources, rFreq, function, subholder), lRawS = 0.0d;
+        int lN = 0x00, N = subholder.getData(), rN = N, maxFlip = -0x01, newF;
+        double maxS = Double.NEGATIVE_INFINITY, lS, rS, S;
         for (TSource s : sources) {
-            TTarget target = function.evaluate(s);
-            CollectionUtils.incrementKey(frequency, target);
-            ttl++;
-            //TODO: recalculate entropy
-            if (rawEntropy > maxEntropy) {
-                maxEntropy = rawEntropy;
-                maxFlip = ttl - 0x01;
+            lN++;
+            if (lN < N) {
+                TTarget target = function.evaluate(s);
+                rN--;
+                newF = CollectionUtils.incrementKey(lFreq, target);
+                lRawS -= newF * Math.log(newF) - (newF - 0x01) * Math.log(newF - 0x01);
+                newF = CollectionUtils.decrementKey(rFreq, target);
+                rRawS -= newF * Math.log(newF) - (newF + 0x01) * Math.log(newF + 0x01);
+                lS = lN * Math.log(lN) + lRawS;
+                rS = rN * Math.log(rN) + rRawS;
+                //Waring: Entropy is still multiplied with log2 * N
+                S = lS + rS;
+                if (S > maxS) {
+                    maxS = S;
+                    maxFlip = lN;
+                }
             }
 
+        }
+        if (total_entropy != null) {
+            total_entropy.setItem2(maxS / (MathConstants.LOG2 * N));
         }
         return maxFlip;
     }
