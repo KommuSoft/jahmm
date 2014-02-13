@@ -3,6 +3,7 @@ package jadetree;
 /**
  *
  * @author kommusoft
+ * @param <TSource>
  */
 public abstract class DecisionInode<TSource> extends DecisionNode<TSource> {
 

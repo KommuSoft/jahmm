@@ -11,4 +11,12 @@ public interface DecisionTree<TSource> {
 
     Iterable<ObjectAttribute<? super TSource, ?>> getSourceAttributes();
 
+    void addSourceAttribute(ObjectAttribute<? super TSource, ?> sourceAttribute);
+
+    void insert(TSource element);
+
+    void reduceMemory();
+
+    void removeSourceAttribute(ObjectAttribute<? super TSource, ?> sourceAttribute);
+
 }

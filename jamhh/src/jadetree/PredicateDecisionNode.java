@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package jadetree;
 
 import utils.Predicate;
@@ -11,26 +5,27 @@ import utils.Predicate;
 /**
  *
  * @author kommusoft
+ * @param <TSource>
  */
 public class PredicateDecisionNode<TSource> extends DecisionInode<TSource> {
-    final Predicate<? super TSource> predicate;
-    DecisionNode trueNode;
-    DecisionNode falseNode;
 
-    public PredicateDecisionNode(Predicate<? super outer.TSource> predicate, DecisionNode trueNode, DecisionNode falseNode) {
+    final Predicate<? super TSource> predicate;
+    DecisionNode<TSource> trueNode;
+    DecisionNode<TSource> falseNode;
+
+    public PredicateDecisionNode(Predicate<? super TSource> predicate, DecisionNode<TSource> trueNode, DecisionNode<TSource> falseNode, final DecisionTree<TSource> tree) {
         super(tree);
         this.predicate = predicate;
         this.trueNode = trueNode;
         this.falseNode = falseNode;
     }
 
-    public PredicateDecisionNode(Predicate<? super outer.TSource> predicate, Id3ClassificationTree<outer.TSource> tree, final Id3ClassificationTree<TSource> outer) {
-        super(predicate, new DecisionLeaf(outer), new DecisionLeaf(outer), tree);
-        this.outer = outer;
+    public PredicateDecisionNode(Predicate<? super TSource> predicate, final DecisionTree<TSource> tree) {
+        this(predicate, new DecisionLeaf<TSource>(tree), new DecisionLeaf<TSource>(tree), tree);
     }
 
     @Override
-    public DecisionNode nextHop(outer.TSource source) {
+    public DecisionNode<TSource> nextHop(TSource source) {
         if (this.getPredicate().evaluate(source)) {
             return this.getTrueNode();
         } else {
@@ -46,43 +41,43 @@ public class PredicateDecisionNode<TSource> extends DecisionInode<TSource> {
     }
 
     @Override
-    protected DecisionLeaf recalcMaximumLeaf() {
+    protected DecisionLeaf<TSource> recalcMaximumLeaf() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
      * @return the predicate
      */
-    public Predicate<? super outer.TSource> getPredicate() {
+    public Predicate<? super TSource> getPredicate() {
         return predicate;
     }
 
     /**
      * @return the trueNode
      */
-    public DecisionNode getTrueNode() {
+    public DecisionNode<TSource> getTrueNode() {
         return trueNode;
     }
 
     /**
      * @param trueNode the trueNode to set
      */
-    public void setTrueNode(DecisionNode trueNode) {
+    public void setTrueNode(DecisionNode<TSource> trueNode) {
         this.trueNode = trueNode;
     }
 
     /**
      * @return the falseNode
      */
-    public DecisionNode getFalseNode() {
+    public DecisionNode<TSource> getFalseNode() {
         return falseNode;
     }
 
     /**
      * @param falseNode the falseNode to set
      */
-    public void setFalseNode(DecisionNode falseNode) {
+    public void setFalseNode(DecisionNode<TSource> falseNode) {
         this.falseNode = falseNode;
     }
-    
+
 }
