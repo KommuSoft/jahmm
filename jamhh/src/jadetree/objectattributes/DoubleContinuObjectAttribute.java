@@ -1,4 +1,4 @@
-package objectattributes;
+package jadetree.objectattributes;
 
 import java.util.Collections;
 import java.util.List;

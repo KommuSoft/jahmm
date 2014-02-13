@@ -1,7 +1,7 @@
 package jadetree;
 
 import java.util.HashMap;
-import objectattributes.ObjectAttribute;
+import jadetree.objectattributes.ObjectAttribute;
 
 /**
  *

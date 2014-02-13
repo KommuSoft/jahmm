@@ -1,4 +1,4 @@
-package objectattributes;
+package jadetree.objectattributes;
 
 import jadetree.DecisionNode;
 import java.util.List;

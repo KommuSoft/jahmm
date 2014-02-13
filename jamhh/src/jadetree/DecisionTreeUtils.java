@@ -14,7 +14,6 @@ import jutlis.tuples.Tuple2;
 public class DecisionTreeUtils {
 
     public static <TSource, TTarget> double calculateEntropy(Iterable<? extends TSource> sources, final HashMap<TTarget, Integer> frequency, Function<TSource, TTarget> function, Holder<Integer> total) {
-        final double log2 = 1.0 / Math.log(2.0);
         int ttl = 0;
         for (TSource s : sources) {
             TTarget target = function.evaluate(s);
@@ -23,34 +22,33 @@ public class DecisionTreeUtils {
         }
         double entropy = 0.0;
         for (Integer fi : frequency.values()) {
-            double p = (double) fi / ttl;
-            entropy -= p * log2 * Math.log(p);
+            entropy -= fi * Math.log(fi);
         }
+        entropy = (entropy / ttl + Math.log(ttl)) / Math.log(2.0d);
         if (total != null) {
             total.setData(ttl);
         }
         return entropy;
     }
 
-    public static <TSource, TTarget> int calculateEntropyFlipIndex(Iterable<? extends TSource> sources, final HashMap<TTarget, Integer> frequency, Function<TSource, TTarget> function, Tuple2<Integer, Double> total_entropy) {
-        final double log2 = 1.0 / Math.log(2.0);
-        int ttl = 0;
-        for (TSource s : sources) {
-            TTarget target = function.evaluate(s);
-            CollectionUtils.incrementKey(frequency, target);
-            ttl++;
-        }
-        double entropy = 0.0;
-        for (Integer fi : frequency.values()) {
-            double p = (double) fi / ttl;
-            entropy -= p * log2 * Math.log(p);
-        }
-        if (total != null) {
-            total.setData(ttl);
-        }
-        return entropy;
-    }
-
+    /*public static <TSource, TTarget> int calculateEntropyFlipIndex(Iterable<? extends TSource> sources, final HashMap<TTarget, Integer> frequency, Function<TSource, TTarget> function, Tuple2<Integer, Double> total_entropy) {
+     final double log2 = 1.0 / Math.log(2.0);
+     int ttl = 0;
+     for (TSource s : sources) {
+     TTarget target = function.evaluate(s);
+     CollectionUtils.incrementKey(frequency, target);
+     ttl++;
+     }
+     double entropy = 0.0;
+     for (Integer fi : frequency.values()) {
+     double p = (double) fi / ttl;
+     entropy -= p * log2 * Math.log(p);
+     }
+     if (total != null) {
+     total.setData(ttl);
+     }
+     return entropy;
+     }*/
     public static <TSource, TTarget> double calculateEntropyPartition(Iterable<? extends Iterable<? extends TSource>> sources, Function<TSource, TTarget> function) {
         final HashMap<TTarget, Integer> frequency = new HashMap<>();
         Holder<Integer> ttl = new HolderBase<>();

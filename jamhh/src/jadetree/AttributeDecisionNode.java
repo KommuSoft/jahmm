@@ -5,7 +5,7 @@
  */
 package jadetree;
 
-import objectattributes.ObjectAttribute;
+import jadetree.objectattributes.ObjectAttribute;
 
 /**
  *

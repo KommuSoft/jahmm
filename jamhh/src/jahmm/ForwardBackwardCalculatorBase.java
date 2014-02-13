@@ -8,8 +8,8 @@ package jahmm;
 import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
-import jutils.tuples.Tuple3;
 import jutlis.lists.ListArray;
+import jutlis.tuples.Tuple3;
 
 /**
  *

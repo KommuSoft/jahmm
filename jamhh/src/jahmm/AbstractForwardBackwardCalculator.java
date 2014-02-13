@@ -7,7 +7,7 @@ package jahmm;
 
 import java.util.Collection;
 import java.util.List;
-import jutils.tuples.Tuple3;
+import jutlis.tuples.Tuple3;
 
 /**
  *

@@ -9,7 +9,7 @@ import jahmm.Hmm;
 import jahmm.Observation;
 import java.util.Iterator;
 import java.util.List;
-import jutils.tuples.Tuple3;
+import jutlis.tuples.Tuple3;
 
 /**
  * An implementation of the Baum-Welch learning algorithm. It uses a scaling
@@ -28,6 +28,7 @@ public class BaumWelchScaledLearner
     public BaumWelchScaledLearner() {
     }
 
+    @Override
     protected <O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(Hmm<O> hmm, List<? extends O> obsSeq) {
         return ForwardBackwardScaledCalculator.Instance.computeAll(hmm, obsSeq);
     }
@@ -42,6 +43,7 @@ public class BaumWelchScaledLearner
      *
      * @param <O>
      * @param sequence
+     * @param abp
      * @param fbc
      * @param hmm
      * @return

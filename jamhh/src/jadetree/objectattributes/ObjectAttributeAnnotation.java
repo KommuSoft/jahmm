@@ -1,4 +1,4 @@
-package objectattributes;
+package jadetree.objectattributes;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

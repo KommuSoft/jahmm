@@ -1,7 +1,7 @@
 package jadetree;
 
-import objectattributes.NominalObjectAttribute;
-import objectattributes.ObjectAttribute;
+import jadetree.objectattributes.NominalObjectAttribute;
+import jadetree.objectattributes.ObjectAttribute;
 
 /**
  *

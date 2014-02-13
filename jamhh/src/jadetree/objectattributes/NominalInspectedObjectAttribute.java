@@ -1,4 +1,4 @@
-package objectattributes;
+package jadetree.objectattributes;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

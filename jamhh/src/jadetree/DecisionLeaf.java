@@ -3,7 +3,7 @@ package jadetree;
 import java.util.ArrayList;
 import java.util.List;
 import jutlis.tuples.HolderBase;
-import objectattributes.ObjectAttribute;
+import jadetree.objectattributes.ObjectAttribute;
 
 /**
  *

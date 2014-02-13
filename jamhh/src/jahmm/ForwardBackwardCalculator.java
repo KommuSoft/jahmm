@@ -8,7 +8,8 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
-import jutils.tuples.Tuple3;
+import jutlis.tuples.Tuple3;
+import jutlis.tuples.Tuple3Base;
 
 /**
  * This class can be used to compute the probability of a given observations
@@ -146,6 +147,6 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
         double[][] alpha = computeAlpha(hmm, oseq);
         double[][] beta = computeBeta(hmm, oseq);
         double probability = computeProbability(oseq, hmm, EnumSet.of(ComputationType.ALPHA), alpha, beta);
-        return new Tuple3<>(alpha, beta, probability);
+        return new Tuple3Base<>(alpha, beta, probability);
     }
 }

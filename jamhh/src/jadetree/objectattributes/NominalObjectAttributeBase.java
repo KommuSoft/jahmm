@@ -1,4 +1,4 @@
-package objectattributes;
+package jadetree.objectattributes;
 
 import java.util.HashMap;
 import java.util.LinkedList;
