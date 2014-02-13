@@ -5,8 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import jutlis.CollectionFactoryMethods;
 import jutlis.FactoryMethod;
-import jutlis.Holder;
-import jutlis.HolderBase;
+import jutlis.tuples.Holder;
+import jutlis.tuples.HolderBase;
 import utils.Utils;
 
 /**

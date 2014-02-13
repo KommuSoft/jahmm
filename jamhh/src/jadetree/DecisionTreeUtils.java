@@ -1,10 +1,11 @@
 package jadetree;
 
 import java.util.HashMap;
-import jutlis.Function;
-import jutlis.Holder;
-import jutlis.HolderBase;
-import utils.Utils;
+import jutils.collections.CollectionUtils;
+import jutlis.algebra.Function;
+import jutlis.tuples.Holder;
+import jutlis.tuples.HolderBase;
+import jutlis.tuples.Tuple2;
 
 /**
  *
@@ -17,7 +18,26 @@ public class DecisionTreeUtils {
         int ttl = 0;
         for (TSource s : sources) {
             TTarget target = function.evaluate(s);
-            Utils.incrementKey(frequency, target);
+            CollectionUtils.incrementKey(frequency, target);
+            ttl++;
+        }
+        double entropy = 0.0;
+        for (Integer fi : frequency.values()) {
+            double p = (double) fi / ttl;
+            entropy -= p * log2 * Math.log(p);
+        }
+        if (total != null) {
+            total.setData(ttl);
+        }
+        return entropy;
+    }
+
+    public static <TSource, TTarget> int calculateEntropyFlipIndex(Iterable<? extends TSource> sources, final HashMap<TTarget, Integer> frequency, Function<TSource, TTarget> function, Tuple2<Integer, Double> total_entropy) {
+        final double log2 = 1.0 / Math.log(2.0);
+        int ttl = 0;
+        for (TSource s : sources) {
+            TTarget target = function.evaluate(s);
+            CollectionUtils.incrementKey(frequency, target);
             ttl++;
         }
         double entropy = 0.0;

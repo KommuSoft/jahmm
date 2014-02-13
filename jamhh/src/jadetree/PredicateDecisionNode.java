@@ -1,6 +1,6 @@
 package jadetree;
 
-import jutlis.Predicate;
+import jutlis.algebra.Predicate;
 
 /**
  *

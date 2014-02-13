@@ -2,8 +2,8 @@ package objectattributes;
 
 import jadetree.DecisionNode;
 import java.util.List;
-import jutlis.Function;
-import jutlis.Holder;
+import jutlis.algebra.Function;
+import jutlis.tuples.Holder;
 import jutlis.Name;
 
 /**
