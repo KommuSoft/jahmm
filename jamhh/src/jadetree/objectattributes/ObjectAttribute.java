@@ -2,9 +2,9 @@ package jadetree.objectattributes;
 
 import jadetree.DecisionNode;
 import java.util.List;
+import jutlis.Name;
 import jutlis.algebra.Function;
 import jutlis.tuples.Holder;
-import jutlis.Name;
 
 /**
  *
@@ -14,8 +14,8 @@ import jutlis.Name;
  */
 public interface ObjectAttribute<TSource, TTarget> extends Name, Function<TSource, TTarget> {
 
-    public abstract double calculateScore(List<? extends TSource> source, ObjectAttribute<? super TSource, ? extends Object> function, Holder<Object> state);
+    public abstract double calculateScore(List<? extends TSource> source, Function<? super TSource, ? extends Object> function, Holder<Object> state);
 
-    public abstract DecisionNode<TSource> createDecisionNode(List<? extends TSource> source, ObjectAttribute<? super TSource, ? extends Object> function, Holder<Object> state);
+    public abstract DecisionNode<TSource> createDecisionNode(List<? extends TSource> source, Function<? super TSource, ? extends Object> function, Holder<Object> state);
 
 }

@@ -1,13 +1,15 @@
 package jadetree.objectattributes;
 
+import jadetree.DecisionNode;
+import jadetree.DecisionTreeUtils;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import jutils.collections.CollectionUtils;
 import jutlis.CollectionFactoryMethods;
 import jutlis.FactoryMethod;
+import jutlis.algebra.Function;
 import jutlis.tuples.Holder;
-import jutlis.tuples.HolderBase;
-import utils.Utils;
 
 /**
  *
@@ -17,22 +19,17 @@ import utils.Utils;
  */
 public abstract class NominalObjectAttributeBase<TSource, TTarget> implements NominalObjectAttribute<TSource, TTarget> {
 
-    public double calculateEntropy(Iterable<? extends TSource> sources) {
-        final HashMap<TTarget, Integer> frequency = new HashMap<>();
-        return calculateEntropy(sources, frequency, null);
-    }
-
     @Override
-    public double calculateScore(List<? extends TSource> source, Holder<Object> state) {
+    public double calculateScore(List<? extends TSource> source, Function<? super TSource, ? extends Object> target, Holder<Object> state) {
         final HashMap<TTarget, LinkedList<TSource>> classified = new HashMap<>();
         FactoryMethod<LinkedList<TSource>> fm = CollectionFactoryMethods.linkedListFactory();
-        Utils.classify(classified, source, this, fm);
+        CollectionUtils.classify(classified, source, this, fm);
         state.setData(classified);
-        return calculateEntropyPartition(classified.values());
+        return DecisionTreeUtils.calculateEntropyPartition(classified.values(), target);
     }
 
     @Override
-    public void createDecisionNode(List<? extends TSource> source, Holder<Object> state) {
+    public DecisionNode<TSource> createDecisionNode(List<? extends TSource> source, Function<? super TSource, ? extends Object> target, Holder<Object> state) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

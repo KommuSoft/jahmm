@@ -3,7 +3,7 @@ package jadetree.objectattributes;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
-import utils.Utils;
+import jutils.types.TypeUtils;
 
 /**
  *
@@ -26,7 +26,7 @@ public class NominalInspectedObjectAttribute<TSource, TTarget> extends NominalOb
     @Override
     @SuppressWarnings("unchecked")
     public Set<TTarget> getPossibleValues() {
-        return (Set<TTarget>) Utils.getNominalSet(this.resultclass);
+        return (Set<TTarget>) TypeUtils.getNominalSet(this.resultclass);
     }
 
     @Override

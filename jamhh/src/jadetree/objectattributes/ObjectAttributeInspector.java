@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.logging.Logger;
-import utils.Utils;
+import jutils.types.TypeUtils;
 
 /**
  *
@@ -29,7 +29,7 @@ public class ObjectAttributeInspector {
 
     public static <T> ObjectAttribute<T, Object> generateObjectAttribute(Class<T> classdef, Method method, ObjectAttributeAnnotation oaa) {
         Class<?> result = method.getReturnType();
-        if (Utils.isNominal(result)) {
+        if (TypeUtils.isNominal(result)) {
             return new NominalInspectedObjectAttribute<>(method, oaa.name(), result);
         }
         return null;
