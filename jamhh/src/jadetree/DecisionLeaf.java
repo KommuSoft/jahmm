@@ -1,8 +1,9 @@
 package jadetree;
 
 import java.util.ArrayList;
-import objectattributes.ObjectAttribute;
+import java.util.List;
 import jutlis.HolderBase;
+import objectattributes.ObjectAttribute;
 
 /**
  *
@@ -11,13 +12,19 @@ import jutlis.HolderBase;
  */
 public class DecisionLeaf<TSource> extends DecisionNode<TSource> {
 
+    private final List<TSource> memory;
+    private double score = Double.NaN;
+    private int splitIndex = 0x00;
+    private final HolderBase<Object> splitData = new HolderBase<>();
+
     public DecisionLeaf(DecisionTree<TSource> tree) {
-        super(tree);
+        this(tree, new ArrayList<TSource>());
     }
-    final ArrayList<TSource> memory = new ArrayList<>();
-    double score = Double.NaN;
-    int splitIndex = 0x00;
-    final HolderBase<Object> splitData = new HolderBase<>();
+
+    public DecisionLeaf(DecisionTree<TSource> tree, List<TSource> memory) {
+        super(tree);
+        this.memory = memory;
+    }
 
     public boolean isDirty() {
         return Double.isNaN(this.score);
@@ -56,8 +63,9 @@ public class DecisionLeaf<TSource> extends DecisionNode<TSource> {
         double maxScore = Double.NEGATIVE_INFINITY;
         int maxIndex = 0x00, i = 0x00;
         HolderBase<Object> curData = new HolderBase<>();
+        ObjectAttribute<? super TSource, ?> target = this.getTree().getTargetAttribute();
         for (ObjectAttribute<? super TSource, ?> oa : this.getTree().getSourceAttributes()) {
-            double sc = oa.calculateScore(this.memory, curData);
+            double sc = oa.calculateScore(this.memory, target, curData);
             if (sc > maxScore) {
                 maxScore = sc;
                 maxIndex = i;
