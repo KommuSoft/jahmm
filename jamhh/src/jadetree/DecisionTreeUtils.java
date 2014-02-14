@@ -14,7 +14,7 @@ import jutlis.MathConstants;
  */
 public class DecisionTreeUtils {
 
-    public static <TSource, TTarget> double calculateRawEntropy(Iterable<? extends TSource> sources, final HashMap<TTarget, Integer> frequency, Function<? super TSource, ? extends TTarget> function, Holder<Integer> total) {
+    public static <TSource, TTarget> double calculateRawEntropy(Iterable<? extends TSource> sources, final HashMap<TTarget, Integer> frequency, Function<TSource, TTarget> function, Holder<Integer> total) {
         int ttl = 0;
         for (TSource s : sources) {
             TTarget target = function.evaluate(s);
@@ -31,7 +31,7 @@ public class DecisionTreeUtils {
         return entropy;
     }
 
-    public static <TSource, TTarget> double calculateEntropy(Iterable<? extends TSource> sources, final HashMap<TTarget, Integer> frequency, Function<? super TSource, ? extends TTarget> function, Holder<Integer> total) {
+    public static <TSource, TTarget> double calculateEntropy(Iterable<? extends TSource> sources, final HashMap<TTarget, Integer> frequency, Function<TSource, TTarget> function, Holder<Integer> total) {
         Holder<Integer> subholder = total;
         if (subholder == null) {
             subholder = new HolderBase<>();
@@ -45,12 +45,12 @@ public class DecisionTreeUtils {
         }
     }
 
-    public static <TSource, TTarget> double calculateEntropy(Iterable<? extends TSource> sources, Function<? super TSource, ? extends TTarget> function) {
+    public static <TSource, TTarget> double calculateEntropy(Iterable<TSource> sources, Function<TSource, TTarget> function) {
         final HashMap<TTarget, Integer> frequency = new HashMap<>();
         return calculateEntropy(sources, frequency, function, null);
     }
 
-    public static <TSource, TTarget> int calculateEntropyFlipIndex(Iterable<? extends TSource> sources, Function<? super TSource, ? extends TTarget> function, Tuple2<Integer, Double> total_entropy) {
+    public static <TSource, TTarget> int calculateEntropyFlipIndex(Iterable<TSource> sources, Function<TSource, TTarget> function, Tuple2<Integer, Double> total_entropy) {
         final HashMap<TTarget, Integer> rFreq = new HashMap<>();
         Holder<Integer> subholder = total_entropy;
         if (subholder == null) {
