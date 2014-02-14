@@ -4,6 +4,7 @@ import jadetree.DecisionNode;
 import jadetree.DecisionNodeBase;
 import jadetree.DecisionTreeUtils;
 import jadetree.EnumerableDecisionNode;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,8 +24,8 @@ public abstract class NominalObjectAttributeBase<TSource extends Object, TTarget
 
     @Override
     public double calculateScore(List<? extends TSource> source, Function<? super TSource, ? extends Object> target, Holder<Object> state) {
-        final HashMap<TTarget, LinkedList<TSource>> classified = new HashMap<>();
-        FactoryMethod<LinkedList<TSource>> fm = CollectionFactoryMethods.linkedListFactory();
+        final HashMap<TTarget, ArrayList<TSource>> classified = new HashMap<>();
+        FactoryMethod<ArrayList<TSource>> fm = CollectionFactoryMethods.arrayListFactory();
         CollectionUtils.classify(classified, source, this, fm);
         state.setData(classified);
         return DecisionTreeUtils.calculateEntropyPartition(classified.values(), target);
