@@ -3,6 +3,7 @@ package jadetree.objectattributes;
 import jadetree.DecisionNode;
 import jadetree.DecisionNodeBase;
 import jadetree.DecisionTreeUtils;
+import jadetree.OrdinalTestDecisionNode;
 import java.util.Collections;
 import java.util.List;
 import jutlis.algebra.Function;
@@ -13,6 +14,8 @@ import jutlis.tuples.Tuple2Base;
 /**
  *
  * @author kommusoft
+ * @param <TSource> The domain of the function.
+ * @param <TTarget> The range of the function.
  */
 public abstract class OrdinalObjectAttributeBase<TSource, TTarget> implements OrdinalObjectAttribute<TSource, TTarget> {
 
@@ -26,12 +29,7 @@ public abstract class OrdinalObjectAttributeBase<TSource, TTarget> implements Or
     }
 
     @Override
-    public int compareWith(TSource source, TTarget target) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double calculateScore(List<? extends TSource> list, Function<? super TSource, ? extends Object> target, Holder<Object> state) {
+    public double calculateScore(List<? extends TSource> list, Function<TSource, Object> target, Holder<Object> state) {
         Collections.sort(list, this);
         Tuple2<Integer, Double> te = new Tuple2Base<>();
         int split = DecisionTreeUtils.calculateEntropyFlipIndex(state, target, te);
@@ -43,7 +41,8 @@ public abstract class OrdinalObjectAttributeBase<TSource, TTarget> implements Or
     }
 
     @Override
-    public DecisionNodeBase<TSource> createDecisionNode(DecisionNode<TSource> parent, List<? extends TSource> source, Function<? super TSource, ? extends Object> function, Holder<Object> state) {
+    public DecisionNodeBase<TSource> createDecisionNode(DecisionNode<TSource> parent, List<TSource> source, Function<TSource, Object> function, Holder<Object> state) {
+        OrdinalTestDecisionNode<TSource, TTarget> otdn = new OrdinalTestDecisionNode<>(parent, this, (TTarget) state.getData());
         //return new PredicateDecisionNode<>(parent,new );
         return null;
     }
