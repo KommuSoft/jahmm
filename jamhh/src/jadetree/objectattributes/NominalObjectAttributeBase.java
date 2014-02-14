@@ -1,6 +1,6 @@
 package jadetree.objectattributes;
 
-import jadetree.DecisionNode;
+import jadetree.DecisionNodeBase;
 import jadetree.DecisionTreeUtils;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -29,8 +29,9 @@ public abstract class NominalObjectAttributeBase<TSource, TTarget> implements No
     }
 
     @Override
-    public DecisionNode<TSource> createDecisionNode(List<? extends TSource> source, Function<? super TSource, ? extends Object> target, Holder<Object> state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DecisionNodeBase<TSource> createDecisionNode(List<? extends TSource> source, Function<? super TSource, ? extends Object> target, Holder<Object> state) {
+        HashMap<TTarget, LinkedList<TSource>> data = (HashMap<TTarget, LinkedList<TSource>>) state.getData();
+        return new EnumerableDecisionNode();
     }
 
 }

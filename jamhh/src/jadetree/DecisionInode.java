@@ -5,7 +5,7 @@ package jadetree;
  * @author kommusoft
  * @param <TSource>
  */
-public abstract class DecisionInode<TSource> extends DecisionNode<TSource> {
+public abstract class DecisionInode<TSource> extends DecisionNodeBase<TSource> {
 
     private DecisionLeaf<TSource> maximumLeaf = null;
 

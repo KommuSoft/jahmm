@@ -10,17 +10,17 @@ import jutlis.algebra.Predicate;
 public class PredicateDecisionNode<TSource> extends DecisionInode<TSource> {
 
     final Predicate<? super TSource> predicate;
-    DecisionNode<TSource> trueNode;
-    DecisionNode<TSource> falseNode;
+    DecisionNodeBase<TSource> trueNode;
+    DecisionNodeBase<TSource> falseNode;
 
-    public PredicateDecisionNode(final DecisionTree<TSource> tree, Predicate<? super TSource> predicate, DecisionNode<TSource> trueNode, DecisionNode<TSource> falseNode) {
+    public PredicateDecisionNode(final DecisionTree<TSource> tree, Predicate<? super TSource> predicate, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode) {
         super(tree);
         this.predicate = predicate;
         this.trueNode = trueNode;
         this.falseNode = falseNode;
     }
 
-    public PredicateDecisionNode(final DecisionTree<TSource> tree, Predicate<? super TSource> predicate, DecisionNode<TSource> trueNode, DecisionNode<TSource> falseNode, Iterable<TSource> toInsert) {
+    public PredicateDecisionNode(final DecisionTree<TSource> tree, Predicate<? super TSource> predicate, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert) {
         this(tree, predicate, trueNode, falseNode);
         for (TSource source : toInsert) {
             this.insert(source);
@@ -39,7 +39,7 @@ public class PredicateDecisionNode<TSource> extends DecisionInode<TSource> {
     }
 
     @Override
-    public DecisionNode<TSource> nextHop(TSource source) {
+    public DecisionNodeBase<TSource> nextHop(TSource source) {
         if (this.getPredicate().evaluate(source)) {
             return this.getTrueNode();
         } else {
@@ -69,28 +69,28 @@ public class PredicateDecisionNode<TSource> extends DecisionInode<TSource> {
     /**
      * @return the trueNode
      */
-    public DecisionNode<TSource> getTrueNode() {
+    public DecisionNodeBase<TSource> getTrueNode() {
         return trueNode;
     }
 
     /**
      * @param trueNode the trueNode to set
      */
-    public void setTrueNode(DecisionNode<TSource> trueNode) {
+    public void setTrueNode(DecisionNodeBase<TSource> trueNode) {
         this.trueNode = trueNode;
     }
 
     /**
      * @return the falseNode
      */
-    public DecisionNode<TSource> getFalseNode() {
+    public DecisionNodeBase<TSource> getFalseNode() {
         return falseNode;
     }
 
     /**
      * @param falseNode the falseNode to set
      */
-    public void setFalseNode(DecisionNode<TSource> falseNode) {
+    public void setFalseNode(DecisionNodeBase<TSource> falseNode) {
         this.falseNode = falseNode;
     }
 

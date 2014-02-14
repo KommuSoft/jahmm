@@ -1,9 +1,9 @@
 package jadetree;
 
-import java.util.ArrayList;
-import java.util.logging.Logger;
 import jadetree.objectattributes.NominalObjectAttribute;
 import jadetree.objectattributes.ObjectAttribute;
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,7 +16,7 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
 
     private final ArrayList<ObjectAttribute<TSource, ?>> sourceAttributes = new ArrayList<>();
     private NominalObjectAttribute<TSource, ?> targetAttribute;
-    private DecisionNode<TSource> root = new DecisionLeaf<>(this);
+    private DecisionNodeBase<TSource> root = new DecisionLeaf<>(this);
 
     @Override
     public void addSourceAttribute(ObjectAttribute<TSource, ?> sourceAttribute) {
@@ -74,6 +74,11 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
     public void tradeExpand() {
         this.trade();
         this.expand();
+    }
+
+    @Override
+    public DecisionTree<TSource> getTree() {
+        return this;
     }
 
 }

@@ -1,6 +1,6 @@
 package jadetree.objectattributes;
 
-import jadetree.DecisionNode;
+import jadetree.DecisionNodeBase;
 import jadetree.DecisionTreeUtils;
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +24,7 @@ public abstract class ContinuObjectAttributeBase<TSource, TTarget> implements Co
     }
 
     @Override
-    public DecisionNode<TSource> createDecisionNode(List<? extends TSource> source, Function<? super TSource, ? extends Object> function, Holder<Object> state) {
+    public DecisionNodeBase<TSource> createDecisionNode(List<? extends TSource> source, Function<? super TSource, ? extends Object> function, Holder<Object> state) {
         //return new PredicateDecisionNode<>();
         return null;
     }

@@ -8,7 +8,7 @@ import jadetree.objectattributes.ObjectAttribute;
  * @author kommusoft
  * @param <TSource>
  */
-public interface DecisionTree<TSource> {
+public interface DecisionTree<TSource> extends DecisionNode<TSource> {
 
     Iterable<ObjectAttribute<TSource, ?>> getSourceAttributes();
 

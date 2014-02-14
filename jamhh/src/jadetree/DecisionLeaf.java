@@ -10,7 +10,7 @@ import jutlis.tuples.HolderBase;
  * @author kommusoft
  * @param <TSource>
  */
-public class DecisionLeaf<TSource> extends DecisionNode<TSource> {
+public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> {
 
     private final List<TSource> memory;
     private double score = Double.NaN;
@@ -49,7 +49,7 @@ public class DecisionLeaf<TSource> extends DecisionNode<TSource> {
         return this.score;
     }
 
-    public DecisionNode<TSource> expand() {
+    public DecisionNodeBase<TSource> expand() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

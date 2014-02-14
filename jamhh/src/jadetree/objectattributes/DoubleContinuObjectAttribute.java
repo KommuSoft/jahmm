@@ -1,6 +1,6 @@
 package jadetree.objectattributes;
 
-import jadetree.DecisionNode;
+import jadetree.DecisionNodeBase;
 import jadetree.DecisionTreeUtils;
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +27,7 @@ public abstract class DoubleContinuObjectAttribute<TSource> extends ContinuObjec
     }
 
     @Override
-    public DecisionNode<TSource> createDecisionNode(List<? extends TSource> source, Function<? super TSource, ? extends Object> target, Holder<Object> state) {
+    public DecisionNodeBase<TSource> createDecisionNode(List<? extends TSource> source, Function<? super TSource, ? extends Object> target, Holder<Object> state) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
