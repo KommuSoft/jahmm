@@ -1,9 +1,9 @@
 package jadetree;
 
+import jadetree.objectattributes.ObjectAttribute;
 import java.util.ArrayList;
 import java.util.List;
 import jutlis.tuples.HolderBase;
-import jadetree.objectattributes.ObjectAttribute;
 
 /**
  *

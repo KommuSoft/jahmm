@@ -2,6 +2,8 @@ package jadetree;
 
 import jadetree.objectattributes.ObjectAttribute;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
 
 /**
  *
@@ -15,6 +17,13 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
 
     protected EnumerableDecisionNode(final DecisionTree<TSource> tree, ObjectAttribute<? super TSource, ? extends TTarget> objectAttribute) {
         super(tree, objectAttribute);
+    }
+
+    protected EnumerableDecisionNode(final DecisionTree<TSource> tree, ObjectAttribute<? super TSource, ? extends TTarget> objectAttribute, HashMap<TTarget, ? extends List<TSource>> toInsert) {
+        this(tree, objectAttribute);
+        for (Entry<TTarget, ? extends List<TSource>> entry : toInsert.entrySet()) {
+            map.put(entry.getKey(), new DecisionLeaf(this.getTree(), entry.getValue()));
+        }
     }
 
     @Override
