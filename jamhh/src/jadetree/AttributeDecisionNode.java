@@ -17,8 +17,8 @@ public abstract class AttributeDecisionNode<TSource, TAttributeType> extends Dec
 
     final ObjectAttribute<? super TSource, ? extends TAttributeType> objectAttribute;
 
-    protected AttributeDecisionNode(final DecisionTree<TSource> tree, ObjectAttribute<? super TSource, ? extends TAttributeType> objectAttribute) {
-        super(tree);
+    protected AttributeDecisionNode(final DecisionNode<TSource> parent, ObjectAttribute<? super TSource, ? extends TAttributeType> objectAttribute) {
+        super(parent);
         this.objectAttribute = objectAttribute;
     }
 

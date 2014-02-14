@@ -9,8 +9,8 @@ public abstract class DecisionInode<TSource> extends DecisionNodeBase<TSource> {
 
     private DecisionLeaf<TSource> maximumLeaf = null;
 
-    protected DecisionInode(DecisionTree<TSource> tree) {
-        super(tree);
+    protected DecisionInode(DecisionNode<TSource> parent) {
+        super(parent);
     }
 
     @Override

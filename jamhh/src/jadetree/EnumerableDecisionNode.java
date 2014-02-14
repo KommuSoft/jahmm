@@ -15,8 +15,8 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
 
     final HashMap<TTarget, DecisionNodeBase<TSource>> map = new HashMap<>();
 
-    protected EnumerableDecisionNode(final DecisionTree<TSource> tree, ObjectAttribute<? super TSource, ? extends TTarget> objectAttribute) {
-        super(tree, objectAttribute);
+    protected EnumerableDecisionNode(final DecisionNode<TSource> parent, ObjectAttribute<? super TSource, ? extends TTarget> objectAttribute) {
+        super(parent, objectAttribute);
     }
 
     protected EnumerableDecisionNode(final DecisionTree<TSource> tree, ObjectAttribute<? super TSource, ? extends TTarget> objectAttribute, HashMap<TTarget, ? extends List<TSource>> toInsert) {

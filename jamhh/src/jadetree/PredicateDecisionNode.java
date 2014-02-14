@@ -13,8 +13,8 @@ public class PredicateDecisionNode<TSource> extends DecisionInode<TSource> {
     DecisionNodeBase<TSource> trueNode;
     DecisionNodeBase<TSource> falseNode;
 
-    public PredicateDecisionNode(final DecisionTree<TSource> tree, Predicate<? super TSource> predicate, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode) {
-        super(tree);
+    public PredicateDecisionNode(final DecisionNode<TSource> parent, Predicate<? super TSource> predicate, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode) {
+        super(parent);
         this.predicate = predicate;
         this.trueNode = trueNode;
         this.falseNode = falseNode;

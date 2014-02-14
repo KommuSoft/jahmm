@@ -9,7 +9,7 @@ public abstract class DecisionNodeBase<TSource> implements DecisionNode<TSource>
 
     private final DecisionNode<TSource> parent;
 
-    public DecisionNodeBase(final DecisionNode<TSource> tree) {
+    public DecisionNodeBase(final DecisionNode<TSource> parent) {
         this.parent = parent;
     }
 

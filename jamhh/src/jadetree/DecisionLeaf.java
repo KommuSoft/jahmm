@@ -17,12 +17,12 @@ public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> {
     private int splitIndex = 0x00;
     private final HolderBase<Object> splitData = new HolderBase<>();
 
-    public DecisionLeaf(DecisionTree<TSource> tree) {
-        this(tree, new ArrayList<TSource>());
+    public DecisionLeaf(DecisionNode<TSource> parent) {
+        this(parent, new ArrayList<TSource>());
     }
 
-    public DecisionLeaf(DecisionTree<TSource> tree, List<TSource> memory) {
-        super(tree);
+    public DecisionLeaf(DecisionNode<TSource> parent, List<TSource> memory) {
+        super(parent);
         this.memory = memory;
     }
 
