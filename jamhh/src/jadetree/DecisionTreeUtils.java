@@ -72,7 +72,6 @@ public class DecisionTreeUtils {
                 rRawS -= newF * Math.log(newF) - (newF + 0x01) * Math.log(newF + 0x01);
                 lS = lN * Math.log(lN) + lRawS;
                 rS = rN * Math.log(rN) + rRawS;
-                //Waring: Entropy is still multiplied with log2 * N
                 S = lS + rS;
                 if (S > maxS) {
                     maxS = S;
