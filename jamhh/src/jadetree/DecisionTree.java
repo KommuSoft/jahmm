@@ -20,6 +20,12 @@ public interface DecisionTree<TSource> {
 
     void reduce();
 
+    boolean checkTrade();
+
+    void trade();
+
+    void tradeExpand();
+
     void reduceMemory();
 
     void removeSourceAttribute(ObjectAttribute<TSource, ?> sourceAttribute);
