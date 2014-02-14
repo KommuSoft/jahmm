@@ -5,6 +5,8 @@ import jadetree.objectattributes.OrdinalObjectAttribute;
 /**
  *
  * @author kommusoft
+ * @param <TSource> The type of objects hold in and classified by the tree.
+ * @param <TState> The state to compare the objects with.
  */
 public class OrdinalTestDecisionNode<TSource, TState> extends TestDecisionNode<TSource> {
 
@@ -37,7 +39,7 @@ public class OrdinalTestDecisionNode<TSource, TState> extends TestDecisionNode<T
 
     @Override
     protected boolean test(TSource source) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.ordinalArgument.compareWith(source, this.state) <= 0x00;
     }
 
 }

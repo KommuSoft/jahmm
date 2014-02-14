@@ -8,7 +8,7 @@ package jadetree.objectattributes;
 public abstract class DoubleContinuObjectAttribute<TSource> extends ContinuObjectAttributeBase<TSource, Double> {
 
     @Override
-    public Double getBetween(TSource source1, TSource source2) {
+    public Double getMiddle(TSource source1, TSource source2) {
         return 0.5d * (this.evaluate(source1) + this.evaluate(source2));
     }
 

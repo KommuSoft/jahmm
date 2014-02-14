@@ -10,4 +10,8 @@ import java.util.Comparator;
  */
 public interface OrdinalObjectAttribute<TSource, TTarget> extends ObjectAttribute<TSource, TTarget>, Comparator<TSource> {
 
+    public abstract TTarget getBetween(TSource source1, TSource source2);
+
+    public abstract int compareWith(TSource source, TTarget target);
+
 }
