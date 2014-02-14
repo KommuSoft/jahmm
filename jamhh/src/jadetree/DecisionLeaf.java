@@ -63,7 +63,7 @@ public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> {
         double maxScore = Double.NEGATIVE_INFINITY;
         int maxIndex = 0x00, i = 0x00;
         HolderBase<Object> curData = new HolderBase<>();
-        ObjectAttribute<TSource, ?> target = this.getTree().getTargetAttribute();
+        ObjectAttribute<TSource, Object> target = this.getTree().getTargetAttribute();
         for (ObjectAttribute<TSource, ?> oa : this.getTree().getSourceAttributes()) {
             double sc = oa.calculateScore(this.memory, target, curData);
             if (sc > maxScore) {

@@ -30,6 +30,6 @@ public interface DecisionTree<TSource> extends DecisionNode<TSource> {
 
     void removeSourceAttribute(ObjectAttribute<TSource, ?> sourceAttribute);
 
-    NominalObjectAttribute<TSource, ? extends Object> getTargetAttribute();
+    NominalObjectAttribute<TSource, Object> getTargetAttribute();
 
 }
