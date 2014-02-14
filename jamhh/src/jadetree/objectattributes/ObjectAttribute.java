@@ -1,5 +1,6 @@
 package jadetree.objectattributes;
 
+import jadetree.DecisionNode;
 import jadetree.DecisionNodeBase;
 import java.util.List;
 import jutlis.Name;
@@ -16,6 +17,6 @@ public interface ObjectAttribute<TSource, TTarget> extends Name, Function<TSourc
 
     public abstract double calculateScore(List<? extends TSource> source, Function<? super TSource, ? extends Object> function, Holder<Object> state);
 
-    public abstract DecisionNodeBase<TSource> createDecisionNode(DecisionNodeBase<TSource> parent, List<? extends TSource> source, Function<? super TSource, ? extends Object> function, Holder<Object> state);
+    public abstract DecisionNodeBase<TSource> createDecisionNode(DecisionNode<TSource> parent, List<? extends TSource> source, Function<? super TSource, ? extends Object> function, Holder<Object> state);
 
 }

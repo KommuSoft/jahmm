@@ -11,13 +11,13 @@ import jadetree.objectattributes.ObjectAttribute;
  *
  * @author kommusoft
  * @param <TSource>
- * @param <TAttributeType>
+ * @param <TTarget>
  */
-public abstract class AttributeDecisionNode<TSource, TAttributeType> extends DecisionInode<TSource> {
+public abstract class AttributeDecisionNode<TSource, TTarget> extends DecisionInode<TSource> {
 
-    final ObjectAttribute<? super TSource, ? extends TAttributeType> objectAttribute;
+    final ObjectAttribute<TSource, TTarget> objectAttribute;
 
-    protected AttributeDecisionNode(final DecisionNode<TSource> parent, ObjectAttribute<? super TSource, ? extends TAttributeType> objectAttribute) {
+    protected AttributeDecisionNode(final DecisionNode<TSource> parent, ObjectAttribute<TSource, TTarget> objectAttribute) {
         super(parent);
         this.objectAttribute = objectAttribute;
     }
@@ -30,11 +30,11 @@ public abstract class AttributeDecisionNode<TSource, TAttributeType> extends Dec
     /**
      * @return the objectAttribute
      */
-    protected ObjectAttribute<? super TSource, ? extends TAttributeType> getObjectAttribute() {
+    protected ObjectAttribute<? super TSource, ? extends TTarget> getObjectAttribute() {
         return objectAttribute;
     }
 
-    protected TAttributeType getObjectAttribute(TSource source) {
+    protected TTarget getObjectAttribute(TSource source) {
         return this.objectAttribute.evaluate(source);
     }
 

@@ -1,14 +1,5 @@
 package jadetree.objectattributes;
 
-import jadetree.DecisionNodeBase;
-import jadetree.DecisionTreeUtils;
-import java.util.Collections;
-import java.util.List;
-import jutlis.algebra.Function;
-import jutlis.tuples.Holder;
-import jutlis.tuples.Tuple2;
-import jutlis.tuples.Tuple2Base;
-
 /**
  *
  * @author kommusoft
@@ -24,11 +15,6 @@ public abstract class DoubleContinuObjectAttribute<TSource> extends ContinuObjec
     @Override
     public int compareWith(TSource source, Double target) {
         return this.evaluate(source).compareTo(target);
-    }
-
-    @Override
-    public DecisionNodeBase<TSource> createDecisionNode(List<? extends TSource> source, Function<? super TSource, ? extends Object> target, Holder<Object> state) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
