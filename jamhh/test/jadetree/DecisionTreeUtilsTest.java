@@ -1,5 +1,6 @@
 package jadetree;
 
+import jahmm.jadetree.DecisionTreeUtils;
 import java.util.logging.Logger;
 import jutils.iterators.ListGenericIterable;
 import jutlis.MathUtils;

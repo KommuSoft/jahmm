@@ -4,8 +4,8 @@
  */
 package jahmm;
 
-import distributions.GaussianDistribution;
-import distributions.RandomDistribution;
+import jahmm.distributions.GaussianDistribution;
+import jahmm.distributions.RandomDistribution;
 import junit.framework.TestCase;
 
 /**

@@ -5,11 +5,11 @@
  */
 package objectattributes;
 
-import jadetree.objectattributes.ObjectAttributeAnnotation;
-import jadetree.objectattributes.ObjectAttribute;
-import jadetree.objectattributes.NominalInspectedObjectAttribute;
-import jadetree.objectattributes.ObjectAttributeInspector;
-import jadetree.objectattributes.NominalObjectAttribute;
+import jahmm.jadetree.objectattributes.ObjectAttributeAnnotation;
+import jahmm.jadetree.objectattributes.ObjectAttribute;
+import jahmm.jadetree.objectattributes.NominalInspectedObjectAttribute;
+import jahmm.jadetree.objectattributes.ObjectAttributeInspector;
+import jahmm.jadetree.objectattributes.NominalObjectAttribute;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Iterator;

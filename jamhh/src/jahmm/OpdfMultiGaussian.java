@@ -4,7 +4,7 @@
  */
 package jahmm;
 
-import distributions.MultiGaussianDistribution;
+import jahmm.distributions.MultiGaussianDistribution;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Collection;
