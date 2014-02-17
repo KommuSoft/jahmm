@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import jutils.iterators.ListGenericIterable;
 import jutlis.algebra.Function;
 import org.junit.Test;
+import static utils.AssertExtensions.assertEquals;
 import utils.TestParameters;
 
 /**

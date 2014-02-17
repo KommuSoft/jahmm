@@ -71,6 +71,10 @@ public class DecisionTreeUtils {
         return calculateEntropy(sources, frequency, function, null);
     }
 
+    public static <TSource> double calculateEntropy(Iterable<TSource> sources) {
+        return calculateEntropy(sources, new IdentityFunction<TSource>());
+    }
+
     public static <TSource, TTarget> int calculateEntropyFlipIndex(Iterable<TSource> sources, Function<TSource, TTarget> function, Tuple2<Integer, Double> total_entropy) {
         final HashMap<TTarget, Integer> rFreq = new HashMap<>();
         Holder<Integer> subholder = total_entropy;
