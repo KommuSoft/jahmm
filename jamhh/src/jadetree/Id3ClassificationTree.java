@@ -3,6 +3,7 @@ package jadetree;
 import jadetree.objectattributes.NominalObjectAttribute;
 import jadetree.objectattributes.ObjectAttribute;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Logger;
 
 /**
@@ -42,7 +43,7 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
 
     @Override
     public Iterable<ObjectAttribute<TSource, Object>> getSourceAttributes() {
-        return this.sourceAttributes;
+        return Collections.unmodifiableList(this.sourceAttributes);
     }
 
     @Override
