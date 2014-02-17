@@ -19,19 +19,19 @@ public class OrdinalTestDecisionNode<TSource, TState> extends TestDecisionNode<T
         this.state = state;
     }
 
-    public OrdinalTestDecisionNode(DecisionTree<TSource> tree, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
+    public OrdinalTestDecisionNode(DecisionNode<TSource> tree, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
         super(tree, trueNode, falseNode, toInsert);
         this.ordinalArgument = ordinalArgument;
         this.state = state;
     }
 
-    public OrdinalTestDecisionNode(DecisionTree<TSource> tree, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
+    public OrdinalTestDecisionNode(DecisionNode<TSource> tree, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
         super(tree);
         this.ordinalArgument = ordinalArgument;
         this.state = state;
     }
 
-    public OrdinalTestDecisionNode(DecisionTree<TSource> tree, Iterable<TSource> toInsert, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
+    public OrdinalTestDecisionNode(DecisionNode<TSource> tree, Iterable<TSource> toInsert, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
         super(tree, toInsert);
         this.ordinalArgument = ordinalArgument;
         this.state = state;

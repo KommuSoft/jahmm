@@ -18,19 +18,19 @@ public abstract class TestDecisionNode<TSource> extends DecisionInode<TSource> {
         this.falseNode = falseNode;
     }
 
-    public TestDecisionNode(final DecisionTree<TSource> tree, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert) {
-        this(tree, trueNode, falseNode);
+    public TestDecisionNode(final DecisionNode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert) {
+        this(parent, trueNode, falseNode);
         for (TSource source : toInsert) {
             this.insert(source);
         }
     }
 
-    public TestDecisionNode(final DecisionTree<TSource> tree) {
-        this(tree, new DecisionLeaf<TSource>(tree), new DecisionLeaf<TSource>(tree));
+    public TestDecisionNode(final DecisionNode<TSource> parent) {
+        this(parent, new DecisionLeaf<TSource>(parent), new DecisionLeaf<TSource>(parent));
     }
 
-    public TestDecisionNode(final DecisionTree<TSource> tree, Iterable<TSource> toInsert) {
-        this(tree);
+    public TestDecisionNode(final DecisionNode<TSource> parent, Iterable<TSource> toInsert) {
+        this(parent);
         for (TSource source : toInsert) {
             this.insert(source);
         }
