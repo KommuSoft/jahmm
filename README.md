@@ -28,13 +28,17 @@ Running
 -------
 
 To use it, simply launch:
+
 ```
 javac -classpath /path/to/jahmm-<version>.jar Myprogram.java
 ```
+
 to compile your program, and:
+
 ```
 java -cp /path/to/jahmm-<version>.jar myMainClass
 ```
+
 (e.g. `java -cp /home/smith/java_class/jahmm-0.6.2.jar test/Testing`)
 
 ...to run it.
