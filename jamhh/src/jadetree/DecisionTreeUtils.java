@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import jutils.collections.CollectionUtils;
 import jutlis.MathConstants;
 import jutlis.algebra.Function;
+import jutlis.algebra.functions.IdentityFunction;
 import jutlis.tuples.Holder;
 import jutlis.tuples.HolderBase;
 import jutlis.tuples.Tuple2;
@@ -32,6 +33,18 @@ public class DecisionTreeUtils {
             total.setData(ttl);
         }
         return entropy;
+    }
+
+    public static <TSource, TTarget> double calculateRawEntropy(Iterable<? extends TSource> sources, Function<TSource, TTarget> function) {
+        return calculateRawEntropy(sources, function, null);
+    }
+
+    public static <TSource> double calculateRawEntropy(Iterable<? extends TSource> sources) {
+        return calculateRawEntropy(sources, new IdentityFunction<>());
+    }
+
+    public static <TSource> double calculateRawEntropy(Iterable<? extends TSource> sources, Holder<Integer> total) {
+        return calculateRawEntropy(sources, new IdentityFunction<>(), total);
     }
 
     public static <TSource, TTarget> double calculateRawEntropy(Iterable<? extends TSource> sources, Function<TSource, TTarget> function, Holder<Integer> total) {
