@@ -1,4 +1,4 @@
-package objectattributes;
+package jadetree.objectattributes;
 
 import java.util.Comparator;
 
@@ -9,5 +9,9 @@ import java.util.Comparator;
  * @param <TTarget>
  */
 public interface OrdinalObjectAttribute<TSource, TTarget> extends ObjectAttribute<TSource, TTarget>, Comparator<TSource> {
+
+    public abstract TTarget getBetween(TSource source1, TSource source2);
+
+    public abstract int compareWith(TSource source, TTarget target);
 
 }

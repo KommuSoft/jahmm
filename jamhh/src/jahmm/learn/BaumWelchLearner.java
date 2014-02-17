@@ -11,7 +11,7 @@ import jahmm.Opdf;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import jutils.tuples.Tuple3;
+import jutlis.tuples.Tuple3;
 
 /**
  * An implementation of the Baum-Welch learning algorithm. This algorithm finds

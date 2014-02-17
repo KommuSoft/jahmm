@@ -1,4 +1,4 @@
-package objectattributes;
+package jadetree.objectattributes;
 
 /**
  *
@@ -8,8 +8,6 @@ package objectattributes;
  */
 public interface ContinuObjectAttribute<TSource, TTarget> extends ObjectAttribute<TSource, TTarget>, OrdinalObjectAttribute<TSource, TTarget> {
 
-    public abstract TTarget getBetween(TSource source1, TSource source2);
-
-    public abstract TTarget compareWith(TSource source, TTarget target);
+    public abstract TTarget getMiddle(TSource source1, TSource source2);
 
 }
