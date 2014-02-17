@@ -9,6 +9,7 @@ import java.util.logging.Logger;
 import jutils.iterators.ListGenericIterable;
 import jutlis.algebra.Function;
 import org.junit.Test;
+import utils.TestParameters;
 
 /**
  *
@@ -25,7 +26,7 @@ public class DecisionTreeUtilsTest {
     public void testCalculateEntropy_4args() {
         double expResult = 2.0d;
         double result = DecisionTreeUtils.calculateEntropy(new ListGenericIterable<>(new Foo(0x00), new Foo(0x01), new Foo(0x02), new Foo(0x03)));
-        assertEquals(expResult, result, 1e-06);
+        assertEquals(expResult, result);
     }
 
     @Test
