@@ -55,8 +55,8 @@ Regression (JUnit) tests have also been written ; see the `jahm/test` directory.
 Files
 -----
 
-- pom.xml: the 'maven' project file.
-- build.xml: the 'ant' build file.
+- `pom.xml`: the 'maven' project file.
+- `build.xml`: the 'ant' build file.
 - `src/`:       all the .java files.
   `src/.../distributions`: Pseudo random distributions.
   `src/.../jahmm`: The jahmm library itself.  This directory holds one
@@ -66,8 +66,8 @@ Files
 - `examples`: various example files
 - `README.md`: this file.
 - `CHANGES`: changelog.
-- `LICENSE`: license file.
-- `THANKS`: contributors.
+- `ORIGINAL-LICENSE`: license file.
+- `ORIGINAL-THANKS`: contributors.
 
 Jutils
 ------
@@ -86,4 +86,4 @@ Feel free to send comments and questions related to this library at:
   
 The author of this repository is Willem Van Onsem <Willem.VanOnsem@cs.kuleuven.be>
 this version aims to improve speed and enables the use of more sophisticated hidden markov
-models like the Input-Output Hidden Markov Model (IOHMM)
+models like the Input-Output Hidden Markov Model (IOHMM). Furthermore decision trees are implemented in the `jadetree` package.
