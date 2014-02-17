@@ -1,18 +1,21 @@
 package jadetree;
 
 import java.util.HashMap;
+import java.util.logging.Logger;
 import jutils.collections.CollectionUtils;
+import jutlis.MathConstants;
 import jutlis.algebra.Function;
 import jutlis.tuples.Holder;
 import jutlis.tuples.HolderBase;
 import jutlis.tuples.Tuple2;
-import jutlis.MathConstants;
 
 /**
  *
  * @author kommusoft
  */
 public class DecisionTreeUtils {
+
+    private static final Logger LOG = Logger.getLogger(DecisionTreeUtils.class.getName());
 
     public static <TSource, TTarget> double calculateRawEntropy(Iterable<? extends TSource> sources, final HashMap<TTarget, Integer> frequency, Function<TSource, TTarget> function, Holder<Integer> total) {
         int ttl = 0;
@@ -29,6 +32,11 @@ public class DecisionTreeUtils {
             total.setData(ttl);
         }
         return entropy;
+    }
+
+    public static <TSource, TTarget> double calculateRawEntropy(Iterable<? extends TSource> sources, Function<TSource, TTarget> function, Holder<Integer> total) {
+        final HashMap<TTarget, Integer> frequency = new HashMap<>();
+        return calculateRawEntropy(sources, frequency, function, total);
     }
 
     public static <TSource, TTarget> double calculateEntropy(Iterable<? extends TSource> sources, final HashMap<TTarget, Integer> frequency, Function<TSource, TTarget> function, Holder<Integer> total) {
@@ -101,6 +109,9 @@ public class DecisionTreeUtils {
             total += subtotal;
         }
         return entropy / total;
+    }
+
+    private DecisionTreeUtils() {
     }
 
 }
