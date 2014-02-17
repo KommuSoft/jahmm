@@ -29,7 +29,7 @@ public abstract class OrdinalObjectAttributeBase<TSource, TTarget> implements Or
     }
 
     @Override
-    public double calculateScore(List<? extends TSource> list, Function<TSource, Object> target, Holder<Object> state) {
+    public double calculateScore(List<TSource> list, Function<TSource, Object> target, Holder<Object> state) {
         Collections.sort(list, this);
         Tuple2<Integer, Double> te = new Tuple2Base<>();
         int split = DecisionTreeUtils.calculateEntropyFlipIndex(state, target, te);
@@ -42,7 +42,7 @@ public abstract class OrdinalObjectAttributeBase<TSource, TTarget> implements Or
 
     @Override
     public DecisionNodeBase<TSource> createDecisionNode(DecisionNode<TSource> parent, List<TSource> source, Function<TSource, Object> function, Holder<Object> state) {
-        OrdinalTestDecisionNode<TSource, TTarget> otdn = new OrdinalTestDecisionNode<>(parent, this, (TTarget) state.getData());
+        //OrdinalTestDecisionNode<TSource, TTarget> otdn = new OrdinalTestDecisionNode<>(parent, this, (TTarget) state.getData());
         //return new PredicateDecisionNode<>(parent,new );
         return null;
     }

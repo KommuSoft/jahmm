@@ -23,7 +23,7 @@ import jutlis.tuples.Holder;
 public abstract class NominalObjectAttributeBase<TSource, TTarget> implements NominalObjectAttribute<TSource, TTarget> {
 
     @Override
-    public double calculateScore(List<? extends TSource> source, Function<TSource, Object> target, Holder<Object> state) {
+    public double calculateScore(List<TSource> source, Function<TSource, Object> target, Holder<Object> state) {
         final HashMap<TTarget, ArrayList<TSource>> classified = new HashMap<>();
         FactoryMethod<ArrayList<TSource>> fm = CollectionFactoryMethods.arrayListFactory();
         CollectionUtils.classify(classified, source, this, fm);
