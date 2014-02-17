@@ -10,9 +10,9 @@ import jadetree.objectattributes.ObjectAttribute;
  */
 public interface DecisionTree<TSource> extends DecisionNode<TSource> {
 
-    Iterable<ObjectAttribute<TSource, ?>> getSourceAttributes();
+    Iterable<ObjectAttribute<TSource, Object>> getSourceAttributes();
 
-    void addSourceAttribute(ObjectAttribute<TSource, ?> sourceAttribute);
+    void addSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute);
 
     void insert(TSource element);
 
@@ -28,8 +28,12 @@ public interface DecisionTree<TSource> extends DecisionNode<TSource> {
 
     void reduceMemory();
 
-    void removeSourceAttribute(ObjectAttribute<TSource, ?> sourceAttribute);
+    void removeSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute);
 
     NominalObjectAttribute<TSource, Object> getTargetAttribute();
+
+    Object classify(TSource element);
+
+    Object classifyInsert(TSource element);
 
 }
