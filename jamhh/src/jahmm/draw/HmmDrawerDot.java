@@ -5,9 +5,10 @@
 package jahmm.draw;
 
 import jahmm.Hmm;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.NumberFormat;
+import java.util.logging.Logger;
 
 /**
  * An HMM to <i>dot</i> file converter. See
@@ -17,7 +18,9 @@ import java.text.NumberFormat;
  * The command <tt>dot -Tps -o &lt;outputfile&gt; &lt;inputfile&gt;</tt>
  * should produce a Postscript file describing an HMM.
  */
-class HmmDrawerDot<H extends Hmm<?>> {
+class HmmDrawerDot<THMM extends Hmm<?>> extends DrawerDotBase<THMM> {
+
+    private static final Logger LOG = Logger.getLogger(HmmDrawerDot.class.getName());
 
     protected double minimumAij = 0.01;
     protected double minimumPi = 0.01;
@@ -31,7 +34,7 @@ class HmmDrawerDot<H extends Hmm<?>> {
         probabilityFormat.setMaximumFractionDigits(2);
     }
 
-    protected String convert(H hmm) {
+    protected String convert(THMM hmm) {
         String s = beginning();
 
         s += transitions(hmm);
@@ -59,7 +62,7 @@ class HmmDrawerDot<H extends Hmm<?>> {
         return s;
     }
 
-    protected String states(H hmm) {
+    protected String states(THMM hmm) {
         String s = "";
 
         for (int i = 0; i < hmm.nbStates(); i++) {
@@ -80,7 +83,7 @@ class HmmDrawerDot<H extends Hmm<?>> {
         return s;
     }
 
-    protected String opdfLabel(H hmm, int stateNb) {
+    protected String opdfLabel(THMM hmm, int stateNb) {
         return "[ " + hmm.getOpdf(stateNb).toString() + " ]";
     }
 
@@ -92,11 +95,10 @@ class HmmDrawerDot<H extends Hmm<?>> {
      * Writes a dot file depicting the given HMM.
      *
      * @param hmm The HMM to depict.
-     * @param filename The resulting 'dot' file filename.
+     * @param streamWriter The writer to write the 'dot' stream to.
      */
-    public void write(H hmm, String filename) throws IOException {
-        FileWriter fw = new FileWriter(filename);
-        fw.write(convert(hmm));
-        fw.close();
+    @Override
+    public void write(THMM hmm, OutputStreamWriter streamWriter) throws IOException {
+        streamWriter.write(convert(hmm));
     }
 }
