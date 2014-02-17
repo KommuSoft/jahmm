@@ -24,19 +24,18 @@ public class DecisionTreeUtilsTest {
     }
 
     @Test
-    public void testCalculateEntropy_4args() {
-        double expResult = 2.0d;
-        double result = DecisionTreeUtils.calculateEntropy(new ListGenericIterable<>(new Foo(0x00), new Foo(0x01), new Foo(0x02), new Foo(0x03)));
+    public void testCalculateEntropy() {
+        double expResult;
+        double result;
+        expResult = 0.0d;
+        result = DecisionTreeUtils.calculateEntropy(new ListGenericIterable<>(new Foo(0x00)));
         assertEquals(expResult, result);
-    }
-
-    @Test
-    public void testCalculateEntropy_Iterable_Function() {
-        double expResult = 0.0;
-        /*double result = DecisionTreeUtils.calculateEntropy(null);
-         assertEquals(expResult, result, 0.0);
-         // TODO review the generated test code and remove the default call to fail.
-         fail("The test case is a prototype.");//*/
+        expResult = 1.0d;
+        result = DecisionTreeUtils.calculateEntropy(new ListGenericIterable<>(new Foo(0x00), new Foo(0x01)));
+        assertEquals(expResult, result);
+        expResult = 2.0d;
+        result = DecisionTreeUtils.calculateEntropy(new ListGenericIterable<>(new Foo(0x00), new Foo(0x01), new Foo(0x02), new Foo(0x03)));
+        assertEquals(expResult, result);
     }
 
     @Test
