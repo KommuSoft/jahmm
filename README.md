@@ -49,7 +49,7 @@ You can also put the `.jar` file in your classpath.
 Testing
 -------
 
-Regression (JUnit) tests have also been written ; see the `jahm/test` directory.
+Regression (`JUnit`) tests have also been written ; see the `jahm/test` directory.
 
 
 Files
