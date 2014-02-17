@@ -7,6 +7,7 @@ package jadetree;
 
 import java.util.logging.Logger;
 import jutils.iterators.ListGenericIterable;
+import jutlis.MathUtils;
 import jutlis.algebra.Function;
 import org.junit.Test;
 import static utils.AssertExtensions.assertEquals;
@@ -35,6 +36,17 @@ public class DecisionTreeUtilsTest {
         assertEquals(expResult, result);
         expResult = 2.0d;
         result = DecisionTreeUtils.calculateEntropy(new ListGenericIterable<>(new Foo(0x00), new Foo(0x01), new Foo(0x02), new Foo(0x03)));
+        assertEquals(expResult, result);
+        expResult = -0.75d*MathUtils.log2(0.75d)-0.25d*MathUtils.log2(0.25d);
+        result = DecisionTreeUtils.calculateEntropy(new ListGenericIterable<>(new Foo(0x01), new Foo(0x01), new Foo(0x01), new Foo(0x03)));
+        assertEquals(expResult, result);
+        result = DecisionTreeUtils.calculateEntropy(new ListGenericIterable<>(new Foo(0x01), new Foo(0x01), new Foo(0x03), new Foo(0x01)));
+        assertEquals(expResult, result);
+        result = DecisionTreeUtils.calculateEntropy(new ListGenericIterable<>(new Foo(0x01), new Foo(0x03), new Foo(0x01), new Foo(0x01)));
+        assertEquals(expResult, result);
+        result = DecisionTreeUtils.calculateEntropy(new ListGenericIterable<>(new Foo(0x03), new Foo(0x01), new Foo(0x01), new Foo(0x01)));
+        assertEquals(expResult, result);
+        expResult = -0.5d*MathUtils.log2(0.5d)-0.5d*MathUtils.log2(0.25d);result = DecisionTreeUtils.calculateEntropy(new ListGenericIterable<>(new Foo(0x03), new Foo(0x03), new Foo(0x02), new Foo(0x01)));
         assertEquals(expResult, result);
     }
 

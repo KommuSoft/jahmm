@@ -3,7 +3,7 @@ package jadetree;
 import java.util.HashMap;
 import java.util.logging.Logger;
 import jutils.collections.CollectionUtils;
-import jutlis.MathConstants;
+import jutlis.MathUtils;
 import jutlis.algebra.Function;
 import jutlis.algebra.functions.IdentityFunction;
 import jutlis.tuples.Holder;
@@ -60,7 +60,7 @@ public class DecisionTreeUtils {
         double rawentropy = calculateRawEntropy(sources, frequency, function, subholder);
         int ttl = subholder.getData();
         if (ttl > 0x00) {
-            return (rawentropy / ttl + Math.log(ttl)) * MathConstants.INVLOG2;
+            return (rawentropy / ttl + Math.log(ttl)) * MathUtils.INVLOG2;
         } else {
             return Double.NaN;
         }
@@ -106,7 +106,7 @@ public class DecisionTreeUtils {
 
         }
         if (total_entropy != null) {
-            total_entropy.setItem2(maxS / (MathConstants.LOG2 * N));
+            total_entropy.setItem2(maxS / (MathUtils.LOG2 * N));
         }
         return maxFlip;
     }
