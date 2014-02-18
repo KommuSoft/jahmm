@@ -7,7 +7,7 @@ package jahmm.draw;
 import jutils.draw.StructuredDrawerDotBase;
 import jahmm.Hmm;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.text.NumberFormat;
 import java.util.logging.Logger;
 
@@ -36,7 +36,7 @@ class HmmDrawerDot<THMM extends Hmm<?>> extends StructuredDrawerDotBase<THMM> {
     }
 
     @Override
-    protected void innerWrite(THMM input, OutputStreamWriter streamWriter) throws IOException {
+    protected void innerWrite(THMM input, Writer streamWriter) throws IOException {
         streamWriter.write(this.transitions(input));
         streamWriter.write(this.states(input));
     }
