@@ -4,6 +4,7 @@
  */
 package jahmm.draw;
 
+import jutils.draw.StructuredDrawerDotBase;
 import jahmm.Hmm;
 import java.io.IOException;
 import java.io.OutputStreamWriter;

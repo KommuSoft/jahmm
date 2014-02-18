@@ -95,4 +95,9 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
         //TODO: increase performance
     }
 
+    @Override
+    public DecisionNode<TSource> getParent() {
+        return this;
+    }
+
 }

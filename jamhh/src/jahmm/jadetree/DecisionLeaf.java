@@ -3,6 +3,7 @@ package jahmm.jadetree;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
 import java.util.ArrayList;
 import java.util.List;
+import jutils.designpatterns.CompositeLeaf;
 import jutlis.tuples.HolderBase;
 
 /**
@@ -10,7 +11,7 @@ import jutlis.tuples.HolderBase;
  * @author kommusoft
  * @param <TSource>
  */
-public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> {
+public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> implements CompositeLeaf<DecisionNode<TSource>> {
 
     private final List<TSource> memory;
     private double score = Double.NaN;

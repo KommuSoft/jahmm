@@ -1,11 +1,13 @@
 package jahmm.jadetree;
 
+import jutils.designpatterns.CompositeNode;
+
 /**
  *
  * @author kommusoft
  * @param <TSource>
  */
-public abstract class DecisionInode<TSource> extends DecisionNodeBase<TSource> {
+public abstract class DecisionInode<TSource> extends DecisionNodeBase<TSource> implements CompositeNode<DecisionNode<TSource>> {
 
     private DecisionLeaf<TSource> maximumLeaf = null;
 
@@ -32,5 +34,11 @@ public abstract class DecisionInode<TSource> extends DecisionNodeBase<TSource> {
     }
 
     protected abstract DecisionLeaf<TSource> recalcMaximumLeaf();
+    
+
+    @Override
+    public Iterable<DecisionNode<TSource>> getChildren() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

@@ -36,7 +36,15 @@ public abstract class DecisionNodeBase<TSource> implements DecisionNode<TSource>
      */
     @Override
     public DecisionTree<TSource> getTree() {
-        return this.parent.getTree();
+        return this.getParent().getTree();
+    }
+
+    /**
+     * @return the parent
+     */
+    @Override
+    public DecisionNode<TSource> getParent() {
+        return parent;
     }
 
 }
