@@ -4,8 +4,8 @@
  */
 package jahmm;
 
-import distributions.GaussianDistribution;
-import distributions.GaussianMixtureDistribution;
+import jahmm.distributions.GaussianDistribution;
+import jahmm.distributions.GaussianMixtureDistribution;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Collection;
