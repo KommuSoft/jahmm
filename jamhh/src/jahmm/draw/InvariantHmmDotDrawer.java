@@ -14,11 +14,11 @@ import jahmm.Hmm;
  * The command <tt>dot -Tps -o &lt;outputfile&gt; &lt;inputfile&gt;</tt>
  * should produce a Postscript file describing an HMM.
  */
-public class InvariantHmmDrawerDot extends HmmDrawerDot<Hmm<?>> {
+public class InvariantHmmDotDrawer extends HmmDotDrawer<Hmm<?>> {
 
-    public static final InvariantHmmDrawerDot Instance = new InvariantHmmDrawerDot();
+    public static final InvariantHmmDotDrawer Instance = new InvariantHmmDotDrawer();
 
-    private InvariantHmmDrawerDot() {
+    private InvariantHmmDotDrawer() {
     }
 
 }

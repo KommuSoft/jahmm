@@ -4,12 +4,12 @@
  */
 package jahmm.draw;
 
-import jutils.draw.StructuredDrawerDotBase;
 import jahmm.Hmm;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.NumberFormat;
 import java.util.logging.Logger;
+import jutils.draw.StructuredDotDrawerBase;
 
 /**
  * An HMM to <i>dot</i> file converter. See
@@ -19,9 +19,9 @@ import java.util.logging.Logger;
  * The command <tt>dot -Tps -o &lt;outputfile&gt; &lt;inputfile&gt;</tt>
  * should produce a Postscript file describing an HMM.
  */
-class HmmDrawerDot<THMM extends Hmm<?>> extends StructuredDrawerDotBase<THMM> {
+class HmmDotDrawer<THMM extends Hmm<?>> extends StructuredDotDrawerBase<THMM> {
 
-    private static final Logger LOG = Logger.getLogger(HmmDrawerDot.class.getName());
+    private static final Logger LOG = Logger.getLogger(HmmDotDrawer.class.getName());
 
     protected double minimumAij = 0.01;
     protected double minimumPi = 0.01;
@@ -30,7 +30,7 @@ class HmmDrawerDot<THMM extends Hmm<?>> extends StructuredDrawerDotBase<THMM> {
     /**
      * This class converts an HMM to a dot file.
      */
-    HmmDrawerDot() {
+    HmmDotDrawer() {
         probabilityFormat = NumberFormat.getInstance();
         probabilityFormat.setMaximumFractionDigits(2);
     }

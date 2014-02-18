@@ -4,7 +4,7 @@
  */
 package jahmm;
 
-import jahmm.draw.InvariantHmmDrawerDot;
+import jahmm.draw.InvariantHmmDotDrawer;
 import java.io.IOException;
 import junit.framework.TestCase;
 
@@ -32,7 +32,7 @@ public class GenerateTest
      */
     public void testDotGenerator() {
         try {
-            InvariantHmmDrawerDot.Instance.write(hmm, outputDir + "hmm-generate.dot");
+            InvariantHmmDotDrawer.Instance.write(hmm, outputDir + "hmm-generate.dot");
         } catch (IOException e) {
             assertTrue("Writing file triggered an exception: " + e, false);
         }

@@ -36,7 +36,7 @@ import jahmm.Observation;
 import jahmm.ObservationDiscrete;
 import jahmm.OpdfDiscrete;
 import jahmm.OpdfDiscreteFactory;
-import jahmm.draw.InvariantHmmDrawerDot;
+import jahmm.draw.InvariantHmmDotDrawer;
 import jahmm.learn.BaumWelchLearner;
 import jahmm.toolbox.KullbackLeiblerDistanceCalculator;
 import jahmm.toolbox.MarkovGenerator;
@@ -104,7 +104,7 @@ public class SimpleExample {
                 + learntHmm.probability(testSequence));
 
         /* Write the final result to a 'dot' (graphviz) file. */
-        InvariantHmmDrawerDot.Instance.write(learntHmm, "learntHmm.dot");
+        InvariantHmmDotDrawer.Instance.write(learntHmm, "learntHmm.dot");
     }
 
     /* The HMM this example is based on */
