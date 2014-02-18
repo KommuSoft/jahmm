@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * The command <tt>dot -Tps -o &lt;outputfile&gt; &lt;inputfile&gt;</tt>
  * should produce a Postscript file describing an HMM.
  */
-class HmmDrawerDot<THMM extends Hmm<?>> extends DrawerDotBase<THMM> {
+class HmmDrawerDot<THMM extends Hmm<?>> extends StructuredDrawerDotBase<THMM> {
 
     private static final Logger LOG = Logger.getLogger(HmmDrawerDot.class.getName());
 
@@ -34,17 +34,10 @@ class HmmDrawerDot<THMM extends Hmm<?>> extends DrawerDotBase<THMM> {
         probabilityFormat.setMaximumFractionDigits(2);
     }
 
-    protected String convert(THMM hmm) {
-        String s = beginning();
-
-        s += transitions(hmm);
-        s += states(hmm);
-
-        return s + ending();
-    }
-
-    protected String beginning() {
-        return "digraph G {\n";
+    @Override
+    protected void innerWrite(THMM input, OutputStreamWriter streamWriter) throws IOException {
+        streamWriter.write(this.transitions(input));
+        streamWriter.write(this.states(input));
     }
 
     protected String transitions(Hmm<?> hmm) {
@@ -85,20 +78,5 @@ class HmmDrawerDot<THMM extends Hmm<?>> extends DrawerDotBase<THMM> {
 
     protected String opdfLabel(THMM hmm, int stateNb) {
         return "[ " + hmm.getOpdf(stateNb).toString() + " ]";
-    }
-
-    protected String ending() {
-        return "}\n";
-    }
-
-    /**
-     * Writes a dot file depicting the given HMM.
-     *
-     * @param hmm The HMM to depict.
-     * @param streamWriter The writer to write the 'dot' stream to.
-     */
-    @Override
-    public void write(THMM hmm, OutputStreamWriter streamWriter) throws IOException {
-        streamWriter.write(convert(hmm));
     }
 }
