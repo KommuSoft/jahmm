@@ -10,6 +10,8 @@ import java.io.Writer;
 import java.text.NumberFormat;
 import java.util.logging.Logger;
 import jutils.draw.StructuredDotDrawerBase;
+import jutlis.tuples.Tuple2;
+import jutlis.tuples.Tuple2Base;
 
 /**
  * An HMM to <i>dot</i> file converter. See
@@ -37,44 +39,36 @@ class HmmDotDrawer<THMM extends Hmm<?>> extends StructuredDotDrawerBase<THMM> {
 
     @Override
     protected void innerWrite(THMM input, Writer streamWriter) throws IOException {
-        streamWriter.write(this.transitions(input));
-        streamWriter.write(this.states(input));
+        this.writeTransitions(streamWriter, input);
+        this.writeStates(streamWriter, input);
     }
 
-    protected String transitions(Hmm<?> hmm) {
+    protected void writeTransitions(Writer streamWriter, Hmm<?> hmm) throws IOException {
         String s = "";
+        Tuple2<String, String> labelTuple = new Tuple2Base<>("label", "");
 
         for (int i = 0; i < hmm.nbStates(); i++) {
             for (int j = 0; j < hmm.nbStates(); j++) {
                 if (hmm.getAij(i, j) >= minimumAij) {
-                    s += "\t" + i + " -> " + j + " [label="
-                            + probabilityFormat.format(hmm.getAij(i, j)) + "];\n";
+                    labelTuple.setItem2(probabilityFormat.format(hmm.getAij(i, j)));
+                    this.edgeStatement(streamWriter, i, j, labelTuple);
                 }
             }
         }
-
-        return s;
+        streamWriter.write(s);
     }
 
-    protected String states(THMM hmm) {
-        String s = "";
-
+    protected void writeStates(Writer streamWriter, THMM hmm) throws IOException {
+        Tuple2<String, String> shapeTuple = new Tuple2Base<>("shape", "doublecircle");
+        Tuple2<String, String> labelTuple = new Tuple2Base<>("label", "");
         for (int i = 0; i < hmm.nbStates(); i++) {
-            s += "\t" + i + " [";
-
             if (hmm.getPi(i) >= minimumPi) {
-                s += "shape=doublecircle, label=\"" + i
-                        + " - Pi= " + probabilityFormat.format(hmm.getPi(i)) + " - "
-                        + opdfLabel(hmm, i) + "\"";
+                labelTuple.setItem2("\"" + i + " - Pi= " + probabilityFormat.format(hmm.getPi(i)) + " - " + opdfLabel(hmm, i) + "\"");
             } else {
-                s += "shape=circle, label=\"" + i + " - "
-                        + opdfLabel(hmm, i) + "\"";
+                labelTuple.setItem2("\"" + i + " - " + opdfLabel(hmm, i) + "\"");
             }
-
-            s += "];\n";
+            this.nodeStatement(streamWriter, i, shapeTuple, labelTuple);
         }
-
-        return s;
     }
 
     protected String opdfLabel(THMM hmm, int stateNb) {
