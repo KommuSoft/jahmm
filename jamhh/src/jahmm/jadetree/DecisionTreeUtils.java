@@ -1,6 +1,8 @@
 package jahmm.jadetree;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 import jutils.collections.CollectionUtils;
 import jutlis.MathUtils;
@@ -18,21 +20,39 @@ public class DecisionTreeUtils {
 
     private static final Logger LOG = Logger.getLogger(DecisionTreeUtils.class.getName());
 
-    public static <TSource, TTarget> double calculateRawEntropy(Iterable<? extends TSource> sources, final HashMap<TTarget, Integer> frequency, Function<TSource, TTarget> function, Holder<Integer> total) {
-        int ttl = 0;
-        for (TSource s : sources) {
-            TTarget target = function.evaluate(s);
-            CollectionUtils.incrementKey(frequency, target);
-            ttl++;
-        }
-        double entropy = 0.0;
-        for (Integer fi : frequency.values()) {
-            entropy -= fi * Math.log(fi);
+    public static <TEntry> double calculateRawEntropy(Map<TEntry, Integer> counters, Holder<Integer> total) {
+        double rawEntropy = 0.0;
+        int ttl = 0x00;
+        for (Integer fi : counters.values()) {
+            rawEntropy -= fi * Math.log(fi);
+            ttl += fi;
         }
         if (total != null) {
             total.setData(ttl);
         }
-        return entropy;
+        return rawEntropy;
+    }
+
+    public static <TSource, TTarget> double calculateEntropy(final Map<TTarget, Integer> frequency, Holder<Integer> total) {
+        Holder<Integer> subholder = total;
+        if (subholder == null) {
+            subholder = new HolderBase<>();
+        }
+        double rawentropy = calculateRawEntropy(frequency, subholder);
+        int ttl = subholder.getData();
+        if (ttl > 0x00) {
+            return (rawentropy / ttl + Math.log(ttl)) * MathUtils.INVLOG2;
+        } else {
+            return Double.NaN;
+        }
+    }
+
+    public static <TSource, TTarget> double calculateRawEntropy(Iterable<? extends TSource> sources, final Map<TTarget, Integer> frequency, Function<TSource, TTarget> function, Holder<Integer> total) {
+        for (TSource s : sources) {
+            TTarget target = function.evaluate(s);
+            CollectionUtils.incrementKey(frequency, target);
+        }
+        return calculateRawEntropy(frequency, total);
     }
 
     public static <TSource, TTarget> double calculateRawEntropy(Iterable<? extends TSource> sources, Function<TSource, TTarget> function) {
@@ -52,7 +72,7 @@ public class DecisionTreeUtils {
         return calculateRawEntropy(sources, frequency, function, total);
     }
 
-    public static <TSource, TTarget> double calculateEntropy(Iterable<? extends TSource> sources, final HashMap<TTarget, Integer> frequency, Function<TSource, TTarget> function, Holder<Integer> total) {
+    public static <TSource, TTarget> double calculateEntropy(Iterable<? extends TSource> sources, final Map<TTarget, Integer> frequency, Function<TSource, TTarget> function, Holder<Integer> total) {
         Holder<Integer> subholder = total;
         if (subholder == null) {
             subholder = new HolderBase<>();
@@ -126,6 +146,28 @@ public class DecisionTreeUtils {
             total += subtotal;
         }
         return entropy / total;
+    }
+
+    public static <TSource, TTarget> double calculateReduceScore(Iterable<? extends Iterable<? extends TSource>> sources, Function<TSource, TTarget> function) {
+        final HashMap<TTarget, Integer> frequency = new HashMap<>();
+        final HashMap<TTarget, Integer> subFrequency = new HashMap<>();
+        Holder<Integer> ttl = new HolderBase<>();
+        int total = 0;
+        int subtotal;
+        double entropy = 0.0d;
+        double subentropy;
+        for (Iterable<? extends TSource> subsource : sources) {
+            subentropy = calculateEntropy(subsource, subFrequency, function, ttl);
+            for (Entry<TTarget, Integer> subEntry : subFrequency.entrySet()) {
+                CollectionUtils.incrementKey(frequency, subEntry.getKey(), subEntry.getValue());
+            }
+            subFrequency.clear();
+            subtotal = ttl.getData();
+            entropy += subentropy * subtotal;
+            total += subtotal;
+        }
+        double allEntropy = calculateEntropy(subFrequency, null);
+        return (entropy - allEntropy) / total;
     }
 
     private DecisionTreeUtils() {

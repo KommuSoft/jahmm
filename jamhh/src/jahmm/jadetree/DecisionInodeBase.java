@@ -38,8 +38,13 @@ public abstract class DecisionInodeBase<TSource> extends DecisionNodeBase<TSourc
     protected abstract DecisionLeaf<TSource> recalcMaximumLeaf();
 
     @Override
+    public Iterable<Iterable<TSource>> getPartitionedStoredSources() {
+        return new MapIterable<>(this.getChildren(), new ConvertFunction());
+    }
+
+    @Override
     public Iterable<TSource> getStoredSources() {
-        return new AppendIterable<>(new MapIterable<>(this.getChildren(), new ConvertFunction()));
+        return new AppendIterable<>(this.getPartitionedStoredSources());
     }
 
     private class ConvertFunction implements Function<DecisionRealNode<TSource>, Iterable<TSource>> {

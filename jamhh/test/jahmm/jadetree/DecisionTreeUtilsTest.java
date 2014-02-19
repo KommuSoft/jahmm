@@ -1,4 +1,4 @@
-package jadetree;
+package jahmm.jadetree;
 
 import jahmm.jadetree.DecisionTreeUtils;
 import java.util.logging.Logger;

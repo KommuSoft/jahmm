@@ -163,4 +163,9 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
         return this.root.getStoredSources();
     }
 
+    @Override
+    public Iterable<Iterable<TSource>> getPartitionedStoredSources() {
+        return new SingleIterable<>(this.getStoredSources());
+    }
+
 }

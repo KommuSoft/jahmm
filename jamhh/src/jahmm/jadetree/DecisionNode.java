@@ -18,6 +18,8 @@ public interface DecisionNode<TSource> extends CompositeComponent<DecisionNode<T
 
     public abstract Iterable<TSource> getStoredSources();
 
+    public abstract Iterable<Iterable<TSource>> getPartitionedStoredSources();
+
     /**
      * @return the tree
      */

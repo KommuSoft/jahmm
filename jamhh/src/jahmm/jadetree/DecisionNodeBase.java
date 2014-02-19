@@ -67,4 +67,9 @@ public abstract class DecisionNodeBase<TSource> extends IdableBase implements De
         return new DecisionNodeDotDrawer<TSource>().write(parent);
     }
 
+    @Override
+    public double reduceScore() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

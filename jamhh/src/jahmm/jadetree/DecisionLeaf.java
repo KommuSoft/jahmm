@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import jutils.designpatterns.CompositeLeaf;
+import jutils.iterators.SingleIterable;
 import jutlis.tuples.HolderBase;
 
 /**
@@ -100,6 +101,11 @@ public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> implements 
     @Override
     public List<TSource> getStoredSources() {
         return Collections.unmodifiableList(this.memory);
+    }
+
+    @Override
+    public Iterable<Iterable<TSource>> getPartitionedStoredSources() {
+        return new SingleIterable<Iterable<TSource>>(this.getStoredSources());
     }
 
 }
