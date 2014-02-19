@@ -83,4 +83,8 @@ public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> implements 
         return this;
     }
 
+    @Override
+    public void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
+    }
+
 }

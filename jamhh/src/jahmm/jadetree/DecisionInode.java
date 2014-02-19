@@ -35,6 +35,4 @@ public abstract class DecisionInode<TSource> extends DecisionNodeBase<TSource> i
 
     protected abstract DecisionLeaf<TSource> recalcMaximumLeaf();
 
-    protected abstract void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now);
-
 }

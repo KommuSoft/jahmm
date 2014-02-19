@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 /**
  *
@@ -13,6 +14,8 @@ import java.util.Map.Entry;
  * @param <TTarget>
  */
 public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionNode<TSource, TTarget> {
+
+    private static final Logger LOG = Logger.getLogger(EnumerableDecisionNode.class.getName());
 
     final HashMap<TTarget, DecisionRealNode<TSource>> map = new HashMap<>();
 
@@ -23,7 +26,7 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
     public EnumerableDecisionNode(final DecisionNode<TSource> tree, ObjectAttribute<TSource, TTarget> objectAttribute, HashMap<TTarget, ? extends List<TSource>> toInsert) {
         this(tree, objectAttribute);
         for (Entry<TTarget, ? extends List<TSource>> entry : toInsert.entrySet()) {
-            map.put(entry.getKey(), new DecisionLeaf(this.getTree(), entry.getValue()));
+            map.put(entry.getKey(), new DecisionLeaf<>(this.getTree(), entry.getValue()));
         }
     }
 
@@ -63,9 +66,9 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
     }
 
     @Override
-    protected void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
-        for(Entry<TTarget,DecisionRealNode<TSource>> entry : map.entrySet()) {
-            if(entry.getValue() == was) {
+    public void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
+        for (Entry<TTarget, DecisionRealNode<TSource>> entry : map.entrySet()) {
+            if (entry.getValue() == was) {
                 entry.setValue(now);
             }
         }

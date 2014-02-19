@@ -30,6 +30,7 @@ public abstract class DecisionNodeBase<TSource> implements DecisionRealNode<TSou
 
     public abstract double expandScore();
 
+    @Override
     public void insert(TSource source) {
         this.nextHop(source).insert(source);
     }

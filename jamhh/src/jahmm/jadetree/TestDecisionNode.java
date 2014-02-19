@@ -96,7 +96,7 @@ public abstract class TestDecisionNode<TSource> extends DecisionInode<TSource> {
     }
 
     @Override
-    protected void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
+    public void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
         if (was == this.trueNode) {
             this.trueNode = now;
         }

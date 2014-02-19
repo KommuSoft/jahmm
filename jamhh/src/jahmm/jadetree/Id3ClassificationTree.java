@@ -9,6 +9,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Logger;
+import jutils.iterators.SingleIterable;
 
 /**
  *
@@ -21,7 +22,7 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
 
     private final ArrayList<ObjectAttribute<TSource, Object>> sourceAttributes = new ArrayList<>();
     private NominalObjectAttribute<TSource, Object> targetAttribute;
-    private DecisionNodeBase<TSource> root = new DecisionLeaf<>(this);
+    private DecisionRealNode<TSource> root = new DecisionLeaf<>(this);
 
     @Override
     public void addSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute) {
@@ -57,7 +58,7 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
 
     @Override
     public void expand() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.root.getMaximumLeaf().expand();
     }
 
     @Override
@@ -105,7 +106,7 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
     }
 
     @Override
-    public DecisionNode<TSource> getRoot() {
+    public DecisionRealNode<TSource> getRoot() {
         return this.root;
     }
 
@@ -126,8 +127,14 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
 
     @Override
     public Iterable<DecisionNode<TSource>> getChildren() {
-        //TODO
-        return null;
+        return new SingleIterable<DecisionNode<TSource>>(this.root);
+    }
+
+    @Override
+    public void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
+        if (this.root == was) {
+            this.root = now;
+        }
     }
 
 }
