@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.text.NumberFormat;
 import java.util.logging.Logger;
-import jutils.draw.StructuredDotDrawerBase;
+import jutils.draw.DotGraphDrawerBase;
 import jutlis.tuples.Tuple2;
 import jutlis.tuples.Tuple2Base;
 
@@ -21,7 +21,7 @@ import jutlis.tuples.Tuple2Base;
  * The command <tt>dot -Tps -o &lt;outputfile&gt; &lt;inputfile&gt;</tt>
  * should produce a Postscript file describing an HMM.
  */
-class HmmDotDrawer<THMM extends Hmm<?>> extends StructuredDotDrawerBase<THMM> {
+class HmmDotDrawer<THMM extends Hmm<?>> extends DotGraphDrawerBase<THMM> {
 
     private static final Logger LOG = Logger.getLogger(HmmDotDrawer.class.getName());
 
