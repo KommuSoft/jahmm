@@ -14,7 +14,7 @@ import java.util.Map.Entry;
  */
 public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionNode<TSource, TTarget> {
 
-    final HashMap<TTarget, DecisionNodeBase<TSource>> map = new HashMap<>();
+    final HashMap<TTarget, DecisionRealNode<TSource>> map = new HashMap<>();
 
     public EnumerableDecisionNode(final DecisionNode<TSource> parent, ObjectAttribute<TSource, TTarget> objectAttribute) {
         super(parent, objectAttribute);
@@ -28,9 +28,9 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
     }
 
     @Override
-    public DecisionNodeBase<TSource> nextHop(TSource source) {
+    public DecisionRealNode<TSource> nextHop(TSource source) {
         TTarget key = this.getObjectAttribute(source);
-        DecisionNodeBase<TSource> value = map.get(key);
+        DecisionRealNode<TSource> value = map.get(key);
         if (value == null) {
             value = new DecisionLeaf<>(this.getTree());
             this.map.put(key, value);
@@ -40,7 +40,7 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
 
     @Override
     public void makeDirty() {
-        for (DecisionNodeBase<TSource> dn : this.map.values()) {
+        for (DecisionRealNode<TSource> dn : this.map.values()) {
             dn.makeDirty();
         }
         super.makeDirty();
@@ -51,7 +51,7 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
         double max = Double.NEGATIVE_INFINITY;
         double val;
         DecisionLeaf<TSource> leaf, maxLeaf = null;
-        for (DecisionNodeBase<TSource> dn : this.map.values()) {
+        for (DecisionRealNode<TSource> dn : this.map.values()) {
             leaf = dn.getMaximumLeaf();
             val = leaf.expandScore();
             if (val > max) {
@@ -64,7 +64,11 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
 
     @Override
     protected void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for(Entry<TTarget,DecisionRealNode<TSource>> entry : map.entrySet()) {
+            if(entry.getValue() == was) {
+                entry.setValue(now);
+            }
+        }
     }
 
     @Override
