@@ -39,7 +39,26 @@ public class OrdinalTestDecisionNode<TSource, TState> extends TestDecisionNode<T
 
     @Override
     protected boolean test(TSource source) {
-        return this.ordinalArgument.compareWith(source, this.state) <= 0x00;
+        return this.getOrdinalArgument().compareWith(source, this.getState()) <= 0x00;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s < %s", this.getOrdinalArgument().getName(), this.getState().toString());
+    }
+
+    /**
+     * @return the ordinalArgument
+     */
+    public OrdinalObjectAttribute<TSource, TState> getOrdinalArgument() {
+        return ordinalArgument;
+    }
+
+    /**
+     * @return the state
+     */
+    public TState getState() {
+        return state;
     }
 
 }

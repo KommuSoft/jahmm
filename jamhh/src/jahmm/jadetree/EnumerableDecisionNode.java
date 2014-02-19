@@ -79,4 +79,9 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
         return Collections.unmodifiableCollection(this.map.values());
     }
 
+    @Override
+    public String toString() {
+        return this.getObjectAttribute().getName();
+    }
+
 }
