@@ -1,5 +1,10 @@
 package jahmm.jadetree;
 
+import jahmm.jadetree.draw.DecisionNodeDotDrawer;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Writer;
+
 /**
  *
  * @author kommusoft
@@ -45,6 +50,21 @@ public abstract class DecisionNodeBase<TSource> implements DecisionNode<TSource>
     @Override
     public DecisionNode<TSource> getParent() {
         return parent;
+    }
+
+    @Override
+    public void writeDraw(OutputStream os) throws IOException {
+        new DecisionNodeDotDrawer<TSource>().write(parent, os);
+    }
+
+    @Override
+    public void writeDraw(Writer writer) throws IOException {
+        new DecisionNodeDotDrawer<TSource>().write(parent, writer);
+    }
+
+    @Override
+    public String writeDraw() throws IOException {
+        return new DecisionNodeDotDrawer<TSource>().write(parent);
     }
 
 }

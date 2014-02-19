@@ -1,7 +1,11 @@
 package jahmm.jadetree;
 
+import jahmm.jadetree.draw.DecisionNodeDotDrawer;
 import jahmm.jadetree.objectattributes.NominalObjectAttribute;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Logger;
@@ -98,6 +102,32 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
     @Override
     public DecisionNode<TSource> getParent() {
         return this;
+    }
+
+    @Override
+    public DecisionNode<TSource> getRoot() {
+        return this.root;
+    }
+
+    @Override
+    public void writeDraw(OutputStream os) throws IOException {
+        new DecisionNodeDotDrawer<TSource>().write(this, os);
+    }
+
+    @Override
+    public void writeDraw(Writer writer) throws IOException {
+        new DecisionNodeDotDrawer<TSource>().write(this, writer);
+    }
+
+    @Override
+    public String writeDraw() throws IOException {
+        return new DecisionNodeDotDrawer<TSource>().write(this);
+    }
+
+    @Override
+    public Iterable<DecisionNode<TSource>> getChildren() {
+        //TODO
+        return null;
     }
 
 }
