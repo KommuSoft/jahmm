@@ -10,7 +10,7 @@ import java.io.Writer;
  * @author kommusoft
  * @param <TSource>
  */
-public abstract class DecisionNodeBase<TSource> implements DecisionNode<TSource> {
+public abstract class DecisionNodeBase<TSource> implements DecisionRealNode<TSource> {
 
     private final DecisionNode<TSource> parent;
 
@@ -18,11 +18,13 @@ public abstract class DecisionNodeBase<TSource> implements DecisionNode<TSource>
         this.parent = parent;
     }
 
+    @Override
     public boolean isLeaf() {
         return false;
     }
 
-    public DecisionNodeBase<TSource> nextHop(TSource source) {
+    @Override
+    public DecisionRealNode<TSource> nextHop(TSource source) {
         return this;
     }
 
@@ -31,10 +33,6 @@ public abstract class DecisionNodeBase<TSource> implements DecisionNode<TSource>
     public void insert(TSource source) {
         this.nextHop(source).insert(source);
     }
-
-    public abstract void makeDirty();
-
-    public abstract DecisionLeaf<TSource> getMaximumLeaf();
 
     /**
      * @return the tree

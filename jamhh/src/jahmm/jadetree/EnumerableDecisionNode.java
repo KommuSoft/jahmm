@@ -1,6 +1,7 @@
 package jahmm.jadetree;
 
 import jahmm.jadetree.objectattributes.ObjectAttribute;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -59,6 +60,16 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
             }
         }
         return maxLeaf;
+    }
+
+    @Override
+    protected void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Iterable<? extends DecisionNode<TSource>> getChildren() {
+        return Collections.unmodifiableCollection(this.map.values());
     }
 
 }
