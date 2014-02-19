@@ -27,6 +27,8 @@ public interface DecisionTree<TSource> extends DecisionNode<TSource> {
     void tradeExpand();
 
     void reduceMemory();
+    
+    DecisionNode<TSource> getRoot ();
 
     void removeSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute);
 

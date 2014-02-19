@@ -100,4 +100,9 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
         return this;
     }
 
+    @Override
+    public DecisionNode<TSource> getRoot() {
+        return this.root;
+    }
+
 }
