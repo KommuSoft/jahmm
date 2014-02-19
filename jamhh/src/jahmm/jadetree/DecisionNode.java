@@ -15,12 +15,14 @@ public interface DecisionNode<TSource> extends CompositeComponent<DecisionNode<T
     /**
      * @return the tree
      */
-    public DecisionTree<TSource> getTree();
+    public abstract DecisionTree<TSource> getTree();
 
-    public void writeDraw(OutputStream os) throws IOException;
+    public abstract void writeDraw(OutputStream os) throws IOException;
 
-    public void writeDraw(Writer writer) throws IOException;
+    public abstract void writeDraw(Writer writer) throws IOException;
 
-    public String writeDraw() throws IOException;
+    public abstract String writeDraw() throws IOException;
+
+    public abstract void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now);
 
 }

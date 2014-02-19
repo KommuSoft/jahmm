@@ -50,8 +50,12 @@ public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> implements 
         return this.score;
     }
 
-    public DecisionNodeBase<TSource> expand() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DecisionRealNode<TSource> expand() {
+        DecisionTree<TSource> tree = this.getTree();
+        this.expandScore();
+        DecisionRealNode<TSource> foo = tree.getSourceAttributes().get(splitIndex).createDecisionNode(this.getParent(), this.memory, tree.getTargetAttribute(), this.splitData);
+        this.getParent().replaceChild(this, foo);
+        return foo;
     }
 
     @Override
@@ -81,6 +85,10 @@ public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> implements 
     @Override
     public DecisionLeaf<TSource> getMaximumLeaf() {
         return this;
+    }
+
+    @Override
+    public void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
     }
 
 }
