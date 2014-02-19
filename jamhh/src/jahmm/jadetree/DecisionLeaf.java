@@ -98,7 +98,7 @@ public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> implements 
     }
 
     @Override
-    public Iterable<? extends TSource> getStoredSources() {
+    public List<TSource> getStoredSources() {
         return Collections.unmodifiableList(this.memory);
     }
 

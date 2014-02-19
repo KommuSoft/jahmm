@@ -84,4 +84,9 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
         return this.getObjectAttribute().getName();
     }
 
+    @Override
+    public double reduceScore() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

@@ -1,6 +1,7 @@
 package jahmm.jadetree;
 
 import java.util.Collections;
+import jutils.iterators.AppendIterable;
 import jutlis.lists.ListArray;
 
 /**
@@ -109,6 +110,11 @@ public abstract class TestDecisionNode<TSource> extends DecisionInodeBase<TSourc
     @SuppressWarnings("unchecked")
     public Iterable<? extends DecisionNode<TSource>> getChildren() {
         return Collections.unmodifiableCollection(new ListArray<>(this.trueNode, this.falseNode));
+    }
+
+    @Override
+    public Iterable<TSource> getStoredSources() {
+        return new AppendIterable<>(this.trueNode.getStoredSources(), this.falseNode.getStoredSources());
     }
 
 }
