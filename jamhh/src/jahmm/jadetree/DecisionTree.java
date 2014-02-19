@@ -2,13 +2,14 @@ package jahmm.jadetree;
 
 import jahmm.jadetree.objectattributes.NominalObjectAttribute;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
+import jutils.designpatterns.CompositeNode;
 
 /**
  *
  * @author kommusoft
  * @param <TSource>
  */
-public interface DecisionTree<TSource> extends DecisionNode<TSource> {
+public interface DecisionTree<TSource> extends DecisionNode<TSource>, CompositeNode<DecisionNode<TSource>> {
 
     Iterable<ObjectAttribute<TSource, Object>> getSourceAttributes();
 
@@ -27,8 +28,8 @@ public interface DecisionTree<TSource> extends DecisionNode<TSource> {
     void tradeExpand();
 
     void reduceMemory();
-    
-    DecisionNode<TSource> getRoot ();
+
+    DecisionNode<TSource> getRoot();
 
     void removeSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute);
 
