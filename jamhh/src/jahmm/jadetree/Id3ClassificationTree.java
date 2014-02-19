@@ -59,7 +59,7 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
 
     @Override
     public void expand() {
-        this.root.getMaximumLeaf().expand();
+        this.root.getMaximumExpandLeaf().expand();
     }
 
     @Override
@@ -140,7 +140,7 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
 
     @Override
     public DecisionLeaf<TSource> getMaximumLeaf() {
-        return this.root.getMaximumLeaf();
+        return this.root.getMaximumExpandLeaf();
     }
 
     @Override

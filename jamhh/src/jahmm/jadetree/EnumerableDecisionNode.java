@@ -55,7 +55,7 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
         double val;
         DecisionLeaf<TSource> leaf, maxLeaf = null;
         for (DecisionRealNode<TSource> dn : this.map.values()) {
-            leaf = dn.getMaximumLeaf();
+            leaf = dn.getMaximumExpandLeaf();
             val = leaf.expandScore();
             if (val > max) {
                 max = val;

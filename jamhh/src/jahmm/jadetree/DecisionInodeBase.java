@@ -19,11 +19,11 @@ public abstract class DecisionInodeBase<TSource> extends DecisionNodeBase<TSourc
 
     @Override
     public double expandScore() {
-        return this.getMaximumLeaf().expandScore();
+        return this.getMaximumExpandLeaf().expandScore();
     }
 
     @Override
-    public DecisionLeaf<TSource> getMaximumLeaf() {
+    public DecisionLeaf<TSource> getMaximumExpandLeaf() {
         if (this.maximumLeaf == null) {
             this.maximumLeaf = this.recalcMaximumLeaf();
         }

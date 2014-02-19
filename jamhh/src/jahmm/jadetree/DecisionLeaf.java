@@ -85,7 +85,7 @@ public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> implements 
     }
 
     @Override
-    public DecisionLeaf<TSource> getMaximumLeaf() {
+    public DecisionLeaf<TSource> getMaximumExpandLeaf() {
         return this;
     }
 

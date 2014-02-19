@@ -9,13 +9,19 @@ import jutlis.Idable;
  */
 public interface DecisionRealNode<TSource> extends DecisionNode<TSource>, Idable {
 
-    public boolean isLeaf();
+    public abstract boolean isLeaf();
 
-    public void makeDirty();
+    public abstract void makeDirty();
 
-    public DecisionRealNode<TSource> nextHop(TSource source);
+    public abstract DecisionRealNode<TSource> reduceThis();
 
-    public abstract DecisionLeaf<TSource> getMaximumLeaf();
+    public abstract DecisionRealNode<TSource> reduce();
+
+    public abstract DecisionRealNode<TSource> nextHop(TSource source);
+
+    public abstract DecisionLeaf<TSource> getMaximumExpandLeaf();
+
+    public abstract DecisionLeaf<TSource> getMaximumReduceLeaf();
 
     public abstract void insert(TSource source);
 

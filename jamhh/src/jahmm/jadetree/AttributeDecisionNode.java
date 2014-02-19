@@ -24,7 +24,7 @@ public abstract class AttributeDecisionNode<TSource, TTarget> extends DecisionIn
 
     @Override
     public double expandScore() {
-        return this.getMaximumLeaf().expandScore();
+        return this.getMaximumExpandLeaf().expandScore();
     }
 
     /**
