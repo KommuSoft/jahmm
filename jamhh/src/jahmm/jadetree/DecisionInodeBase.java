@@ -47,6 +47,11 @@ public abstract class DecisionInodeBase<TSource> extends DecisionNodeBase<TSourc
         return new AppendIterable<>(this.getPartitionedStoredSources());
     }
 
+    @Override
+    public DecisionRealNode<TSource> expand() {
+        return this.getMaximumExpandLeaf().expand();
+    }
+
     private class ConvertFunction implements Function<DecisionRealNode<TSource>, Iterable<TSource>> {
 
         private ConvertFunction() {

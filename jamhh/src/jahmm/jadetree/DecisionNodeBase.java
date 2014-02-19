@@ -72,4 +72,11 @@ public abstract class DecisionNodeBase<TSource> extends IdableBase implements De
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    public DecisionRealNode<TSource> reduceThis() {
+        DecisionRealNode<TSource> result = new DecisionLeaf<>(this.getParent(), this.getStoredSources());
+        this.parent.replaceChild(this, result);
+        return result;
+    }
+
 }

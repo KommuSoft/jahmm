@@ -13,7 +13,7 @@ import jutlis.tuples.HolderBase;
  * @author kommusoft
  * @param <TSource>
  */
-public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> implements CompositeLeaf<DecisionNode<TSource>> {
+public final class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> implements CompositeLeaf<DecisionNode<TSource>> {
 
     private final List<TSource> memory;
     private double score = Double.NaN;
@@ -27,6 +27,13 @@ public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> implements 
     public DecisionLeaf(DecisionInode<TSource> parent, List<TSource> memory) {
         super(parent);
         this.memory = memory;
+    }
+
+    public DecisionLeaf(DecisionInode<TSource> parent, Iterable<TSource> elements) {
+        this(parent);
+        for (TSource element : elements) {
+            this.insert(element);
+        }
     }
 
     public boolean isDirty() {
