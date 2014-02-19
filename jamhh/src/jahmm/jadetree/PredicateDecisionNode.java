@@ -10,24 +10,29 @@ public class PredicateDecisionNode<TSource> extends TestDecisionNode<TSource> {
 
     private final Predicate<? super TSource> predicate;
 
-    public PredicateDecisionNode(DecisionNode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Predicate<? super TSource> predicate) {
+    public PredicateDecisionNode(DecisionInode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Predicate<? super TSource> predicate) {
         super(parent, trueNode, falseNode);
         this.predicate = predicate;
     }
 
-    public PredicateDecisionNode(DecisionTree<TSource> tree, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert, Predicate<? super TSource> predicate) {
-        super(tree, trueNode, falseNode, toInsert);
+    public PredicateDecisionNode(DecisionInode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert, Predicate<? super TSource> predicate) {
+        super(parent, trueNode, falseNode, toInsert);
         this.predicate = predicate;
     }
 
-    public PredicateDecisionNode(DecisionTree<TSource> tree, Predicate<? super TSource> predicate) {
-        super(tree);
+    public PredicateDecisionNode(DecisionInode<TSource> parent, Predicate<? super TSource> predicate) {
+        super(parent);
         this.predicate = predicate;
     }
 
-    public PredicateDecisionNode(DecisionTree<TSource> tree, Iterable<TSource> toInsert, Predicate<? super TSource> predicate) {
-        super(tree, toInsert);
+    public PredicateDecisionNode(DecisionInode<TSource> parent, Iterable<TSource> toInsert, Predicate<? super TSource> predicate) {
+        super(parent, toInsert);
         this.predicate = predicate;
+    }
+
+    @Override
+    public String toString() {
+        return this.getPredicate().toString();
     }
 
     @Override

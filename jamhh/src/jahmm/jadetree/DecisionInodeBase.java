@@ -13,7 +13,7 @@ public abstract class DecisionInodeBase<TSource> extends DecisionNodeBase<TSourc
 
     private DecisionLeaf<TSource> maximumLeaf = null;
 
-    protected DecisionInodeBase(DecisionNode<TSource> parent) {
+    protected DecisionInodeBase(DecisionInode<TSource> parent) {
         super(parent);
     }
 

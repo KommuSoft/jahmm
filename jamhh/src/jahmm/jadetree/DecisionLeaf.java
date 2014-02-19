@@ -20,11 +20,11 @@ public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> implements 
     private int splitIndex = 0x00;
     private final HolderBase<Object> splitData = new HolderBase<>();
 
-    public DecisionLeaf(DecisionNode<TSource> parent) {
+    public DecisionLeaf(DecisionInode<TSource> parent) {
         this(parent, new ArrayList<TSource>());
     }
 
-    public DecisionLeaf(DecisionNode<TSource> parent, List<TSource> memory) {
+    public DecisionLeaf(DecisionInode<TSource> parent, List<TSource> memory) {
         super(parent);
         this.memory = memory;
     }
@@ -108,4 +108,19 @@ public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> implements 
         return new SingleIterable<Iterable<TSource>>(this.getStoredSources());
     }
 
+    @Override
+    public DecisionRealNode<TSource> reduceThis() {
+        return this;
+    }
+
+    @Override
+    public DecisionInode<TSource> getMaximumReduceLeaf() {
+        return this.getParent();
+    }
+
+    @Override
+    public DecisionRealNode<TSource> reduce() {
+        //TODO: move to the parent
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

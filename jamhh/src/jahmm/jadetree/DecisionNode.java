@@ -33,4 +33,7 @@ public interface DecisionNode<TSource> extends CompositeComponent<DecisionNode<T
 
     public abstract void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now);
 
+    @Override
+    public abstract DecisionInode<TSource> getParent();
+
 }

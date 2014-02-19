@@ -13,9 +13,9 @@ import jutlis.IdableBase;
  */
 public abstract class DecisionNodeBase<TSource> extends IdableBase implements DecisionRealNode<TSource> {
 
-    private final DecisionNode<TSource> parent;
+    private final DecisionInode<TSource> parent;
 
-    protected DecisionNodeBase(final DecisionNode<TSource> parent) {
+    protected DecisionNodeBase(final DecisionInode<TSource> parent) {
         this.parent = parent;
     }
 
@@ -48,7 +48,7 @@ public abstract class DecisionNodeBase<TSource> extends IdableBase implements De
      * @return the parent
      */
     @Override
-    public DecisionNode<TSource> getParent() {
+    public DecisionInode<TSource> getParent() {
         return parent;
     }
 

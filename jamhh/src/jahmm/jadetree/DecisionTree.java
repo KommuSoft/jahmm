@@ -17,10 +17,6 @@ public interface DecisionTree<TSource> extends DecisionInode<TSource> {
 
     public void insert(TSource element);
 
-    public void expand();
-
-    public void reduce();
-
     public boolean checkTrade();
 
     public void trade();

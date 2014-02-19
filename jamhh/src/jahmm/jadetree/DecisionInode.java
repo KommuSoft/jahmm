@@ -9,8 +9,6 @@ import jutils.designpatterns.CompositeNode;
  */
 public interface DecisionInode<TSource> extends DecisionRealNode<TSource>, CompositeNode<DecisionNode<TSource>> {
 
-    public abstract DecisionLeaf<TSource> getMaximumLeaf();
-
     @Override
     public abstract Iterable<DecisionRealNode<TSource>> getChildren();
 

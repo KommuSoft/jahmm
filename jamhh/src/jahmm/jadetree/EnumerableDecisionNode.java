@@ -19,11 +19,11 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
 
     final HashMap<TTarget, DecisionRealNode<TSource>> map = new HashMap<>();
 
-    public EnumerableDecisionNode(final DecisionNode<TSource> parent, ObjectAttribute<TSource, TTarget> objectAttribute) {
+    public EnumerableDecisionNode(final DecisionInode<TSource> parent, ObjectAttribute<TSource, TTarget> objectAttribute) {
         super(parent, objectAttribute);
     }
 
-    public EnumerableDecisionNode(final DecisionNode<TSource> tree, ObjectAttribute<TSource, TTarget> objectAttribute, HashMap<TTarget, ? extends List<TSource>> toInsert) {
+    public EnumerableDecisionNode(final DecisionInode<TSource> tree, ObjectAttribute<TSource, TTarget> objectAttribute, HashMap<TTarget, ? extends List<TSource>> toInsert) {
         this(tree, objectAttribute);
         for (Entry<TTarget, ? extends List<TSource>> entry : toInsert.entrySet()) {
             map.put(entry.getKey(), new DecisionLeaf<>(this.getTree(), entry.getValue()));

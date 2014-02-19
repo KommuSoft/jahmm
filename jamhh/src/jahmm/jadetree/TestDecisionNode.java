@@ -1,7 +1,6 @@
 package jahmm.jadetree;
 
 import java.util.Collections;
-import jutils.iterators.AppendIterable;
 import jutlis.lists.ListArray;
 
 /**
@@ -14,24 +13,24 @@ public abstract class TestDecisionNode<TSource> extends DecisionInodeBase<TSourc
     private DecisionRealNode<TSource> trueNode;
     private DecisionRealNode<TSource> falseNode;
 
-    protected TestDecisionNode(final DecisionNode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode) {
+    protected TestDecisionNode(final DecisionInode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode) {
         super(parent);
         this.trueNode = trueNode;
         this.falseNode = falseNode;
     }
 
-    public TestDecisionNode(final DecisionNode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert) {
+    public TestDecisionNode(final DecisionInode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert) {
         this(parent, trueNode, falseNode);
         for (TSource source : toInsert) {
             this.insert(source);
         }
     }
 
-    public TestDecisionNode(final DecisionNode<TSource> parent) {
-        this(parent, new DecisionLeaf<TSource>(parent), new DecisionLeaf<TSource>(parent));
+    public TestDecisionNode(final DecisionInode<TSource> parent) {
+        this(parent, new DecisionLeaf<>(parent), new DecisionLeaf<>(parent));
     }
 
-    public TestDecisionNode(final DecisionNode<TSource> parent, Iterable<TSource> toInsert) {
+    public TestDecisionNode(final DecisionInode<TSource> parent, Iterable<TSource> toInsert) {
         this(parent);
         for (TSource source : toInsert) {
             this.insert(source);

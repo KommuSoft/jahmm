@@ -13,25 +13,25 @@ public class OrdinalTestDecisionNode<TSource, TState> extends TestDecisionNode<T
     private final OrdinalObjectAttribute<TSource, TState> ordinalArgument;
     private final TState state;
 
-    public OrdinalTestDecisionNode(DecisionNode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
+    public OrdinalTestDecisionNode(DecisionInode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
         super(parent, trueNode, falseNode);
         this.ordinalArgument = ordinalArgument;
         this.state = state;
     }
 
-    public OrdinalTestDecisionNode(DecisionNode<TSource> tree, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
+    public OrdinalTestDecisionNode(DecisionInode<TSource> tree, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
         super(tree, trueNode, falseNode, toInsert);
         this.ordinalArgument = ordinalArgument;
         this.state = state;
     }
 
-    public OrdinalTestDecisionNode(DecisionNode<TSource> tree, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
+    public OrdinalTestDecisionNode(DecisionInode<TSource> tree, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
         super(tree);
         this.ordinalArgument = ordinalArgument;
         this.state = state;
     }
 
-    public OrdinalTestDecisionNode(DecisionNode<TSource> tree, Iterable<TSource> toInsert, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
+    public OrdinalTestDecisionNode(DecisionInode<TSource> tree, Iterable<TSource> toInsert, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
         super(tree, toInsert);
         this.ordinalArgument = ordinalArgument;
         this.state = state;
