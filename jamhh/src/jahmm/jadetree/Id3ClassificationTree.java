@@ -127,11 +127,6 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
     }
 
     @Override
-    public Iterable<DecisionNode<TSource>> getChildren() {
-        return new SingleIterable<DecisionNode<TSource>>(this.root);
-    }
-
-    @Override
     public void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
         if (this.root == was) {
             this.root = now;
@@ -151,6 +146,21 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
     @Override
     public void makeDirty() {
         this.root.makeDirty();
+    }
+
+    @Override
+    public Iterable<DecisionRealNode<TSource>> getChildren() {
+        return new SingleIterable<>(this.root);
+    }
+
+    @Override
+    public double reduceScore() {
+        return this.root.reduceScore();
+    }
+
+    @Override
+    public Iterable<TSource> getStoredSources() {
+        return this.root.getStoredSources();
     }
 
 }

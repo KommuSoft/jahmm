@@ -43,7 +43,7 @@ public abstract class DecisionInodeBase<TSource> extends DecisionNodeBase<TSourc
     }
 
     private class ConvertFunction implements Function<DecisionRealNode<TSource>, Iterable<TSource>> {
-        
+
         private ConvertFunction() {
         }
 
