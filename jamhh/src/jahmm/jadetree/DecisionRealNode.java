@@ -1,11 +1,13 @@
 package jahmm.jadetree;
 
+import jutlis.Idable;
+
 /**
  *
  * @author kommusoft
  * @param <TSource> The type of elements in the tree.
  */
-public interface DecisionRealNode<TSource> extends DecisionNode<TSource> {
+public interface DecisionRealNode<TSource> extends DecisionNode<TSource>, Idable {
 
     public boolean isLeaf();
 

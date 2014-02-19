@@ -14,6 +14,10 @@ public interface DecisionNode<TSource> extends CompositeComponent<DecisionNode<T
 
     public abstract double expandScore();
 
+    public abstract double reduceScore();
+
+    public Iterable<? extends TSource> getStoredSources();
+
     /**
      * @return the tree
      */

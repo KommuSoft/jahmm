@@ -2,6 +2,7 @@ package jahmm.jadetree;
 
 import jahmm.jadetree.objectattributes.ObjectAttribute;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import jutils.designpatterns.CompositeLeaf;
 import jutlis.tuples.HolderBase;
@@ -89,6 +90,16 @@ public class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> implements 
 
     @Override
     public void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
+    }
+
+    @Override
+    public double reduceScore() {
+        return Double.NEGATIVE_INFINITY;
+    }
+
+    @Override
+    public Iterable<? extends TSource> getStoredSources() {
+        return Collections.unmodifiableList(this.memory);
     }
 
 }

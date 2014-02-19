@@ -4,17 +4,18 @@ import jahmm.jadetree.draw.DecisionNodeDotDrawer;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
+import jutlis.IdableBase;
 
 /**
  *
  * @author kommusoft
  * @param <TSource>
  */
-public abstract class DecisionNodeBase<TSource> implements DecisionRealNode<TSource> {
+public abstract class DecisionNodeBase<TSource> extends IdableBase implements DecisionRealNode<TSource> {
 
     private final DecisionNode<TSource> parent;
 
-    public DecisionNodeBase(final DecisionNode<TSource> parent) {
+    protected DecisionNodeBase(final DecisionNode<TSource> parent) {
         this.parent = parent;
     }
 
