@@ -5,20 +5,21 @@
  */
 package jahmm.draw;
 
-import static jahmm.GenerateTest.outputDir;
 import jahmm.Hmm;
 import jahmm.ObservationInteger;
 import jahmm.OpdfIntegerFactory;
 import java.io.IOException;
+import java.util.logging.Logger;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author kommusoft
  */
 public class InvariantHmmDotDrawerTest {
+
+    private static final Logger LOG = Logger.getLogger(InvariantHmmDotDrawerTest.class.getName());
 
     public InvariantHmmDotDrawerTest() {
     }
