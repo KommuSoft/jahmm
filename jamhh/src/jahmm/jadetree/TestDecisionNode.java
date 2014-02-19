@@ -8,7 +8,7 @@ import jutlis.lists.ListArray;
  * @author kommusoft
  * @param <TSource>
  */
-public abstract class TestDecisionNode<TSource> extends DecisionInode<TSource> {
+public abstract class TestDecisionNode<TSource> extends DecisionInodeBase<TSource> {
 
     private DecisionRealNode<TSource> trueNode;
     private DecisionRealNode<TSource> falseNode;

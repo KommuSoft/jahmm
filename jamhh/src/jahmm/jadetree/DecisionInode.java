@@ -5,34 +5,14 @@ import jutils.designpatterns.CompositeNode;
 /**
  *
  * @author kommusoft
- * @param <TSource>
+ * @param <TSource> The type of objects stored in the decision tree.
  */
-public abstract class DecisionInode<TSource> extends DecisionNodeBase<TSource> implements CompositeNode<DecisionNode<TSource>> {
+public interface DecisionInode<TSource> extends DecisionNode<TSource>, CompositeNode<DecisionNode<TSource>> {
 
-    private DecisionLeaf<TSource> maximumLeaf = null;
+    double expandScore();
 
-    protected DecisionInode(DecisionNode<TSource> parent) {
-        super(parent);
-    }
+    DecisionLeaf<TSource> getMaximumLeaf();
 
-    @Override
-    public double expandScore() {
-        return this.getMaximumLeaf().expandScore();
-    }
-
-    @Override
-    public DecisionLeaf<TSource> getMaximumLeaf() {
-        if (this.maximumLeaf == null) {
-            this.maximumLeaf = this.recalcMaximumLeaf();
-        }
-        return this.maximumLeaf;
-    }
-
-    @Override
-    public void makeDirty() {
-        this.maximumLeaf = null;
-    }
-
-    protected abstract DecisionLeaf<TSource> recalcMaximumLeaf();
+    void makeDirty();
 
 }

@@ -3,14 +3,13 @@ package jahmm.jadetree;
 import jahmm.jadetree.objectattributes.NominalObjectAttribute;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
 import java.util.List;
-import jutils.designpatterns.CompositeNode;
 
 /**
  *
  * @author kommusoft
  * @param <TSource>
  */
-public interface DecisionTree<TSource> extends DecisionNode<TSource>, CompositeNode<DecisionNode<TSource>> {
+public interface DecisionTree<TSource> extends DecisionInode<TSource> {
 
     public List<ObjectAttribute<TSource, Object>> getSourceAttributes();
 

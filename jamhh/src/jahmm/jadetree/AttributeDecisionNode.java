@@ -13,7 +13,7 @@ import jahmm.jadetree.objectattributes.ObjectAttribute;
  * @param <TSource>
  * @param <TTarget>
  */
-public abstract class AttributeDecisionNode<TSource, TTarget> extends DecisionInode<TSource> {
+public abstract class AttributeDecisionNode<TSource, TTarget> extends DecisionInodeBase<TSource> {
 
     final ObjectAttribute<TSource, TTarget> objectAttribute;
 
