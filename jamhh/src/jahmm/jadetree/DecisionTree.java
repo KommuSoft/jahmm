@@ -2,6 +2,7 @@ package jahmm.jadetree;
 
 import jahmm.jadetree.objectattributes.NominalObjectAttribute;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
+import java.util.List;
 import jutils.designpatterns.CompositeNode;
 
 /**
@@ -11,32 +12,32 @@ import jutils.designpatterns.CompositeNode;
  */
 public interface DecisionTree<TSource> extends DecisionNode<TSource>, CompositeNode<DecisionNode<TSource>> {
 
-    Iterable<ObjectAttribute<TSource, Object>> getSourceAttributes();
+    public List<ObjectAttribute<TSource, Object>> getSourceAttributes();
 
-    void addSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute);
+    public void addSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute);
 
-    void insert(TSource element);
+    public void insert(TSource element);
 
-    void expand();
+    public void expand();
 
-    void reduce();
+    public void reduce();
 
-    boolean checkTrade();
+    public boolean checkTrade();
 
-    void trade();
+    public void trade();
 
-    void tradeExpand();
+    public void tradeExpand();
 
-    void reduceMemory();
+    public void reduceMemory();
 
-    DecisionNode<TSource> getRoot();
+    public DecisionNode<TSource> getRoot();
 
-    void removeSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute);
+    public void removeSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute);
 
-    NominalObjectAttribute<TSource, Object> getTargetAttribute();
+    public NominalObjectAttribute<TSource, Object> getTargetAttribute();
 
-    Object classify(TSource element);
+    public Object classify(TSource element);
 
-    Object classifyInsert(TSource element);
+    public Object classifyInsert(TSource element);
 
 }

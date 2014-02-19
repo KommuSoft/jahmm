@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.logging.Logger;
 import jutils.iterators.SingleIterable;
 
@@ -47,7 +48,7 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
     }
 
     @Override
-    public Iterable<ObjectAttribute<TSource, Object>> getSourceAttributes() {
+    public List<ObjectAttribute<TSource, Object>> getSourceAttributes() {
         return Collections.unmodifiableList(this.sourceAttributes);
     }
 
