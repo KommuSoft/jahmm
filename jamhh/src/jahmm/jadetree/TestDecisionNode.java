@@ -108,13 +108,8 @@ public abstract class TestDecisionNode<TSource> extends DecisionInodeBase<TSourc
 
     @Override
     @SuppressWarnings("unchecked")
-    public Iterable<? extends DecisionNode<TSource>> getChildren() {
+    public Iterable<DecisionRealNode<TSource>> getChildren() {
         return Collections.unmodifiableCollection(new ListArray<>(this.trueNode, this.falseNode));
-    }
-
-    @Override
-    public Iterable<TSource> getStoredSources() {
-        return new AppendIterable<>(this.trueNode.getStoredSources(), this.falseNode.getStoredSources());
     }
 
 }

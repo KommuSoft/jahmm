@@ -39,11 +39,11 @@ public abstract class DecisionInodeBase<TSource> extends DecisionNodeBase<TSourc
 
     @Override
     public Iterable<TSource> getStoredSources() {
-        return new AppendIterable<TSource>(new MapIterable<DecisionRealNode<TSource>, Iterable<TSource>>(this.getChildren(), new ConvertFunction()));
+        return new AppendIterable<>(new MapIterable<>(this.getChildren(), new ConvertFunction()));
     }
 
     private class ConvertFunction implements Function<DecisionRealNode<TSource>, Iterable<TSource>> {
-
+        
         private ConvertFunction() {
         }
 

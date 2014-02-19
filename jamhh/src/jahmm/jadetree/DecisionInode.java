@@ -13,4 +13,7 @@ public interface DecisionInode<TSource> extends DecisionNode<TSource>, Composite
 
     public abstract void makeDirty();
 
+    @Override
+    public abstract Iterable<DecisionRealNode<TSource>> getChildren();
+
 }

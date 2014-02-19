@@ -75,7 +75,7 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
     }
 
     @Override
-    public Iterable<? extends DecisionNode<TSource>> getChildren() {
+    public Iterable<DecisionRealNode<TSource>> getChildren() {
         return Collections.unmodifiableCollection(this.map.values());
     }
 
