@@ -1,6 +1,6 @@
 package jahmm.jadetree.objectattributes;
 
-public abstract class ContinuObjectAttributeBase<TSource, TTarget> extends OrdinalObjectAttributeBase<TSource,TTarget> implements ContinuObjectAttribute<TSource, TTarget> {
+public abstract class ContinuObjectAttributeBase<TSource, TTarget> extends OrdinalObjectAttributeBase<TSource, TTarget> implements ContinuObjectAttribute<TSource, TTarget> {
 
     @Override
     public TTarget getBetween(TSource source1, TSource source2) {

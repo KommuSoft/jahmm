@@ -12,6 +12,14 @@ import jutils.designpatterns.CompositeComponent;
  */
 public interface DecisionNode<TSource> extends CompositeComponent<DecisionNode<TSource>> {
 
+    public abstract double expandScore();
+
+    public abstract double reduceScore();
+
+    public abstract Iterable<TSource> getStoredSources();
+
+    public abstract Iterable<Iterable<TSource>> getPartitionedStoredSources();
+
     /**
      * @return the tree
      */

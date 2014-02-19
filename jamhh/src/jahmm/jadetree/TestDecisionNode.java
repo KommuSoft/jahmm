@@ -1,6 +1,7 @@
 package jahmm.jadetree;
 
 import java.util.Collections;
+import jutils.iterators.AppendIterable;
 import jutlis.lists.ListArray;
 
 /**
@@ -57,9 +58,9 @@ public abstract class TestDecisionNode<TSource> extends DecisionInodeBase<TSourc
 
     @Override
     protected DecisionLeaf<TSource> recalcMaximumLeaf() {
-        DecisionLeaf<TSource> maxLeaf = this.falseNode.getMaximumLeaf();
+        DecisionLeaf<TSource> maxLeaf = this.falseNode.getMaximumExpandLeaf();
         double max = maxLeaf.expandScore();
-        DecisionLeaf<TSource> leaf = this.trueNode.getMaximumLeaf();
+        DecisionLeaf<TSource> leaf = this.trueNode.getMaximumExpandLeaf();
         double val = maxLeaf.expandScore();
         if (val > max) {
             maxLeaf = leaf;
@@ -107,7 +108,7 @@ public abstract class TestDecisionNode<TSource> extends DecisionInodeBase<TSourc
 
     @Override
     @SuppressWarnings("unchecked")
-    public Iterable<? extends DecisionNode<TSource>> getChildren() {
+    public Iterable<DecisionRealNode<TSource>> getChildren() {
         return Collections.unmodifiableCollection(new ListArray<>(this.trueNode, this.falseNode));
     }
 

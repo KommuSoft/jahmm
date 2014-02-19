@@ -28,13 +28,13 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
     @Override
     public void addSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute) {
         this.sourceAttributes.add(sourceAttribute);
-        this.root.makeDirty();
+        this.makeDirty();
     }
 
     @Override
     public void removeSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute) {
         this.sourceAttributes.remove(sourceAttribute);
-        this.root.makeDirty();
+        this.makeDirty();
     }
 
     @Override
@@ -59,7 +59,7 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
 
     @Override
     public void expand() {
-        this.root.getMaximumLeaf().expand();
+        this.root.getMaximumExpandLeaf().expand();
     }
 
     @Override
@@ -127,15 +127,45 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
     }
 
     @Override
-    public Iterable<DecisionNode<TSource>> getChildren() {
-        return new SingleIterable<DecisionNode<TSource>>(this.root);
-    }
-
-    @Override
     public void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
         if (this.root == was) {
             this.root = now;
         }
+    }
+
+    @Override
+    public double expandScore() {
+        return this.root.expandScore();
+    }
+
+    @Override
+    public DecisionLeaf<TSource> getMaximumLeaf() {
+        return this.root.getMaximumExpandLeaf();
+    }
+
+    @Override
+    public void makeDirty() {
+        this.root.makeDirty();
+    }
+
+    @Override
+    public Iterable<DecisionRealNode<TSource>> getChildren() {
+        return new SingleIterable<>(this.root);
+    }
+
+    @Override
+    public double reduceScore() {
+        return this.root.reduceScore();
+    }
+
+    @Override
+    public Iterable<TSource> getStoredSources() {
+        return this.root.getStoredSources();
+    }
+
+    @Override
+    public Iterable<Iterable<TSource>> getPartitionedStoredSources() {
+        return new SingleIterable<>(this.getStoredSources());
     }
 
 }

@@ -1,6 +1,8 @@
 package jahmm.jadetree;
 
-import jutils.designpatterns.CompositeNode;
+import jutils.iterators.AppendIterable;
+import jutils.iterators.MapIterable;
+import jutlis.algebra.Function;
 
 /**
  *
@@ -17,11 +19,11 @@ public abstract class DecisionInodeBase<TSource> extends DecisionNodeBase<TSourc
 
     @Override
     public double expandScore() {
-        return this.getMaximumLeaf().expandScore();
+        return this.getMaximumExpandLeaf().expandScore();
     }
 
     @Override
-    public DecisionLeaf<TSource> getMaximumLeaf() {
+    public DecisionLeaf<TSource> getMaximumExpandLeaf() {
         if (this.maximumLeaf == null) {
             this.maximumLeaf = this.recalcMaximumLeaf();
         }
@@ -34,5 +36,27 @@ public abstract class DecisionInodeBase<TSource> extends DecisionNodeBase<TSourc
     }
 
     protected abstract DecisionLeaf<TSource> recalcMaximumLeaf();
+
+    @Override
+    public Iterable<Iterable<TSource>> getPartitionedStoredSources() {
+        return new MapIterable<>(this.getChildren(), new ConvertFunction());
+    }
+
+    @Override
+    public Iterable<TSource> getStoredSources() {
+        return new AppendIterable<>(this.getPartitionedStoredSources());
+    }
+
+    private class ConvertFunction implements Function<DecisionRealNode<TSource>, Iterable<TSource>> {
+
+        private ConvertFunction() {
+        }
+
+        @Override
+        public Iterable<TSource> evaluate(DecisionRealNode<TSource> x) {
+            return x.getStoredSources();
+        }
+
+    }
 
 }

@@ -55,7 +55,7 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
         double val;
         DecisionLeaf<TSource> leaf, maxLeaf = null;
         for (DecisionRealNode<TSource> dn : this.map.values()) {
-            leaf = dn.getMaximumLeaf();
+            leaf = dn.getMaximumExpandLeaf();
             val = leaf.expandScore();
             if (val > max) {
                 max = val;
@@ -75,13 +75,18 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
     }
 
     @Override
-    public Iterable<? extends DecisionNode<TSource>> getChildren() {
+    public Iterable<DecisionRealNode<TSource>> getChildren() {
         return Collections.unmodifiableCollection(this.map.values());
     }
 
     @Override
     public String toString() {
         return this.getObjectAttribute().getName();
+    }
+
+    @Override
+    public double reduceScore() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }
