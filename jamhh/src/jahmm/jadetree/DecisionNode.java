@@ -12,6 +12,8 @@ import jutils.designpatterns.CompositeComponent;
  */
 public interface DecisionNode<TSource> extends CompositeComponent<DecisionNode<TSource>> {
 
+    public abstract double expandScore();
+
     /**
      * @return the tree
      */

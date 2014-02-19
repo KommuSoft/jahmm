@@ -28,13 +28,13 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
     @Override
     public void addSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute) {
         this.sourceAttributes.add(sourceAttribute);
-        this.root.makeDirty();
+        this.makeDirty();
     }
 
     @Override
     public void removeSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute) {
         this.sourceAttributes.remove(sourceAttribute);
-        this.root.makeDirty();
+        this.makeDirty();
     }
 
     @Override
@@ -136,6 +136,21 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
         if (this.root == was) {
             this.root = now;
         }
+    }
+
+    @Override
+    public double expandScore() {
+        return this.root.expandScore();
+    }
+
+    @Override
+    public DecisionLeaf<TSource> getMaximumLeaf() {
+        return this.root.getMaximumLeaf();
+    }
+
+    @Override
+    public void makeDirty() {
+        this.root.makeDirty();
     }
 
 }

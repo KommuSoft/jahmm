@@ -9,10 +9,8 @@ import jutils.designpatterns.CompositeNode;
  */
 public interface DecisionInode<TSource> extends DecisionNode<TSource>, CompositeNode<DecisionNode<TSource>> {
 
-    double expandScore();
+    public abstract DecisionLeaf<TSource> getMaximumLeaf();
 
-    DecisionLeaf<TSource> getMaximumLeaf();
-
-    void makeDirty();
+    public abstract void makeDirty();
 
 }
