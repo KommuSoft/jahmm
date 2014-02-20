@@ -1,8 +1,5 @@
 package jahmm.jadetree;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
 import jutils.designpatterns.CompositeComponent;
 
 /**
@@ -10,7 +7,11 @@ import jutils.designpatterns.CompositeComponent;
  * @author kommusoft
  * @param <TSource> The type of objects classified and stored in the tree.
  */
-public interface DecisionNode<TSource> extends CompositeComponent<DecisionNode<TSource>> {
+public interface DecisionNode<TSource> extends CompositeComponent<DecisionNode<TSource>, DecisionInode<TSource>> {
+
+    public abstract void reduce();
+
+    public abstract void expand();
 
     public abstract double expandScore();
 
@@ -20,17 +21,8 @@ public interface DecisionNode<TSource> extends CompositeComponent<DecisionNode<T
 
     public abstract Iterable<Iterable<TSource>> getPartitionedStoredSources();
 
-    /**
-     * @return the tree
-     */
     public abstract DecisionTree<TSource> getTree();
 
-    public abstract void writeDraw(OutputStream os) throws IOException;
-
-    public abstract void writeDraw(Writer writer) throws IOException;
-
-    public abstract String writeDraw() throws IOException;
-
-    public abstract void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now);
+    public abstract void insert(TSource source);
 
 }

@@ -1,15 +1,11 @@
 package jahmm.jadetree;
 
-import jahmm.jadetree.draw.DecisionNodeDotDrawer;
 import jahmm.jadetree.objectattributes.NominalObjectAttribute;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Logger;
+import java.util.Objects;
 import jutils.iterators.SingleIterable;
 
 /**
@@ -17,34 +13,67 @@ import jutils.iterators.SingleIterable;
  * @author kommusoft
  * @param <TSource> The source of the types to classify.
  */
-public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
-
-    private static final Logger LOG = Logger.getLogger(Id3ClassificationTree.class.getName());
+public class Id3ClassificationTree<TSource> extends DecisionInodeBase<TSource> implements DecisionTree<TSource> {
 
     private final ArrayList<ObjectAttribute<TSource, Object>> sourceAttributes = new ArrayList<>();
-    private NominalObjectAttribute<TSource, Object> targetAttribute;
-    private DecisionRealNode<TSource> root = new DecisionLeaf<>(this);
+    private final NominalObjectAttribute<TSource, Object> targetAttribute;
+    private DecisionRealNode<TSource> root;
 
-    @Override
-    public void addSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute) {
-        this.sourceAttributes.add(sourceAttribute);
-        this.makeDirty();
+    public Id3ClassificationTree(final NominalObjectAttribute<TSource, Object> targetAttribute) {
+        super(null);
+        this.targetAttribute = targetAttribute;
     }
 
     @Override
-    public void removeSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute) {
-        this.sourceAttributes.remove(sourceAttribute);
-        this.makeDirty();
+    public DecisionInode<TSource> getParent() {
+        return this;
     }
 
     @Override
-    public void insert(TSource element) {
-        this.root.insert(element);
+    public DecisionTree<TSource> getTree() {
+        return this;
     }
 
     @Override
-    public void reduceMemory() {
-        this.root.makeDirty();
+    public void reduce() {
+        this.root.reduce();
+    }
+
+    @Override
+    public void expand() {
+        this.root.expand();
+    }
+
+    @Override
+    public double expandScore() {
+        return this.root.expandScore();
+    }
+
+    @Override
+    public double reduceScore() {
+        return this.root.reduceScore();
+    }
+
+    @Override
+    public void insert(TSource source) {
+        this.root.insert(source);
+    }
+
+    @Override
+    public Iterable<DecisionRealNode<TSource>> getChildren() {
+        return new SingleIterable<>(this.root);
+    }
+
+    @Override
+    public DecisionRealNode<TSource> getRoot() {
+        return this.root;
+    }
+
+    @Override
+    public void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
+        if (Objects.equals(this.root, was)) {
+            this.root = now;
+        }
     }
 
     @Override
@@ -53,28 +82,33 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
     }
 
     @Override
+    public void addSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute) {
+        this.sourceAttributes.add(sourceAttribute);
+        this.root.makeDirty();
+    }
+
+    @Override
+    public void removeSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute) {
+        this.sourceAttributes.remove(sourceAttribute);
+        this.root.makeDirty();
+    }
+
+    @Override
     public NominalObjectAttribute<TSource, Object> getTargetAttribute() {
         return this.targetAttribute;
     }
 
     @Override
-    public void expand() {
-        this.root.getMaximumExpandLeaf().expand();
-    }
-
-    @Override
-    public void reduce() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public boolean checkTrade() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.reduceScore() >= this.expandScore();
     }
 
     @Override
     public void trade() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (this.checkTrade()) {
+            this.reduce();
+            this.expandScore();
+        }
     }
 
     @Override
@@ -84,8 +118,8 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
     }
 
     @Override
-    public DecisionTree<TSource> getTree() {
-        return this;
+    public void reduceMemory() {
+        this.root.makeDirty();
     }
 
     @Override
@@ -95,77 +129,7 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
 
     @Override
     public Object classifyInsert(TSource element) {
-        Object clas = this.classify(element);
-        this.insert(element);
-        return clas;
-        //TODO: increase performance
-    }
-
-    @Override
-    public DecisionNode<TSource> getParent() {
-        return this;
-    }
-
-    @Override
-    public DecisionRealNode<TSource> getRoot() {
-        return this.root;
-    }
-
-    @Override
-    public void writeDraw(OutputStream os) throws IOException {
-        new DecisionNodeDotDrawer<TSource>().write(this, os);
-    }
-
-    @Override
-    public void writeDraw(Writer writer) throws IOException {
-        new DecisionNodeDotDrawer<TSource>().write(this, writer);
-    }
-
-    @Override
-    public String writeDraw() throws IOException {
-        return new DecisionNodeDotDrawer<TSource>().write(this);
-    }
-
-    @Override
-    public void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
-        if (this.root == was) {
-            this.root = now;
-        }
-    }
-
-    @Override
-    public double expandScore() {
-        return this.root.expandScore();
-    }
-
-    @Override
-    public DecisionLeaf<TSource> getMaximumLeaf() {
-        return this.root.getMaximumExpandLeaf();
-    }
-
-    @Override
-    public void makeDirty() {
-        this.root.makeDirty();
-    }
-
-    @Override
-    public Iterable<DecisionRealNode<TSource>> getChildren() {
-        return new SingleIterable<>(this.root);
-    }
-
-    @Override
-    public double reduceScore() {
-        return this.root.reduceScore();
-    }
-
-    @Override
-    public Iterable<TSource> getStoredSources() {
-        return this.root.getStoredSources();
-    }
-
-    @Override
-    public Iterable<Iterable<TSource>> getPartitionedStoredSources() {
-        return new SingleIterable<>(this.getStoredSources());
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

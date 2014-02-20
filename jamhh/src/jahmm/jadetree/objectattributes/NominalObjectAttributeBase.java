@@ -1,16 +1,16 @@
 package jahmm.jadetree.objectattributes;
 
-import jahmm.jadetree.DecisionNode;
-import jahmm.jadetree.DecisionNodeBase;
+import jahmm.jadetree.DecisionInode;
 import jahmm.jadetree.DecisionTreeUtils;
 import jahmm.jadetree.EnumerableDecisionNode;
+import jahmm.jadetree.DecisionRealNode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import jutils.collections.CollectionUtils;
-import jutlis.CollectionFactoryMethods;
-import jutlis.FactoryMethod;
+import jutils.CollectionFactoryMethods;
+import jutils.FactoryMethod;
 import jutlis.algebra.Function;
 import jutlis.tuples.Holder;
 
@@ -32,7 +32,7 @@ public abstract class NominalObjectAttributeBase<TSource, TTarget> implements No
     }
 
     @Override
-    public DecisionNodeBase<TSource> createDecisionNode(DecisionNode<TSource> parent, List<TSource> source, Function<TSource, Object> target, Holder<Object> state) {
+    public DecisionRealNode<TSource> createDecisionNode(DecisionInode<TSource> parent, List<TSource> source, Function<TSource, Object> target, Holder<Object> state) {
         @SuppressWarnings("unchecked")
         HashMap<TTarget, LinkedList<TSource>> data = (HashMap<TTarget, LinkedList<TSource>>) state.getData();
         return new EnumerableDecisionNode<>(parent, this, data);

@@ -1,9 +1,9 @@
 package jahmm.jadetree.objectattributes;
 
-import jahmm.jadetree.DecisionNode;
-import jahmm.jadetree.DecisionNodeBase;
+import jahmm.jadetree.DecisionInode;
+import jahmm.jadetree.DecisionRealNode;
 import java.util.List;
-import jutlis.Name;
+import jutils.Name;
 import jutlis.algebra.Function;
 import jutlis.tuples.Holder;
 
@@ -17,6 +17,6 @@ public interface ObjectAttribute<TSource, TTarget> extends Name, Function<TSourc
 
     public abstract double calculateScore(List<TSource> source, Function<TSource, Object> function, Holder<Object> state);
 
-    public abstract DecisionNodeBase<TSource> createDecisionNode(DecisionNode<TSource> parent, List<TSource> source, Function<TSource, Object> function, Holder<Object> state);
+    public abstract DecisionRealNode<TSource> createDecisionNode(DecisionInode<TSource> parent, List<TSource> source, Function<TSource, Object> function, Holder<Object> state);
 
 }

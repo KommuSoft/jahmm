@@ -1,7 +1,6 @@
 package jahmm.jadetree;
 
 import java.util.Collections;
-import jutils.iterators.AppendIterable;
 import jutlis.lists.ListArray;
 
 /**
@@ -14,24 +13,24 @@ public abstract class TestDecisionNode<TSource> extends DecisionInodeBase<TSourc
     private DecisionRealNode<TSource> trueNode;
     private DecisionRealNode<TSource> falseNode;
 
-    protected TestDecisionNode(final DecisionNode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode) {
+    protected TestDecisionNode(final DecisionInode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode) {
         super(parent);
         this.trueNode = trueNode;
         this.falseNode = falseNode;
     }
 
-    public TestDecisionNode(final DecisionNode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert) {
+    protected TestDecisionNode(final DecisionInode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert) {
         this(parent, trueNode, falseNode);
         for (TSource source : toInsert) {
             this.insert(source);
         }
     }
 
-    public TestDecisionNode(final DecisionNode<TSource> parent) {
-        this(parent, new DecisionLeaf<TSource>(parent), new DecisionLeaf<TSource>(parent));
+    protected TestDecisionNode(final DecisionInode<TSource> parent) {
+        this(parent, new DecisionLeafBase<>(parent), new DecisionLeafBase<>(parent));
     }
 
-    public TestDecisionNode(final DecisionNode<TSource> parent, Iterable<TSource> toInsert) {
+    protected TestDecisionNode(final DecisionInode<TSource> parent, Iterable<TSource> toInsert) {
         this(parent);
         for (TSource source : toInsert) {
             this.insert(source);
@@ -57,10 +56,10 @@ public abstract class TestDecisionNode<TSource> extends DecisionInodeBase<TSourc
     }
 
     @Override
-    protected DecisionLeaf<TSource> recalcMaximumLeaf() {
-        DecisionLeaf<TSource> maxLeaf = this.falseNode.getMaximumExpandLeaf();
+    protected DecisionLeafBase<TSource> recalcMaximumExpandLeaf() {
+        DecisionLeafBase<TSource> maxLeaf = this.falseNode.getMaximumExpandLeaf();
         double max = maxLeaf.expandScore();
-        DecisionLeaf<TSource> leaf = this.trueNode.getMaximumExpandLeaf();
+        DecisionLeafBase<TSource> leaf = this.trueNode.getMaximumExpandLeaf();
         double val = maxLeaf.expandScore();
         if (val > max) {
             maxLeaf = leaf;

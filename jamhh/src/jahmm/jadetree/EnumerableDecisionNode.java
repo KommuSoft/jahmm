@@ -19,14 +19,14 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
 
     final HashMap<TTarget, DecisionRealNode<TSource>> map = new HashMap<>();
 
-    public EnumerableDecisionNode(final DecisionNode<TSource> parent, ObjectAttribute<TSource, TTarget> objectAttribute) {
+    public EnumerableDecisionNode(final DecisionInode<TSource> parent, ObjectAttribute<TSource, TTarget> objectAttribute) {
         super(parent, objectAttribute);
     }
 
-    public EnumerableDecisionNode(final DecisionNode<TSource> tree, ObjectAttribute<TSource, TTarget> objectAttribute, HashMap<TTarget, ? extends List<TSource>> toInsert) {
+    public EnumerableDecisionNode(final DecisionInode<TSource> tree, ObjectAttribute<TSource, TTarget> objectAttribute, HashMap<TTarget, ? extends List<TSource>> toInsert) {
         this(tree, objectAttribute);
         for (Entry<TTarget, ? extends List<TSource>> entry : toInsert.entrySet()) {
-            map.put(entry.getKey(), new DecisionLeaf<>(this.getTree(), entry.getValue()));
+            map.put(entry.getKey(), new DecisionLeafBase<>(this.getTree(), entry.getValue()));
         }
     }
 
@@ -35,7 +35,7 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
         TTarget key = this.getObjectAttribute(source);
         DecisionRealNode<TSource> value = map.get(key);
         if (value == null) {
-            value = new DecisionLeaf<>(this.getTree());
+            value = new DecisionLeafBase<>(this.getTree());
             this.map.put(key, value);
         }
         return value;
@@ -50,9 +50,10 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
     }
 
     @Override
-    protected DecisionLeaf<TSource> recalcMaximumLeaf() {
+    protected DecisionLeafBase<TSource> recalcMaximumExpandLeaf() {
         double max = Double.NEGATIVE_INFINITY;
         double val;
+        DecisionLeafBase<TSource> leaf;
         DecisionLeaf<TSource> leaf, maxLeaf = null;
         for (DecisionRealNode<TSource> dn : this.map.values()) {
             leaf = dn.getMaximumExpandLeaf();
@@ -82,11 +83,6 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
     @Override
     public String toString() {
         return this.getObjectAttribute().getName();
-    }
-
-    @Override
-    public double reduceScore() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

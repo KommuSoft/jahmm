@@ -1,28 +1,21 @@
 package jahmm.jadetree;
 
-import jutlis.Idable;
+import jutils.Dirtyable;
+import jutils.Idable;
 
 /**
  *
  * @author kommusoft
  * @param <TSource> The type of elements in the tree.
  */
-public interface DecisionRealNode<TSource> extends DecisionNode<TSource>, Idable {
+public interface DecisionRealNode<TSource> extends DecisionNode<TSource>, Idable, Dirtyable {
 
     public abstract boolean isLeaf();
-
-    public abstract void makeDirty();
-
-    public abstract DecisionRealNode<TSource> reduceThis();
-
-    public abstract DecisionRealNode<TSource> reduce();
 
     public abstract DecisionRealNode<TSource> nextHop(TSource source);
 
     public abstract DecisionLeaf<TSource> getMaximumExpandLeaf();
 
-    public abstract DecisionInode<TSource> getMaximumReduceLeaf();
-
-    public abstract void insert(TSource source);
+    public abstract DecisionRealInode<TSource> getMaximumReduceInode();
 
 }

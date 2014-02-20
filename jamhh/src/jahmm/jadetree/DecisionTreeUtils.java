@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 import jutils.collections.CollectionUtils;
-import jutlis.MathUtils;
+import jutils.MathUtils;
 import jutlis.algebra.Function;
-import jutlis.algebra.functions.IdentityFunction;
+import jutlis.algebra.functions.FunctionIdentity;
 import jutlis.tuples.Holder;
 import jutlis.tuples.HolderBase;
 import jutlis.tuples.Tuple2;
@@ -60,11 +60,11 @@ public class DecisionTreeUtils {
     }
 
     public static <TSource> double calculateRawEntropy(Iterable<? extends TSource> sources) {
-        return calculateRawEntropy(sources, new IdentityFunction<>());
+        return calculateRawEntropy(sources, new FunctionIdentity<>());
     }
 
     public static <TSource> double calculateRawEntropy(Iterable<? extends TSource> sources, Holder<Integer> total) {
-        return calculateRawEntropy(sources, new IdentityFunction<>(), total);
+        return calculateRawEntropy(sources, new FunctionIdentity<>(), total);
     }
 
     public static <TSource, TTarget> double calculateRawEntropy(Iterable<? extends TSource> sources, Function<TSource, TTarget> function, Holder<Integer> total) {
@@ -92,7 +92,7 @@ public class DecisionTreeUtils {
     }
 
     public static <TSource> double calculateEntropy(Iterable<TSource> sources) {
-        return calculateEntropy(sources, new IdentityFunction<TSource>());
+        return calculateEntropy(sources, new FunctionIdentity<TSource>());
     }
 
     public static <TSource, TTarget> int calculateEntropyFlipIndex(Iterable<TSource> sources, Function<TSource, TTarget> function, Tuple2<Integer, Double> total_entropy) {
@@ -148,7 +148,7 @@ public class DecisionTreeUtils {
         return entropy / total;
     }
 
-    public static <TSource, TTarget> double calculateReduceScore(Iterable<? extends Iterable<? extends TSource>> sources, Function<TSource, TTarget> function) {
+    public static <TSource, TTarget> double calculateReduceEntropy(Iterable<? extends Iterable<? extends TSource>> sources, Function<TSource, TTarget> function) {
         final HashMap<TTarget, Integer> frequency = new HashMap<>();
         final HashMap<TTarget, Integer> subFrequency = new HashMap<>();
         Holder<Integer> ttl = new HolderBase<>();

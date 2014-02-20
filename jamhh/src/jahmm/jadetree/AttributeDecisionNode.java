@@ -17,7 +17,7 @@ public abstract class AttributeDecisionNode<TSource, TTarget> extends DecisionIn
 
     final ObjectAttribute<TSource, TTarget> objectAttribute;
 
-    protected AttributeDecisionNode(final DecisionNode<TSource> parent, ObjectAttribute<TSource, TTarget> objectAttribute) {
+    protected AttributeDecisionNode(final DecisionInode<TSource> parent, ObjectAttribute<TSource, TTarget> objectAttribute) {
         super(parent);
         this.objectAttribute = objectAttribute;
     }

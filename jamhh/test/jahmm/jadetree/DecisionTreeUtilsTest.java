@@ -3,7 +3,7 @@ package jahmm.jadetree;
 import jahmm.jadetree.DecisionTreeUtils;
 import java.util.logging.Logger;
 import jutils.iterators.ListGenericIterable;
-import jutlis.MathUtils;
+import jutils.MathUtils;
 import jutlis.algebra.Function;
 import org.junit.Test;
 import static utils.AssertExtensions.assertEquals;
