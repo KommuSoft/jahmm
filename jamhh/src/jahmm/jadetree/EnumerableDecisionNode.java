@@ -28,7 +28,7 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
     public EnumerableDecisionNode(final DecisionInode<TSource> tree, ObjectAttribute<TSource, TTarget> objectAttribute, HashMap<TTarget, ? extends List<TSource>> toInsert) {
         this(tree, objectAttribute);
         for (Entry<TTarget, ? extends List<TSource>> entry : toInsert.entrySet()) {
-            map.put(entry.getKey(), new DecisionLeafImpl<>(this.getTree(), entry.getValue()));
+            map.put(entry.getKey(), new DecisionLeafBase<>(this.getTree(), entry.getValue()));
         }
     }
 
@@ -37,7 +37,7 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
         TTarget key = this.getObjectAttribute(source);
         DecisionRealNode<TSource> value = map.get(key);
         if (value == null) {
-            value = new DecisionLeafImpl<>(this.getTree());
+            value = new DecisionLeafBase<>(this.getTree());
             this.map.put(key, value);
         }
         return value;
@@ -52,10 +52,10 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
     }
 
     @Override
-    protected DecisionLeafImpl<TSource> recalcMaximumExpandLeaf() {
+    protected DecisionLeafBase<TSource> recalcMaximumExpandLeaf() {
         double max = Double.NEGATIVE_INFINITY;
         double val;
-        DecisionLeafImpl<TSource> leaf;
+        DecisionLeafBase<TSource> leaf;
         DecisionLeaf<TSource> leaf, maxLeaf = null;
         for (DecisionRealNode<TSource> dn : this.map.values()) {
             leaf = dn.getMaximumExpandLeaf();

@@ -29,7 +29,7 @@ public abstract class TestDecisionNode<TSource> extends DecisionInodeBase<TSourc
     }
 
     protected TestDecisionNode(final DecisionInode<TSource> parent) {
-        this(parent, new DecisionLeafImpl<>(parent), new DecisionLeafImpl<>(parent));
+        this(parent, new DecisionLeafBase<>(parent), new DecisionLeafBase<>(parent));
     }
 
     protected TestDecisionNode(final DecisionInode<TSource> parent, Iterable<TSource> toInsert) {
@@ -58,10 +58,10 @@ public abstract class TestDecisionNode<TSource> extends DecisionInodeBase<TSourc
     }
 
     @Override
-    protected DecisionLeafImpl<TSource> recalcMaximumExpandLeaf() {
-        DecisionLeafImpl<TSource> maxLeaf = this.falseNode.getMaximumExpandLeaf();
+    protected DecisionLeafBase<TSource> recalcMaximumExpandLeaf() {
+        DecisionLeafBase<TSource> maxLeaf = this.falseNode.getMaximumExpandLeaf();
         double max = maxLeaf.expandScore();
-        DecisionLeafImpl<TSource> leaf = this.trueNode.getMaximumExpandLeaf();
+        DecisionLeafBase<TSource> leaf = this.trueNode.getMaximumExpandLeaf();
         double val = maxLeaf.expandScore();
         if (val > max) {
             maxLeaf = leaf;
