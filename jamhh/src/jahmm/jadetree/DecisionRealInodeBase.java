@@ -1,5 +1,6 @@
 package jahmm.jadetree;
 
+import java.util.logging.Logger;
 import jutils.collections.CollectionUtils;
 import jutlis.algebra.Function;
 
@@ -9,6 +10,12 @@ import jutlis.algebra.Function;
  * @param <TSource> The type of elements stored in the decision tree.
  */
 public class DecisionRealInodeBase<TSource> extends DecisionRealNodeBase<TSource> implements DecisionRealInode<TSource> {
+
+    private static final Logger LOG = Logger.getLogger(DecisionRealInodeBase.class.getName());
+
+    public DecisionRealInodeBase(final DecisionInode<TSource> parent) {
+        super(parent);
+    }
 
     @Override
     protected DecisionLeaf<TSource> recalcMaximumExpandLeaf() {
@@ -22,12 +29,12 @@ public class DecisionRealInodeBase<TSource> extends DecisionRealNodeBase<TSource
 
     @Override
     public Iterable<TSource> getStoredSources() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return CollectionUtils.append(this.getPartitionedStoredSources());
     }
 
     @Override
     public Iterable<Iterable<TSource>> getPartitionedStoredSources() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return CollectionUtils.map(this.getChildren(), new StoredSourcesFunction());
     }
 
     @Override
@@ -77,6 +84,15 @@ public class DecisionRealInodeBase<TSource> extends DecisionRealNodeBase<TSource
         @Override
         public Double evaluate(DecisionRealInode<TSource> x) {
             return x.reduceScore();
+        }
+
+    
+
+    private class StoredSourcesFunction implements Function<DecisionRealNode<TSource>, Iterable<TSource>> {
+
+        @Override
+        public Iterable<TSource> evaluate(DecisionRealNode<TSource> x) {
+            return x.getStoredSources();
         }
 
     }
