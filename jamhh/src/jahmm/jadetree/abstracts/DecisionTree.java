@@ -15,8 +15,6 @@ public interface DecisionTree<TSource> extends DecisionInode<TSource> {
 
     public void addSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute);
 
-    public void insert(TSource element);
-
     public boolean checkTrade();
 
     public void trade();

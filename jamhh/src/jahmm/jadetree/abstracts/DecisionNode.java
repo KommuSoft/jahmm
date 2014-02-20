@@ -1,8 +1,5 @@
 package jahmm.jadetree.abstracts;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
 import jutils.designpatterns.CompositeComponent;
 
 /**
@@ -24,18 +21,9 @@ public interface DecisionNode<TSource> extends CompositeComponent<DecisionNode<T
 
     public abstract Iterable<Iterable<TSource>> getPartitionedStoredSources();
 
-    /**
-     * @return the tree
-     */
-    public abstract DecisionTree<TSource> getTree();
-
-    public abstract void writeDraw(OutputStream os) throws IOException;
-
-    public abstract void writeDraw(Writer writer) throws IOException;
-
-    public abstract String writeDraw() throws IOException;
-
     @Override
     public abstract DecisionInode<TSource> getParent();
+
+    public abstract void insert(TSource source);
 
 }

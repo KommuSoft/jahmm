@@ -16,9 +16,9 @@ public interface DecisionRealNode<TSource> extends DecisionNode<TSource>, Idable
 
     public abstract DecisionRealNode<TSource> nextHop(TSource source);
 
-    public abstract DecisionLeafImpl<TSource> getMaximumExpandLeaf();
+    public abstract DecisionLeaf<TSource> getMaximumExpandLeaf();
 
-    public abstract DecisionInode<TSource> getMaximumReduceInode();
+    public abstract DecisionRealInode<TSource> getMaximumReduceInode();
 
     public abstract void insert(TSource source);
 
