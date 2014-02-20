@@ -1,7 +1,5 @@
 package jahmm.jadetree;
 
-import jahmm.jadetree.abstracts.DecisionInode;
-import jahmm.jadetree.abstracts.DecisionRealNode;
 import jutils.iterators.AppendIterable;
 import jutils.iterators.MapIterable;
 import jutlis.algebra.Function;

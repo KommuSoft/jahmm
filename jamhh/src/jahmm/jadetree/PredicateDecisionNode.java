@@ -1,6 +1,5 @@
 package jahmm.jadetree;
 
-import jahmm.jadetree.abstracts.DecisionInode;
 import jutlis.algebra.Predicate;
 
 /**

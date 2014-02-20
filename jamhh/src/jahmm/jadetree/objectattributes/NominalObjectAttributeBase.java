@@ -1,9 +1,9 @@
 package jahmm.jadetree.objectattributes;
 
-import jahmm.jadetree.abstracts.DecisionInode;
+import jahmm.jadetree.DecisionInode;
 import jahmm.jadetree.DecisionTreeUtils;
 import jahmm.jadetree.EnumerableDecisionNode;
-import jahmm.jadetree.abstracts.DecisionRealNode;
+import jahmm.jadetree.DecisionRealNode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;

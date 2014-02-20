@@ -1,10 +1,5 @@
 package jahmm.jadetree;
 
-import jahmm.jadetree.abstracts.DecisionInode;
-import jahmm.jadetree.abstracts.DecisionLeaf;
-import jahmm.jadetree.abstracts.DecisionRealInode;
-import jahmm.jadetree.abstracts.DecisionRealNode;
-import jahmm.jadetree.abstracts.DecisionTree;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
 import java.util.ArrayList;
 import java.util.Collections;

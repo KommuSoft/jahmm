@@ -1,7 +1,5 @@
 package jahmm.jadetree;
 
-import jahmm.jadetree.abstracts.DecisionRealNode;
-import jahmm.jadetree.abstracts.DecisionInode;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
 import java.util.Collections;
 import java.util.HashMap;

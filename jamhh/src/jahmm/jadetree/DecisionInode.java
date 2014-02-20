@@ -1,4 +1,4 @@
-package jahmm.jadetree.abstracts;
+package jahmm.jadetree;
 
 import jutils.designpatterns.CompositeNode;
 

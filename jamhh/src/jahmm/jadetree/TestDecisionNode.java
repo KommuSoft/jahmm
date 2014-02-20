@@ -1,7 +1,5 @@
 package jahmm.jadetree;
 
-import jahmm.jadetree.abstracts.DecisionRealNode;
-import jahmm.jadetree.abstracts.DecisionInode;
 import java.util.Collections;
 import jutlis.lists.ListArray;
 

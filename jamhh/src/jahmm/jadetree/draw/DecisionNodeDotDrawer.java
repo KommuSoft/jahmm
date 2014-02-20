@@ -1,7 +1,7 @@
 package jahmm.jadetree.draw;
 
-import jahmm.jadetree.abstracts.DecisionNode;
-import jahmm.jadetree.abstracts.DecisionTree;
+import jahmm.jadetree.DecisionNode;
+import jahmm.jadetree.DecisionTree;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
