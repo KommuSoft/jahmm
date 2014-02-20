@@ -16,7 +16,7 @@ import java.util.Iterator;
 import jutils.collections.valuesets.BooleanSet;
 import org.junit.Assert;
 import org.junit.Test;
-import utils.AssertExtensions;
+import jutils.testing.AssertExtensions;
 
 /**
  *

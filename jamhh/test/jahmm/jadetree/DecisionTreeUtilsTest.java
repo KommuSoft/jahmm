@@ -6,7 +6,7 @@ import jutils.iterators.ListGenericIterable;
 import jutils.MathUtils;
 import jutlis.algebra.Function;
 import org.junit.Test;
-import static utils.AssertExtensions.assertEquals;
+import static jutils.testing.AssertExtensions.assertEquals;
 import utils.TestParameters;
 
 /**

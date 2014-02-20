@@ -1,5 +1,6 @@
 package jahmm.jadetree.draw;
 
+import jahmm.jadetree.DecisionInode;
 import jahmm.jadetree.DecisionNode;
 import jahmm.jadetree.DecisionTree;
 import java.io.IOException;
@@ -13,7 +14,7 @@ import jutils.designpatterns.draw.CompositePatternDotDrawer;
  * @author kommusoft
  * @param <TSource> The type of elements in the decision node.
  */
-public class DecisionNodeDotDrawer<TSource> extends CompositePatternDotDrawer<DecisionNode<TSource>> {
+public class DecisionNodeDotDrawer<TSource> extends CompositePatternDotDrawer<DecisionNode<TSource>, DecisionInode<TSource>> {
 
     private static final Logger LOG = Logger.getLogger(DecisionNodeDotDrawer.class.getName());
 
