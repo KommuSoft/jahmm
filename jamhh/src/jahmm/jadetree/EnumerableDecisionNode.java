@@ -50,7 +50,7 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
     }
 
     @Override
-    protected DecisionLeaf<TSource> recalcMaximumLeaf() {
+    protected DecisionLeaf<TSource> recalcMaximumExpandLeaf() {
         double max = Double.NEGATIVE_INFINITY;
         double val;
         DecisionLeaf<TSource> leaf, maxLeaf = null;

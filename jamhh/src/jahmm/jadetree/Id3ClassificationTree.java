@@ -11,19 +11,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 import jutils.iterators.SingleIterable;
+import jutlis.IdableBase;
 
 /**
  *
  * @author kommusoft
  * @param <TSource> The source of the types to classify.
  */
-public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
+public class Id3ClassificationTree<TSource> extends IdableBase implements DecisionTree<TSource> {
 
     private static final Logger LOG = Logger.getLogger(Id3ClassificationTree.class.getName());
 
     private final ArrayList<ObjectAttribute<TSource, Object>> sourceAttributes = new ArrayList<>();
     private NominalObjectAttribute<TSource, Object> targetAttribute;
-    private DecisionRealNode<TSource> root = new DecisionLeaf<>(this);
+    private DecisionRealNode<TSource> root = new DecisionLeaf<>(null);
 
     @Override
     public void addSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute) {
@@ -139,7 +140,7 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
     }
 
     @Override
-    public DecisionLeaf<TSource> getMaximumLeaf() {
+    public DecisionLeaf<TSource> getMaximumExpandLeaf() {
         return this.root.getMaximumExpandLeaf();
     }
 
@@ -166,6 +167,41 @@ public class Id3ClassificationTree<TSource> implements DecisionTree<TSource> {
     @Override
     public Iterable<Iterable<TSource>> getPartitionedStoredSources() {
         return new SingleIterable<>(this.getStoredSources());
+    }
+
+    @Override
+    public boolean isLeaf() {
+        return this.root.isLeaf();
+    }
+
+    @Override
+    public DecisionRealNode<TSource> reduceThis() {
+        return this.root.reduceThis();
+    }
+
+    @Override
+    public DecisionRealNode<TSource> reduce() {
+        return this.root.reduce();
+    }
+
+    @Override
+    public DecisionRealNode<TSource> expand() {
+        return this.root.expand();
+    }
+
+    @Override
+    public DecisionRealNode<TSource> nextHop(TSource source) {
+        return this.root;
+    }
+
+    @Override
+    public DecisionLeaf<TSource> getMaximumExpandLeaf() {
+        return this.root.getMaximumExpandLeaf();
+    }
+
+    @Override
+    public DecisionInode<TSource> getMaximumReduceInode() {
+        return this.root.getMaximumReduceInode();
     }
 
 }

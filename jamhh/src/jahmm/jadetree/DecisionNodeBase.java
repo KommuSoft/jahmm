@@ -29,8 +29,6 @@ public abstract class DecisionNodeBase<TSource> extends IdableBase implements De
         return this;
     }
 
-    public abstract double expandScore();
-
     @Override
     public void insert(TSource source) {
         this.nextHop(source).insert(source);
@@ -69,11 +67,11 @@ public abstract class DecisionNodeBase<TSource> extends IdableBase implements De
 
     @Override
     public DecisionRealNode<TSource> reduce() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.getMaximumReduceInode().reduceThis();
     }
 
     @Override
-    public final double reduceScore() {
+    public double reduceScore() {
         return DecisionTreeUtils.calculateReduceEntropy(this.getPartitionedStoredSources(), this.getTree().getTargetAttribute());
     }
 
@@ -82,11 +80,6 @@ public abstract class DecisionNodeBase<TSource> extends IdableBase implements De
         DecisionRealNode<TSource> result = new DecisionLeaf<>(this.getParent(), this.getStoredSources());
         this.parent.replaceChild(this, result);
         return result;
-    }
-
-    @Override
-    public final DecisionInode<TSource> getMaximumReduceInode() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

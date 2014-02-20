@@ -59,6 +59,7 @@ public final class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> imple
         return this.score;
     }
 
+    @Override
     public DecisionRealNode<TSource> expand() {
         DecisionTree<TSource> tree = this.getTree();
         this.expandScore();

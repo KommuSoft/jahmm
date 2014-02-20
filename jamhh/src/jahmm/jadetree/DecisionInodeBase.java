@@ -11,7 +11,8 @@ import jutlis.algebra.Function;
  */
 public abstract class DecisionInodeBase<TSource> extends DecisionNodeBase<TSource> implements DecisionInode<TSource> {
 
-    private DecisionLeaf<TSource> maximumLeaf = null;
+    private DecisionLeaf<TSource> maximumExpand = null;
+    private DecisionInode<TSource> maximumReduce = null;
 
     protected DecisionInodeBase(DecisionInode<TSource> parent) {
         super(parent);
@@ -24,18 +25,28 @@ public abstract class DecisionInodeBase<TSource> extends DecisionNodeBase<TSourc
 
     @Override
     public DecisionLeaf<TSource> getMaximumExpandLeaf() {
-        if (this.maximumLeaf == null) {
-            this.maximumLeaf = this.recalcMaximumLeaf();
+        if (this.maximumExpand == null) {
+            this.maximumExpand = this.recalcMaximumExpandLeaf();
         }
-        return this.maximumLeaf;
+        return this.maximumExpand;
+    }
+
+    @Override
+    public DecisionInode<TSource> getMaximumReduceInode() {
+        if (this.maximumReduce == null) {
+            this.maximumReduce = this.recalcMaximumReduceInode();
+        }
+        return this.maximumReduce;
     }
 
     @Override
     public void makeDirty() {
-        this.maximumLeaf = null;
+        this.maximumExpand = null;
     }
 
-    protected abstract DecisionLeaf<TSource> recalcMaximumLeaf();
+    protected abstract DecisionLeaf<TSource> recalcMaximumExpandLeaf();
+
+    protected abstract DecisionInode<TSource> recalcMaximumReduceInode();
 
     @Override
     public Iterable<Iterable<TSource>> getPartitionedStoredSources() {

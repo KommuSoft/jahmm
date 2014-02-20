@@ -56,7 +56,7 @@ public abstract class TestDecisionNode<TSource> extends DecisionInodeBase<TSourc
     }
 
     @Override
-    protected DecisionLeaf<TSource> recalcMaximumLeaf() {
+    protected DecisionLeaf<TSource> recalcMaximumExpandLeaf() {
         DecisionLeaf<TSource> maxLeaf = this.falseNode.getMaximumExpandLeaf();
         double max = maxLeaf.expandScore();
         DecisionLeaf<TSource> leaf = this.trueNode.getMaximumExpandLeaf();
