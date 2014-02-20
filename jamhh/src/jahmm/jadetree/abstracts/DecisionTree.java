@@ -11,26 +11,26 @@ import java.util.List;
  */
 public interface DecisionTree<TSource> extends DecisionInode<TSource> {
 
-    public List<ObjectAttribute<TSource, Object>> getSourceAttributes();
+    public abstract List<ObjectAttribute<TSource, Object>> getSourceAttributes();
 
-    public void addSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute);
+    public abstract void addSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute);
 
-    public boolean checkTrade();
+    public abstract boolean checkTrade();
 
-    public void trade();
+    public abstract void trade();
 
-    public void tradeExpand();
+    public abstract void tradeExpand();
 
-    public void reduceMemory();
+    public abstract void reduceMemory();
 
-    public DecisionNode<TSource> getRoot();
+    public abstract DecisionRealNode<TSource> getRoot();
 
-    public void removeSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute);
+    public abstract void removeSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute);
 
-    public NominalObjectAttribute<TSource, Object> getTargetAttribute();
+    public abstract NominalObjectAttribute<TSource, Object> getTargetAttribute();
 
-    public Object classify(TSource element);
+    public abstract Object classify(TSource element);
 
-    public Object classifyInsert(TSource element);
+    public abstract Object classifyInsert(TSource element);
 
 }

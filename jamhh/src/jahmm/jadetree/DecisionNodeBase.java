@@ -3,7 +3,7 @@ package jahmm.jadetree;
 import jahmm.jadetree.abstracts.DecisionInode;
 import jahmm.jadetree.abstracts.DecisionNode;
 import jahmm.jadetree.abstracts.DecisionTree;
-import jutlis.IdableBase;
+import jutils.IdableBase;
 
 /**
  *

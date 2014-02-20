@@ -1,7 +1,7 @@
 package jahmm.jadetree.abstracts;
 
 import jahmm.jadetree.DecisionLeafImpl;
-import jutlis.Idable;
+import jutils.Idable;
 
 /**
  *

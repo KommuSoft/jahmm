@@ -3,7 +3,7 @@ package jahmm.jadetree.objectattributes;
 import jahmm.jadetree.abstracts.DecisionInode;
 import jahmm.jadetree.DecisionNodeBase;
 import java.util.List;
-import jutlis.Name;
+import jutils.Name;
 import jutlis.algebra.Function;
 import jutlis.tuples.Holder;
 

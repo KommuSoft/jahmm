@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import jutils.collections.CollectionUtils;
-import jutlis.CollectionFactoryMethods;
-import jutlis.FactoryMethod;
+import jutils.CollectionFactoryMethods;
+import jutils.FactoryMethod;
 import jutlis.algebra.Function;
 import jutlis.tuples.Holder;
 

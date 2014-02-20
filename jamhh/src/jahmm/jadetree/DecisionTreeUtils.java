@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 import jutils.collections.CollectionUtils;
-import jutlis.MathUtils;
+import jutils.MathUtils;
 import jutlis.algebra.Function;
 import jutlis.algebra.functions.FunctionIdentity;
 import jutlis.tuples.Holder;
