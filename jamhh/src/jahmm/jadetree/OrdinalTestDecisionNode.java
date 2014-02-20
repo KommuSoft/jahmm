@@ -1,6 +1,7 @@
 package jahmm.jadetree;
 
 import jahmm.jadetree.objectattributes.OrdinalObjectAttribute;
+import java.util.logging.Logger;
 
 /**
  *
@@ -10,16 +11,18 @@ import jahmm.jadetree.objectattributes.OrdinalObjectAttribute;
  */
 public class OrdinalTestDecisionNode<TSource, TState> extends TestDecisionNode<TSource> {
 
+    private static final Logger LOG = Logger.getLogger(OrdinalTestDecisionNode.class.getName());
+
     private final OrdinalObjectAttribute<TSource, TState> ordinalArgument;
     private final TState state;
 
-    public OrdinalTestDecisionNode(DecisionInode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
+    public OrdinalTestDecisionNode(DecisionInode<TSource> parent, DecisionRealNodeBase<TSource> trueNode, DecisionRealNodeBase<TSource> falseNode, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
         super(parent, trueNode, falseNode);
         this.ordinalArgument = ordinalArgument;
         this.state = state;
     }
 
-    public OrdinalTestDecisionNode(DecisionInode<TSource> tree, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
+    public OrdinalTestDecisionNode(DecisionInode<TSource> tree, DecisionRealNodeBase<TSource> trueNode, DecisionRealNodeBase<TSource> falseNode, Iterable<TSource> toInsert, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
         super(tree, trueNode, falseNode, toInsert);
         this.ordinalArgument = ordinalArgument;
         this.state = state;

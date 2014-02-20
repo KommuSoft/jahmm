@@ -10,12 +10,12 @@ public class PredicateDecisionNode<TSource> extends TestDecisionNode<TSource> {
 
     private final Predicate<? super TSource> predicate;
 
-    public PredicateDecisionNode(DecisionInode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Predicate<? super TSource> predicate) {
+    public PredicateDecisionNode(DecisionInode<TSource> parent, DecisionRealNodeBase<TSource> trueNode, DecisionRealNodeBase<TSource> falseNode, Predicate<? super TSource> predicate) {
         super(parent, trueNode, falseNode);
         this.predicate = predicate;
     }
 
-    public PredicateDecisionNode(DecisionInode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert, Predicate<? super TSource> predicate) {
+    public PredicateDecisionNode(DecisionInode<TSource> parent, DecisionRealNodeBase<TSource> trueNode, DecisionRealNodeBase<TSource> falseNode, Iterable<TSource> toInsert, Predicate<? super TSource> predicate) {
         super(parent, trueNode, falseNode, toInsert);
         this.predicate = predicate;
     }

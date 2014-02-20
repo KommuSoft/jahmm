@@ -18,6 +18,14 @@ public abstract class DecisionRealInodeBase<TSource> extends DecisionRealNodeBas
     }
 
     @Override
+    public void makeDirty() {
+        super.makeDirty();
+        for (DecisionRealNode<TSource> drn : this.getChildren()) {
+            drn.makeDirty();
+        }
+    }
+
+    @Override
     protected DecisionLeaf<TSource> recalcMaximumExpandLeaf() {
         return CollectionUtils.argMax(CollectionUtils.map(this.getChildren(), new MaximumExpandFunction()), new ExpandScoreFunction());
     }
@@ -39,7 +47,8 @@ public abstract class DecisionRealInodeBase<TSource> extends DecisionRealNodeBas
 
     @Override
     public void reduceThis() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        DecisionLeafBase<TSource> lfb = new DecisionLeafBase<>(this.getParent(), this.getStoredSources());
+        this.getParent().replaceChild(this, lfb);
     }
 
     private class MaximumExpandFunction implements Function<DecisionRealNode<TSource>, DecisionLeaf<TSource>> {

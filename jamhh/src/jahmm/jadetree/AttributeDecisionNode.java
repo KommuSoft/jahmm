@@ -13,18 +13,13 @@ import jahmm.jadetree.objectattributes.ObjectAttribute;
  * @param <TSource>
  * @param <TTarget>
  */
-public abstract class AttributeDecisionNode<TSource, TTarget> extends DecisionInodeBase<TSource> {
+public abstract class AttributeDecisionNode<TSource, TTarget> extends DecisionRealInodeBase<TSource> {
 
     final ObjectAttribute<TSource, TTarget> objectAttribute;
 
     protected AttributeDecisionNode(final DecisionInode<TSource> parent, ObjectAttribute<TSource, TTarget> objectAttribute) {
         super(parent);
         this.objectAttribute = objectAttribute;
-    }
-
-    @Override
-    public double expandScore() {
-        return this.getMaximumExpandLeaf().expandScore();
     }
 
     /**
