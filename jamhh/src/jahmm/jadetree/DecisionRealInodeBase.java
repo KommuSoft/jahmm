@@ -9,11 +9,11 @@ import jutlis.algebra.Function;
  * @author kommusoft
  * @param <TSource> The type of elements stored in the decision tree.
  */
-public class DecisionRealInodeBase<TSource> extends DecisionRealNodeBase<TSource> implements DecisionRealInode<TSource> {
+public abstract class DecisionRealInodeBase<TSource> extends DecisionRealNodeBase<TSource> implements DecisionRealInode<TSource> {
 
     private static final Logger LOG = Logger.getLogger(DecisionRealInodeBase.class.getName());
 
-    public DecisionRealInodeBase(final DecisionInode<TSource> parent) {
+    protected DecisionRealInodeBase(final DecisionInode<TSource> parent) {
         super(parent);
     }
 
@@ -39,16 +39,6 @@ public class DecisionRealInodeBase<TSource> extends DecisionRealNodeBase<TSource
 
     @Override
     public void reduceThis() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Iterable<DecisionRealNode<TSource>> getChildren() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -86,7 +76,7 @@ public class DecisionRealInodeBase<TSource> extends DecisionRealNodeBase<TSource
             return x.reduceScore();
         }
 
-    
+    }
 
     private class StoredSourcesFunction implements Function<DecisionRealNode<TSource>, Iterable<TSource>> {
 
