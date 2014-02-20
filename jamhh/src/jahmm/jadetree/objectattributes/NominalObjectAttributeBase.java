@@ -1,6 +1,6 @@
 package jahmm.jadetree.objectattributes;
 
-import jahmm.jadetree.DecisionNode;
+import jahmm.jadetree.DecisionInode;
 import jahmm.jadetree.DecisionNodeBase;
 import jahmm.jadetree.DecisionTreeUtils;
 import jahmm.jadetree.EnumerableDecisionNode;
@@ -32,7 +32,7 @@ public abstract class NominalObjectAttributeBase<TSource, TTarget> implements No
     }
 
     @Override
-    public DecisionNodeBase<TSource> createDecisionNode(DecisionNode<TSource> parent, List<TSource> source, Function<TSource, Object> target, Holder<Object> state) {
+    public DecisionNodeBase<TSource> createDecisionNode(DecisionInode<TSource> parent, List<TSource> source, Function<TSource, Object> target, Holder<Object> state) {
         @SuppressWarnings("unchecked")
         HashMap<TTarget, LinkedList<TSource>> data = (HashMap<TTarget, LinkedList<TSource>>) state.getData();
         return new EnumerableDecisionNode<>(parent, this, data);

@@ -1,6 +1,6 @@
 package jahmm.jadetree.objectattributes;
 
-import jahmm.jadetree.DecisionNode;
+import jahmm.jadetree.DecisionInode;
 import jahmm.jadetree.DecisionNodeBase;
 import jahmm.jadetree.DecisionTreeUtils;
 import jahmm.jadetree.OrdinalTestDecisionNode;
@@ -41,7 +41,7 @@ public abstract class OrdinalObjectAttributeBase<TSource, TTarget> implements Or
     }
 
     @Override
-    public DecisionNodeBase<TSource> createDecisionNode(DecisionNode<TSource> parent, List<TSource> source, Function<TSource, Object> function, Holder<Object> state) {
+    public DecisionNodeBase<TSource> createDecisionNode(DecisionInode<TSource> parent, List<TSource> source, Function<TSource, Object> function, Holder<Object> state) {
         @SuppressWarnings("unchecked")
         TTarget obj = (TTarget) state.getData();
         OrdinalTestDecisionNode<TSource, TTarget> otdn = new OrdinalTestDecisionNode<>(parent, this, obj);
