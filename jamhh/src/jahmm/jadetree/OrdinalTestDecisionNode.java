@@ -1,5 +1,6 @@
 package jahmm.jadetree;
 
+import jahmm.jadetree.abstracts.DecisionInode;
 import jahmm.jadetree.objectattributes.OrdinalObjectAttribute;
 
 /**

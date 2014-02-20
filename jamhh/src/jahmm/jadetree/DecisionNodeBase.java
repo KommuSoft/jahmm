@@ -1,5 +1,8 @@
 package jahmm.jadetree;
 
+import jahmm.jadetree.abstracts.DecisionTree;
+import jahmm.jadetree.abstracts.DecisionRealNode;
+import jahmm.jadetree.abstracts.DecisionInode;
 import jahmm.jadetree.draw.DecisionNodeDotDrawer;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -77,7 +80,7 @@ public abstract class DecisionNodeBase<TSource> extends IdableBase implements De
 
     @Override
     public DecisionRealNode<TSource> reduceThis() {
-        DecisionRealNode<TSource> result = new DecisionLeaf<>(this.getParent(), this.getStoredSources());
+        DecisionRealNode<TSource> result = new DecisionLeafImpl<>(this.getParent(), this.getStoredSources());
         this.parent.replaceChild(this, result);
         return result;
     }

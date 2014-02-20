@@ -1,4 +1,4 @@
-package jahmm.jadetree;
+package jahmm.jadetree.abstracts;
 
 import jahmm.jadetree.objectattributes.NominalObjectAttribute;
 import jahmm.jadetree.objectattributes.ObjectAttribute;

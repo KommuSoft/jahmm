@@ -1,5 +1,10 @@
 package jahmm.jadetree;
 
+import jahmm.jadetree.DecisionNodeBase;
+import jahmm.jadetree.abstracts.DecisionInode;
+import jahmm.jadetree.abstracts.DecisionNode;
+import jahmm.jadetree.abstracts.DecisionRealNode;
+import jahmm.jadetree.abstracts.DecisionTree;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,23 +18,23 @@ import jutlis.tuples.HolderBase;
  * @author kommusoft
  * @param <TSource>
  */
-public final class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> implements CompositeLeaf<DecisionNode<TSource>> {
+public final class DecisionLeafImpl<TSource> extends DecisionNodeBase<TSource> implements CompositeLeaf<DecisionNode<TSource>> {
 
     private final List<TSource> memory;
     private double score = Double.NaN;
     private int splitIndex = 0x00;
     private final HolderBase<Object> splitData = new HolderBase<>();
 
-    public DecisionLeaf(DecisionInode<TSource> parent) {
+    public DecisionLeafImpl(DecisionInode<TSource> parent) {
         this(parent, new ArrayList<TSource>());
     }
 
-    public DecisionLeaf(DecisionInode<TSource> parent, List<TSource> memory) {
+    public DecisionLeafImpl(DecisionInode<TSource> parent, List<TSource> memory) {
         super(parent);
         this.memory = memory;
     }
 
-    public DecisionLeaf(DecisionInode<TSource> parent, Iterable<TSource> elements) {
+    public DecisionLeafImpl(DecisionInode<TSource> parent, Iterable<TSource> elements) {
         this(parent);
         for (TSource element : elements) {
             this.insert(element);
@@ -93,7 +98,7 @@ public final class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> imple
     }
 
     @Override
-    public DecisionLeaf<TSource> getMaximumExpandLeaf() {
+    public DecisionLeafImpl<TSource> getMaximumExpandLeaf() {
         return this;
     }
 

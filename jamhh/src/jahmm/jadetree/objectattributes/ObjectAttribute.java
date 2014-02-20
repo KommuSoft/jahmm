@@ -1,6 +1,6 @@
 package jahmm.jadetree.objectattributes;
 
-import jahmm.jadetree.DecisionInode;
+import jahmm.jadetree.abstracts.DecisionInode;
 import jahmm.jadetree.DecisionNodeBase;
 import java.util.List;
 import jutlis.Name;

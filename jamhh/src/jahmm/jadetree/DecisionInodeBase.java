@@ -1,5 +1,7 @@
 package jahmm.jadetree;
 
+import jahmm.jadetree.abstracts.DecisionRealNode;
+import jahmm.jadetree.abstracts.DecisionInode;
 import jutils.iterators.AppendIterable;
 import jutils.iterators.MapIterable;
 import jutlis.algebra.Function;
@@ -11,7 +13,7 @@ import jutlis.algebra.Function;
  */
 public abstract class DecisionInodeBase<TSource> extends DecisionNodeBase<TSource> implements DecisionInode<TSource> {
 
-    private DecisionLeaf<TSource> maximumExpand = null;
+    private DecisionLeafImpl<TSource> maximumExpand = null;
     private DecisionInode<TSource> maximumReduce = null;
 
     protected DecisionInodeBase(DecisionInode<TSource> parent) {
@@ -24,7 +26,7 @@ public abstract class DecisionInodeBase<TSource> extends DecisionNodeBase<TSourc
     }
 
     @Override
-    public DecisionLeaf<TSource> getMaximumExpandLeaf() {
+    public DecisionLeafImpl<TSource> getMaximumExpandLeaf() {
         if (this.maximumExpand == null) {
             this.maximumExpand = this.recalcMaximumExpandLeaf();
         }
@@ -44,7 +46,7 @@ public abstract class DecisionInodeBase<TSource> extends DecisionNodeBase<TSourc
         this.maximumExpand = null;
     }
 
-    protected abstract DecisionLeaf<TSource> recalcMaximumExpandLeaf();
+    protected abstract DecisionLeafImpl<TSource> recalcMaximumExpandLeaf();
 
     protected abstract DecisionInode<TSource> recalcMaximumReduceInode();
 

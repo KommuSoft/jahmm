@@ -1,5 +1,9 @@
 package jahmm.jadetree;
 
+import jahmm.jadetree.abstracts.DecisionTree;
+import jahmm.jadetree.abstracts.DecisionNode;
+import jahmm.jadetree.abstracts.DecisionRealNode;
+import jahmm.jadetree.abstracts.DecisionInode;
 import jahmm.jadetree.draw.DecisionNodeDotDrawer;
 import jahmm.jadetree.objectattributes.NominalObjectAttribute;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
@@ -24,7 +28,7 @@ public class Id3ClassificationTree<TSource> extends IdableBase implements Decisi
 
     private final ArrayList<ObjectAttribute<TSource, Object>> sourceAttributes = new ArrayList<>();
     private NominalObjectAttribute<TSource, Object> targetAttribute;
-    private DecisionRealNode<TSource> root = new DecisionLeaf<>(null);
+    private DecisionRealNode<TSource> root = new DecisionLeafImpl<>(null);
 
     @Override
     public void addSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute) {
@@ -140,7 +144,7 @@ public class Id3ClassificationTree<TSource> extends IdableBase implements Decisi
     }
 
     @Override
-    public DecisionLeaf<TSource> getMaximumExpandLeaf() {
+    public DecisionLeafImpl<TSource> getMaximumExpandLeaf() {
         return this.root.getMaximumExpandLeaf();
     }
 
@@ -195,7 +199,7 @@ public class Id3ClassificationTree<TSource> extends IdableBase implements Decisi
     }
 
     @Override
-    public DecisionLeaf<TSource> getMaximumExpandLeaf() {
+    public DecisionLeafImpl<TSource> getMaximumExpandLeaf() {
         return this.root.getMaximumExpandLeaf();
     }
 

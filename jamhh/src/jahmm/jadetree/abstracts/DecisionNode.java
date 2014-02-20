@@ -1,4 +1,4 @@
-package jahmm.jadetree;
+package jahmm.jadetree.abstracts;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -11,6 +11,10 @@ import jutils.designpatterns.CompositeComponent;
  * @param <TSource> The type of objects classified and stored in the tree.
  */
 public interface DecisionNode<TSource> extends CompositeComponent<DecisionNode<TSource>> {
+
+    public abstract DecisionRealNode<TSource> reduce();
+
+    public abstract DecisionRealNode<TSource> expand();
 
     public abstract double expandScore();
 
@@ -30,8 +34,6 @@ public interface DecisionNode<TSource> extends CompositeComponent<DecisionNode<T
     public abstract void writeDraw(Writer writer) throws IOException;
 
     public abstract String writeDraw() throws IOException;
-
-    public abstract void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now);
 
     @Override
     public abstract DecisionInode<TSource> getParent();

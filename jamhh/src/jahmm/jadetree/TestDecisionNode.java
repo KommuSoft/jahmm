@@ -1,5 +1,7 @@
 package jahmm.jadetree;
 
+import jahmm.jadetree.abstracts.DecisionRealNode;
+import jahmm.jadetree.abstracts.DecisionInode;
 import java.util.Collections;
 import jutlis.lists.ListArray;
 
@@ -27,7 +29,7 @@ public abstract class TestDecisionNode<TSource> extends DecisionInodeBase<TSourc
     }
 
     protected TestDecisionNode(final DecisionInode<TSource> parent) {
-        this(parent, new DecisionLeaf<>(parent), new DecisionLeaf<>(parent));
+        this(parent, new DecisionLeafImpl<>(parent), new DecisionLeafImpl<>(parent));
     }
 
     protected TestDecisionNode(final DecisionInode<TSource> parent, Iterable<TSource> toInsert) {
@@ -56,10 +58,10 @@ public abstract class TestDecisionNode<TSource> extends DecisionInodeBase<TSourc
     }
 
     @Override
-    protected DecisionLeaf<TSource> recalcMaximumExpandLeaf() {
-        DecisionLeaf<TSource> maxLeaf = this.falseNode.getMaximumExpandLeaf();
+    protected DecisionLeafImpl<TSource> recalcMaximumExpandLeaf() {
+        DecisionLeafImpl<TSource> maxLeaf = this.falseNode.getMaximumExpandLeaf();
         double max = maxLeaf.expandScore();
-        DecisionLeaf<TSource> leaf = this.trueNode.getMaximumExpandLeaf();
+        DecisionLeafImpl<TSource> leaf = this.trueNode.getMaximumExpandLeaf();
         double val = maxLeaf.expandScore();
         if (val > max) {
             maxLeaf = leaf;

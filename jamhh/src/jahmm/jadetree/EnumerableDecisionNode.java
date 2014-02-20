@@ -1,5 +1,7 @@
 package jahmm.jadetree;
 
+import jahmm.jadetree.abstracts.DecisionRealNode;
+import jahmm.jadetree.abstracts.DecisionInode;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,7 +28,7 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
     public EnumerableDecisionNode(final DecisionInode<TSource> tree, ObjectAttribute<TSource, TTarget> objectAttribute, HashMap<TTarget, ? extends List<TSource>> toInsert) {
         this(tree, objectAttribute);
         for (Entry<TTarget, ? extends List<TSource>> entry : toInsert.entrySet()) {
-            map.put(entry.getKey(), new DecisionLeaf<>(this.getTree(), entry.getValue()));
+            map.put(entry.getKey(), new DecisionLeafImpl<>(this.getTree(), entry.getValue()));
         }
     }
 
@@ -35,7 +37,7 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
         TTarget key = this.getObjectAttribute(source);
         DecisionRealNode<TSource> value = map.get(key);
         if (value == null) {
-            value = new DecisionLeaf<>(this.getTree());
+            value = new DecisionLeafImpl<>(this.getTree());
             this.map.put(key, value);
         }
         return value;
@@ -50,9 +52,10 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
     }
 
     @Override
-    protected DecisionLeaf<TSource> recalcMaximumExpandLeaf() {
+    protected DecisionLeafImpl<TSource> recalcMaximumExpandLeaf() {
         double max = Double.NEGATIVE_INFINITY;
         double val;
+        DecisionLeafImpl<TSource> leaf;
         DecisionLeaf<TSource> leaf, maxLeaf = null;
         for (DecisionRealNode<TSource> dn : this.map.values()) {
             leaf = dn.getMaximumExpandLeaf();
