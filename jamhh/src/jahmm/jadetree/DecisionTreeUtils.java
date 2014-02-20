@@ -148,7 +148,7 @@ public class DecisionTreeUtils {
         return entropy / total;
     }
 
-    public static <TSource, TTarget> double calculateReduceScore(Iterable<? extends Iterable<? extends TSource>> sources, Function<TSource, TTarget> function) {
+    public static <TSource, TTarget> double calculateReduceEntropy(Iterable<? extends Iterable<? extends TSource>> sources, Function<TSource, TTarget> function) {
         final HashMap<TTarget, Integer> frequency = new HashMap<>();
         final HashMap<TTarget, Integer> subFrequency = new HashMap<>();
         Holder<Integer> ttl = new HolderBase<>();

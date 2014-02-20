@@ -61,9 +61,4 @@ public class OrdinalTestDecisionNode<TSource, TState> extends TestDecisionNode<T
         return state;
     }
 
-    @Override
-    public double reduceScore() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
 }

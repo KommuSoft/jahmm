@@ -121,7 +121,7 @@ public final class DecisionLeaf<TSource> extends DecisionNodeBase<TSource> imple
     }
 
     @Override
-    public DecisionInode<TSource> getMaximumReduceLeaf() {
+    public DecisionInode<TSource> getMaximumReduceInode() {
         return this.getParent();
     }
 
