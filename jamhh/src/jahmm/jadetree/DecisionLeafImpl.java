@@ -1,6 +1,5 @@
 package jahmm.jadetree;
 
-import jahmm.jadetree.DecisionNodeBase;
 import jahmm.jadetree.abstracts.DecisionInode;
 import jahmm.jadetree.abstracts.DecisionNode;
 import jahmm.jadetree.abstracts.DecisionRealNode;
