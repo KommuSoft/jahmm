@@ -81,7 +81,7 @@ public class Id3ClassificationTree<TSource> extends DecisionInodeBase<TSource> i
 
     @Override
     public List<ObjectAttribute<TSource, Object>> getSourceAttributes() {
-        return Collections.unmodifiableList(this.getSourceAttributes());
+        return Collections.unmodifiableList(this.sourceAttributes);
     }
 
     @Override
