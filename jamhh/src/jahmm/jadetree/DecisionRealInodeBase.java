@@ -12,6 +12,7 @@ import jutlis.algebra.Function;
 public abstract class DecisionRealInodeBase<TSource> extends DecisionRealNodeBase<TSource> implements DecisionRealInode<TSource> {
 
     private static final Logger LOG = Logger.getLogger(DecisionRealInodeBase.class.getName());
+    private double reduceScore = Double.NaN;
 
     protected DecisionRealInodeBase(final DecisionInode<TSource> parent) {
         super(parent);
@@ -31,8 +32,34 @@ public abstract class DecisionRealInodeBase<TSource> extends DecisionRealNodeBas
     }
 
     @Override
+    public void makeInnerDirty() {
+        this.reduceScore = Double.NaN;
+        super.makeInnerDirty();
+    }
+
+    @Override
+    public double reduceScore() {
+        this.getMaximumReduceInode();
+        return this.reduceScore;
+    }
+
+    @Override
     protected DecisionRealInode<TSource> recalcMaximumReduceInode() {
-        return CollectionUtils.argMax(CollectionUtils.map(this.getChildren(), new MaximumReduceFunction()), new ReduceScoreFunction());
+        DecisionRealInode<TSource> reducer = CollectionUtils.argMax(CollectionUtils.map(this.getChildren(), new MaximumReduceFunction()), new ReduceScoreFunction());
+        if (reducer == null) {
+            double reduceScore = this.recalcSelfReduce();
+            if (reducer.reduceScore() < reduceScore) {
+                reducer = this;
+                this.reduceScore = reduceScore;
+            }
+        } else {
+            this.reduceScore = reducer.reduceScore();
+        }
+        return reducer;
+    }
+
+    private double recalcSelfReduce() {
+        return DecisionTreeUtils.calculateReduceEntropy(this.getPartitionedStoredSources(), this.getTree().getTargetAttribute());
     }
 
     @Override

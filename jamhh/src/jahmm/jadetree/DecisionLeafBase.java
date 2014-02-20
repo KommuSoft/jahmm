@@ -115,4 +115,9 @@ public final class DecisionLeafBase<TSource> extends DecisionRealNodeBase<TSourc
         this.getParent().replaceChild(this, foo);
     }
 
+    @Override
+    public double reduceScore() {
+        return Double.NEGATIVE_INFINITY;
+    }
+
 }
