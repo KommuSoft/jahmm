@@ -7,11 +7,11 @@ import jutils.designpatterns.CompositeComponent;
  * @author kommusoft
  * @param <TSource> The type of objects classified and stored in the tree.
  */
-public interface DecisionNode<TSource> extends CompositeComponent<DecisionNode<TSource>,DecisionInode<TSource>> {
+public interface DecisionNode<TSource> extends CompositeComponent<DecisionNode<TSource>, DecisionInode<TSource>> {
 
-    public abstract DecisionRealNode<TSource> reduce();
+    public abstract void reduce();
 
-    public abstract DecisionRealNode<TSource> expand();
+    public abstract void expand();
 
     public abstract double expandScore();
 
@@ -21,8 +21,7 @@ public interface DecisionNode<TSource> extends CompositeComponent<DecisionNode<T
 
     public abstract Iterable<Iterable<TSource>> getPartitionedStoredSources();
 
-    @Override
-    public abstract DecisionInode<TSource> getParent();
+    public abstract DecisionTree<TSource> getTree();
 
     public abstract void insert(TSource source);
 
