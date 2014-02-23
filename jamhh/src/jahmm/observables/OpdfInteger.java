@@ -117,13 +117,12 @@ public final class OpdfInteger implements Opdf<ObservationInteger> {
     }
 
     @Override
-    public void fit(ObservationInteger[] o, double[] weights) {
+    public void fit(ObservationInteger[] o, double... weights) {
         fit(Arrays.asList(o), weights);
     }
 
     @Override
-    public void fit(Collection<? extends ObservationInteger> co,
-            double[] weights) {
+    public void fit(Collection<? extends ObservationInteger> co, double... weights) {
         if (co.isEmpty() || co.size() != weights.length) {
             throw new IllegalArgumentException();
         }

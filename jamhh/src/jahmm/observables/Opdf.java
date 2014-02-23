@@ -27,14 +27,14 @@ public interface Opdf<O extends Observation> extends Cloneable, Serializable, IN
      * @return The probability (density, if <code>o</code> takes continuous
      * values) of <code>o</code> for this function.
      */
-    public double probability(O o);
+    public abstract double probability(O o);
 
     /**
      * Generates a (pseudo) random observation according to this distribution.
      *
      * @return An observation.
      */
-    public O generate();
+    public abstract O generate();
 
     /**
      * Fits this observation probability (distribution) function to a (non
@@ -43,7 +43,7 @@ public interface Opdf<O extends Observation> extends Cloneable, Serializable, IN
      *
      * @param oa An array of observations compatible with this function.
      */
-    public void fit(O... oa);
+    public abstract void fit(O... oa);
 
     /**
      * Fits this observation probability (distribution) function to a (non
@@ -52,7 +52,7 @@ public interface Opdf<O extends Observation> extends Cloneable, Serializable, IN
      *
      * @param co A set of observations compatible with this function.
      */
-    public void fit(Collection<? extends O> co);
+    public abstract void fit(Collection<? extends O> co);
 
     /**
      * Fits this observation probability (distribution) function to a weighted
@@ -65,7 +65,7 @@ public interface Opdf<O extends Observation> extends Cloneable, Serializable, IN
      * <code>weight.length == o.length</code> and the sum of all the elements
      * equals 1).
      */
-    void fit(O[] o, double[] weights);
+    abstract void fit(O[] o, double... weights);
 
     /**
      * Fits this observation probability (distribution) function to a weighted
@@ -78,11 +78,11 @@ public interface Opdf<O extends Observation> extends Cloneable, Serializable, IN
      * <code>weight.length == o.length</code> and the sum of all the elements
      * equals 1).
      */
-    void fit(Collection<? extends O> co, double[] weights);
+    abstract void fit(Collection<? extends O> co, double... weights);
 
     /**
      *
      * @return @throws java.lang.CloneNotSupportedException
      */
-    public Opdf<O> clone() throws CloneNotSupportedException;
+    public abstract Opdf<O> clone() throws CloneNotSupportedException;
 }

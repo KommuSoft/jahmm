@@ -103,13 +103,12 @@ public final class OpdfMultiGaussian implements Opdf<ObservationVector> {
     }
 
     @Override
-    public void fit(ObservationVector[] o, double[] weights) {
+    public void fit(ObservationVector[] o, double... weights) {
         fit(Arrays.asList(o), weights);
     }
 
     @Override
-    public void fit(Collection<? extends ObservationVector> co,
-            double[] weights) {
+    public void fit(Collection<? extends ObservationVector> co, double... weights) {
         if (co.isEmpty() || co.size() != weights.length) {
             throw new IllegalArgumentException();
         }

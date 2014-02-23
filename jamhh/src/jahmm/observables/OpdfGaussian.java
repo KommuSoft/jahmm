@@ -79,13 +79,12 @@ public class OpdfGaussian implements Opdf<ObservationReal> {
     }
 
     @Override
-    public void fit(ObservationReal[] o, double[] weights) {
+    public void fit(ObservationReal[] o, double... weights) {
         fit(Arrays.asList(o), weights);
     }
 
     @Override
-    public void fit(Collection<? extends ObservationReal> co,
-            double[] weights) {
+    public void fit(Collection<? extends ObservationReal> co, double... weights) {
         if (co.isEmpty() || co.size() != weights.length) {
             throw new IllegalArgumentException();
         }

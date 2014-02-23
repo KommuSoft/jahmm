@@ -44,7 +44,7 @@ public final class OpdfGaussianMixture implements Opdf<ObservationReal> {
      * normalized, but each element must be positive and the sum of its elements
      * must be strictly positive.
      */
-    public OpdfGaussianMixture(double[] means, double[] variances, double[] proportions) {
+    public OpdfGaussianMixture(double[] means, double[] variances, double... proportions) {
         distribution = new GaussianMixtureDistribution(means, variances, proportions);
     }
 
@@ -146,7 +146,7 @@ public final class OpdfGaussianMixture implements Opdf<ObservationReal> {
      * @param weights The weights associated to the observations.
      */
     @Override
-    public void fit(ObservationReal[] o, double[] weights) {
+    public void fit(ObservationReal[] o, double... weights) {
         fit(Arrays.asList(o), weights);
     }
 
@@ -161,8 +161,7 @@ public final class OpdfGaussianMixture implements Opdf<ObservationReal> {
      * @param weights The weights associated to the observations.
      */
     @Override
-    public void fit(Collection<? extends ObservationReal> co,
-            double[] weights) {
+    public void fit(Collection<? extends ObservationReal> co, double... weights) {
         if (co.isEmpty() || co.size() != weights.length) {
             throw new IllegalArgumentException();
         }
@@ -181,7 +180,7 @@ public final class OpdfGaussianMixture implements Opdf<ObservationReal> {
     /* 
      * Computes the relative weight of each observation for each distribution.
      */
-    private double[][] getDelta(ObservationReal[] o) {
+    private double[][] getDelta(ObservationReal... o) {
         double[][] delta = new double[distribution.nbGaussians()][o.length];
 
         for (int i = 0; i < distribution.nbGaussians(); i++) {

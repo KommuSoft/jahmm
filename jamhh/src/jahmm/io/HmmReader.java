@@ -85,10 +85,7 @@ public class HmmReader {
         return new Hmm<>(pi, a, opdfs);
     }
 
-    static private <O extends Observation> void
-            readState(StreamTokenizer st, int nbStates, int stateNb, double[] pi,
-                    double[][] a,
-                    List<Opdf<O>> opdfs, OpdfReader<? extends Opdf<O>> opdfReader)
+    static private <O extends Observation> void readState(StreamTokenizer st, int nbStates, int stateNb, double[] pi, double[][] a, List<Opdf<O>> opdfs, OpdfReader<? extends Opdf<O>> opdfReader)
             throws IOException, FileFormatException {
         readWords(st, "State", "Pi");
         pi[stateNb] = readNumber(st);

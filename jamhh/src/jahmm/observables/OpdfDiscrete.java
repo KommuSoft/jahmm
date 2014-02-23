@@ -67,7 +67,7 @@ public class OpdfDiscrete<E extends Enum<E>>
      * probability of the observation <code>i</code>th element of
      * <code>values</code>.
      */
-    public OpdfDiscrete(Class<E> valuesClass, double[] probabilities) {
+    public OpdfDiscrete(Class<E> valuesClass, double... probabilities) {
         values = new ArrayList<>(EnumSet.allOf(valuesClass));
 
         if (probabilities.length == 0 || values.size() != probabilities.length) {
@@ -116,7 +116,7 @@ public class OpdfDiscrete<E extends Enum<E>>
     }
 
     @Override
-    public void fit(ObservationDiscrete<E>[] o, double[] weights) {
+    public void fit(ObservationDiscrete<E>[] o, double... weights) {
         fit(Arrays.asList(o), weights);
     }
 
