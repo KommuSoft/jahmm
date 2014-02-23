@@ -154,14 +154,11 @@ public class BaumWelchLearner {
      * @return The HMM that best matches the set of observation sequences given
      * (according to the Baum-Welch algorithm).
      */
-    public <O extends Observation> Hmm<O>
-            learn(Hmm<O> initialHmm, List<? extends List<? extends O>> sequences) {
+    public <O extends Observation> Hmm<O> learn(Hmm<O> initialHmm, List<? extends List<? extends O>> sequences) {
         Hmm<O> hmm = initialHmm;
-
         for (int i = 0; i < nbIterations; i++) {
             hmm = iterate(hmm, sequences);
         }
-
         return hmm;
     }
 
@@ -169,20 +166,17 @@ public class BaumWelchLearner {
      *
      * @param <O>
      * @param sequence
-     * @param fbc
+     * @param abp
      * @param hmm
      * @return
      */
-    protected <O extends Observation> double[][][]
-            estimateXi(List<? extends O> sequence, Tuple3<double[][], double[][], Double> abp,
-                    Hmm<O> hmm) {
+    protected <O extends Observation> double[][][] estimateXi(List<? extends O> sequence, Tuple3<double[][], double[][], Double> abp, Hmm<O> hmm) {
         if (sequence.size() <= 1) {
-            throw new IllegalArgumentException("Observation sequence too "
-                    + "short");
+            throw new IllegalArgumentException("Observation sequence too short");
         }
 
         double[][] a = abp.getItem1();
-        double[][] b = abp.getItem1();
+        double[][] b = abp.getItem2();
         double pinv = 1.0d / abp.getItem3();
 
         double xi[][][]
@@ -196,10 +190,7 @@ public class BaumWelchLearner {
 
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int j = 0; j < hmm.nbStates(); j++) {
-                    xi[t][i][j] = a[t][i]
-                            * hmm.getAij(i, j)
-                            * hmm.getOpdf(j).probability(o)
-                            * b[t + 1][j] * pinv;
+                    xi[t][i][j] = a[t][i] * hmm.getAij(i, j) * hmm.getOpdf(j).probability(o) * b[t + 1][j] * pinv;
                 }
             }
         }
@@ -215,11 +206,9 @@ public class BaumWelchLearner {
     /**
      *
      * @param xi
-     * @param fbc
      * @return
      */
-    protected double[][]
-            estimateGamma(double[][][] xi) {
+    protected double[][] estimateGamma(double[][][] xi) {
         double[][] gamma = new double[xi.length + 1][xi[0].length];
 
         for (int t = 0; t < xi.length + 1; t++) {
@@ -261,7 +250,6 @@ public class BaumWelchLearner {
         if (nb < 0) {
             throw new IllegalArgumentException("Positive number expected");
         }
-
         nbIterations = nb;
     }
 }
