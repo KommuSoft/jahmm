@@ -1,4 +1,4 @@
-package jahmm;
+package jahmm.calculators;
 
 /**
  * Flags used to explain how the observation sequence probability should be

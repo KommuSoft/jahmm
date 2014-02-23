@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jahmm;
+package jahmm.calculators;
 
+import jahmm.Hmm;
 import jahmm.observables.Observation;
 import java.util.Collection;
 import java.util.EnumSet;

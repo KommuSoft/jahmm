@@ -4,7 +4,7 @@
  */
 package jahmm.learn;
 
-import jahmm.ForwardBackwardScaledCalculator;
+import jahmm.calculators.ForwardBackwardScaledCalculator;
 import jahmm.Hmm;
 import jahmm.observables.Observation;
 import java.util.Iterator;

@@ -4,6 +4,9 @@
  */
 package jahmm;
 
+import jahmm.calculators.ForwardBackwardCalculator;
+import jahmm.calculators.ForwardBackwardScaledCalculator;
+import jahmm.calculators.ViterbiCalculator;
 import jahmm.observables.Observation;
 import jahmm.observables.OpdfFactory;
 import jahmm.observables.Opdf;

@@ -1,4 +1,4 @@
-package jahmm;
+package jahmm.calculators;
 
 /**
  *
