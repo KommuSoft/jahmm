@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package objectattributes;
+package jahmm.jadetree.objectattributes;
 
 import jahmm.jadetree.objectattributes.ObjectAttributeAnnotation;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
