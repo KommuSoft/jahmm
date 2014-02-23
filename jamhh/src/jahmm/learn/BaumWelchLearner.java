@@ -11,6 +11,7 @@ import jahmm.Opdf;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import jutlis.tuples.Tuple3;
 
 /**
@@ -18,6 +19,8 @@ import jutlis.tuples.Tuple3;
  * a HMM that models a set of observation sequences.
  */
 public class BaumWelchLearner {
+
+    private static final Logger LOG = Logger.getLogger(BaumWelchLearner.class.getName());
 
     /**
      * Number of iterations performed by the {@link #learn} method.
@@ -40,8 +43,7 @@ public class BaumWelchLearner {
      * based. Each sequence must have a length higher or equal to 2.
      * @return A new, updated HMM.
      */
-    public <O extends Observation> Hmm<O>
-            iterate(Hmm<O> hmm, List<? extends List<? extends O>> sequences) {
+    public <O extends Observation> Hmm<O> iterate(Hmm<O> hmm, List<? extends List<? extends O>> sequences) {
         Hmm<O> nhmm;
         try {
             nhmm = hmm.clone();
