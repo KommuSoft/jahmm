@@ -5,8 +5,8 @@
 package jahmm.io;
 
 import jahmm.Hmm;
-import jahmm.Observation;
-import jahmm.Opdf;
+import jahmm.observables.Observation;
+import jahmm.observables.Opdf;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StreamTokenizer;

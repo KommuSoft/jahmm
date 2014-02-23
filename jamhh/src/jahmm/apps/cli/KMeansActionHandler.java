@@ -4,11 +4,11 @@
  */
 package jahmm.apps.cli;
 
-import jahmm.CentroidFactory;
+import jahmm.observables.CentroidFactory;
 import jahmm.Hmm;
-import jahmm.Observation;
-import jahmm.Opdf;
-import jahmm.OpdfFactory;
+import jahmm.observables.Observation;
+import jahmm.observables.Opdf;
+import jahmm.observables.OpdfFactory;
 import jahmm.apps.cli.CommandLineArguments.Arguments;
 import jahmm.io.FileFormatException;
 import jahmm.io.HmmWriter;

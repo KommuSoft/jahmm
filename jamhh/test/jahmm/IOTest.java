@@ -4,6 +4,12 @@
  */
 package jahmm;
 
+import jahmm.observables.Observation;
+import jahmm.observables.Opdf;
+import jahmm.observables.ObservationInteger;
+import jahmm.observables.ObservationVector;
+import jahmm.observables.OpdfIntegerFactory;
+import jahmm.observables.OpdfInteger;
 import jahmm.io.FileFormatException;
 import jahmm.io.HmmBinaryReader;
 import jahmm.io.HmmBinaryWriter;

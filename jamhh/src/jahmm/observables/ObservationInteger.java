@@ -2,26 +2,26 @@
  * Copyright (c) 2004-2009, Jean-Marc François. All Rights Reserved.
  * Licensed under the New BSD license.  See the LICENSE file.
  */
-package jahmm;
+package jahmm.observables;
 
 import java.text.NumberFormat;
 
 /**
- * This class implements observations made of a real value.
+ * This class holds an integer observation.
  */
-public final class ObservationReal extends ObservationBase implements CentroidFactory<ObservationReal> {
+public final class ObservationInteger extends ObservationBase implements CentroidFactory<ObservationInteger> {
 
     /**
      * The observation's value.
      */
-    public final double value;
+    public final int value;
 
     /**
-     * An observation that can be described by a real.
+     * An observation that can be described by an integer.
      *
      * @param value The value of this observation.
      */
-    public ObservationReal(double value) {
+    public ObservationInteger(int value) {
         this.value = value;
     }
 
@@ -31,8 +31,8 @@ public final class ObservationReal extends ObservationBase implements CentroidFa
      * @return The corresponding observation.
      */
     @Override
-    public Centroid<ObservationReal> factor() {
-        return new CentroidObservationReal(this);
+    public Centroid<ObservationInteger> factor() {
+        return new CentroidObservationInteger(this);
     }
 
     @Override

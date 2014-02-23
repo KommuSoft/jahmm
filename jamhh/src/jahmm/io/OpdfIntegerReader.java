@@ -4,7 +4,7 @@
  */
 package jahmm.io;
 
-import jahmm.OpdfInteger;
+import jahmm.observables.OpdfInteger;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 

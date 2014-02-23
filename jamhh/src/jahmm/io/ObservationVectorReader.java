@@ -4,7 +4,7 @@
  */
 package jahmm.io;
 
-import jahmm.ObservationVector;
+import jahmm.observables.ObservationVector;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.util.ArrayList;

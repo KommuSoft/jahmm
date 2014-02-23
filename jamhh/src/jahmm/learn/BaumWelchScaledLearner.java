@@ -6,7 +6,7 @@ package jahmm.learn;
 
 import jahmm.ForwardBackwardScaledCalculator;
 import jahmm.Hmm;
-import jahmm.Observation;
+import jahmm.observables.Observation;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;

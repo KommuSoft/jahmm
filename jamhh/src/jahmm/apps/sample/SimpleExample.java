@@ -32,10 +32,10 @@ package jahmm.apps.sample;
  * 2009-06-06: Updated comments with new website URL
  */
 import jahmm.Hmm;
-import jahmm.Observation;
-import jahmm.ObservationDiscrete;
-import jahmm.OpdfDiscrete;
-import jahmm.OpdfDiscreteFactory;
+import jahmm.observables.Observation;
+import jahmm.observables.ObservationDiscrete;
+import jahmm.observables.OpdfDiscrete;
+import jahmm.observables.OpdfDiscreteFactory;
 import jahmm.draw.InvariantHmmDotDrawer;
 import jahmm.learn.BaumWelchLearner;
 import jahmm.toolbox.KullbackLeiblerDistanceCalculator;

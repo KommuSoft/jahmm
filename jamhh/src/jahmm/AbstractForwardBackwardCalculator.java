@@ -5,6 +5,7 @@
  */
 package jahmm;
 
+import jahmm.observables.Observation;
 import java.util.Collection;
 import java.util.List;
 import jutlis.tuples.Tuple3;

@@ -4,7 +4,7 @@
  */
 package jahmm.io;
 
-import jahmm.ObservationInteger;
+import jahmm.observables.ObservationInteger;
 import java.io.IOException;
 import java.io.Writer;
 

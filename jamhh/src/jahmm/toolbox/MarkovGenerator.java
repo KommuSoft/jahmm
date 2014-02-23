@@ -5,7 +5,7 @@
 package jahmm.toolbox;
 
 import jahmm.Hmm;
-import jahmm.Observation;
+import jahmm.observables.Observation;
 import java.util.ArrayList;
 import java.util.List;
 

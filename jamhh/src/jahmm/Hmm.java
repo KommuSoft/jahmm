@@ -4,6 +4,9 @@
  */
 package jahmm;
 
+import jahmm.observables.Observation;
+import jahmm.observables.OpdfFactory;
+import jahmm.observables.Opdf;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;

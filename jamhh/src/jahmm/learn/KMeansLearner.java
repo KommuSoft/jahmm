@@ -4,12 +4,12 @@
  */
 package jahmm.learn;
 
-import jahmm.CentroidFactory;
+import jahmm.observables.CentroidFactory;
 import jahmm.Hmm;
 import jahmm.KMeansCalculator;
-import jahmm.Observation;
-import jahmm.Opdf;
-import jahmm.OpdfFactory;
+import jahmm.observables.Observation;
+import jahmm.observables.Opdf;
+import jahmm.observables.OpdfFactory;
 import jahmm.ViterbiCalculator;
 import java.util.ArrayList;
 import java.util.Collection;

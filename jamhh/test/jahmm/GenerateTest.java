@@ -4,6 +4,8 @@
  */
 package jahmm;
 
+import jahmm.observables.ObservationInteger;
+import jahmm.observables.OpdfIntegerFactory;
 import jahmm.draw.InvariantHmmDotDrawer;
 import java.io.IOException;
 import junit.framework.TestCase;

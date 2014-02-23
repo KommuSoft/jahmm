@@ -4,7 +4,7 @@
  */
 package jahmm.io;
 
-import jahmm.OpdfMultiGaussian;
+import jahmm.observables.OpdfMultiGaussian;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 

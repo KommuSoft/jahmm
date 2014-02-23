@@ -4,6 +4,7 @@
  */
 package jahmm;
 
+import jahmm.observables.Observation;
 import java.util.Iterator;
 import java.util.List;
 

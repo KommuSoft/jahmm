@@ -1,4 +1,4 @@
-package jahmm;
+package jahmm.observables;
 
 import java.text.NumberFormat;
 import jutlis.tuples.Tuple2Base;

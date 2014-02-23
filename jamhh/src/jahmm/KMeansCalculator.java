@@ -4,6 +4,8 @@
  */
 package jahmm;
 
+import jahmm.observables.Centroid;
+import jahmm.observables.CentroidFactory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;

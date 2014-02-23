@@ -4,6 +4,9 @@
  */
 package jahmm;
 
+import jahmm.observables.ObservationInteger;
+import jahmm.observables.OpdfIntegerFactory;
+import jahmm.observables.OpdfInteger;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;

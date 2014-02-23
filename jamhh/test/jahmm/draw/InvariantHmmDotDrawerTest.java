@@ -1,8 +1,8 @@
 package jahmm.draw;
 
 import jahmm.Hmm;
-import jahmm.ObservationInteger;
-import jahmm.OpdfIntegerFactory;
+import jahmm.observables.ObservationInteger;
+import jahmm.observables.OpdfIntegerFactory;
 import java.io.IOException;
 import java.util.logging.Logger;
 import org.junit.Assert;

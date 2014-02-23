@@ -5,6 +5,8 @@
  */
 package jahmm;
 
+import jahmm.observables.ObservationInteger;
+import jahmm.observables.OpdfInteger;
 import java.util.EnumSet;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;

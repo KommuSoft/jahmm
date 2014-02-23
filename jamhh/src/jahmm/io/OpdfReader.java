@@ -4,7 +4,7 @@
  */
 package jahmm.io;
 
-import jahmm.Opdf;
+import jahmm.observables.Opdf;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.util.ArrayList;

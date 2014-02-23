@@ -5,15 +5,15 @@
 package jahmm.apps.cli;
 
 import jahmm.Hmm;
-import jahmm.ObservationInteger;
-import jahmm.ObservationReal;
-import jahmm.ObservationVector;
-import jahmm.Opdf;
-import jahmm.OpdfFactory;
-import jahmm.OpdfGaussianFactory;
-import jahmm.OpdfGaussianMixtureFactory;
-import jahmm.OpdfIntegerFactory;
-import jahmm.OpdfMultiGaussianFactory;
+import jahmm.observables.ObservationInteger;
+import jahmm.observables.ObservationReal;
+import jahmm.observables.ObservationVector;
+import jahmm.observables.Opdf;
+import jahmm.observables.OpdfFactory;
+import jahmm.observables.OpdfGaussianFactory;
+import jahmm.observables.OpdfGaussianMixtureFactory;
+import jahmm.observables.OpdfIntegerFactory;
+import jahmm.observables.OpdfMultiGaussianFactory;
 import jahmm.apps.cli.CommandLineArguments.Arguments;
 import jahmm.io.FileFormatException;
 import jahmm.io.ObservationIntegerReader;
