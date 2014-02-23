@@ -2,8 +2,9 @@
  * Copyright (c) 2004-2009, Jean-Marc François. All Rights Reserved.
  * Licensed under the New BSD license.  See the LICENSE file.
  */
-package jahmm;
+package jahmm.learn;
 
+import jahmm.Hmm;
 import jahmm.observables.ObservationInteger;
 import jahmm.observables.OpdfIntegerFactory;
 import jahmm.learn.BaumWelchLearner;

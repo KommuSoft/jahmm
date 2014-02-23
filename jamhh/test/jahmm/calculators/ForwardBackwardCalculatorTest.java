@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package jahmm;
+package jahmm.calculators;
 
+import jahmm.Hmm;
 import jahmm.calculators.ComputationType;
 import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.observables.ObservationInteger;
 import jahmm.observables.OpdfInteger;
 import java.util.EnumSet;
+import jutlis.tuples.Tuple3;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
@@ -107,6 +109,76 @@ public class ForwardBackwardCalculatorTest {
         expResult = 0.6 * 0.9 * 0.7 * 0.1 + 0.6 * 0.9 * 0.3 * 0.6 + 0.4 * 0.4 * 0.5 * 0.1 + 0.4 * 0.4 * 0.5 * 0.6;
         result = ForwardBackwardCalculator.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), new ObservationInteger(0x00), new ObservationInteger(0x01));
         assertEquals(expResult, result, 1e-6);
+    }
+
+    /**
+     * Test of computeProbability method, of class ForwardBackwardCalculator.
+     */
+    @Test
+    public void testComputeProbability_5args() {
+        System.out.println("computeProbability");
+        ForwardBackwardCalculator instance = new ForwardBackwardCalculator();
+        double expResult = 0.0;
+        double result = instance.computeProbability(null);
+        assertEquals(expResult, result, 0.0);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of computeProbability method, of class ForwardBackwardCalculator.
+     */
+    @Test
+    public void testComputeProbability_3args() {
+        System.out.println("computeProbability");
+        ForwardBackwardCalculator instance = new ForwardBackwardCalculator();
+        double expResult = 0.0;
+        double result = instance.computeProbability(null);
+        assertEquals(expResult, result, 0.0);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of computeAlpha method, of class ForwardBackwardCalculator.
+     */
+    @Test
+    public void testComputeAlpha() {
+        System.out.println("computeAlpha");
+        ForwardBackwardCalculator instance = new ForwardBackwardCalculator();
+        double[][] expResult = null;
+        double[][] result = instance.computeAlpha(null);
+        assertArrayEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of computeBeta method, of class ForwardBackwardCalculator.
+     */
+    @Test
+    public void testComputeBeta() {
+        System.out.println("computeBeta");
+        ForwardBackwardCalculator instance = new ForwardBackwardCalculator();
+        double[][] expResult = null;
+        double[][] result = instance.computeBeta(null);
+        assertArrayEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of computeAll method, of class ForwardBackwardCalculator.
+     */
+    @Test
+    public void testComputeAll() {
+        System.out.println("computeAll");
+        ForwardBackwardCalculator instance = new ForwardBackwardCalculator();
+        Tuple3 expResult = null;
+        Tuple3 result = instance.computeAll(null);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 
 }
