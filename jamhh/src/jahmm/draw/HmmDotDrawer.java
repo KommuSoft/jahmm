@@ -50,7 +50,6 @@ class HmmDotDrawer<THMM extends Hmm<?>> extends DotGraphDrawerBase<THMM> {
     }
 
     protected void writeTransitions(Writer streamWriter, Hmm<?> hmm) throws IOException {
-        String s = "";
         Tuple2<String, String> labelTuple = new Tuple2Base<>("label", "");
 
         for (int i = 0; i < hmm.nbStates(); i++) {
@@ -61,7 +60,6 @@ class HmmDotDrawer<THMM extends Hmm<?>> extends DotGraphDrawerBase<THMM> {
                 }
             }
         }
-        streamWriter.write(s);
     }
 
     protected void writeStates(Writer streamWriter, THMM hmm) throws IOException {
