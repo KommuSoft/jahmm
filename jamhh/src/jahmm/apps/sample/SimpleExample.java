@@ -32,12 +32,12 @@ package jahmm.apps.sample;
  * 2009-06-06: Updated comments with new website URL
  */
 import jahmm.Hmm;
+import jahmm.draw.InvariantHmmDotDrawer;
+import jahmm.learn.BaumWelchLearner;
 import jahmm.observables.Observation;
 import jahmm.observables.ObservationDiscrete;
 import jahmm.observables.OpdfDiscrete;
 import jahmm.observables.OpdfDiscreteFactory;
-import jahmm.draw.InvariantHmmDotDrawer;
-import jahmm.learn.BaumWelchLearner;
 import jahmm.toolbox.KullbackLeiblerDistanceCalculator;
 import jahmm.toolbox.MarkovGenerator;
 import java.io.IOException;
@@ -58,7 +58,7 @@ import jutils.collections.CollectionUtils;
  * jammed).
  */
 public class SimpleExample {
-    
+
     public static final int OBSERVATION_COUNT = 200;
     public static final int OBSERVATION_LENGTH = 100;
 
@@ -75,7 +75,7 @@ public class SimpleExample {
 
         List<List<ObservationDiscrete<Packet>>> sequences;
         sequences = generateSequences(hmm);
-        
+
         System.out.println(CollectionUtils.deepToString(sequences));
 
         /* Baum-Welch learning */

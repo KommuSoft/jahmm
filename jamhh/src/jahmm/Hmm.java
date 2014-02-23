@@ -8,8 +8,8 @@ import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.calculators.ForwardBackwardScaledCalculator;
 import jahmm.calculators.ViterbiCalculator;
 import jahmm.observables.Observation;
-import jahmm.observables.OpdfFactory;
 import jahmm.observables.Opdf;
+import jahmm.observables.OpdfFactory;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,10 +40,10 @@ import jutlis.lists.ListArray;
 * @param <O> the type of the observations.
  */
 public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf<O>>, O> {
-    
+
     private static final long serialVersionUID = 2L;
     private static final Logger LOG = Logger.getLogger(Hmm.class.getName());
-    
+
     protected static double[][] cloneA(double[][] a) {
         int n = a.length;
         double[][] clone = new double[n][];
@@ -55,7 +55,7 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
         }
         return clone;
     }
-    
+
     protected static double[][] generateA(int nbStates) {
         double[][] a = new double[nbStates][nbStates];
         double inv = 1.0d / nbStates;
@@ -99,7 +99,7 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
         super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
         this.checkConstraints();
     }
-    
+
     public Hmm(double[] pi, double[][] a, Opdf<O>... opdfs) {
         this(pi, a, new ListArray<>(opdfs));
     }
@@ -118,7 +118,7 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
         }
         this.checkConstraints();
     }
-    
+
     private void checkConstraints() {
         if (a.length == 0 || pi.length != a.length || b.size() != a.length) {
             throw new IllegalArgumentException("Wrong dimensions");
@@ -232,17 +232,17 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
         if (oseq.size() != sseq.length || oseq.isEmpty()) {
             throw new IllegalArgumentException();
         }
-        
+
         double probability = getPi(sseq[0]);
-        
+
         Iterator<? extends O> oseqIterator = oseq.iterator();
-        
+
         for (int i = 0; i < sseq.length - 1; i++) {
             probability
                     *= getOpdf(sseq[i]).probability(oseqIterator.next())
                     * getAij(sseq[i], sseq[i + 1]);
         }
-        
+
         return probability * getOpdf(sseq[sseq.length - 1]).
                 probability(oseq.get(sseq.length - 1));
     }
@@ -256,20 +256,20 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
     @Override
     public String toString(NumberFormat nf) {
         String s = "HMM with " + nbStates() + " state(s)\n";
-        
+
         for (int i = 0; i < nbStates(); i++) {
             s += "\nState " + i + "\n";
             s += " Pi: " + getPi(i) + "\n";
             s += " Aij:";
-            
+
             for (int j = 0; j < nbStates(); j++) {
                 s += " " + nf.format(getAij(i, j));
             }
             s += "\n";
-            
+
             s += " Opdf: " + getOpdf(i).toString(nf) + "\n";
         }
-        
+
         return s;
     }
 
@@ -294,7 +294,7 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
     public Hmm<O> clone() throws CloneNotSupportedException {
         return new Hmm<>(this.pi, this.a, this.b);
     }
-    
+
     @Override
     public void fold(int n) {
         int m = pi.length;
@@ -315,7 +315,7 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
             System.arraycopy(pib, 0, pi, 0, m);
         }
     }
-    
+
     @Override
     public void fold(Iterable<? extends O> interaction) {
         this.fold(CollectionUtils.size(interaction));

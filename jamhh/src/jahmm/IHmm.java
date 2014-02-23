@@ -4,11 +4,11 @@
  */
 package jahmm;
 
+import static jahmm.HmmBase.generatePi;
 import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
-import jahmm.observables.OpdfFactory;
 import jahmm.observables.Opdf;
-import static jahmm.HmmBase.generatePi;
+import jahmm.observables.OpdfFactory;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;

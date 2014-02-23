@@ -1,13 +1,11 @@
 package jahmm.jadetree;
 
-import jahmm.jadetree.DecisionTreeUtils;
 import java.util.logging.Logger;
-import jutils.iterators.ListGenericIterable;
 import jutils.MathUtils;
+import jutils.iterators.ListGenericIterable;
+import static jutils.testing.AssertExtensions.assertEquals;
 import jutlis.algebra.Function;
 import org.junit.Test;
-import static jutils.testing.AssertExtensions.assertEquals;
-import utils.TestParameters;
 
 /**
  *

@@ -5,18 +5,13 @@
  */
 package jahmm.jadetree.objectattributes;
 
-import jahmm.jadetree.objectattributes.ObjectAttributeAnnotation;
-import jahmm.jadetree.objectattributes.ObjectAttribute;
-import jahmm.jadetree.objectattributes.NominalInspectedObjectAttribute;
-import jahmm.jadetree.objectattributes.ObjectAttributeInspector;
-import jahmm.jadetree.objectattributes.NominalObjectAttribute;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Iterator;
 import jutils.collections.valuesets.BooleanSet;
+import jutils.testing.AssertExtensions;
 import org.junit.Assert;
 import org.junit.Test;
-import jutils.testing.AssertExtensions;
 
 /**
  *

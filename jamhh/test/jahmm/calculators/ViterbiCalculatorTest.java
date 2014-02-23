@@ -3,18 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jahmm.calculators;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author kommusoft
  */
 public class ViterbiCalculatorTest {
-    
+
     public ViterbiCalculatorTest() {
     }
 
@@ -45,5 +46,5 @@ public class ViterbiCalculatorTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }

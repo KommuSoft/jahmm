@@ -1,16 +1,16 @@
 package jahmm.jadetree.objectattributes;
 
 import jahmm.jadetree.DecisionInode;
+import jahmm.jadetree.DecisionRealNode;
 import jahmm.jadetree.DecisionTreeUtils;
 import jahmm.jadetree.EnumerableDecisionNode;
-import jahmm.jadetree.DecisionRealNode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import jutils.collections.CollectionUtils;
 import jutils.CollectionFactoryMethods;
 import jutils.FactoryMethod;
+import jutils.collections.CollectionUtils;
 import jutlis.algebra.Function;
 import jutlis.tuples.Holder;
 

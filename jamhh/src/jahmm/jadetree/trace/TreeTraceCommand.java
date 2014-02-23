@@ -5,7 +5,7 @@ package jahmm.jadetree.trace;
  * @author kommusoft
  */
 public interface TreeTraceCommand {
-    
-    public abstract void process (TreeTrace trace);
-    
+
+    public abstract void process(TreeTrace trace);
+
 }

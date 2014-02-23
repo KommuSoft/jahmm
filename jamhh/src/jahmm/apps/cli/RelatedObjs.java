@@ -4,16 +4,16 @@
  */
 package jahmm.apps.cli;
 
-import jahmm.observables.CentroidFactory;
 import jahmm.Hmm;
-import jahmm.observables.Observation;
-import jahmm.observables.Opdf;
-import jahmm.observables.OpdfFactory;
 import jahmm.io.FileFormatException;
 import jahmm.io.ObservationReader;
 import jahmm.io.ObservationWriter;
 import jahmm.io.OpdfReader;
 import jahmm.io.OpdfWriter;
+import jahmm.observables.CentroidFactory;
+import jahmm.observables.Observation;
+import jahmm.observables.Opdf;
+import jahmm.observables.OpdfFactory;
 import jahmm.toolbox.MarkovGenerator;
 import java.io.IOException;
 import java.io.Reader;

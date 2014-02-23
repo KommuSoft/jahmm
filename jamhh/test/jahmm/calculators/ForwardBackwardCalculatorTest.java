@@ -6,11 +6,10 @@
 package jahmm.calculators;
 
 import jahmm.Hmm;
-import jahmm.calculators.ComputationType;
-import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.observables.ObservationInteger;
 import jahmm.observables.OpdfInteger;
 import java.util.EnumSet;
+import static junit.framework.Assert.fail;
 import jutlis.tuples.Tuple3;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;

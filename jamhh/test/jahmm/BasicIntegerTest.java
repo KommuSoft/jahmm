@@ -4,12 +4,12 @@
  */
 package jahmm;
 
-import jahmm.calculators.KMeansCalculator;
 import jahmm.calculators.ForwardBackwardCalculator;
+import jahmm.calculators.KMeansCalculator;
 import jahmm.calculators.ViterbiCalculator;
 import jahmm.observables.ObservationInteger;
-import jahmm.observables.OpdfIntegerFactory;
 import jahmm.observables.OpdfInteger;
+import jahmm.observables.OpdfIntegerFactory;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;

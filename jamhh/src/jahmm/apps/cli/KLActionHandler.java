@@ -4,12 +4,12 @@
  */
 package jahmm.apps.cli;
 
-import jahmm.observables.CentroidFactory;
 import jahmm.Hmm;
-import jahmm.observables.Observation;
 import jahmm.apps.cli.CommandLineArguments.Arguments;
 import jahmm.io.FileFormatException;
 import jahmm.io.HmmReader;
+import jahmm.observables.CentroidFactory;
+import jahmm.observables.Observation;
 import jahmm.toolbox.KullbackLeiblerDistanceCalculator;
 import java.io.FileNotFoundException;
 import java.io.IOException;

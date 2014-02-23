@@ -4,13 +4,13 @@
  */
 package jahmm.learn;
 
-import jahmm.observables.CentroidFactory;
 import jahmm.Hmm;
 import jahmm.calculators.KMeansCalculator;
+import jahmm.calculators.ViterbiCalculator;
+import jahmm.observables.CentroidFactory;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
 import jahmm.observables.OpdfFactory;
-import jahmm.calculators.ViterbiCalculator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
@@ -49,10 +49,10 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
      * @param sequences A vector of observation sequences. Each observation
      * sequences is a vector of null null null null null null null null null
      * null null null null null null null null null null null null null null
-     * null null     {@link be.ac.ulg.montefiore.run.jahmm.Observation
+     * null null null     {@link be.ac.ulg.montefiore.run.jahmm.Observation
 	 *                observations} compatible with the null null null null null null null null
      * null null null null null null null null null null null null null null
-     * null null null     {@link be.ac.ulg.montefiore.run.jahmm.CentroidFactory
+     * null null null null     {@link be.ac.ulg.montefiore.run.jahmm.CentroidFactory
 	 *                k-means algorithm}.
      * @throws java.lang.CloneNotSupportedException
      */

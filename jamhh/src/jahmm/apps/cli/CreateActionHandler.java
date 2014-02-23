@@ -4,14 +4,14 @@
  */
 package jahmm.apps.cli;
 
-import jahmm.observables.CentroidFactory;
 import jahmm.Hmm;
-import jahmm.observables.Observation;
-import jahmm.observables.Opdf;
-import jahmm.observables.OpdfFactory;
 import jahmm.apps.cli.CommandLineArguments.Arguments;
 import jahmm.io.HmmWriter;
 import jahmm.io.OpdfWriter;
+import jahmm.observables.CentroidFactory;
+import jahmm.observables.Observation;
+import jahmm.observables.Opdf;
+import jahmm.observables.OpdfFactory;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
