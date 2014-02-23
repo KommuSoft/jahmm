@@ -52,6 +52,9 @@ public class ObjectAttributeInspectorTest {
 
     private class Foo1 {
 
+        public Foo1() {
+        }
+
     }
 
     private class Foo2 {

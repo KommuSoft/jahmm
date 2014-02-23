@@ -17,8 +17,7 @@ import junit.framework.TestCase;
  *
  * @author kommusoft
  */
-public class LearnerTest
-        extends TestCase {
+public class LearnerTest extends TestCase {
 
     final static private double DELTA = 5.E-3;
 
