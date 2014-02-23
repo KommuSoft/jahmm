@@ -25,6 +25,11 @@ class HmmDotDrawer<THMM extends Hmm<?>> extends DotGraphDrawerBase<THMM> {
 
     private static final Logger LOG = Logger.getLogger(HmmDotDrawer.class.getName());
 
+    private static final String INITIAL_TOKEN = "initial";
+    private static final Tuple2<String, String> TRIANGLE_SHAPE = new Tuple2Base<>("shape", "triangle");
+    private static final Tuple2<String, String> BOX_SHAPE = new Tuple2Base<>("shape", "box");
+    private static final Tuple2<String, String> DCIRCLE_SHAPE = new Tuple2Base<>("shape", "doublecircle");
+
     protected double minimumAij = 0.01;
     protected double minimumPi = 0.01;
     protected NumberFormat probabilityFormat;
@@ -39,6 +44,7 @@ class HmmDotDrawer<THMM extends Hmm<?>> extends DotGraphDrawerBase<THMM> {
 
     @Override
     protected void innerWrite(THMM input, Writer streamWriter) throws IOException {
+        this.nodeStatement(streamWriter, INITIAL_TOKEN, BOX_SHAPE);
         this.writeTransitions(streamWriter, input);
         this.writeStates(streamWriter, input);
     }
@@ -59,15 +65,14 @@ class HmmDotDrawer<THMM extends Hmm<?>> extends DotGraphDrawerBase<THMM> {
     }
 
     protected void writeStates(Writer streamWriter, THMM hmm) throws IOException {
-        Tuple2<String, String> shapeTuple = new Tuple2Base<>("shape", "doublecircle");
         Tuple2<String, String> labelTuple = new Tuple2Base<>("label", "");
         for (int i = 0; i < hmm.nbStates(); i++) {
+            labelTuple.setItem2("\"" + i + " - " + opdfLabel(hmm, i) + "\"");
+            this.nodeStatement(streamWriter, i, DCIRCLE_SHAPE, labelTuple);
             if (hmm.getPi(i) >= minimumPi) {
-                labelTuple.setItem2("\"" + i + " - Pi= " + probabilityFormat.format(hmm.getPi(i)) + " - " + opdfLabel(hmm, i) + "\"");
-            } else {
-                labelTuple.setItem2("\"" + i + " - " + opdfLabel(hmm, i) + "\"");
+                labelTuple.setItem2("\"" + probabilityFormat.format(hmm.getPi(i)) + "\"");
+                this.edgeStatement(streamWriter, INITIAL_TOKEN, i, labelTuple);
             }
-            this.nodeStatement(streamWriter, i, shapeTuple, labelTuple);
         }
     }
 
