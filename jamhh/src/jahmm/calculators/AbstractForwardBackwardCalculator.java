@@ -19,7 +19,7 @@ import jutlis.tuples.Tuple3;
  */
 public interface AbstractForwardBackwardCalculator<TAlpha, TBeta> {
 
-    public <O extends Observation> TAlpha computeAlpha(Hmm<? super O> hmm, Collection<O> oseq);
+    public abstract <O extends Observation> TAlpha computeAlpha(Hmm<? super O> hmm, Collection<O> oseq);
 
     public <O extends Observation> TAlpha computeAlpha(Hmm<? super O> hmm, O... oseq);
 

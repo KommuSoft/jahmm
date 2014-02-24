@@ -6,9 +6,15 @@ package jahmm.calculators;
 
 import jahmm.Hmm;
 import jahmm.observables.Observation;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
+import jutils.probability.ProbabilityUtils;
+import jutlis.tuples.Tuple3;
+import jutlis.tuples.Tuple3Base;
 
 /**
  * This class can be used to compute the probability of a given observations
@@ -27,21 +33,7 @@ import java.util.List;
 public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalculator {
 
     public static final ForwardBackwardScaledCalculator Instance = new ForwardBackwardScaledCalculator();
-
-    /* Normalize alpha[t] and put the normalization factor in ctFactors[t] */
-    private static void scale(double[] ctFactors, double[][] array, int t) {
-        double[] table = array[t];
-        double sum = 0.;
-
-        for (int i = 0; i < table.length; i++) {
-            sum += table[i];
-        }
-
-        ctFactors[t] = sum;
-        for (int i = 0; i < table.length; i++) {
-            table[i] /= sum;
-        }
-    }
+    private static final Logger LOG = Logger.getLogger(ForwardBackwardScaledCalculator.class.getName());
 
     protected ForwardBackwardScaledCalculator() {
     }
@@ -76,9 +68,9 @@ public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalcul
             throw new IllegalArgumentException();
         }
 
-        int T = oseq.size();
+        int t = oseq.size();
 
-        double[] ctFactors = new double[T];
+        double[] ctFactors = new double[t];
         double[][] alpha = null, beta = null;
 
         alpha = computeAlpha(hmm, oseq, ctFactors);
@@ -97,32 +89,34 @@ public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalcul
      * @param ctFactors>
      * @param hmm
      * @param oseq
+     * @return 
      */
     public <O extends Observation> double[][] computeAlpha(Hmm<? super O> hmm, Collection<O> oseq, double... ctFactors) {
         int T = ctFactors.length;
-        int N = hmm.nbStates();
+        int s = hmm.nbStates();
         Iterator<? extends O> seqIterator = oseq.iterator();
-        double[][] alpha = new double[T][N];
+        double[][] alpha = new double[T][s];
         if (seqIterator.hasNext()) {
 
             O observation = seqIterator.next();
 
-            for (int i = 0; i < N; i++) {
-                alpha[0][i] = hmm.getPi(i) * hmm.getOpdf(i).probability(observation);
+            for (int i = 0x00; i < s; i++) {
+                alpha[0x00][i] = hmm.getPi(i) * hmm.getOpdf(i).probability(observation);
             }
-            scale(ctFactors, alpha, 0);
+
+            ctFactors[0x00] = ProbabilityUtils.scale(alpha[0x00]);
 
             for (int t = 1; t < T; t++) {
                 observation = seqIterator.next();
 
-                for (int i = 0; i < N; i++) {
-                    double sum = 0.;
-                    for (int j = 0; j < N; j++) {
+                for (int i = 0; i < s; i++) {
+                    double sum = 0.0d;
+                    for (int j = 0; j < s; j++) {
                         sum += alpha[t - 1][j] * hmm.getAij(j, i);
                     }
                     alpha[t][i] = sum * hmm.getOpdf(i).probability(observation);
                 }
-                scale(ctFactors, alpha, t);
+                ctFactors[t] = ProbabilityUtils.scale(alpha[t]);
             }
         }
         return alpha;
@@ -132,24 +126,36 @@ public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalcul
      those computed for alpha. */
     public <O extends Observation> double[][] computeBeta(Hmm<? super O> hmm, List<O> oseq, double... ctFactors) {
         int T = ctFactors.length;
-        int N = hmm.nbStates();
-        double[][] beta = new double[T][N];
-        for (int i = 0; i < N; i++) {
-            beta[T - 1][i] = 1. / ctFactors[T - 1];
+        int s = hmm.nbStates();
+        double[][] beta = new double[T][s];
+        for (int i = 0; i < s; i++) {
+            beta[T - 1][i] = 1.0d / ctFactors[T - 1];
         }
 
         for (int t = T - 2; t >= 0; t--) {
             O observation = oseq.get(t + 1);
-            for (int i = 0; i < N; i++) {
+            for (int i = 0; i < s; i++) {
                 double sum = 0.;
-                for (int j = 0; j < N; j++) {
-                    sum += beta[t + 1][j] * hmm.getAij(i, j)
-                            * hmm.getOpdf(j).probability(observation);
+                for (int j = 0; j < s; j++) {
+                    sum += beta[t + 1][j] * hmm.getAij(i, j) * hmm.getOpdf(j).probability(observation);
                 }
                 beta[t][i] = sum;
                 beta[t][i] /= ctFactors[t];
             }
         }
         return beta;
+    }
+
+    @Override
+    public <O extends Observation> Tuple3<double[][], double[][], Double> computeAll(Hmm<? super O> hmm, List<O> oseq) {
+        if (oseq.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+        int t = oseq.size();
+        double[] ctFactors = new double[t];
+        double[][] alpha = computeAlpha(hmm, oseq,ctFactors);
+        double[][] beta = computeBeta(hmm, oseq,ctFactors);
+        double probability = computeProbability(ctFactors);
+        return new Tuple3Base<>(alpha, beta, probability);
     }
 }

@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import jutlis.tuples.Tuple3;
 import jutlis.tuples.Tuple3Base;
 
@@ -25,6 +26,7 @@ import jutlis.tuples.Tuple3Base;
 public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<double[][], double[][]> {
 
     public static final ForwardBackwardCalculator Instance = new ForwardBackwardCalculator();
+    private static final Logger LOG = Logger.getLogger(ForwardBackwardCalculator.class.getName());
 
     /**
      *
@@ -110,12 +112,12 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
             for (int t = 0; t < T; t++) {
                 observation = seqIterator.next();
 
-                for (int i = 0; i < s; i++) {
+                for (int j = 0; j < s; j++) {
                     double sum = 0.;
-                    for (int j = 0; j < s; j++) {
-                        sum += alpha[t][j] * hmm.getAij(j, i);
+                    for (int i = 0; i < s; i++) {
+                        sum += alpha[t][i] * hmm.getAij(i, j);
                     }
-                    alpha[t + 0x01][i] = sum * hmm.getOpdf(i).probability(observation);
+                    alpha[t + 0x01][j] = sum * hmm.getOpdf(j).probability(observation);
                 }
             }
         }
