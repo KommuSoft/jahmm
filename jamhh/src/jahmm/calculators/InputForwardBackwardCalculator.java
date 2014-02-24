@@ -4,6 +4,6 @@ package jahmm.calculators;
  *
  * @author kommusoft
  */
-public class InputForwardBackwardCalculator {
-
+public interface InputForwardBackwardCalculator extends ForwardBackwardCalculator<double[][][],double[][][]> {
+    
 }

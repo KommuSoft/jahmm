@@ -9,6 +9,8 @@ import jutlis.lists.ListArray;
 import jutlis.tuples.Tuple3;
 
 /**
+ * A utility class that delegates a large number of methods to a small set of
+ * methods that need to be implemented.
  *
  * @author kommusoft
  * @param <TAlpha> The type of alpha (in most cases a nD-array of doubles).
