@@ -9,14 +9,13 @@ import jahmm.Hmm;
 import jahmm.observables.ObservationDiscrete;
 import jahmm.observables.Opdf;
 import jahmm.observables.OpdfDiscrete;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import jutils.probability.ProbabilityUtils;
 import jutils.testing.AssertExtensions;
 import jutlis.lists.ListArray;
 import jutlis.tuples.Tuple3;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import org.junit.Test;
 import utils.TestParameters;
 
@@ -71,14 +70,31 @@ public class ForwardBackwardScaledCalculatorTest {
      */
     @Test
     public void testSameProbability() {
+        double[][] trans = {{0.0d, 0.0d, 0.0d}, {0.0d, 0.0d, 0.0d}, {0.0d, 0.0d, 0.0d}};
+        double[][] exhaust = {{0.0d, 0.0d, 0.0d}, {0.0d, 0.0d, 0.0d}, {0.0d, 0.0d, 0.0d}};
+        double[] pi = {0.0d, 0.0d, 0.0d};
+        ArrayList<ObservationDiscrete<Tris>> tris = new ArrayList<>(0x90);
+        for (int i = 0x00; i < 0x90; i++) {
+            tris.add(null);
+        }
+        Tris[] trisvals = Tris.values();
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
-            double[][] trans = {{0.7d, 0.3d}, {0.3d, 0.7d}};
-            double[][] exhaust = {{0.9d, 0.1d}, {0.2d, 0.8d}};
-            Opdf<ObservationDiscrete<Events>> state0 = new OpdfDiscrete<>(Events.class, exhaust[0x00]);
-            Opdf<ObservationDiscrete<Events>> state1 = new OpdfDiscrete<>(Events.class, exhaust[0x01]);
-            double[] pi = {0.5d, 0.5d};
+            for (int i = 0x00; i < 0x03; i++) {
+                ProbabilityUtils.fillRandomScale(trans[i]);
+                ProbabilityUtils.fillRandomScale(exhaust[i]);
+            }
+            for (int i = 0x00; i < 0x90; i++) {
+                tris.set(i, new ObservationDiscrete<>(trisvals[ProbabilityUtils.nextInt(0x03)]));
+            }
+            ProbabilityUtils.fillRandomScale(pi);
+            Opdf<ObservationDiscrete<Tris>> state0 = new OpdfDiscrete<>(Tris.class, exhaust[0x00]);
+            Opdf<ObservationDiscrete<Tris>> state1 = new OpdfDiscrete<>(Tris.class, exhaust[0x01]);
+            Opdf<ObservationDiscrete<Tris>> state2 = new OpdfDiscrete<>(Tris.class, exhaust[0x02]);
             @SuppressWarnings("unchecked")
-            Hmm<ObservationDiscrete<Events>> hmm = new Hmm<>(pi, trans, state0, state1);
+            Hmm<ObservationDiscrete<Tris>> hmm = new Hmm<>(pi, trans, state0, state1, state2);
+            double expected = ForwardBackwardCalculator.Instance.computeProbability(hmm, tris);
+            double actual = ForwardBackwardScaledCalculator.Instance.computeProbability(hmm, tris);
+            AssertExtensions.assertEquals(expected, actual);
         }
     }
 
