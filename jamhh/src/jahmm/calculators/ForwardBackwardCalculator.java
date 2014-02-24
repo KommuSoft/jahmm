@@ -93,7 +93,10 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
      */
     @Override
     public <O extends Observation> double[][] computeAlpha(Hmm<? super O> hmm, Collection<O> oseq) {
-        double[][] alpha = new double[oseq.size()][hmm.nbStates()];
+        int T = oseq.size();
+        int s = hmm.nbStates();
+        double[][] alpha = new double[T][s];
+        T--;
 
         Iterator<O> seqIterator = oseq.iterator();
         O observation;
@@ -104,15 +107,15 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
                 alpha[0][i] = hmm.getPi(i) * hmm.getOpdf(i).probability(observation);
             }
 
-            for (int t = 1; t < oseq.size(); t++) {
+            for (int t = 0; t < T; t++) {
                 observation = seqIterator.next();
 
-                for (int i = 0; i < hmm.nbStates(); i++) {
+                for (int i = 0; i < s; i++) {
                     double sum = 0.;
-                    for (int j = 0; j < hmm.nbStates(); j++) {
-                        sum += alpha[t - 1][j] * hmm.getAij(j, i);
+                    for (int j = 0; j < s; j++) {
+                        sum += alpha[t][j] * hmm.getAij(j, i);
                     }
-                    alpha[t][i] = sum * hmm.getOpdf(i).probability(observation);
+                    alpha[t + 0x01][i] = sum * hmm.getOpdf(i).probability(observation);
                 }
             }
         }
@@ -140,7 +143,7 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
                 for (int j = 0; j < s; j++) {
                     sum += beta[t][j] * hmm.getAij(i, j) * hmm.getOpdf(j).probability(observation);
                 }
-                beta[t-0x01][i] = sum;
+                beta[t - 0x01][i] = sum;
             }
             t--;
         }

@@ -1,17 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jahmm.calculators;
 
 import jahmm.Hmm;
 import jahmm.observables.ObservationDiscrete;
 import jahmm.observables.Opdf;
 import jahmm.observables.OpdfDiscrete;
-import java.util.Arrays;
 import java.util.List;
-import junit.framework.Assert;
 import jutils.testing.AssertExtensions;
 import jutlis.lists.ListArray;
 import jutlis.tuples.Tuple3;
