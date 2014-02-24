@@ -34,8 +34,8 @@ public class ForwardBackwardCalculatorTest {
     public void testComputeAll() {
         double[][] trans = {{0.7d, 0.3d}, {0.3d, 0.7d}};
         double[][] exhaust = {{0.9d, 0.1d}, {0.2d, 0.8d}};
-        Opdf<ObservationDiscrete<Events>> state0 = new OpdfDiscrete<>(Events.class, 0.9d, 0.1d);
-        Opdf<ObservationDiscrete<Events>> state1 = new OpdfDiscrete<>(Events.class, 0.2d, 0.8d);
+        Opdf<ObservationDiscrete<Events>> state0 = new OpdfDiscrete<>(Events.class, exhaust[0x00]);
+        Opdf<ObservationDiscrete<Events>> state1 = new OpdfDiscrete<>(Events.class, exhaust[0x01]);
         double[] pi = {0.5d, 0.5d};
         @SuppressWarnings("unchecked")
         Hmm<ObservationDiscrete<Events>> hmm = new Hmm<>(pi, trans, state0, state1);
@@ -45,20 +45,18 @@ public class ForwardBackwardCalculatorTest {
         double[][] a = abp.getItem1();
         double[][] b = abp.getItem2();
         double p = abp.getItem3();
-        double[] expecteda = {0.5, 0.8182, 0.8834, 0.1907, 0.7308, 0.8673};
-        double[] expectedb = {0.6469, 0.5923, 0.3763, 0.6533, 0.6273};
-        System.out.println("a:\n"+Arrays.deepToString(a));
-        System.out.println("b:\n"+Arrays.deepToString(b));
+        double[] expecteda = {0.8182, 0.8834, 0.1907, 0.7308, 0.8673};
+        double[] expectedb = {0.5923, 0.3763, 0.6533, 0.6273};
+        AssertExtensions.pushEpsilon(0.01);
         for (int t = 0x00; t < expecteda.length; t++) {
-            AssertExtensions.assertEquals(expecteda[t], a[t][0x00]);
-            AssertExtensions.assertEquals(1.0 - expecteda[t], a[t][0x01]);
+            AssertExtensions.assertEquals(a[t][0x00]*(1.0d-expecteda[t]), a[t][0x01]*expecteda[t]);
         }
         for (int t = 0x00; t < expectedb.length; t++) {
-            AssertExtensions.assertEquals(expectedb[t], b[t][0x00]);
-            AssertExtensions.assertEquals(1.0 - expectedb[t], b[t][0x01]);
+            AssertExtensions.assertEquals(b[t][0x00]*(1.0d-expectedb[t]), b[t][0x01]*expectedb[t]);
         }
         AssertExtensions.assertEquals(1.0d, b[expectedb.length][0x00]);
         AssertExtensions.assertEquals(1.0d, b[expectedb.length][0x01]);
+        AssertExtensions.popEpsilon();
     }
 
     public enum Events {

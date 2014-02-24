@@ -123,23 +123,26 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
      to the elements of oseq to get a theoretically optimal algorithm. */
     @Override
     public <O extends Observation> double[][] computeBeta(Hmm<? super O> hmm, List<O> oseq) {
-        double[][] beta = new double[oseq.size()][hmm.nbStates()];
+        int t = oseq.size();
+        int s = hmm.nbStates();
+        double[][] beta = new double[t][s];
+        t--;
         O observation;
 
-        for (int i = 0; i < hmm.nbStates(); i++) {
-            beta[oseq.size() - 1][i] = 1.;
+        for (int i = 0; i < s; i++) {
+            beta[t][i] = 1.0d;
         }
 
-        for (int t = oseq.size() - 2; t >= 0; t--) {
-            for (int i = 0; i < hmm.nbStates(); i++) {
-                observation = oseq.get(t + 1);
-                double sum = 0.;
-                for (int j = 0; j < hmm.nbStates(); j++) {
-                    sum += beta[t + 1][j] * hmm.getAij(i, j)
-                            * hmm.getOpdf(j).probability(observation);
+        for (; t > 0;) {
+            for (int i = 0; i < s; i++) {
+                observation = oseq.get(t);
+                double sum = 0.0d;
+                for (int j = 0; j < s; j++) {
+                    sum += beta[t][j] * hmm.getAij(i, j) * hmm.getOpdf(j).probability(observation);
                 }
-                beta[t][i] = sum;
+                beta[t-0x01][i] = sum;
             }
+            t--;
         }
         return beta;
     }
