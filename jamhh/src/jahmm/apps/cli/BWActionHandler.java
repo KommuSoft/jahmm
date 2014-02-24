@@ -4,7 +4,7 @@
  */
 package jahmm.apps.cli;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.apps.cli.CommandLineArguments.Arguments;
 import jahmm.io.FileFormatException;
 import jahmm.io.HmmReader;
@@ -67,10 +67,10 @@ class BWActionHandler
         OpdfReader<? extends Opdf<O>> opdfReader = relatedObjs.opdfReader();
         OpdfWriter<? extends Opdf<O>> opdfWriter = relatedObjs.opdfWriter();
 
-        Hmm<O> initHmm = HmmReader.read(hmmFileReader, opdfReader);
+        RegularHmmBase<O> initHmm = HmmReader.read(hmmFileReader, opdfReader);
         BaumWelchLearner bw = new BaumWelchScaledLearner();
         bw.setNbIterations(nbIterations);
-        Hmm<O> hmm = bw.learn(initHmm, seqs);
+        RegularHmmBase<O> hmm = bw.learn(initHmm, seqs);
         HmmWriter.write(hmmFileWriter, opdfWriter, hmm);
     }
 }

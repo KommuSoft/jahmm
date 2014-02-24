@@ -5,7 +5,7 @@
  */
 package jahmm.calculators;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.observables.Observation;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -20,17 +20,17 @@ import jutlis.tuples.Tuple3;
 public abstract class ForwardBackwardCalculatorBase<TAlpha, TBeta> implements AbstractForwardBackwardCalculator<TAlpha, TBeta> {
 
     @Override
-    public <O extends Observation> TAlpha computeAlpha(Hmm<? super O> hmm, O... oseq) {
+    public <O extends Observation> TAlpha computeAlpha(RegularHmmBase<? super O> hmm, O... oseq) {
         return this.computeAlpha(hmm, new ListArray<>(oseq));
     }
 
     @Override
-    public <O extends Observation> TBeta computeBeta(Hmm<? super O> hmm, O... oseq) {
+    public <O extends Observation> TBeta computeBeta(RegularHmmBase<? super O> hmm, O... oseq) {
         return this.computeBeta(hmm, new ListArray<>(oseq));
     }
 
     @Override
-    public <O extends Observation> Tuple3<TAlpha, TBeta, Double> computeAll(Hmm<? super O> hmm, O... oseq) {
+    public <O extends Observation> Tuple3<TAlpha, TBeta, Double> computeAll(RegularHmmBase<? super O> hmm, O... oseq) {
         return this.computeAll(hmm, new ListArray<>(oseq));
     }
 
@@ -46,7 +46,7 @@ public abstract class ForwardBackwardCalculatorBase<TAlpha, TBeta> implements Ab
      * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)
      */
     @Override
-    public <O extends Observation> double computeProbability(Hmm<O> hmm, List<? extends O> oseq) {
+    public <O extends Observation> double computeProbability(RegularHmmBase<O> hmm, List<? extends O> oseq) {
         return computeProbability(hmm, EnumSet.of(ComputationType.ALPHA), oseq);
     }
 
@@ -63,7 +63,7 @@ public abstract class ForwardBackwardCalculatorBase<TAlpha, TBeta> implements Ab
      * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)
      */
     @Override
-    public <O extends Observation> double computeProbability(Hmm<O> hmm, Collection<ComputationType> flags, O... oseq) {
+    public <O extends Observation> double computeProbability(RegularHmmBase<O> hmm, Collection<ComputationType> flags, O... oseq) {
         return this.computeProbability(hmm, flags, new ListArray<>(oseq));
     }
 
@@ -79,7 +79,7 @@ public abstract class ForwardBackwardCalculatorBase<TAlpha, TBeta> implements Ab
      * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)
      */
     @Override
-    public <O extends Observation> double computeProbability(Hmm<O> hmm, O... oseq) {
+    public <O extends Observation> double computeProbability(RegularHmmBase<O> hmm, O... oseq) {
         return this.computeProbability(hmm, new ListArray<>(oseq));
     }
 

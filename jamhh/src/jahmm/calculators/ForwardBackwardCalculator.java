@@ -4,7 +4,7 @@
  */
 package jahmm.calculators;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.observables.Observation;
 import java.util.Collection;
 import java.util.EnumSet;
@@ -34,7 +34,7 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
     protected ForwardBackwardCalculator() {
     }
 
-    protected <O extends Observation> double computeProbability(List<O> oseq, Hmm<? super O> hmm, Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
+    protected <O extends Observation> double computeProbability(List<O> oseq, RegularHmmBase<? super O> hmm, Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
         double probability = 0.;
         int n = hmm.nbStates();
         double[] tmp;
@@ -65,7 +65,7 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
      * @return
      */
     @Override
-    public <O extends Observation> double computeProbability(Hmm<O> hmm, Collection<ComputationType> flags, List<? extends O> oseq) {
+    public <O extends Observation> double computeProbability(RegularHmmBase<O> hmm, Collection<ComputationType> flags, List<? extends O> oseq) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException("Invalid empty sequence");
         }
@@ -94,7 +94,7 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
      * t+1) with the (t+1)th state being i+1.
      */
     @Override
-    public <O extends Observation> double[][] computeAlpha(Hmm<? super O> hmm, Collection<O> oseq) {
+    public <O extends Observation> double[][] computeAlpha(RegularHmmBase<? super O> hmm, Collection<O> oseq) {
         int T = oseq.size();
         int s = hmm.nbStates();
         double[][] alpha = new double[T][s];
@@ -127,7 +127,7 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
     /* Computes the content of the beta array.  Needs a O(1) access time
      to the elements of oseq to get a theoretically optimal algorithm. */
     @Override
-    public <O extends Observation> double[][] computeBeta(Hmm<? super O> hmm, List<O> oseq) {
+    public <O extends Observation> double[][] computeBeta(RegularHmmBase<? super O> hmm, List<O> oseq) {
         int t = oseq.size();
         int s = hmm.nbStates();
         double[][] beta = new double[t][s];
@@ -153,7 +153,7 @@ public class ForwardBackwardCalculator extends ForwardBackwardCalculatorBase<dou
     }
 
     @Override
-    public <O extends Observation> Tuple3<double[][], double[][], Double> computeAll(Hmm<? super O> hmm, List<O> oseq) {
+    public <O extends Observation> Tuple3<double[][], double[][], Double> computeAll(RegularHmmBase<? super O> hmm, List<O> oseq) {
         double[][] alpha = computeAlpha(hmm, oseq);
         double[][] beta = computeBeta(hmm, oseq);
         double probability = computeProbability(oseq, hmm, EnumSet.of(ComputationType.ALPHA), alpha, beta);

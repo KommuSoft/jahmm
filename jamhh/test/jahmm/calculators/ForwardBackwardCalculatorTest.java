@@ -1,6 +1,6 @@
 package jahmm.calculators;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.observables.ObservationDiscrete;
 import jahmm.observables.Opdf;
 import jahmm.observables.OpdfDiscrete;
@@ -32,7 +32,7 @@ public class ForwardBackwardCalculatorTest {
         Opdf<ObservationDiscrete<Events>> state1 = new OpdfDiscrete<>(Events.class, exhaust[0x01]);
         double[] pi = {0.5d, 0.5d};
         @SuppressWarnings("unchecked")
-        Hmm<ObservationDiscrete<Events>> hmm = new Hmm<>(pi, trans, state0, state1);
+        RegularHmmBase<ObservationDiscrete<Events>> hmm = new RegularHmmBase<>(pi, trans, state0, state1);
         @SuppressWarnings("unchecked")
         List<ObservationDiscrete<Events>> sequence = new ListArray<>(new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.NoUmbrella), new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.Umbrella));
         Tuple3<double[][], double[][], Double> abp = ForwardBackwardCalculator.Instance.computeAll(hmm, sequence);

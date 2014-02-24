@@ -4,7 +4,7 @@
  */
 package jahmm.apps.cli;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.apps.cli.CommandLineArguments.Arguments;
 import jahmm.io.FileFormatException;
 import jahmm.io.HmmReader;
@@ -31,7 +31,7 @@ class PrintActionHandler extends ActionHandler {
 
         InputStream in = Arguments.IN_HMM.getAsInputStream();
         OpdfReader opdfReader = new OpdfGenericReader();
-        Hmm<?> hmm = HmmReader.read(new InputStreamReader(in), opdfReader);
+        RegularHmmBase<?> hmm = HmmReader.read(new InputStreamReader(in), opdfReader);
 
         System.out.println(hmm);
     }

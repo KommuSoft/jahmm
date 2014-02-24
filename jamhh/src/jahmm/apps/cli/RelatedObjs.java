@@ -4,7 +4,7 @@
  */
 package jahmm.apps.cli;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.io.FileFormatException;
 import jahmm.io.ObservationReader;
 import jahmm.io.ObservationWriter;
@@ -71,5 +71,5 @@ public interface RelatedObjs<O extends Observation & CentroidFactory<O>> {
      * @param hmm
      * @return
      */
-    public MarkovGenerator<O> generator(Hmm<O> hmm);
+    public MarkovGenerator<O> generator(RegularHmmBase<O> hmm);
 }

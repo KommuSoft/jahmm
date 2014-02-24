@@ -4,7 +4,7 @@
  */
 package jahmm.learn;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.observables.ObservationInteger;
 import jahmm.observables.OpdfIntegerFactory;
 import jahmm.toolbox.KullbackLeiblerDistanceCalculator;
@@ -21,13 +21,13 @@ public class LearnerTest extends TestCase {
 
     final static private double DELTA = 5.E-3;
 
-    private Hmm<ObservationInteger> hmm;
+    private RegularHmmBase<ObservationInteger> hmm;
     private List<List<ObservationInteger>> sequences;
     private KullbackLeiblerDistanceCalculator klc;
 
     @Override
     protected void setUp() {
-        hmm = new Hmm<>(3, new OpdfIntegerFactory(10));
+        hmm = new RegularHmmBase<>(3, new OpdfIntegerFactory(10));
         hmm.getOpdf(0).fit(new ObservationInteger(1), new ObservationInteger(2));
 
         MarkovGenerator<ObservationInteger> mg
@@ -49,7 +49,7 @@ public class LearnerTest extends TestCase {
 
         BaumWelchLearner bwl = new BaumWelchLearner();
 
-        Hmm<ObservationInteger> bwHmm = bwl.learn(hmm, sequences);
+        RegularHmmBase<ObservationInteger> bwHmm = bwl.learn(hmm, sequences);
 
         assertEquals(0., klc.distance(bwHmm, hmm), DELTA);
 

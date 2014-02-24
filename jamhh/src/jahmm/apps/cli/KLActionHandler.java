@@ -4,7 +4,7 @@
  */
 package jahmm.apps.cli;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.apps.cli.CommandLineArguments.Arguments;
 import jahmm.io.FileFormatException;
 import jahmm.io.HmmReader;
@@ -51,8 +51,8 @@ public class KLActionHandler extends ActionHandler {
     private <O extends Observation & CentroidFactory<O>> void
             distance(RelatedObjs<O> relatedObjs, Reader reader1, Reader reader2)
             throws IOException, FileFormatException {
-        Hmm<O> hmm1 = HmmReader.read(reader1, relatedObjs.opdfReader());
-        Hmm<O> hmm2 = HmmReader.read(reader2, relatedObjs.opdfReader());
+        RegularHmmBase<O> hmm1 = HmmReader.read(reader1, relatedObjs.opdfReader());
+        RegularHmmBase<O> hmm2 = HmmReader.read(reader2, relatedObjs.opdfReader());
 
         KullbackLeiblerDistanceCalculator kl
                 = new KullbackLeiblerDistanceCalculator();

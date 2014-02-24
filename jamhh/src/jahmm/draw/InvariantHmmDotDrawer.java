@@ -4,7 +4,7 @@
  */
 package jahmm.draw;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 
 /**
  * An HMM to <i>dot</i> file converter. See
@@ -14,7 +14,7 @@ import jahmm.Hmm;
  * The command <tt>dot -Tps -o &lt;outputfile&gt; &lt;inputfile&gt;</tt>
  * should produce a Postscript file describing an HMM.
  */
-public class InvariantHmmDotDrawer extends HmmDotDrawer<Hmm<?>> {
+public class InvariantHmmDotDrawer extends HmmDotDrawer<RegularHmmBase<?>> {
 
     public static final InvariantHmmDotDrawer Instance = new InvariantHmmDotDrawer();
 

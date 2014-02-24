@@ -4,7 +4,7 @@
  */
 package jahmm.toolbox;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.observables.Observation;
 import java.util.List;
@@ -39,7 +39,7 @@ public class KullbackLeiblerDistanceCalculator {
      * @return The distance between <code>hmm1</code> and <code>hmm2</code> with
      * regard to <code>hmm1</code>
      */
-    public <O extends Observation> double distance(Hmm<O> hmm1, Hmm<? super O> hmm2) {
+    public <O extends Observation> double distance(RegularHmmBase<O> hmm1, RegularHmmBase<? super O> hmm2) {
         double distance = 0.;
 
         for (int i = 0; i < nbSequences; i++) {

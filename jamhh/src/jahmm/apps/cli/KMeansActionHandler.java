@@ -4,7 +4,7 @@
  */
 package jahmm.apps.cli;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.apps.cli.CommandLineArguments.Arguments;
 import jahmm.io.FileFormatException;
 import jahmm.io.HmmWriter;
@@ -68,7 +68,7 @@ class KMeansActionHandler
 
         KMeansLearner<O> kl = new KMeansLearner<>(nbStates, opdfFactory,
                 seqs);
-        Hmm<O> hmm = kl.learn();
+        RegularHmmBase<O> hmm = kl.learn();
 
         HmmWriter.write(writer, opdfWriter, hmm);
     }

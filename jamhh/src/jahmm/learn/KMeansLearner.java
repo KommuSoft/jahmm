@@ -4,7 +4,7 @@
  */
 package jahmm.learn;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.calculators.KMeansCalculator;
 import jahmm.calculators.ViterbiCalculator;
 import jahmm.observables.CentroidFactory;
@@ -75,8 +75,8 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
      *
      * @return A new, updated HMM.
      */
-    public Hmm<O> iterate() {
-        Hmm<O> hmm = new Hmm<>(nbStates, opdfFactory);
+    public RegularHmmBase<O> iterate() {
+        RegularHmmBase<O> hmm = new RegularHmmBase<>(nbStates, opdfFactory);
 
         learnPi(hmm);
         learnAij(hmm);
@@ -103,8 +103,8 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
      * @return The HMM that best matches the set of observation sequences given
      * (according to the K-Means algorithm).
      */
-    public Hmm<O> learn() {
-        Hmm<O> hmm;
+    public RegularHmmBase<O> learn() {
+        RegularHmmBase<O> hmm;
 
         do {
             hmm = iterate();
@@ -113,7 +113,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
         return hmm;
     }
 
-    private void learnPi(Hmm<?> hmm) {
+    private void learnPi(RegularHmmBase<?> hmm) {
         double[] pi = new double[nbStates];
 
         for (int i = 0; i < nbStates; i++) {
@@ -129,7 +129,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
         }
     }
 
-    private void learnAij(Hmm<O> hmm) {
+    private void learnAij(RegularHmmBase<O> hmm) {
         for (int i = 0; i < hmm.nbStates(); i++) {
             for (int j = 0; j < hmm.nbStates(); j++) {
                 hmm.setAij(i, j, 0.);
@@ -173,7 +173,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
         }
     }
 
-    private void learnOpdf(Hmm<O> hmm) {
+    private void learnOpdf(RegularHmmBase<O> hmm) {
         for (int i = 0; i < hmm.nbStates(); i++) {
             Collection<O> clusterObservations = clusters.cluster(i);
 
@@ -186,7 +186,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
     }
 
     /* Return true if no modification */
-    private boolean optimizeCluster(Hmm<O> hmm) {
+    private boolean optimizeCluster(RegularHmmBase<O> hmm) {
         boolean modif = false;
 
         for (List<? extends O> obsSeq : obsSeqs) {

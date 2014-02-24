@@ -4,7 +4,7 @@
  */
 package jahmm.calculators;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.observables.Observation;
 import java.util.Iterator;
 import java.util.List;
@@ -33,7 +33,7 @@ public final class ViterbiCalculator {
      * @param oseq An observations sequence.
      */
     public <O extends Observation>
-            ViterbiCalculator(List<? extends O> oseq, Hmm<O> hmm) {
+            ViterbiCalculator(List<? extends O> oseq, RegularHmmBase<O> hmm) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException("Invalid empty sequence");
         }
@@ -84,7 +84,7 @@ public final class ViterbiCalculator {
      * Computes delta and psy[t][j] (t > 0) 
      */
     private <O extends Observation> void
-            computeStep(Hmm<O> hmm, O o, int t, int j) {
+            computeStep(RegularHmmBase<O> hmm, O o, int t, int j) {
         double minDelta = Double.MAX_VALUE;
         int min_psy = 0;
 

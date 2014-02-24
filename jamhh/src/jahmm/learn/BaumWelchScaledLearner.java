@@ -4,7 +4,7 @@
  */
 package jahmm.learn;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.calculators.ForwardBackwardScaledCalculator;
 import jahmm.observables.Observation;
 import java.util.Iterator;
@@ -31,7 +31,7 @@ public class BaumWelchScaledLearner extends BaumWelchLearner {
     }
 
     @Override
-    protected <O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(Hmm<O> hmm, List<? extends O> obsSeq) {
+    protected <O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(RegularHmmBase<O> hmm, List<? extends O> obsSeq) {
         return ForwardBackwardScaledCalculator.Instance.computeAll(hmm, obsSeq);
     }
 
@@ -50,7 +50,7 @@ public class BaumWelchScaledLearner extends BaumWelchLearner {
      * @return
      */
     @Override
-    protected <O extends Observation> double[][][] estimateXi(List<? extends O> sequence, Tuple3<double[][], double[][], Double> abp, Hmm<O> hmm) {
+    protected <O extends Observation> double[][][] estimateXi(List<? extends O> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmmBase<O> hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
         }

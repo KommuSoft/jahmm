@@ -5,7 +5,7 @@
  */
 package jahmm.calculators;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.observables.ObservationDiscrete;
 import jahmm.observables.Opdf;
 import jahmm.observables.OpdfDiscrete;
@@ -40,7 +40,7 @@ public class ForwardBackwardScaledCalculatorTest {
         Opdf<ObservationDiscrete<Events>> state1 = new OpdfDiscrete<>(Events.class, exhaust[0x01]);
         double[] pi = {0.5d, 0.5d};
         @SuppressWarnings("unchecked")
-        Hmm<ObservationDiscrete<Events>> hmm = new Hmm<>(pi, trans, state0, state1);
+        RegularHmmBase<ObservationDiscrete<Events>> hmm = new RegularHmmBase<>(pi, trans, state0, state1);
         @SuppressWarnings("unchecked")
         List<ObservationDiscrete<Events>> sequence = new ListArray<>(new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.NoUmbrella), new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.Umbrella));
         Tuple3<double[][], double[][], Double> abp = ForwardBackwardScaledCalculator.Instance.computeAll(hmm, sequence);
@@ -88,7 +88,7 @@ public class ForwardBackwardScaledCalculatorTest {
             Opdf<ObservationDiscrete<Tris>> state1 = new OpdfDiscrete<>(Tris.class, exhaust[0x01]);
             Opdf<ObservationDiscrete<Tris>> state2 = new OpdfDiscrete<>(Tris.class, exhaust[0x02]);
             @SuppressWarnings("unchecked")
-            Hmm<ObservationDiscrete<Tris>> hmm = new Hmm<>(pi, trans, state0, state1, state2);
+            RegularHmmBase<ObservationDiscrete<Tris>> hmm = new RegularHmmBase<>(pi, trans, state0, state1, state2);
             double expected = ForwardBackwardCalculator.Instance.computeProbability(hmm, tris);
             double actual = ForwardBackwardScaledCalculator.Instance.computeProbability(hmm, tris);
             AssertExtensions.assertEquals(expected, actual);

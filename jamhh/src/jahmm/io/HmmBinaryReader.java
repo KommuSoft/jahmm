@@ -4,7 +4,7 @@
  */
 package jahmm.io;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -24,12 +24,12 @@ public class HmmBinaryReader {
      * @return The {@link be.ac.ulg.montefiore.run.jahmm.Hmm HMM} read.
      * @throws java.io.IOException
      */
-    static public Hmm<?> read(InputStream stream)
+    static public RegularHmmBase<?> read(InputStream stream)
             throws IOException {
         ObjectInputStream ois = new ObjectInputStream(stream);
 
         try {
-            return (Hmm) ois.readObject();
+            return (RegularHmmBase) ois.readObject();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

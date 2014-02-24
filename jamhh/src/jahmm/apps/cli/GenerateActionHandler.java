@@ -4,7 +4,7 @@
  */
 package jahmm.apps.cli;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.apps.cli.CommandLineArguments.Arguments;
 import jahmm.io.FileFormatException;
 import jahmm.io.HmmReader;
@@ -59,7 +59,7 @@ class GenerateActionHandler
             throws IOException, FileFormatException {
         ObservationWriter<O> obsWriter = relatedObjs.observationWriter();
         OpdfReader<? extends Opdf<O>> opdfReader = relatedObjs.opdfReader();
-        Hmm<O> hmm = HmmReader.read(hmmFileReader, opdfReader);
+        RegularHmmBase<O> hmm = HmmReader.read(hmmFileReader, opdfReader);
 
         MarkovGenerator<O> generator = relatedObjs.generator(hmm);
 

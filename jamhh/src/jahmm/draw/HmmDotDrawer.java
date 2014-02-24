@@ -4,7 +4,7 @@
  */
 package jahmm.draw;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.NumberFormat;
@@ -21,7 +21,7 @@ import jutlis.tuples.Tuple2Base;
  * The command <tt>dot -Tps -o &lt;outputfile&gt; &lt;inputfile&gt;</tt>
  * should produce a Postscript file describing an HMM.
  */
-class HmmDotDrawer<THMM extends Hmm<?>> extends DotGraphDrawerBase<THMM> {
+class HmmDotDrawer<THMM extends RegularHmmBase<?>> extends DotGraphDrawerBase<THMM> {
 
     private static final Logger LOG = Logger.getLogger(HmmDotDrawer.class.getName());
 
@@ -49,7 +49,7 @@ class HmmDotDrawer<THMM extends Hmm<?>> extends DotGraphDrawerBase<THMM> {
         this.writeStates(streamWriter, input);
     }
 
-    protected void writeTransitions(Writer streamWriter, Hmm<?> hmm) throws IOException {
+    protected void writeTransitions(Writer streamWriter, RegularHmmBase<?> hmm) throws IOException {
         Tuple2<String, String> labelTuple = new Tuple2Base<>("label", "");
 
         for (int i = 0; i < hmm.nbStates(); i++) {

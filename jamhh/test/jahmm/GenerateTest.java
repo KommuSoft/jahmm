@@ -22,11 +22,11 @@ public class GenerateTest
      */
     public final static String outputDir = "";
 
-    private Hmm<ObservationInteger> hmm;
+    private RegularHmmBase<ObservationInteger> hmm;
 
     @Override
     protected void setUp() {
-        hmm = new Hmm<>(4, new OpdfIntegerFactory(2));
+        hmm = new RegularHmmBase<>(4, new OpdfIntegerFactory(2));
     }
 
     /**

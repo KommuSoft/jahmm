@@ -106,10 +106,10 @@ public class IOTest
      */
     public void testBinaryHmm() {
         PipedInputStream pis = new PipedInputStream();
-        Hmm<?> hmm = null;
+        RegularHmmBase<?> hmm = null;
 
         try {
-            hmm = new Hmm<>(4,
+            hmm = new RegularHmmBase<>(4,
                     new OpdfIntegerFactory(3));
             PipedOutputStream pos = new PipedOutputStream(pis);
 
@@ -163,7 +163,7 @@ public class IOTest
      */
     public void testHmm()
             throws IOException {
-        Hmm<ObservationInteger> hmm = null;
+        RegularHmmBase<ObservationInteger> hmm = null;
 
         /* Test HmmReader */
         try {

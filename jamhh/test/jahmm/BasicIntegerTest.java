@@ -23,13 +23,13 @@ public class BasicIntegerTest
 
     final static private double DELTA = 1.E-10;
 
-    private Hmm<ObservationInteger> hmm;
+    private RegularHmmBase<ObservationInteger> hmm;
     private List<ObservationInteger> sequence;
     private List<ObservationInteger> randomSequence;
 
     @Override
     protected void setUp() {
-        hmm = new Hmm<>(5, new OpdfIntegerFactory(10));
+        hmm = new RegularHmmBase<>(5, new OpdfIntegerFactory(10));
         hmm.setOpdf(1, new OpdfInteger(6));
 
         sequence = new ArrayList<>();

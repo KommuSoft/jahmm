@@ -5,12 +5,14 @@ import jahmm.observables.Observation;
 /**
  *
  * @author kommusoft
+ * @param <TObs>
+ * @param <TAMx>
+ * @param <TBMx>
+ * @param <TInt>
  */
-public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends Observation> implements AbstractHmm<TObs, TInt> {
+public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends Observation> implements Hmm<TObs, TInt> {
 
-    protected final double pi[];
-    protected final TAMx a;
-    protected final TBMx b;
+    private static final long serialVersionUID = 1L;
 
     protected static double[] generatePi(int nbStates) {
         if (nbStates <= 0) {
@@ -23,6 +25,10 @@ public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends
         }
         return pi;
     }
+
+    protected final double pi[];
+    protected final TAMx a;
+    protected final TBMx b;
 
     protected HmmBase(double pi[], TAMx a, TBMx b) {
         this.pi = pi;
@@ -42,8 +48,8 @@ public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends
 
     /**
      * Returns the number of states of this HMM.
-     *     
-* @return The number of states of this HMM.
+     *
+     * @return The number of states of this HMM.
      */
     @Override
     public int nbStates() {
@@ -52,8 +58,8 @@ public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends
 
     /**
      * Returns the <i>pi</i> value associated with a given state.
-     *     
-* @param stateNb A state number such that
+     *
+     * @param stateNb A state number such that
      * <code>0 &le; stateNb &lt; nbStates()</code>
      * @return The <i>pi</i> value associated to <code>stateNb</code>.
      */
@@ -64,8 +70,8 @@ public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends
 
     /**
      * Sets the <i>pi</i> value associated with a given state.
-     *     
-* @param stateNb A state number such that
+     *
+     * @param stateNb A state number such that
      * <code>0 &le; stateNb &lt; nbStates()</code>.
      * @param value The <i>pi</i> value to associate to state number
      * <code>stateNb</code>
