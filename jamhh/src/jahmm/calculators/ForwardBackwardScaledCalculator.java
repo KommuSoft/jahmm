@@ -6,9 +6,7 @@ package jahmm.calculators;
 
 import jahmm.RegularHmmBase;
 import jahmm.observables.Observation;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;

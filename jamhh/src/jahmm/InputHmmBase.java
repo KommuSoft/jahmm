@@ -36,11 +36,13 @@ import jutlis.lists.ListArray;
  * vector being the i-th element of the sequence). A set of observation
  * sequences is a {@link java.util.List List} of such sequences.
  *
+ * @param <TIn> The type of input of the InputHmm.
+ * @param <TOut> The type of observations of the InputHmm.
  */
-public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][], ArrayList<Opdf<Out>>, InputObservationTuple<In, Out>> {
+public class InputHmmBase<TIn, TOut extends Observation> extends HmmBase<TOut, double[][][], ArrayList<Opdf<TOut>>, InputObservationTuple<TIn, TOut>> implements InputHmm<TIn, TOut> {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(IHmm.class.getName());
+    private static final Logger LOG = Logger.getLogger(InputHmmBase.class.getName());
 
     protected static double[][][] cloneA(double[][][] a) {
         int n = a.length;
@@ -83,8 +85,8 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
      * @param opdfFactory A pdf generator that is used to build the pdfs
      * associated to each state.
      */
-    public IHmm(int nbSymbols, int nbStates, OpdfFactory<? extends Opdf<Out>> opdfFactory) {
-        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<Out>>(nbStates));
+    public InputHmmBase(int nbSymbols, int nbStates, OpdfFactory<? extends Opdf<TOut>> opdfFactory) {
+        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<TOut>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
             b.add(opdfFactory.factor());
         }
@@ -103,7 +105,7 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
      * the observation distribution associated with state <code>i</code>. The
      * distributions are not copied.
      */
-    public IHmm(double[] pi, double[][][] a, List<? extends Opdf<Out>> opdfs) {
+    public InputHmmBase(double[] pi, double[][][] a, List<? extends Opdf<TOut>> opdfs) {
         super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
         this.checkConstraints();
     }
@@ -120,7 +122,7 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
      * the observation distribution associated with state <code>i</code>. The
      * distributions are not copied.
      */
-    public IHmm(double[] pi, double[][][] a, Opdf<Out>... opdfs) {
+    public InputHmmBase(double[] pi, double[][][] a, Opdf<TOut>... opdfs) {
         this(pi, a, new ListArray<>(opdfs));
     }
 
@@ -132,8 +134,8 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
      * @param nbSymbols The (strictly positive) number of states of the HMM.
      * @param nbStates The (strictly positive) number of states of the HMM.
      */
-    protected IHmm(int nbSymbols, int nbStates) {
-        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<Out>>(nbStates));
+    protected InputHmmBase(int nbSymbols, int nbStates) {
+        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<TOut>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
             this.b.add(null);
         }
@@ -173,9 +175,8 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
      * in the hierarchy can fail to clone.
      */
     @Override
-    public IHmm<In, Out> clone()
-            throws CloneNotSupportedException {
-        IHmm<In, Out> ihmm = new IHmm<>(nbSymbols(), nbStates());
+    public InputHmmBase<TIn, TOut> clone() throws CloneNotSupportedException {
+        InputHmmBase<TIn, TOut> ihmm = new InputHmmBase<>(nbSymbols(), nbStates());
         //TODO
         return ihmm;
     }
@@ -276,32 +277,42 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
     }
 
     @Override
-    public Opdf<Out> getOpdf(int stateNb) {
+    public Opdf<TOut> getOpdf(int stateNb) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double lnProbability(List<? extends InputObservationTuple<In, Out>> oseq) {
+    public double lnProbability(List<? extends InputObservationTuple<TIn, TOut>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public int[] mostLikelyStateSequence(List<? extends InputObservationTuple<In, Out>> oseq) {
+    public int[] mostLikelyStateSequence(List<? extends InputObservationTuple<TIn, TOut>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double probability(List<? extends InputObservationTuple<In, Out>> oseq) {
+    public double probability(List<? extends InputObservationTuple<TIn, TOut>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double probability(List<? extends InputObservationTuple<In, Out>> oseq, int[] sseq) {
+    public double probability(List<? extends InputObservationTuple<TIn, TOut>> oseq, int[] sseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void fold(Iterable<? extends InputObservationTuple<In, Out>> interaction) {
+    public void fold(Iterable<? extends InputObservationTuple<TIn, TOut>> interaction) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void splitInput(TIn originalIn, TIn... newIns) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void mergeInput(TIn newIn, TIn originalIns) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

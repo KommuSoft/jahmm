@@ -4,7 +4,6 @@ import jahmm.RegularHmmBase;
 import jahmm.observables.ObservationDiscrete;
 import jahmm.observables.Opdf;
 import jahmm.observables.OpdfDiscrete;
-import java.util.Arrays;
 import java.util.List;
 import jutils.testing.AssertExtensions;
 import jutlis.lists.ListArray;

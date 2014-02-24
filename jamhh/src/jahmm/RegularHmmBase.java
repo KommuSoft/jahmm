@@ -37,9 +37,9 @@ import jutlis.lists.ListArray;
  * vector being the i-th element of the sequence). A set of observation
  * sequences is a {@link java.util.List List} of such sequences.
  * 
-* @param <O> the type of the observations.
+* @param <TObs> the type of the observations.
  */
-public class RegularHmmBase<O extends Observation> extends HmmBase<O, double[][], List<Opdf<O>>, O> {
+public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, double[][], List<Opdf<TObs>>, TObs> implements RegularHmm<TObs> {
 
     private static final long serialVersionUID = 2L;
     private static final Logger LOG = Logger.getLogger(RegularHmmBase.class.getName());
@@ -75,8 +75,8 @@ public class RegularHmmBase<O extends Observation> extends HmmBase<O, double[][]
      * @param opdfFactory A pdf generator that is used to build the pdfs
      * associated to each state.
      */
-    public RegularHmmBase(int nbStates, OpdfFactory<? extends Opdf<O>> opdfFactory) {
-        super(generatePi(nbStates), generateA(nbStates), new ArrayList<Opdf<O>>(nbStates));
+    public RegularHmmBase(int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory) {
+        super(generatePi(nbStates), generateA(nbStates), new ArrayList<Opdf<TObs>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
             b.add(opdfFactory.factor());
         }
@@ -95,12 +95,12 @@ public class RegularHmmBase<O extends Observation> extends HmmBase<O, double[][]
      * the observation distribution associated with state <code>i</code>. The
      * distributions are not copied.
      */
-    public RegularHmmBase(double[] pi, double[][] a, List<? extends Opdf<O>> opdfs) {
+    public RegularHmmBase(double[] pi, double[][] a, List<? extends Opdf<TObs>> opdfs) {
         super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
         this.checkConstraints();
     }
 
-    public RegularHmmBase(double[] pi, double[][] a, Opdf<O>... opdfs) {
+    public RegularHmmBase(double[] pi, double[][] a, Opdf<TObs>... opdfs) {
         this(pi, a, new ListArray<>(opdfs));
     }
 
@@ -112,7 +112,7 @@ public class RegularHmmBase<O extends Observation> extends HmmBase<O, double[][]
      * @param nbStates The (strictly positive) number of states of the HMM.
      */
     protected RegularHmmBase(int nbStates) {
-        super(generatePi(nbStates), generateA(nbStates), new ArrayList<Opdf<O>>(nbStates));
+        super(generatePi(nbStates), generateA(nbStates), new ArrayList<Opdf<TObs>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
             this.b.add(null);
         }
@@ -133,7 +133,7 @@ public class RegularHmmBase<O extends Observation> extends HmmBase<O, double[][]
      * @return The opdf associated to state <code>stateNb</code>.
      */
     @Override
-    public Opdf<O> getOpdf(int stateNb) {
+    public Opdf<TObs> getOpdf(int stateNb) {
         return b.get(stateNb);
     }
 
@@ -144,7 +144,7 @@ public class RegularHmmBase<O extends Observation> extends HmmBase<O, double[][]
      * <code>0 &le; stateNb &lt; nbStates()</code>.
      * @param opdf An observation probability function.
      */
-    public void setOpdf(int stateNb, Opdf<O> opdf) {
+    public void setOpdf(int stateNb, Opdf<TObs> opdf) {
         b.set(stateNb, opdf);
     }
 
@@ -190,7 +190,7 @@ public class RegularHmmBase<O extends Observation> extends HmmBase<O, double[][]
      * This array can be modified.
      */
     @Override
-    public int[] mostLikelyStateSequence(List<? extends O> oseq) {
+    public int[] mostLikelyStateSequence(List<? extends TObs> oseq) {
         return (new ViterbiCalculator(oseq, this)).stateSequence();
     }
 
@@ -201,7 +201,7 @@ public class RegularHmmBase<O extends Observation> extends HmmBase<O, double[][]
      * @return The probability of this sequence.
      */
     @Override
-    public double probability(List<? extends O> oseq) {
+    public double probability(List<? extends TObs> oseq) {
         return ForwardBackwardCalculator.Instance.computeProbability(this, oseq);
     }
 
@@ -214,7 +214,7 @@ public class RegularHmmBase<O extends Observation> extends HmmBase<O, double[][]
      * @return The probability of this sequence.
      */
     @Override
-    public double lnProbability(List<? extends O> oseq) {
+    public double lnProbability(List<? extends TObs> oseq) {
         return ForwardBackwardScaledCalculator.Instance.computeProbability(this, oseq);
     }
 
@@ -228,14 +228,14 @@ public class RegularHmmBase<O extends Observation> extends HmmBase<O, double[][]
      * @return The probability P[oseq,sseq|H], where H is this HMM.
      */
     @Override
-    public double probability(List<? extends O> oseq, int[] sseq) {
+    public double probability(List<? extends TObs> oseq, int[] sseq) {
         if (oseq.size() != sseq.length || oseq.isEmpty()) {
             throw new IllegalArgumentException();
         }
 
         double probability = getPi(sseq[0]);
 
-        Iterator<? extends O> oseqIterator = oseq.iterator();
+        Iterator<? extends TObs> oseqIterator = oseq.iterator();
 
         for (int i = 0; i < sseq.length - 1; i++) {
             probability
@@ -291,7 +291,7 @@ public class RegularHmmBase<O extends Observation> extends HmmBase<O, double[][]
      * in the hierarchy can fail to clone.
      */
     @Override
-    public RegularHmmBase<O> clone() throws CloneNotSupportedException {
+    public RegularHmmBase<TObs> clone() throws CloneNotSupportedException {
         return new RegularHmmBase<>(this.pi, this.a, this.b);
     }
 
@@ -317,7 +317,7 @@ public class RegularHmmBase<O extends Observation> extends HmmBase<O, double[][]
     }
 
     @Override
-    public void fold(Iterable<? extends O> interaction) {
+    public void fold(Iterable<? extends TObs> interaction) {
         this.fold(CollectionUtils.size(interaction));
     }
 }

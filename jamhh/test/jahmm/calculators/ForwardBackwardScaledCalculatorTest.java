@@ -10,7 +10,6 @@ import jahmm.observables.ObservationDiscrete;
 import jahmm.observables.Opdf;
 import jahmm.observables.OpdfDiscrete;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import jutils.probability.ProbabilityUtils;
 import jutils.testing.AssertExtensions;
