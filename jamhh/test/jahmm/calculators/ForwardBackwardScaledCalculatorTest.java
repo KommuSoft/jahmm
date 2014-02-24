@@ -50,18 +50,15 @@ public class ForwardBackwardScaledCalculatorTest {
         double[] expecteda = {0.8182, 0.8834, 0.1907, 0.7308, 0.8673};
         double[] expectedb = {0.5923, 0.3763, 0.6533, 0.6273};
         AssertExtensions.pushEpsilon(0.0001);
-        System.out.println(Arrays.deepToString(a));
-        System.out.println(Arrays.deepToString(b));
         for (int t = 0x00; t < expecteda.length; t++) {
             AssertExtensions.assertEquals(expecteda[t], a[t][0x00]);
             AssertExtensions.assertEquals(1.0d - expecteda[t], a[t][0x01]);
         }
+        AssertExtensions.setEpsilon(0.001);
         for (int t = 0x00; t < expectedb.length; t++) {
-            AssertExtensions.assertEquals(expectedb[t], b[t][0x00]);
-            AssertExtensions.assertEquals(1.0 - expectedb[t], b[t][0x01]);
+            AssertExtensions.assertEquals(b[t][0x00]*(1.0d-expectedb[t]), b[t][0x01]*expectedb[t]);
         }
-        AssertExtensions.assertEquals(1.0d, b[expectedb.length][0x00]);
-        AssertExtensions.assertEquals(1.0d, b[expectedb.length][0x01]);
+        AssertExtensions.assertEquals(b[expectedb.length][0x00], b[expectedb.length][0x01]);
         AssertExtensions.popEpsilon();
     }
 
