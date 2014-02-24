@@ -98,7 +98,7 @@ public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalcul
      * @param hmm
      * @param oseq
      */
-    public <O extends Observation> double[][] computeAlpha(Hmm<? super O> hmm, Collection<O> oseq, double[] ctFactors) {
+    public <O extends Observation> double[][] computeAlpha(Hmm<? super O> hmm, Collection<O> oseq, double... ctFactors) {
         int T = ctFactors.length;
         int N = hmm.nbStates();
         Iterator<? extends O> seqIterator = oseq.iterator();
@@ -130,7 +130,7 @@ public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalcul
 
     /* Computes the content of the scaled beta array.  The scaling factors are
      those computed for alpha. */
-    public <O extends Observation> double[][] computeBeta(Hmm<? super O> hmm, List<O> oseq, double[] ctFactors) {
+    public <O extends Observation> double[][] computeBeta(Hmm<? super O> hmm, List<O> oseq, double... ctFactors) {
         int T = ctFactors.length;
         int N = hmm.nbStates();
         double[][] beta = new double[T][N];

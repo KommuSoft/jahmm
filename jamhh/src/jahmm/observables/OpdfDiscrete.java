@@ -18,8 +18,7 @@ import java.util.List;
  *
  * @param <E>
  */
-public class OpdfDiscrete<E extends Enum<E>>
-        implements Opdf<ObservationDiscrete<E>> {
+public class OpdfDiscrete<E extends Enum<E>> implements Opdf<ObservationDiscrete<E>> {
 
     private static final long serialVersionUID = 1L;
 

@@ -8,6 +8,7 @@ import jahmm.distributions.MultiGaussianDistribution;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 /**
  * This class represents a multivariate Gaussian distribution function.
@@ -15,6 +16,7 @@ import java.util.Collection;
 public final class OpdfMultiGaussian implements Opdf<ObservationVector> {
 
     private static final long serialVersionUID = 1L;
+    private static final Logger LOG = Logger.getLogger(OpdfMultiGaussian.class.getName());
 
     private MultiGaussianDistribution distribution;
 
@@ -97,7 +99,7 @@ public final class OpdfMultiGaussian implements Opdf<ObservationVector> {
         }
 
         double[] weights = new double[co.size()];
-        Arrays.fill(weights, 1. / co.size());
+        Arrays.fill(weights, 1.0d / co.size());
 
         fit(co, weights);
     }
