@@ -11,6 +11,9 @@ import jutlis.tuples.Tuple3;
 /**
  *
  * @author kommusoft
+ * @param <TAlpha> The type of alpha (in most cases a nD-array of doubles).
+ * @param <TBeta> The type of beta (in most cases a nD-array of doubles;
+ * equivalent to TAlpha).
  */
 public abstract class ForwardBackwardCalculatorRaw<TAlpha, TBeta> implements ForwardBackwardCalculator<TAlpha, TBeta> {
 
