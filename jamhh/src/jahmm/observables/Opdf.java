@@ -4,7 +4,7 @@
  */
 package jahmm.observables;
 
-import jahmm.INumberFormatString;
+import jahmm.io.INumberFormatString;
 import java.io.Serializable;
 import java.util.Collection;
 

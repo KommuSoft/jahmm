@@ -55,7 +55,7 @@ public class ForwardBackwardScaledCalculatorTest {
         }
         AssertExtensions.setEpsilon(0.001);
         for (int t = 0x00; t < expectedb.length; t++) {
-            AssertExtensions.assertEquals(b[t][0x00]*(1.0d-expectedb[t]), b[t][0x01]*expectedb[t]);
+            AssertExtensions.assertEquals(b[t][0x00] * (1.0d - expectedb[t]), b[t][0x01] * expectedb[t]);
         }
         AssertExtensions.assertEquals(b[expectedb.length][0x00], b[expectedb.length][0x01]);
         AssertExtensions.popEpsilon();

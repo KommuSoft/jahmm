@@ -87,7 +87,7 @@ public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalcul
      * @param ctFactors>
      * @param hmm
      * @param oseq
-     * @return 
+     * @return
      */
     public <O extends Observation> double[][] computeAlpha(RegularHmmBase<? super O> hmm, Collection<O> oseq, double... ctFactors) {
         int T = ctFactors.length;
@@ -151,8 +151,8 @@ public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalcul
         }
         int t = oseq.size();
         double[] ctFactors = new double[t];
-        double[][] alpha = computeAlpha(hmm, oseq,ctFactors);
-        double[][] beta = computeBeta(hmm, oseq,ctFactors);
+        double[][] alpha = computeAlpha(hmm, oseq, ctFactors);
+        double[][] beta = computeBeta(hmm, oseq, ctFactors);
         double probability = computeProbability(ctFactors);
         return new Tuple3Base<>(alpha, beta, probability);
     }
