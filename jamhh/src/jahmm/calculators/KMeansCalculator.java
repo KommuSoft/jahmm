@@ -46,8 +46,7 @@ public class KMeansCalculator<K extends CentroidFactory<? super K>> {
         int elementNb = 0;
 
         elLoop:
-        for (; elementNb < elements.size() && clusterNb < k
-                && elements.size() - elementNb > k - clusterNb; elementNb++) {
+        for (; elementNb < elements.size() && clusterNb < k && elements.size() - elementNb > k - clusterNb; elementNb++) {
             K element = elements.get(elementNb);
 
             for (int i = 0; i < clusterNb; i++) {

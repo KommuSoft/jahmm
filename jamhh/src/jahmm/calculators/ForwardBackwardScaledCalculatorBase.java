@@ -28,12 +28,12 @@ import jutlis.tuples.Tuple3Base;
  * <i>Juang</i>'s <i>Fundamentals of speech recognition</i> (Prentice Hall,
  * 1993).
  */
-public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalculator {
+public final class ForwardBackwardScaledCalculatorBase extends ForwardBackwardCalculatorBase {
 
-    public static final ForwardBackwardScaledCalculator Instance = new ForwardBackwardScaledCalculator();
-    private static final Logger LOG = Logger.getLogger(ForwardBackwardScaledCalculator.class.getName());
+    public static final ForwardBackwardScaledCalculatorBase Instance = new ForwardBackwardScaledCalculatorBase();
+    private static final Logger LOG = Logger.getLogger(ForwardBackwardScaledCalculatorBase.class.getName());
 
-    protected ForwardBackwardScaledCalculator() {
+    protected ForwardBackwardScaledCalculatorBase() {
     }
 
     private <O extends Observation> double computeProbability(double[] ctFactors) {

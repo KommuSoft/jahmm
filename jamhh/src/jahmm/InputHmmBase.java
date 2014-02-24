@@ -176,9 +176,7 @@ public class InputHmmBase<TIn, TOut extends Observation> extends HmmBase<TOut, d
      */
     @Override
     public InputHmmBase<TIn, TOut> clone() throws CloneNotSupportedException {
-        InputHmmBase<TIn, TOut> ihmm = new InputHmmBase<>(nbSymbols(), nbStates());
-        //TODO
-        return ihmm;
+        return new InputHmmBase<>(this.pi, this.a, this.b);
     }
 
     /**
@@ -278,7 +276,7 @@ public class InputHmmBase<TIn, TOut extends Observation> extends HmmBase<TOut, d
 
     @Override
     public Opdf<TOut> getOpdf(int stateNb) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.b.get(stateNb);
     }
 
     @Override

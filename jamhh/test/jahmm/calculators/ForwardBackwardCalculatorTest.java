@@ -34,7 +34,7 @@ public class ForwardBackwardCalculatorTest {
         RegularHmmBase<ObservationDiscrete<Events>> hmm = new RegularHmmBase<>(pi, trans, state0, state1);
         @SuppressWarnings("unchecked")
         List<ObservationDiscrete<Events>> sequence = new ListArray<>(new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.NoUmbrella), new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.Umbrella));
-        Tuple3<double[][], double[][], Double> abp = ForwardBackwardCalculator.Instance.computeAll(hmm, sequence);
+        Tuple3<double[][], double[][], Double> abp = ForwardBackwardCalculatorBase.Instance.computeAll(hmm, sequence);
         double[][] a = abp.getItem1();
         double[][] b = abp.getItem2();
         double p = abp.getItem3();
