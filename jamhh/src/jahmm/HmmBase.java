@@ -1,5 +1,7 @@
 package jahmm;
 
+import jahmm.observables.Observation;
+
 /**
  *
  * @author kommusoft

@@ -30,13 +30,14 @@ public abstract class DecisionRealNodeBase<TSource> extends DecisionNodeBase<TSo
     }
 
     @Override
-    public double reduceScore() {
-        return this.getMaximumReduceInode().reduceScore();
+    public void insert(TSource source) {
+        this.makeInnerDirty();
+        this.nextHop(source).insert(source);
     }
 
-    @Override
-    public void insert(TSource source) {
-        this.nextHop(source).insert(source);
+    public void makeInnerDirty() {
+        this.maximumExpandLeaf = null;
+        this.maximumReduceInode = null;
     }
 
     @Override
@@ -72,8 +73,7 @@ public abstract class DecisionRealNodeBase<TSource> extends DecisionNodeBase<TSo
 
     @Override
     public void makeDirty() {
-        this.maximumExpandLeaf = null;
-        this.maximumReduceInode = null;
+        this.makeInnerDirty();
     }
 
     protected abstract DecisionLeaf<TSource> recalcMaximumExpandLeaf();

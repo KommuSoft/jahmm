@@ -1,9 +1,9 @@
 package jahmm.jadetree.objectattributes;
 
-import jahmm.jadetree.DecisionTreeUtils;
-import jahmm.jadetree.OrdinalTestDecisionNode;
 import jahmm.jadetree.DecisionInode;
 import jahmm.jadetree.DecisionRealNode;
+import jahmm.jadetree.DecisionTreeUtils;
+import jahmm.jadetree.OrdinalTestDecisionNode;
 import java.util.Collections;
 import java.util.List;
 import jutlis.algebra.Function;

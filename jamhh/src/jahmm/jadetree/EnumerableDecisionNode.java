@@ -42,31 +42,6 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
     }
 
     @Override
-    public void makeDirty() {
-        for (DecisionRealNode<TSource> dn : this.map.values()) {
-            dn.makeDirty();
-        }
-        super.makeDirty();
-    }
-
-    @Override
-    protected DecisionLeafBase<TSource> recalcMaximumExpandLeaf() {
-        double max = Double.NEGATIVE_INFINITY;
-        double val;
-        DecisionLeafBase<TSource> leaf;
-        DecisionLeaf<TSource> leaf, maxLeaf = null;
-        for (DecisionRealNode<TSource> dn : this.map.values()) {
-            leaf = dn.getMaximumExpandLeaf();
-            val = leaf.expandScore();
-            if (val > max) {
-                max = val;
-                maxLeaf = leaf;
-            }
-        }
-        return maxLeaf;
-    }
-
-    @Override
     public void replaceChild(DecisionRealNode<TSource> was, DecisionRealNode<TSource> now) {
         for (Entry<TTarget, DecisionRealNode<TSource>> entry : map.entrySet()) {
             if (entry.getValue() == was) {

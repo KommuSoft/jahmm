@@ -4,8 +4,8 @@
  */
 package jahmm.io;
 
-import jahmm.ObservationInteger;
-import jahmm.OpdfInteger;
+import jahmm.observables.ObservationInteger;
+import jahmm.observables.OpdfInteger;
 import java.io.IOException;
 import java.io.Writer;
 

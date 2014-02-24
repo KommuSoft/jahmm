@@ -4,7 +4,7 @@
  */
 package jahmm.io;
 
-import jahmm.OpdfGaussian;
+import jahmm.observables.OpdfGaussian;
 import java.io.IOException;
 import java.io.Writer;
 

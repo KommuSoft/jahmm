@@ -32,17 +32,18 @@ package jahmm.apps.sample;
  * 2009-06-06: Updated comments with new website URL
  */
 import jahmm.Hmm;
-import jahmm.Observation;
-import jahmm.ObservationDiscrete;
-import jahmm.OpdfDiscrete;
-import jahmm.OpdfDiscreteFactory;
 import jahmm.draw.InvariantHmmDotDrawer;
 import jahmm.learn.BaumWelchLearner;
+import jahmm.observables.Observation;
+import jahmm.observables.ObservationDiscrete;
+import jahmm.observables.OpdfDiscrete;
+import jahmm.observables.OpdfDiscreteFactory;
 import jahmm.toolbox.KullbackLeiblerDistanceCalculator;
 import jahmm.toolbox.MarkovGenerator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import jutils.collections.CollectionUtils;
 
 /**
  * This class demonstrates how to build a HMM with known parameters, how to
@@ -58,6 +59,9 @@ import java.util.List;
  */
 public class SimpleExample {
 
+    public static final int OBSERVATION_COUNT = 200;
+    public static final int OBSERVATION_LENGTH = 100;
+
     /**
      *
      * @param argv
@@ -72,6 +76,8 @@ public class SimpleExample {
         List<List<ObservationDiscrete<Packet>>> sequences;
         sequences = generateSequences(hmm);
 
+        System.out.println(CollectionUtils.deepToString(sequences));
+
         /* Baum-Welch learning */
         BaumWelchLearner bwl = new BaumWelchLearner();
 
@@ -83,6 +89,7 @@ public class SimpleExample {
 
         // Incrementally improve the solution
         for (int i = 0; i < 10; i++) {
+            System.out.println(learntHmm);
             System.out.println("Distance at iteration " + i + ": "
                     + klc.distance(learntHmm, hmm));
             learntHmm = bwl.iterate(learntHmm, sequences);
@@ -157,8 +164,8 @@ public class SimpleExample {
         MarkovGenerator<O> mg = new MarkovGenerator<>(hmm);
 
         List<List<O>> sequences = new ArrayList<>();
-        for (int i = 0; i < 200; i++) {
-            sequences.add(mg.observationSequence(100));
+        for (int i = 0; i < OBSERVATION_COUNT; i++) {
+            sequences.add(mg.observationSequence(OBSERVATION_LENGTH));
         }
 
         return sequences;

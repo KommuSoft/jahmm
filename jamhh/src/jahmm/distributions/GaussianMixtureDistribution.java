@@ -63,8 +63,7 @@ public class GaussianMixtureDistribution
      * normalized, but each element must be positive and the sum of its elements
      * must be strictly positive.
      */
-    public GaussianMixtureDistribution(double[] means, double[] variances,
-            double[] proportions) {
+    public GaussianMixtureDistribution(double[] means, double[] variances, double... proportions) {
         if (means.length == 0 || means.length != variances.length
                 || means.length != proportions.length) {
             throw new IllegalArgumentException();

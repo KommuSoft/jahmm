@@ -4,11 +4,12 @@
  */
 package jahmm.learn;
 
-import jahmm.ForwardBackwardScaledCalculator;
 import jahmm.Hmm;
-import jahmm.Observation;
+import jahmm.calculators.ForwardBackwardScaledCalculator;
+import jahmm.observables.Observation;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import jutlis.tuples.Tuple3;
 
 /**
@@ -19,8 +20,9 @@ import jutlis.tuples.Tuple3;
  * <i>Juang</i>'s <i>Fundamentals of speech recognition</i> (Prentice Hall,
  * 1993).
  */
-public class BaumWelchScaledLearner
-        extends BaumWelchLearner {
+public class BaumWelchScaledLearner extends BaumWelchLearner {
+
+    private static final Logger LOG = Logger.getLogger(BaumWelchScaledLearner.class.getName());
 
     /**
      * Initializes a Baum-Welch algorithm implementation.
@@ -44,21 +46,15 @@ public class BaumWelchScaledLearner
      * @param <O>
      * @param sequence
      * @param abp
-     * @param fbc
      * @param hmm
      * @return
      */
     @Override
-    protected <O extends Observation> double[][][]
-            estimateXi(List<? extends O> sequence, Tuple3<double[][], double[][], Double> abp,
-                    Hmm<O> hmm) {
+    protected <O extends Observation> double[][][] estimateXi(List<? extends O> sequence, Tuple3<double[][], double[][], Double> abp, Hmm<O> hmm) {
         if (sequence.size() <= 1) {
-            throw new IllegalArgumentException("Observation sequence too "
-                    + "short");
+            throw new IllegalArgumentException("Observation sequence too short");
         }
-
-        double xi[][][]
-                = new double[sequence.size() - 1][hmm.nbStates()][hmm.nbStates()];
+        double xi[][][] = new double[sequence.size() - 1][hmm.nbStates()][hmm.nbStates()];
 
         double[][] alpha = abp.getItem1();
         double[][] beta = abp.getItem2();
@@ -71,10 +67,7 @@ public class BaumWelchScaledLearner
 
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int j = 0; j < hmm.nbStates(); j++) {
-                    xi[t][i][j] = alpha[t][i]
-                            * hmm.getAij(i, j)
-                            * hmm.getOpdf(j).probability(observation)
-                            * beta[t + 1][j];
+                    xi[t][i][j] = alpha[t][i] * hmm.getAij(i, j) * hmm.getOpdf(j).probability(observation) * beta[t + 1][j];
                 }
             }
         }

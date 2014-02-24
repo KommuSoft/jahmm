@@ -4,10 +4,7 @@
  */
 package jahmm.apps.cli;
 
-import jahmm.CentroidFactory;
 import jahmm.Hmm;
-import jahmm.Observation;
-import jahmm.Opdf;
 import jahmm.apps.cli.CommandLineArguments.Arguments;
 import jahmm.io.FileFormatException;
 import jahmm.io.HmmReader;
@@ -16,6 +13,9 @@ import jahmm.io.OpdfReader;
 import jahmm.io.OpdfWriter;
 import jahmm.learn.BaumWelchLearner;
 import jahmm.learn.BaumWelchScaledLearner;
+import jahmm.observables.CentroidFactory;
+import jahmm.observables.Observation;
+import jahmm.observables.Opdf;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;

@@ -4,8 +4,8 @@
  */
 package jahmm.io;
 
-import jahmm.ObservationReal;
-import jahmm.ObservationVector;
+import jahmm.observables.ObservationReal;
+import jahmm.observables.ObservationVector;
 import java.io.IOException;
 import java.io.Writer;
 

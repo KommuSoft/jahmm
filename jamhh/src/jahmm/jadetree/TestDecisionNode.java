@@ -8,18 +8,18 @@ import jutlis.lists.ListArray;
  * @author kommusoft
  * @param <TSource>
  */
-public abstract class TestDecisionNode<TSource> extends DecisionInodeBase<TSource> {
+public abstract class TestDecisionNode<TSource> extends DecisionRealInodeBase<TSource> {
 
     private DecisionRealNode<TSource> trueNode;
     private DecisionRealNode<TSource> falseNode;
 
-    protected TestDecisionNode(final DecisionInode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode) {
+    protected TestDecisionNode(final DecisionInode<TSource> parent, DecisionRealNodeBase<TSource> trueNode, DecisionRealNodeBase<TSource> falseNode) {
         super(parent);
         this.trueNode = trueNode;
         this.falseNode = falseNode;
     }
 
-    protected TestDecisionNode(final DecisionInode<TSource> parent, DecisionNodeBase<TSource> trueNode, DecisionNodeBase<TSource> falseNode, Iterable<TSource> toInsert) {
+    protected TestDecisionNode(final DecisionInode<TSource> parent, DecisionRealNodeBase<TSource> trueNode, DecisionRealNodeBase<TSource> falseNode, Iterable<TSource> toInsert) {
         this(parent, trueNode, falseNode);
         for (TSource source : toInsert) {
             this.insert(source);
@@ -46,25 +46,6 @@ public abstract class TestDecisionNode<TSource> extends DecisionInodeBase<TSourc
         } else {
             return this.getFalseNode();
         }
-    }
-
-    @Override
-    public void makeDirty() {
-        this.getTrueNode().makeDirty();
-        this.getFalseNode().makeDirty();
-        super.makeDirty();
-    }
-
-    @Override
-    protected DecisionLeafBase<TSource> recalcMaximumExpandLeaf() {
-        DecisionLeafBase<TSource> maxLeaf = this.falseNode.getMaximumExpandLeaf();
-        double max = maxLeaf.expandScore();
-        DecisionLeafBase<TSource> leaf = this.trueNode.getMaximumExpandLeaf();
-        double val = maxLeaf.expandScore();
-        if (val > max) {
-            maxLeaf = leaf;
-        }
-        return maxLeaf;
     }
 
     /**

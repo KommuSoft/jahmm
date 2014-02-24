@@ -1,0 +1,2 @@
+cd jahmm
+ant test

@@ -1,5 +1,7 @@
 package jahmm;
 
+import jahmm.observables.Observation;
+import jahmm.observables.Opdf;
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.List;

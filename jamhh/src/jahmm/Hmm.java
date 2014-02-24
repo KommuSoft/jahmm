@@ -4,11 +4,18 @@
  */
 package jahmm;
 
+import jahmm.calculators.ForwardBackwardCalculator;
+import jahmm.calculators.ForwardBackwardScaledCalculator;
+import jahmm.calculators.ViterbiCalculator;
+import jahmm.observables.Observation;
+import jahmm.observables.Opdf;
+import jahmm.observables.OpdfFactory;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
+import jutils.collections.CollectionUtils;
 import jutlis.lists.ListArray;
 
 /**
@@ -311,6 +318,6 @@ public class Hmm<O extends Observation> extends HmmBase<O, double[][], List<Opdf
 
     @Override
     public void fold(Iterable<? extends O> interaction) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.fold(CollectionUtils.size(interaction));
     }
 }

@@ -4,7 +4,7 @@
  */
 package jahmm.io;
 
-import jahmm.Opdf;
+import jahmm.observables.Opdf;
 import java.io.IOException;
 import java.io.StreamTokenizer;
 import java.io.Writer;
@@ -37,8 +37,7 @@ public abstract class OpdfWriter<O extends Opdf<?>> {
      * @param array The array to write.
      * @throws java.io.IOException
      */
-    protected void write(Writer writer, double[] array)
-            throws IOException {
+    protected void write(Writer writer, double... array) throws IOException {
         DecimalFormat formatter = new DecimalFormat("#0.#####");
 
         writer.write("[");

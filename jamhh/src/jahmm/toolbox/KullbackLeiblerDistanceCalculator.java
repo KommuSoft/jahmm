@@ -4,9 +4,9 @@
  */
 package jahmm.toolbox;
 
-import jahmm.ForwardBackwardCalculator;
 import jahmm.Hmm;
-import jahmm.Observation;
+import jahmm.calculators.ForwardBackwardCalculator;
+import jahmm.observables.Observation;
 import java.util.List;
 
 /**
