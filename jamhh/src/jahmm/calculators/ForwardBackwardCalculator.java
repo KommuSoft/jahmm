@@ -13,7 +13,7 @@ import jutlis.tuples.Tuple3;
  * @param <TAlpha> The type of the alpha values.
  * @param <TBeta> The type of the beta values.
  */
-public interface ForwardBackwardCalculator<TAlpha, TBeta, TObs extends Observation, TInt extends Observation, THmm extends Hmm<? super TObs, TInt>> {
+public interface ForwardBackwardCalculator<TAlpha, TBeta, TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>> {
 
     public abstract TAlpha computeAlpha(THmm hmm, Collection<? extends TObs> oseq);
 

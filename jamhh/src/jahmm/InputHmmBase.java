@@ -43,11 +43,11 @@ import jutlis.lists.ListArray;
  * sequences is a {@link java.util.List List} of such sequences.
  *
  * @param <TIn> The type of input of the InputHmm.
- * @param <TOut> The type of observations of the InputHmm.
+ * @param <TObs> The type of observations of the InputHmm.
  * @note The A matrix has the following structure: A_{i,j,k} means the
  * probability of moving from state i to j given input k.
  */
-public class InputHmmBase<TIn extends Enum<TIn>, TOut extends Observation> extends HmmBase<TOut, double[][][], ArrayList<Opdf<TOut>>, InputObservationTuple<TIn, TOut>> implements InputHmm<TIn, TOut> {
+public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> extends HmmBase<TObs, double[][][], ArrayList<Opdf<TObs>>, InputObservationTuple<TIn, TObs>> implements InputHmm<TObs,TIn> {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(InputHmmBase.class.getName());
@@ -95,8 +95,8 @@ public class InputHmmBase<TIn extends Enum<TIn>, TOut extends Observation> exten
      * associated to each state.
      * @param possibleInput The possible input of that may occur.
      */
-    public InputHmmBase(int nbSymbols, int nbStates, OpdfFactory<? extends Opdf<TOut>> opdfFactory, Iterable<TIn> possibleInput) {
-        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<TOut>>(nbStates));
+    public InputHmmBase(int nbSymbols, int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory, Iterable<TIn> possibleInput) {
+        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<TObs>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
             b.add(opdfFactory.factor());
         }
@@ -116,7 +116,7 @@ public class InputHmmBase<TIn extends Enum<TIn>, TOut extends Observation> exten
      * distributions are not copied.
      * @param possibleInput The possible input that may occur
      */
-    public InputHmmBase(double[] pi, double[][][] a, List<? extends Opdf<TOut>> opdfs, Iterable<TIn> possibleInput) {
+    public InputHmmBase(double[] pi, double[][][] a, List<? extends Opdf<TObs>> opdfs, Iterable<TIn> possibleInput) {
         super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
         this.checkConstraints();
     }
@@ -134,7 +134,7 @@ public class InputHmmBase<TIn extends Enum<TIn>, TOut extends Observation> exten
      * distributions are not copied.
      * @param possibleInput The possible input that may occur
      */
-    protected InputHmmBase(double[] pi, double[][][] a, List<? extends Opdf<TOut>> opdfs, Map<TIn, Integer> possibleInput) {
+    protected InputHmmBase(double[] pi, double[][][] a, List<? extends Opdf<TObs>> opdfs, Map<TIn, Integer> possibleInput) {
         super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
         this.checkConstraints();
         CollectionUtils.putAll(this.indexRegister, possibleInput);
@@ -150,7 +150,7 @@ public class InputHmmBase<TIn extends Enum<TIn>, TOut extends Observation> exten
      * @param possibleInput The possible input that may occur
      */
     protected InputHmmBase(int nbSymbols, int nbStates, Iterable<TIn> possibleInput) {
-        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<TOut>>(nbStates));
+        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<TObs>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
             this.b.add(null);
         }
@@ -199,7 +199,7 @@ public class InputHmmBase<TIn extends Enum<TIn>, TOut extends Observation> exten
      * in the hierarchy can fail to clone.
      */
     @Override
-    public InputHmmBase<TIn, TOut> clone() throws CloneNotSupportedException {
+    public InputHmmBase<TObs,TIn> clone() throws CloneNotSupportedException {
         return new InputHmmBase<>(this.pi, this.a, this.b, this.indexRegister);
     }
 
@@ -299,32 +299,32 @@ public class InputHmmBase<TIn extends Enum<TIn>, TOut extends Observation> exten
     }
 
     @Override
-    public Opdf<TOut> getOpdf(int stateNb) {
+    public Opdf<TObs> getOpdf(int stateNb) {
         return this.b.get(stateNb);
     }
 
     @Override
-    public double lnProbability(List<? extends InputObservationTuple<TIn, TOut>> oseq) {
+    public double lnProbability(List<? extends InputObservationTuple<TIn, TObs>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public int[] mostLikelyStateSequence(List<? extends InputObservationTuple<TIn, TOut>> oseq) {
+    public int[] mostLikelyStateSequence(List<? extends InputObservationTuple<TIn, TObs>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double probability(List<? extends InputObservationTuple<TIn, TOut>> oseq) {
+    public double probability(List<? extends InputObservationTuple<TIn, TObs>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double probability(List<? extends InputObservationTuple<TIn, TOut>> oseq, int[] sseq) {
+    public double probability(List<? extends InputObservationTuple<TIn, TObs>> oseq, int[] sseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void fold(Iterable<? extends InputObservationTuple<TIn, TOut>> interaction) {
+    public void fold(Iterable<? extends InputObservationTuple<TIn, TObs>> interaction) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
