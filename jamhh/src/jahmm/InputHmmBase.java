@@ -381,7 +381,7 @@ public class InputHmmBase<TIn extends Enum<TIn>, TOut extends Observation> exten
                 final List<Integer> subl = ids.subList(0x01, ids.size() - 0x01);
                 CollectionUtils.incrementValueByIndex(this.indexRegister, subl, -0x01);
                 this.indexRegister.put(newIn, first);
-                final int nState = indexRegister.size();
+                final int nState = this.indexRegister.size();
                 //TODO weight by Pi?
                 for (int i = 0x00; i < a.length; i++) {
                     double[][] ai = a[i];
@@ -400,11 +400,16 @@ public class InputHmmBase<TIn extends Enum<TIn>, TOut extends Observation> exten
                     a[i] = newa;
                 }
             } else {
-                CollectionUtils.replaceKey(indexRegister, originalIns[0x00], newIn);
+                CollectionUtils.replaceKey(this.indexRegister, originalIns[0x00], newIn);
             }
         } else {
             throw new IllegalArgumentException("Cannot merge zero branches.");
         }
+    }
+
+    @Override
+    public int getInputIndex(TIn input) {
+        return this.indexRegister.get(input);
     }
 
 }
