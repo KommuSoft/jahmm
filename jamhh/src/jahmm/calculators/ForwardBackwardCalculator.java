@@ -1,5 +1,6 @@
 package jahmm.calculators;
 
+import jahmm.Hmm;
 import jahmm.RegularHmm;
 import jahmm.observables.Observation;
 import java.util.Collection;
@@ -12,26 +13,26 @@ import jutlis.tuples.Tuple3;
  * @param <TAlpha> The type of the alpha values.
  * @param <TBeta> The type of the beta values.
  */
-public interface ForwardBackwardCalculator<TAlpha, TBeta> {
+public interface ForwardBackwardCalculator<TAlpha, TBeta, TObs extends Observation, TInt extends Observation, THmm extends Hmm<? super TObs, TInt>> {
 
-    public abstract <O extends Observation> TAlpha computeAlpha(RegularHmm<? super O> hmm, Collection<O> oseq);
+    public abstract TAlpha computeAlpha(THmm hmm, Collection<TObs> oseq);
 
-    public abstract <O extends Observation> TAlpha computeAlpha(RegularHmm<? super O> hmm, O... oseq);
+    public abstract TAlpha computeAlpha(THmm hmm, TObs... oseq);
 
-    public abstract <O extends Observation> TBeta computeBeta(RegularHmm<? super O> hmm, List<O> oseq);
+    public abstract TBeta computeBeta(THmm hmm, List<TObs> oseq);
 
-    public abstract <O extends Observation> TBeta computeBeta(RegularHmm<? super O> hmm, O... oseq);
+    public abstract TBeta computeBeta(THmm hmm, TObs... oseq);
 
-    public abstract <O extends Observation> Tuple3<TAlpha, TBeta, Double> computeAll(RegularHmm<? super O> hmm, List<O> oseq);
+    public abstract Tuple3<TAlpha, TBeta, Double> computeAll(THmm hmm, List<TObs> oseq);
 
-    public abstract <O extends Observation> Tuple3<TAlpha, TBeta, Double> computeAll(RegularHmm<? super O> hmm, O... oseq);
+    public abstract Tuple3<TAlpha, TBeta, Double> computeAll(THmm hmm, TObs... oseq);
 
-    public abstract <O extends Observation> double computeProbability(RegularHmm<O> hmm, Collection<ComputationType> flags, List<? extends O> oseq);
+    public abstract double computeProbability(RegularHmm<TObs> hmm, Collection<ComputationType> flags, List<? extends TObs> oseq);
 
-    public abstract <O extends Observation> double computeProbability(RegularHmm<O> hmm, List<? extends O> oseq);
+    public abstract double computeProbability(RegularHmm<TObs> hmm, List<? extends TObs> oseq);
 
-    public abstract <O extends Observation> double computeProbability(RegularHmm<O> hmm, Collection<ComputationType> flags, O... oseq);
+    public abstract double computeProbability(RegularHmm<TObs> hmm, Collection<ComputationType> flags, TObs... oseq);
 
-    public abstract <O extends Observation> double computeProbability(RegularHmm<O> hmm, O... oseq);
+    public abstract double computeProbability(RegularHmm<TObs> hmm, TObs... oseq);
 
 }
