@@ -89,7 +89,7 @@ public final class ForwardBackwardScaledCalculatorBase<TObs extends Observation>
      * @param oseq
      * @return
      */
-    public double[][] computeAlpha(RegularHmm<? super TObs> hmm, Collection<TObs> oseq, double... ctFactors) {
+    public double[][] computeAlpha(RegularHmm<? super TObs> hmm, Collection<? extends TObs> oseq, double... ctFactors) {
         int T = ctFactors.length;
         int s = hmm.nbStates();
         Iterator<? extends TObs> seqIterator = oseq.iterator();
@@ -122,7 +122,7 @@ public final class ForwardBackwardScaledCalculatorBase<TObs extends Observation>
 
     /* Computes the content of the scaled beta array.  The scaling factors are
      those computed for alpha. */
-    public double[][] computeBeta(RegularHmm<? super TObs> hmm, List<TObs> oseq, double... ctFactors) {
+    public double[][] computeBeta(RegularHmm<? super TObs> hmm, List<? extends TObs> oseq, double... ctFactors) {
         int T = ctFactors.length;
         int s = hmm.nbStates();
         double[][] beta = new double[T][s];
@@ -145,7 +145,7 @@ public final class ForwardBackwardScaledCalculatorBase<TObs extends Observation>
     }
 
     @Override
-    public Tuple3<double[][], double[][], Double> computeAll(RegularHmm<? super TObs> hmm, List<TObs> oseq) {
+    public Tuple3<double[][], double[][], Double> computeAll(RegularHmm<TObs> hmm, List<? extends TObs> oseq) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException();
         }
