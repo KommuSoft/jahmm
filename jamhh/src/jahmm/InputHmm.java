@@ -11,13 +11,8 @@ import jahmm.observables.Observation;
  */
 public interface InputHmm<TIn extends Enum<TIn>, TOut extends Observation> extends Hmm<TOut, InputObservationTuple<TIn, TOut>> {
 
-    /**
-     *
-     * @param originalIn
-     * @param newIns
-     */
-    public abstract void splitInput(TIn originalIn, TIn... newIns);
+    public abstract void splitInput(final TIn originalIn, final TIn... newIns) throws IllegalArgumentException;
 
-    public abstract void mergeInput(TIn newIn, TIn originalIns);
+    public abstract void mergeInput(final TIn newIn, final TIn... originalIns) throws IllegalArgumentException;
 
 }

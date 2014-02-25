@@ -11,11 +11,13 @@ import jahmm.observables.Opdf;
 import jahmm.observables.OpdfFactory;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import jutils.collections.CollectionUtils;
+import jutlis.lists.ListArray;
 
 /**
  * Main Input-Hmm class; it implements an Hidden Markov Model with an input
@@ -325,13 +327,37 @@ public class InputHmmBase<TIn extends Enum<TIn>, TOut extends Observation> exten
     }
 
     @Override
-    public void splitInput(TIn originalIn, TIn... newIns) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void splitInput(final TIn originalIn, final TIn... newIns) {
+        Integer originalIndex = this.indexRegister.get(originalIn);
+        if (originalIndex != null) {
+            int indexPointer = this.indexRegister.size();
+            for (TIn newIn : newIns) {
+                //if() {
+                this.indexRegister.put(newIn, indexPointer++);
+                //}
+            }
+        } else {
+            throw new UnsupportedOperationException("Cannot split a currently unknown input");
+        }
     }
 
     @Override
-    public void mergeInput(TIn newIn, TIn originalIns) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void mergeInput(final TIn newIn, final TIn... originalIns) {
+        if (originalIns.length > 0x01) {
+            final ListArray<TIn> originalList = new ListArray<>(originalIns);
+            final ArrayList<Integer> ids = new ArrayList<>();
+            CollectionUtils.removeAllLinked(indexRegister, originalList, ids);
+            Collections.sort(ids);
+            final int first = ids.get(0x00);
+            CollectionUtils.incrementValueByIndex(indexRegister, ids.subList(0x01, ids.subList(fromIndex, toIndex)), -0x01);
+            for (double[][] ai : a) {
+
+            }
+        } else if(originalIns.length == 0x00) {
+            //TODO: substitute key.
+        } else {
+            throw new IllegalArgumentException("Cannot merge zero branches.");
+        }
     }
 
 }
