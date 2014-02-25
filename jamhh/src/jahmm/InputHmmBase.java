@@ -11,6 +11,7 @@ import jahmm.observables.Opdf;
 import jahmm.observables.OpdfFactory;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -329,16 +330,41 @@ public class InputHmmBase<TIn extends Enum<TIn>, TOut extends Observation> exten
 
     @Override
     public void splitInput(final TIn originalIn, final TIn... newIns) {
-        Integer originalIndex = this.indexRegister.get(originalIn);
-        if (originalIndex != null) {
-            int indexPointer = this.indexRegister.size();
-            for (TIn newIn : newIns) {
-                //if() {
-                this.indexRegister.put(newIn, indexPointer++);
-                //}
+        if (newIns != null && newIns.length > 0x00) {
+            if (newIns.length > 0x00) {
+                Integer originalIndex = this.indexRegister.remove(originalIn);
+                CollectionUtils.incrementValueByIndex(this.indexRegister, new ListArray<>(originalIndex), -0x01);
+                if (originalIndex != null) {
+                    final int origix = originalIndex;
+                    final int offset = this.indexRegister.size();
+                    int idxPtr = offset;
+                    for (TIn newIn : newIns) {
+                        if (!this.indexRegister.containsKey(newIn)) {
+                            this.indexRegister.put(newIn, idxPtr);
+                            idxPtr++;
+                        }
+                    }
+                    for (int i = 0x00; i < a.length; i++) {
+                        double[][] ai = this.a[i];
+                        double[] source = ai[origix];
+                        int nSource = source.length;
+                        double[][] newa = new double[idxPtr][];
+                        System.arraycopy(ai, 0, newa, 0, origix);
+                        System.arraycopy(ai, origix + 0x01, newa, origix, offset - origix - 0x01);
+                        newa[offset] = source;
+                        for (int j = offset + 0x01; j < idxPtr; j++) {
+                            newa[j] = Arrays.copyOf(source, nSource);
+                        }
+                        this.a[i] = ai;
+                    }
+                } else {
+                    throw new UnsupportedOperationException("Cannot split a currently unknown input.");
+                }
+            } else {
+                CollectionUtils.replaceKey(indexRegister, originalIn, newIns[0x00]);
             }
         } else {
-            throw new UnsupportedOperationException("Cannot split a currently unknown input");
+            throw new IllegalArgumentException("Cannot split to zero branches.");
         }
     }
 
@@ -356,6 +382,7 @@ public class InputHmmBase<TIn extends Enum<TIn>, TOut extends Observation> exten
                 CollectionUtils.incrementValueByIndex(this.indexRegister, subl, -0x01);
                 this.indexRegister.put(newIn, first);
                 final int nState = indexRegister.size();
+                //TODO weight by Pi?
                 for (int i = 0x00; i < a.length; i++) {
                     double[][] ai = a[i];
                     double[] aif = ai[first];
@@ -373,7 +400,7 @@ public class InputHmmBase<TIn extends Enum<TIn>, TOut extends Observation> exten
                     a[i] = newa;
                 }
             } else {
-                CollectionUtils.replaceKey(indexRegister, newIn, originalIns[0x00]);
+                CollectionUtils.replaceKey(indexRegister, originalIns[0x00], newIn);
             }
         } else {
             throw new IllegalArgumentException("Cannot merge zero branches.");
