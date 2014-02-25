@@ -47,7 +47,7 @@ public abstract class ForwardBackwardCalculatorRaw<TAlpha, TBeta, TObs extends O
      * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)
      */
     @Override
-    public double computeProbability(RegularHmm<TObs> hmm, List<? extends TObs> oseq) {
+    public double computeProbability(THmm hmm, List<? extends TObs> oseq) {
         return computeProbability(hmm, EnumSet.of(ComputationType.ALPHA), oseq);
     }
 
@@ -64,7 +64,7 @@ public abstract class ForwardBackwardCalculatorRaw<TAlpha, TBeta, TObs extends O
      * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)
      */
     @Override
-    public double computeProbability(RegularHmm<TObs> hmm, Collection<ComputationType> flags, TObs... oseq) {
+    public double computeProbability(THmm hmm, Collection<ComputationType> flags, TObs... oseq) {
         return this.computeProbability(hmm, flags, new ListArray<>(oseq));
     }
 
@@ -80,7 +80,7 @@ public abstract class ForwardBackwardCalculatorRaw<TAlpha, TBeta, TObs extends O
      * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)
      */
     @Override
-    public double computeProbability(RegularHmm<TObs> hmm, TObs... oseq) {
+    public double computeProbability(THmm hmm, TObs... oseq) {
         return this.computeProbability(hmm, new ListArray<>(oseq));
     }
 

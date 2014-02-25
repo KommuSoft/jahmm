@@ -22,8 +22,9 @@ import jutlis.tuples.Tuple3Base;
  * <p>
  * Computing the <i>beta</i> array requires a O(1) access time to the
  * observation sequence to get a theoretically optimal performance.
+ * @param <TObs>
  */
-public class ForwardBackwardCalculatorBase extends ForwardBackwardCalculatorRaw<double[][], double[][]> {
+public class ForwardBackwardCalculatorBase<TObs extends Observation> extends ForwardBackwardCalculatorRaw<double[][], double[][],TObs,TObs,RegularHmm<TObs,TObs>> {
 
     public static final ForwardBackwardCalculatorBase Instance = new ForwardBackwardCalculatorBase();
     private static final Logger LOG = Logger.getLogger(ForwardBackwardCalculatorBase.class.getName());
@@ -34,7 +35,7 @@ public class ForwardBackwardCalculatorBase extends ForwardBackwardCalculatorRaw<
     protected ForwardBackwardCalculatorBase() {
     }
 
-    protected <O extends Observation> double computeProbability(List<O> oseq, RegularHmm<? super O> hmm, Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
+    protected double computeProbability(List<TObs> oseq, RegularHmm<? super TObs> hmm, Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
         double probability = 0.;
         int n = hmm.nbStates();
         double[] tmp;
@@ -45,7 +46,7 @@ public class ForwardBackwardCalculatorBase extends ForwardBackwardCalculatorRaw<
             }
         } else {
             tmp = beta[0x00];
-            O observation = oseq.get(0x00);
+            TObs observation = oseq.get(0x00);
             for (int i = 0; i < n; i++) {
                 probability += hmm.getPi(i) * hmm.getOpdf(i).probability(observation) * tmp[i];
             }
@@ -57,7 +58,7 @@ public class ForwardBackwardCalculatorBase extends ForwardBackwardCalculatorRaw<
      * Computes the probability of occurrence of an observation sequence given a
      * Hidden Markov Model.
      *
-     * @param <O>
+     * @param <TObs>
      * @param hmm A Hidden Markov Model;
      * @param oseq An observation sequence.
      * @param flags How the computation should be done. See the
@@ -65,7 +66,7 @@ public class ForwardBackwardCalculatorBase extends ForwardBackwardCalculatorRaw<
      * @return
      */
     @Override
-    public <O extends Observation> double computeProbability(RegularHmm<O> hmm, Collection<ComputationType> flags, List<? extends O> oseq) {
+    public double computeProbability(RegularHmm<TObs> hmm, Collection<ComputationType> flags, List<? extends TObs> oseq) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException("Invalid empty sequence");
         }
@@ -86,7 +87,7 @@ public class ForwardBackwardCalculatorBase extends ForwardBackwardCalculatorRaw<
     /**
      * Computes the content of the alpha array
      *
-     * @param <O>
+     * @param <TObs>
      * @param hmm
      * @param oseq
      * @return alpha[t][i] = P(O(1), O(2),..., O(t+1), i(t+1) = i+1 | hmm), that
@@ -94,13 +95,13 @@ public class ForwardBackwardCalculatorBase extends ForwardBackwardCalculatorRaw<
      * t+1) with the (t+1)th state being i+1.
      */
     @Override
-    public <O extends Observation> double[][] computeAlpha(RegularHmm<? super O> hmm, Collection<O> oseq) {
+    public double[][] computeAlpha(RegularHmm<? super TObs> hmm, Collection<TObs> oseq) {
         int T = oseq.size();
         int s = hmm.nbStates();
         double[][] alpha = new double[T][s];
         T--;
 
-        Iterator<O> seqIterator = oseq.iterator();
+        Iterator<TObs> seqIterator = oseq.iterator();
         O observation;
         if (seqIterator.hasNext()) {
             observation = seqIterator.next();
@@ -127,7 +128,7 @@ public class ForwardBackwardCalculatorBase extends ForwardBackwardCalculatorRaw<
     /* Computes the content of the beta array.  Needs a O(1) access time
      to the elements of oseq to get a theoretically optimal algorithm. */
     @Override
-    public <O extends Observation> double[][] computeBeta(RegularHmm<? super O> hmm, List<O> oseq) {
+    public double[][] computeBeta(RegularHmm<? super TObs> hmm, List<TObs> oseq) {
         int t = oseq.size();
         int s = hmm.nbStates();
         double[][] beta = new double[t][s];
@@ -153,7 +154,7 @@ public class ForwardBackwardCalculatorBase extends ForwardBackwardCalculatorRaw<
     }
 
     @Override
-    public <O extends Observation> Tuple3<double[][], double[][], Double> computeAll(RegularHmm<? super O> hmm, List<O> oseq) {
+    public Tuple3<double[][], double[][], Double> computeAll(RegularHmm<? super TObs> hmm, List<TObs> oseq) {
         double[][] alpha = computeAlpha(hmm, oseq);
         double[][] beta = computeBeta(hmm, oseq);
         double probability = computeProbability(oseq, hmm, EnumSet.of(ComputationType.ALPHA), alpha, beta);
