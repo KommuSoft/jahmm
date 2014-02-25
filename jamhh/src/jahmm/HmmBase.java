@@ -26,9 +26,9 @@ public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends
         return pi;
     }
 
-    protected final double pi[];
-    protected final TAMx a;
-    protected final TBMx b;
+    protected double pi[];
+    protected TAMx a;
+    protected TBMx b;
 
     protected HmmBase(double pi[], TAMx a, TBMx b) {
         this.pi = pi;

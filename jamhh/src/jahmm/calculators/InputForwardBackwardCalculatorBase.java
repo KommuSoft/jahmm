@@ -1,6 +1,6 @@
 package jahmm.calculators;
 
-import jahmm.RegularHmmBase;
+import jahmm.RegularHmm;
 import jahmm.observables.Observation;
 import java.util.Collection;
 import java.util.List;
@@ -21,22 +21,22 @@ public class InputForwardBackwardCalculatorBase extends ForwardBackwardCalculato
     }
 
     @Override
-    public <O extends Observation> double[][][] computeAlpha(RegularHmmBase<? super O> hmm, Collection<O> oseq) {
+    public <O extends Observation> double[][][] computeAlpha(RegularHmm<? super O> hmm, Collection<O> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public <O extends Observation> double[][][] computeBeta(RegularHmmBase<? super O> hmm, List<O> oseq) {
+    public <O extends Observation> double[][][] computeBeta(RegularHmm<? super O> hmm, List<O> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public <O extends Observation> Tuple3<double[][][], double[][][], Double> computeAll(RegularHmmBase<? super O> hmm, List<O> oseq) {
+    public <O extends Observation> Tuple3<double[][][], double[][][], Double> computeAll(RegularHmm<? super O> hmm, List<O> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public <O extends Observation> double computeProbability(RegularHmmBase<O> hmm, Collection<ComputationType> flags, List<? extends O> oseq) {
+    public <O extends Observation> double computeProbability(RegularHmm<O> hmm, Collection<ComputationType> flags, List<? extends O> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

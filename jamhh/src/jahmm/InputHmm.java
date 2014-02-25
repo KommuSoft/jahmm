@@ -15,4 +15,6 @@ public interface InputHmm<TIn extends Enum<TIn>, TOut extends Observation> exten
 
     public abstract void mergeInput(final TIn newIn, final TIn... originalIns) throws IllegalArgumentException;
 
+    public abstract int getInputIndex(TIn input);
+
 }

@@ -4,7 +4,7 @@
  */
 package jahmm.calculators;
 
-import jahmm.RegularHmmBase;
+import jahmm.RegularHmm;
 import jahmm.observables.Observation;
 import java.util.Collection;
 import java.util.Iterator;
@@ -61,7 +61,7 @@ public final class ForwardBackwardScaledCalculatorBase extends ForwardBackwardCa
      * @return The probability of the given sequence of observations.
      */
     @Override
-    public <O extends Observation> double computeProbability(RegularHmmBase<O> hmm, Collection<ComputationType> flags, List<? extends O> oseq) {
+    public <O extends Observation> double computeProbability(RegularHmm<O> hmm, Collection<ComputationType> flags, List<? extends O> oseq) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException();
         }
@@ -89,7 +89,7 @@ public final class ForwardBackwardScaledCalculatorBase extends ForwardBackwardCa
      * @param oseq
      * @return
      */
-    public <O extends Observation> double[][] computeAlpha(RegularHmmBase<? super O> hmm, Collection<O> oseq, double... ctFactors) {
+    public <O extends Observation> double[][] computeAlpha(RegularHmm<? super O> hmm, Collection<O> oseq, double... ctFactors) {
         int T = ctFactors.length;
         int s = hmm.nbStates();
         Iterator<? extends O> seqIterator = oseq.iterator();
@@ -122,7 +122,7 @@ public final class ForwardBackwardScaledCalculatorBase extends ForwardBackwardCa
 
     /* Computes the content of the scaled beta array.  The scaling factors are
      those computed for alpha. */
-    public <O extends Observation> double[][] computeBeta(RegularHmmBase<? super O> hmm, List<O> oseq, double... ctFactors) {
+    public <O extends Observation> double[][] computeBeta(RegularHmm<? super O> hmm, List<O> oseq, double... ctFactors) {
         int T = ctFactors.length;
         int s = hmm.nbStates();
         double[][] beta = new double[T][s];
@@ -145,7 +145,7 @@ public final class ForwardBackwardScaledCalculatorBase extends ForwardBackwardCa
     }
 
     @Override
-    public <O extends Observation> Tuple3<double[][], double[][], Double> computeAll(RegularHmmBase<? super O> hmm, List<O> oseq) {
+    public <O extends Observation> Tuple3<double[][], double[][], Double> computeAll(RegularHmm<? super O> hmm, List<O> oseq) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException();
         }
