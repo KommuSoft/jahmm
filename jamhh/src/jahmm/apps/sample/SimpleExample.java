@@ -43,6 +43,8 @@ import jahmm.toolbox.MarkovGenerator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import jutils.collections.CollectionUtils;
 
 /**
@@ -70,13 +72,6 @@ public class SimpleExample {
     static public void main(String[] argv)
             throws java.io.IOException {
         /* Build a HMM and generate observation sequences using this HMM */
-
-        String testString = "<p>To reset your password, please follow this link: <a href=\"http://my.code.com/admin/resetPassword/JaI94\">reset password</a>.</p>";
-        String regex = "\"([^\"]*)\"";
-        Pattern pat = Pattern.compile(regex);
-        Matcher m = pat.matcher(testString);
-        System.out.println(m.group(1));
-
         RegularHmmBase<ObservationDiscrete<Packet>> hmm = buildHmm();
 
         List<List<ObservationDiscrete<Packet>>> sequences;

@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import jutils.ArrayUtils;
 import jutils.collections.CollectionUtils;
 import jutlis.lists.ListArray;
 
@@ -343,18 +344,37 @@ public class InputHmmBase<TIn extends Enum<TIn>, TOut extends Observation> exten
 
     @Override
     public void mergeInput(final TIn newIn, final TIn... originalIns) {
-        if (originalIns.length > 0x01) {
-            final ListArray<TIn> originalList = new ListArray<>(originalIns);
-            final ArrayList<Integer> ids = new ArrayList<>();
-            CollectionUtils.removeAllLinked(indexRegister, originalList, ids);
-            Collections.sort(ids);
-            final int first = ids.get(0x00);
-            CollectionUtils.incrementValueByIndex(indexRegister, ids.subList(0x01, ids.subList(fromIndex, toIndex)), -0x01);
-            for (double[][] ai : a) {
-
+        if (originalIns != null && originalIns.length > 0x00) {
+            if (originalIns.length > 0x01) {
+                final ListArray<TIn> originalList = new ListArray<>(originalIns);
+                final ArrayList<Integer> ids = new ArrayList<>();
+                CollectionUtils.removeAllLinked(this.indexRegister, originalList, ids);
+                Collections.sort(ids);
+                final double scale = 1.0d / ids.size();
+                final int first = ids.get(0x00);
+                final List<Integer> subl = ids.subList(0x01, ids.size() - 0x01);
+                CollectionUtils.incrementValueByIndex(this.indexRegister, subl, -0x01);
+                this.indexRegister.put(newIn, first);
+                final int nState = indexRegister.size();
+                for (int i = 0x00; i < a.length; i++) {
+                    double[][] ai = a[i];
+                    double[] aif = ai[first];
+                    for (int snd : subl) {
+                        double[] ais = ai[snd];
+                        for (int j = 0x00; j < ais.length; j++) {
+                            aif[j] += ais[j];
+                        }
+                    }
+                    for (int j = 0x00; j < aif.length; j++) {
+                        aif[j] *= scale;
+                    }
+                    double[][] newa = new double[nState][];
+                    ArrayUtils.copySkipArray(newa, ai, subl);
+                    a[i] = newa;
+                }
+            } else {
+                CollectionUtils.replaceKey(indexRegister, newIn, originalIns[0x00]);
             }
-        } else if(originalIns.length == 0x00) {
-            //TODO: substitute key.
         } else {
             throw new IllegalArgumentException("Cannot merge zero branches.");
         }
