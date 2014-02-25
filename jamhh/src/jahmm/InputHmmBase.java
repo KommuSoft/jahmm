@@ -11,9 +11,11 @@ import jahmm.observables.Opdf;
 import jahmm.observables.OpdfFactory;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
-import jutlis.lists.ListArray;
+import jutils.collections.CollectionUtils;
 
 /**
  * Main Input-Hmm class; it implements an Hidden Markov Model with an input
@@ -38,8 +40,10 @@ import jutlis.lists.ListArray;
  *
  * @param <TIn> The type of input of the InputHmm.
  * @param <TOut> The type of observations of the InputHmm.
+ * @note The A matrix has the following structure: A_{i,j,k} means the
+ * probability of moving from state i to j given input k.
  */
-public class InputHmmBase<TIn, TOut extends Observation> extends HmmBase<TOut, double[][][], ArrayList<Opdf<TOut>>, InputObservationTuple<TIn, TOut>> implements InputHmm<TIn, TOut> {
+public class InputHmmBase<TIn extends Enum<TIn>, TOut extends Observation> extends HmmBase<TOut, double[][][], ArrayList<Opdf<TOut>>, InputObservationTuple<TIn, TOut>> implements InputHmm<TIn, TOut> {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(InputHmmBase.class.getName());
@@ -74,6 +78,7 @@ public class InputHmmBase<TIn, TOut extends Observation> extends HmmBase<TOut, d
         }
         return a;
     }
+    private final HashMap<TIn, Integer> indexRegister = new HashMap<>();
 
     /**
      * Creates a new IHMM. Each state has the same <i>pi</i> value and the
@@ -84,8 +89,9 @@ public class InputHmmBase<TIn, TOut extends Observation> extends HmmBase<TOut, d
      * @param nbStates The (strictly positive) number of states of the IHMM.
      * @param opdfFactory A pdf generator that is used to build the pdfs
      * associated to each state.
+     * @param possibleInput The possible input of that may occur.
      */
-    public InputHmmBase(int nbSymbols, int nbStates, OpdfFactory<? extends Opdf<TOut>> opdfFactory) {
+    public InputHmmBase(int nbSymbols, int nbStates, OpdfFactory<? extends Opdf<TOut>> opdfFactory, Iterable<TIn> possibleInput) {
         super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<TOut>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
             b.add(opdfFactory.factor());
@@ -104,8 +110,9 @@ public class InputHmmBase<TIn, TOut extends Observation> extends HmmBase<TOut, d
      * @param opdfs The observation distributions.  <code>opdfs.get(i)</code> is
      * the observation distribution associated with state <code>i</code>. The
      * distributions are not copied.
+     * @param possibleInput The possible input that may occur
      */
-    public InputHmmBase(double[] pi, double[][][] a, List<? extends Opdf<TOut>> opdfs) {
+    public InputHmmBase(double[] pi, double[][][] a, List<? extends Opdf<TOut>> opdfs, Iterable<TIn> possibleInput) {
         super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
         this.checkConstraints();
     }
@@ -121,9 +128,12 @@ public class InputHmmBase<TIn, TOut extends Observation> extends HmmBase<TOut, d
      * @param opdfs The observation distributions.  <code>opdfs.get(i)</code> is
      * the observation distribution associated with state <code>i</code>. The
      * distributions are not copied.
+     * @param possibleInput The possible input that may occur
      */
-    public InputHmmBase(double[] pi, double[][][] a, Opdf<TOut>... opdfs) {
-        this(pi, a, new ListArray<>(opdfs));
+    protected InputHmmBase(double[] pi, double[][][] a, List<? extends Opdf<TOut>> opdfs, Map<TIn, Integer> possibleInput) {
+        super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
+        this.checkConstraints();
+        CollectionUtils.putAll(this.indexRegister, possibleInput);
     }
 
     /**
@@ -133,8 +143,9 @@ public class InputHmmBase<TIn, TOut extends Observation> extends HmmBase<TOut, d
      *
      * @param nbSymbols The (strictly positive) number of states of the HMM.
      * @param nbStates The (strictly positive) number of states of the HMM.
+     * @param possibleInput The possible input that may occur
      */
-    protected InputHmmBase(int nbSymbols, int nbStates) {
+    protected InputHmmBase(int nbSymbols, int nbStates, Iterable<TIn> possibleInput) {
         super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<TOut>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
             this.b.add(null);
@@ -145,6 +156,15 @@ public class InputHmmBase<TIn, TOut extends Observation> extends HmmBase<TOut, d
     private void checkConstraints() {
         if (a.length == 0 || pi.length != a.length || b.size() != a.length) {
             throw new IllegalArgumentException("Wrong dimensions");
+        }
+    }
+
+    private void initializeIndexRegister(Iterable<TIn> possibleInput) {
+        this.indexRegister.clear();
+        int i = 0x00;
+        for (TIn obs : possibleInput) {
+            this.indexRegister.put(obs, i);
+            i++;
         }
     }
 
@@ -176,14 +196,14 @@ public class InputHmmBase<TIn, TOut extends Observation> extends HmmBase<TOut, d
      */
     @Override
     public InputHmmBase<TIn, TOut> clone() throws CloneNotSupportedException {
-        return new InputHmmBase<>(this.pi, this.a, this.b);
+        return new InputHmmBase<>(this.pi, this.a, this.b, this.indexRegister);
     }
 
     /**
      * Returns the probability associated with the transition going from state
      * <i>i</i> to state <i>j</i> (<i>a<sub>i,j</sub></i>).
-     *     
-* @param i The first state number such that
+     *
+     * @param i The first state number such that
      * <code>0 &le; i &lt; nbStates()</code>.
      * @param j The second state number such that
      * <code>0 &le; j &lt; nbStates()</code>.
@@ -203,8 +223,8 @@ public class InputHmmBase<TIn, TOut extends Observation> extends HmmBase<TOut, d
     /**
      * Returns the probability associated with the transition going from state
      * <i>i</i> to state <i>j</i> (<i>a<sub>i,j</sub></i>).
-     *     
-* @param i The first state number such that
+     *
+     * @param i The first state number such that
      * <code>0 &le; i &lt; nbStates()</code>.
      * @param j The second state number such that
      * <code>0 &le; j &lt; nbStates()</code>.
@@ -219,8 +239,8 @@ public class InputHmmBase<TIn, TOut extends Observation> extends HmmBase<TOut, d
 
     /**
      * Gives a description of this IHMM.
-     *     
-* @return A textual description of this IHMM.
+     *
+     * @return A textual description of this IHMM.
      */
     @Override
     public String toString() {
@@ -229,8 +249,8 @@ public class InputHmmBase<TIn, TOut extends Observation> extends HmmBase<TOut, d
 
     /**
      * Gives a description of this HMM.
-     *     
-* @param nf A number formatter used to print numbers (e.g. Aij values).
+     *
+     * @param nf A number formatter used to print numbers (e.g. Aij values).
      * @return A textual description of this HMM.
      */
     @Override
