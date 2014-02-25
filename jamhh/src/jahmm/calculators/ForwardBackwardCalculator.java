@@ -15,24 +15,24 @@ import jutlis.tuples.Tuple3;
  */
 public interface ForwardBackwardCalculator<TAlpha, TBeta, TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>> {
 
-    public abstract TAlpha computeAlpha(THmm hmm, Collection<? extends TObs> oseq);
+    public abstract TAlpha computeAlpha(THmm hmm, Collection<? extends TInt> oseq);
 
-    public abstract TAlpha computeAlpha(THmm hmm, TObs... oseq);
+    public abstract TAlpha computeAlpha(THmm hmm, TInt... oseq);
 
-    public abstract TBeta computeBeta(THmm hmm, List<? extends TObs> oseq);
+    public abstract TBeta computeBeta(THmm hmm, List<? extends TInt> oseq);
 
-    public abstract TBeta computeBeta(THmm hmm, TObs... oseq);
+    public abstract TBeta computeBeta(THmm hmm, TInt... oseq);
 
-    public abstract Tuple3<TAlpha, TBeta, Double> computeAll(THmm hmm, List<? extends TObs> oseq);
+    public abstract Tuple3<TAlpha, TBeta, Double> computeAll(THmm hmm, List<? extends TInt> oseq);
 
-    public abstract Tuple3<TAlpha, TBeta, Double> computeAll(THmm hmm, TObs... oseq);
+    public abstract Tuple3<TAlpha, TBeta, Double> computeAll(THmm hmm, TInt... oseq);
 
-    public abstract double computeProbability(THmm hmm, Collection<ComputationType> flags, List<? extends TObs> oseq);
+    public abstract double computeProbability(THmm hmm, Collection<ComputationType> flags, List<? extends TInt> oseq);
 
-    public abstract double computeProbability(THmm hmm, List<? extends TObs> oseq);
+    public abstract double computeProbability(THmm hmm, List<? extends TInt> oseq);
 
-    public abstract double computeProbability(THmm hmm, Collection<ComputationType> flags, TObs... oseq);
+    public abstract double computeProbability(THmm hmm, Collection<ComputationType> flags, TInt... oseq);
 
-    public abstract double computeProbability(THmm hmm, TObs... oseq);
+    public abstract double computeProbability(THmm hmm, TInt... oseq);
 
 }

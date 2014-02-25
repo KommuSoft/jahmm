@@ -16,21 +16,24 @@ import jutlis.tuples.Tuple3;
  * @param <TAlpha> The type of alpha (in most cases a nD-array of doubles).
  * @param <TBeta> The type of beta (in most cases a nD-array of doubles;
  * equivalent to TAlpha).
+ * @param <TObs>
+ * @param <TInt>
+ * @param <THmm>
  */
-public abstract class ForwardBackwardCalculatorRaw<TAlpha, TBeta, TObs extends Observation, TInt extends Observation, THmm extends Hmm<? super TObs, TInt>> implements ForwardBackwardCalculator<TAlpha, TBeta, TObs, TInt, THmm> {
+public abstract class ForwardBackwardCalculatorRaw<TAlpha, TBeta, TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>> implements ForwardBackwardCalculator<TAlpha, TBeta, TObs, TInt, THmm> {
 
     @Override
-    public TAlpha computeAlpha(THmm hmm, TObs... oseq) {
+    public TAlpha computeAlpha(THmm hmm, TInt... oseq) {
         return this.computeAlpha(hmm, new ListArray<>(oseq));
     }
 
     @Override
-    public TBeta computeBeta(THmm hmm, TObs... oseq) {
+    public TBeta computeBeta(THmm hmm, TInt... oseq) {
         return this.computeBeta(hmm, new ListArray<>(oseq));
     }
 
     @Override
-    public Tuple3<TAlpha, TBeta, Double> computeAll(THmm hmm, TObs... oseq) {
+    public Tuple3<TAlpha, TBeta, Double> computeAll(THmm hmm, TInt... oseq) {
         return this.computeAll(hmm, new ListArray<>(oseq));
     }
 
@@ -39,14 +42,14 @@ public abstract class ForwardBackwardCalculatorRaw<TAlpha, TBeta, TObs extends O
      * Hidden Markov Model. This computation computes the <code>alpha</code>
      * array as a side effect.
      *
-     * @param <TObs>
+     * @param <TInt>
      * @param oseq
      * @param hmm
      * @return
      * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)
      */
     @Override
-    public double computeProbability(THmm hmm, List<? extends TObs> oseq) {
+    public double computeProbability(THmm hmm, List<? extends TInt> oseq) {
         return computeProbability(hmm, EnumSet.of(ComputationType.ALPHA), oseq);
     }
 
@@ -55,7 +58,7 @@ public abstract class ForwardBackwardCalculatorRaw<TAlpha, TBeta, TObs extends O
      * Hidden Markov Model. This computation computes the <code>alpha</code>
      * array as a side effect.
      *
-     * @param <TObs>
+     * @param <TInt>
      * @param oseq
      * @param flags determines which tasks should be executed by the calculator
      * @param hmm
@@ -63,7 +66,7 @@ public abstract class ForwardBackwardCalculatorRaw<TAlpha, TBeta, TObs extends O
      * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)
      */
     @Override
-    public double computeProbability(THmm hmm, Collection<ComputationType> flags, TObs... oseq) {
+    public double computeProbability(THmm hmm, Collection<ComputationType> flags, TInt... oseq) {
         return this.computeProbability(hmm, flags, new ListArray<>(oseq));
     }
 
@@ -72,14 +75,14 @@ public abstract class ForwardBackwardCalculatorRaw<TAlpha, TBeta, TObs extends O
      * Hidden Markov Model. This computation computes the <code>alpha</code>
      * array as a side effect.
      *
-     * @param <TObs>
+     * @param <TInt>
      * @param oseq
      * @param hmm
      * @return
      * @see #ForwardBackwardCalculator(List, Hmm, EnumSet)
      */
     @Override
-    public double computeProbability(THmm hmm, TObs... oseq) {
+    public double computeProbability(THmm hmm, TInt... oseq) {
         return this.computeProbability(hmm, new ListArray<>(oseq));
     }
 
