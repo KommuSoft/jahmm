@@ -47,7 +47,7 @@ import jutlis.lists.ListArray;
  * @note The A matrix has the following structure: A_{i,j,k} means the
  * probability of moving from state i to j given input k.
  */
-public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> extends HmmBase<TObs, double[][][], ArrayList<Opdf<TObs>>, InputObservationTuple<TIn, TObs>> implements InputHmm<TObs,TIn> {
+public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> extends HmmBase<TObs, double[][][], ArrayList<Opdf<TObs>>, InputObservationTuple<TIn, TObs>> implements InputHmm<TObs, TIn> {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(InputHmmBase.class.getName());
@@ -199,7 +199,7 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
      * in the hierarchy can fail to clone.
      */
     @Override
-    public InputHmmBase<TObs,TIn> clone() throws CloneNotSupportedException {
+    public InputHmmBase<TObs, TIn> clone() throws CloneNotSupportedException {
         return new InputHmmBase<>(this.pi, this.a, this.b, this.indexRegister);
     }
 
