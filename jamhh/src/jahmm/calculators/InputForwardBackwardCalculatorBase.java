@@ -13,7 +13,7 @@ import jutlis.tuples.Tuple3;
  *
  * @author kommusoft
  */
-public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt extends Enum<TInt>> extends ForwardBackwardCalculatorRaw<double[][][], double[][][], TObs, InputObservationTuple<TInt, TObs>, InputHmm<TObs, TInt>> implements InputForwardBackwardCalculator<TObs, TInt> {
+public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt extends Enum<TInt>> extends ForwardBackwardCalculatorRaw<double[][], double[][], TObs, InputObservationTuple<TInt, TObs>, InputHmm<TObs, TInt>> implements InputForwardBackwardCalculator<TObs, TInt> {
 
     private static final InputForwardBackwardCalculatorBase Instance = new InputForwardBackwardCalculatorBase();
 
@@ -23,52 +23,22 @@ public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt e
     }
 
     @Override
-    public double[][][] computeAlpha(InputHmm<TObs, TInt> hmm, Collection<? extends InputObservationTuple<TInt, TObs>> oseq) {
+    public double[][] computeAlpha(InputHmm<TObs, TInt> hmm, Collection<? extends InputObservationTuple<TInt, TObs>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double[][][] computeAlpha(InputHmm<TObs, TInt> hmm, InputObservationTuple<TInt, TObs>... oseq) {
+    public double[][] computeBeta(InputHmm<TObs, TInt> hmm, List<? extends InputObservationTuple<TInt, TObs>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double[][][] computeBeta(InputHmm<TObs, TInt> hmm, List<? extends InputObservationTuple<TInt, TObs>> oseq) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double[][][] computeBeta(InputHmm<TObs, TInt> hmm, InputObservationTuple<TInt, TObs>... oseq) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Tuple3<double[][][], double[][][], Double> computeAll(InputHmm<TObs, TInt> hmm, List<? extends InputObservationTuple<TInt, TObs>> oseq) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Tuple3<double[][][], double[][][], Double> computeAll(InputHmm<TObs, TInt> hmm, InputObservationTuple<TInt, TObs>... oseq) {
+    public Tuple3<double[][], double[][], Double> computeAll(InputHmm<TObs, TInt> hmm, List<? extends InputObservationTuple<TInt, TObs>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public double computeProbability(InputHmm<TObs, TInt> hmm, Collection<ComputationType> flags, List<? extends InputObservationTuple<TInt, TObs>> oseq) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double computeProbability(InputHmm<TObs, TInt> hmm, List<? extends InputObservationTuple<TInt, TObs>> oseq) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double computeProbability(InputHmm<TObs, TInt> hmm, Collection<ComputationType> flags, InputObservationTuple<TInt, TObs>... oseq) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double computeProbability(InputHmm<TObs, TInt> hmm, InputObservationTuple<TInt, TObs>... oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
