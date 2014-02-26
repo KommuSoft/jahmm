@@ -374,7 +374,7 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
             if (originalIns.length > 0x01) {
                 final ListArray<TIn> originalList = new ListArray<>(originalIns);
                 final ArrayList<Integer> ids = new ArrayList<>();
-                CollectionUtils.removeAllLinked(this.indexRegister, originalList, ids);
+                CollectionUtils.removeAll(this.indexRegister, originalList, ids);
                 Collections.sort(ids);
                 final double scale = 1.0d / ids.size();
                 final int first = ids.get(0x00);
