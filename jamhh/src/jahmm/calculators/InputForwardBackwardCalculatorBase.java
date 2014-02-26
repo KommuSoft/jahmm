@@ -10,9 +10,12 @@ import java.util.logging.Logger;
 
 /**
  * An alpha-beta calculator that calculates the alpha and beta values for a
- * given InputHiddenMarkovModel.
+ * given InputHiddenMarkovModel. This calculator is based on the work of Falko
+ * Bause.
  *
  * @author kommusoft
+ * @param <TObs>
+ * @param <TInt>
  */
 public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt extends Enum<TInt>> extends ForwardBackwardCalculatorRaw<double[][], double[][], TObs, InputObservationTuple<TInt, TObs>, InputHmm<TObs, TInt>> implements InputForwardBackwardCalculator<TObs, TInt> {
 
@@ -20,7 +23,7 @@ public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt e
 
     private static final Logger LOG = Logger.getLogger(InputForwardBackwardCalculatorBase.class.getName());
 
-    private InputForwardBackwardCalculatorBase() {
+    protected InputForwardBackwardCalculatorBase() {
     }
 
     @Override
