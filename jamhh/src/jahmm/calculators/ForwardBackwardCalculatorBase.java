@@ -36,6 +36,7 @@ public class ForwardBackwardCalculatorBase<TObs extends Observation> extends For
     protected ForwardBackwardCalculatorBase() {
     }
 
+    @Override
     protected double computeProbability(List<? extends TObs> oseq, RegularHmm<TObs> hmm, Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
         double probability = 0.;
         int n = hmm.nbStates();
@@ -53,36 +54,6 @@ public class ForwardBackwardCalculatorBase<TObs extends Observation> extends For
             }
         }
         return probability;
-    }
-
-    /**
-     * Computes the probability of occurrence of an observation sequence given a
-     * Hidden Markov Model.
-     *
-     * @param <TObs>
-     * @param hmm A Hidden Markov Model;
-     * @param oseq An observation sequence.
-     * @param flags How the computation should be done. See the
-     * {@link ComputationType ComputationType} enum.
-     * @return
-     */
-    @Override
-    public double computeProbability(RegularHmm<TObs> hmm, Collection<ComputationType> flags, List<? extends TObs> oseq) {
-        if (oseq.isEmpty()) {
-            throw new IllegalArgumentException("Invalid empty sequence");
-        }
-
-        double[][] alpha = null, beta = null;
-
-        if (flags.contains(ComputationType.ALPHA)) {
-            alpha = computeAlpha(hmm, oseq);
-        }
-
-        if (flags.contains(ComputationType.BETA)) {
-            beta = computeBeta(hmm, oseq);
-        }
-
-        return computeProbability(oseq, hmm, flags, alpha, beta);
     }
 
     /**
@@ -152,13 +123,5 @@ public class ForwardBackwardCalculatorBase<TObs extends Observation> extends For
             t--;
         }
         return beta;
-    }
-
-    @Override
-    public Tuple3<double[][], double[][], Double> computeAll(RegularHmm<TObs> hmm, List<? extends TObs> oseq) {
-        double[][] alpha = computeAlpha(hmm, oseq);
-        double[][] beta = computeBeta(hmm, oseq);
-        double probability = computeProbability(oseq, hmm, EnumSet.of(ComputationType.ALPHA), alpha, beta);
-        return new Tuple3Base<>(alpha, beta, probability);
     }
 }

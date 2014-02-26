@@ -7,9 +7,9 @@ import jutlis.tuples.Tuple2Base;
  *
  * @author kommusoft
  */
-public class InputObservationTuple<I extends Enum<I>, O extends Observation> extends Tuple2Base<ObservationDiscrete<I>, Observation> implements Observation {
+public class InputObservationTuple<TInt extends Enum<TInt>, TObs extends Observation> extends Tuple2Base<ObservationDiscrete<TInt>, TObs> implements Observation {
 
-    public InputObservationTuple(ObservationDiscrete<I> item1, Observation item2) {
+    public InputObservationTuple(ObservationDiscrete<TInt> item1, TObs item2) {
         super(item1, item2);
     }
 

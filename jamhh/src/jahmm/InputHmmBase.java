@@ -408,8 +408,13 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
     }
 
     @Override
-    public int getInputIndex(TIn input) {
-        return this.indexRegister.get(input);
+    public int getInputIndex(TIn x) {
+        return this.indexRegister.get(x);
+    }
+
+    @Override
+    public double getAixj(int i, TIn x, int j) {
+        return this.a[i][getInputIndex(x)][j];
     }
 
 }
