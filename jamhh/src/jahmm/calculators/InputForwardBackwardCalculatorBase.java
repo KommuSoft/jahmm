@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * An alpha-beta calculator that calculates
+ * An alpha-beta calculator that calculates the alpha and beta values for a
+ * given InputHiddenMarkovModel.
  *
  * @author kommusoft
  */
