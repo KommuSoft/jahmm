@@ -20,7 +20,7 @@ import jutlis.tuples.Tuple3;
  * <i>Juang</i>'s <i>Fundamentals of speech recognition</i> (Prentice Hall,
  * 1993).
  */
-public class RegularBaumWelchScaledLearner extends RegularBaumWelchLearner {
+public class RegularBaumWelchScaledLearner<TObs extends Observation> extends RegularBaumWelchLearner<TObs> {
 
     private static final Logger LOG = Logger.getLogger(RegularBaumWelchScaledLearner.class.getName());
 
@@ -31,26 +31,26 @@ public class RegularBaumWelchScaledLearner extends RegularBaumWelchLearner {
     }
 
     @Override
-    protected <O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(RegularHmm<O> hmm, List<? extends O> obsSeq) {
+    @SuppressWarnings("unchecked")
+    protected Tuple3<double[][], double[][], Double> getAlphaBetaProbability(RegularHmm<TObs> hmm, List<? extends TObs> obsSeq) {
         return RegularForwardBackwardScaledCalculatorBase.Instance.computeAll(hmm, obsSeq);
     }
 
-    /* Here, the xi (and, thus, gamma) values are not divided by the
-     probability of the sequence because this probability might be
-     too small and induce an underflow. xi[t][i][j] still can be
-     interpreted as P[q_t = i and q_(t+1) = j | obsSeq, hmm] because
-     we assume that the scaling factors are such that their product
-     is equal to the inverse of the probability of the sequence. */
     /**
+     * Here, the xi (and, thus, gamma) values are not divided by the probability
+     * of the sequence because this probability might be too small and induce an
+     * underflow. xi[t][i][j] still can be interpreted as P[q_t = i and q_(t+1)
+     * = j | obsSeq, hmm] because we assume that the scaling factors are such
+     * that their product is equal to the inverse of the probability of the
+     * sequence.
      *
-     * @param <O>
      * @param sequence
      * @param abp
      * @param hmm
      * @return
      */
     @Override
-    protected <O extends Observation> double[][][] estimateXi(List<? extends O> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<O> hmm) {
+    protected double[][][] estimateXi(List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<TObs> hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
         }
@@ -59,11 +59,11 @@ public class RegularBaumWelchScaledLearner extends RegularBaumWelchLearner {
         double[][] alpha = abp.getItem1();
         double[][] beta = abp.getItem2();
 
-        Iterator<? extends O> seqIterator = sequence.iterator();
+        Iterator<? extends TObs> seqIterator = sequence.iterator();
         seqIterator.next();
 
         for (int t = 0; t < sequence.size() - 1; t++) {
-            O observation = seqIterator.next();
+            TObs observation = seqIterator.next();
 
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int j = 0; j < hmm.nbStates(); j++) {

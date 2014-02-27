@@ -18,14 +18,9 @@ import jutlis.tuples.Tuple3;
  * An implementation of the Baum-Welch learning algorithm. This algorithm finds
  * a HMM that models a set of observation sequences.
  */
-public class RegularBaumWelchLearner {
+public class RegularBaumWelchLearner<TObs extends Observation> extends BaumWelchLearnerBase<TObs, TObs, RegularHmm<TObs>> {
 
     private static final Logger LOG = Logger.getLogger(RegularBaumWelchLearner.class.getName());
-
-    /**
-     * Number of iterations performed by the {@link #learn} method.
-     */
-    private int nbIterations = 9;
 
     /**
      * Initializes a Baum-Welch instance.
@@ -43,8 +38,9 @@ public class RegularBaumWelchLearner {
      * based. Each sequence must have a length higher or equal to 2.
      * @return A new, updated HMM.
      */
-    public <O extends Observation> RegularHmm<O> iterate(RegularHmm<O> hmm, List<? extends List<? extends O>> sequences) {
-        RegularHmm<O> nhmm;
+    @Override
+    public RegularHmm<TObs> iterate(RegularHmm<TObs> hmm, List<? extends List<? extends TObs>> sequences) {
+        RegularHmm<TObs> nhmm;
         try {
             nhmm = hmm.clone();
         } catch (CloneNotSupportedException e) {
@@ -68,7 +64,7 @@ public class RegularBaumWelchLearner {
         }
 
         int g = 0;
-        for (List<? extends O> obsSeq : sequences) {
+        for (List<? extends TObs> obsSeq : sequences) {
 
             Tuple3<double[][], double[][], Double> abp = getAlphaBetaProbability(hmm, obsSeq);
 
@@ -112,13 +108,13 @@ public class RegularBaumWelchLearner {
 
         /* pdfs computation */
         for (int i = 0; i < hmm.nbStates(); i++) {
-            List<O> observations = KMeansLearner.flat(sequences);
+            List<TObs> observations = KMeansLearner.flat(sequences);
             double[] weights = new double[observations.size()];
             double sum = 0.;
             int j = 0;
 
             int o = 0;
-            for (List<? extends O> obsSeq : sequences) {
+            for (List<? extends TObs> obsSeq : sequences) {
                 for (int t = 0; t < obsSeq.size(); t++, j++) {
                     sum += weights[j] = allGamma[o][t][i];
                 }
@@ -129,14 +125,15 @@ public class RegularBaumWelchLearner {
                 weights[j] /= sum;
             }
 
-            Opdf<O> opdf = nhmm.getOpdf(i);
+            Opdf<TObs> opdf = nhmm.getOpdf(i);
             opdf.fit(observations, weights);
         }
 
         return nhmm;
     }
 
-    protected <O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(RegularHmm<O> hmm, List<? extends O> obsSeq) {
+    @SuppressWarnings("unchecked")
+    protected Tuple3<double[][], double[][], Double> getAlphaBetaProbability(RegularHmm<TObs> hmm, List<? extends TObs> obsSeq) {
         return RegularForwardBackwardCalculatorBase.Instance.computeAll(hmm, obsSeq);
     }
 
@@ -144,7 +141,6 @@ public class RegularBaumWelchLearner {
      * Does a fixed number of iterations (see {@link #getNbIterations}) of the
      * Baum-Welch algorithm.
      *
-     * @param <O>
      * @param initialHmm An initial estimation of the expected HMM. This
      * estimate is critical as the Baum-Welch algorithm only find local minima
      * of its likelihood function.
@@ -153,8 +149,9 @@ public class RegularBaumWelchLearner {
      * @return The HMM that best matches the set of observation sequences given
      * (according to the Baum-Welch algorithm).
      */
-    public <O extends Observation> RegularHmm<O> learn(RegularHmm<O> initialHmm, List<? extends List<? extends O>> sequences) {
-        RegularHmm<O> hmm = initialHmm;
+    @Override
+    public RegularHmm<TObs> learn(RegularHmm<TObs> initialHmm, List<? extends List<? extends TObs>> sequences) {
+        RegularHmm<TObs> hmm = initialHmm;
         for (int i = 0; i < nbIterations; i++) {
             hmm = iterate(hmm, sequences);
         }
@@ -169,7 +166,7 @@ public class RegularBaumWelchLearner {
      * @param hmm
      * @return
      */
-    protected <O extends Observation> double[][][] estimateXi(List<? extends O> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<O> hmm) {
+    protected double[][][] estimateXi(List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<TObs> hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
         }
@@ -181,11 +178,11 @@ public class RegularBaumWelchLearner {
         double xi[][][]
                 = new double[sequence.size() - 1][hmm.nbStates()][hmm.nbStates()];
 
-        Iterator<? extends O> seqIterator = sequence.iterator();
+        Iterator<? extends TObs> seqIterator = sequence.iterator();
         seqIterator.next();
 
         for (int t = 0; t < sequence.size() - 1; t++) {
-            O o = seqIterator.next();
+            TObs o = seqIterator.next();
 
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int j = 0; j < hmm.nbStates(); j++) {
@@ -229,26 +226,5 @@ public class RegularBaumWelchLearner {
         }
 
         return gamma;
-    }
-
-    /**
-     * Returns the number of iterations performed by the {@link #learn} method.
-     *
-     * @return The number of iterations performed.
-     */
-    public int getNbIterations() {
-        return nbIterations;
-    }
-
-    /**
-     * Sets the number of iterations performed by the {@link #learn} method.
-     *
-     * @param nb The (positive) number of iterations to perform.
-     */
-    public void setNbIterations(int nb) {
-        if (nb < 0) {
-            throw new IllegalArgumentException("Positive number expected");
-        }
-        nbIterations = nb;
     }
 }
