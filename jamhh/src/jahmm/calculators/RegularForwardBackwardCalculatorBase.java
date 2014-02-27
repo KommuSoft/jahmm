@@ -7,12 +7,9 @@ package jahmm.calculators;
 import jahmm.RegularHmm;
 import jahmm.observables.Observation;
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
-import jutlis.tuples.Tuple3;
-import jutlis.tuples.Tuple3Base;
 
 /**
  * This class can be used to compute the probability of a given observations
@@ -25,15 +22,15 @@ import jutlis.tuples.Tuple3Base;
  *
  * @param <TObs>
  */
-public class ForwardBackwardCalculatorBase<TObs extends Observation> extends ForwardBackwardCalculatorRaw<double[][], double[][], TObs, TObs, RegularHmm<TObs>> {
+public class RegularForwardBackwardCalculatorBase<TObs extends Observation> extends ForwardBackwardCalculatorRaw<double[][], double[][], TObs, TObs, RegularHmm<TObs>> implements RegularForwardBackwardCalculator<TObs> {
 
-    public static final ForwardBackwardCalculatorBase Instance = new ForwardBackwardCalculatorBase();
-    private static final Logger LOG = Logger.getLogger(ForwardBackwardCalculatorBase.class.getName());
+    public static final RegularForwardBackwardCalculatorBase Instance = new RegularForwardBackwardCalculatorBase();
+    private static final Logger LOG = Logger.getLogger(RegularForwardBackwardCalculatorBase.class.getName());
 
     /**
      *
      */
-    protected ForwardBackwardCalculatorBase() {
+    protected RegularForwardBackwardCalculatorBase() {
     }
 
     @Override

@@ -4,8 +4,8 @@
  */
 package jahmm;
 
-import jahmm.calculators.ForwardBackwardCalculatorBase;
-import jahmm.calculators.ForwardBackwardScaledCalculatorBase;
+import jahmm.calculators.RegularForwardBackwardCalculatorBase;
+import jahmm.calculators.RegularForwardBackwardScaledCalculatorBase;
 import jahmm.calculators.ViterbiCalculator;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
@@ -202,7 +202,7 @@ public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, doub
      */
     @Override
     public double probability(List<? extends TObs> oseq) {
-        return ForwardBackwardCalculatorBase.Instance.computeProbability(this, oseq);
+        return RegularForwardBackwardCalculatorBase.Instance.computeProbability(this, oseq);
     }
 
     /**
@@ -215,7 +215,7 @@ public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, doub
      */
     @Override
     public double lnProbability(List<? extends TObs> oseq) {
-        return ForwardBackwardScaledCalculatorBase.Instance.computeProbability(this, oseq);
+        return RegularForwardBackwardScaledCalculatorBase.Instance.computeProbability(this, oseq);
     }
 
     /**

@@ -5,7 +5,7 @@
 package jahmm.learn;
 
 import jahmm.RegularHmm;
-import jahmm.calculators.ForwardBackwardCalculatorBase;
+import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
 import java.util.Arrays;
@@ -137,7 +137,7 @@ public class BaumWelchLearner {
     }
 
     protected <O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(RegularHmm<O> hmm, List<? extends O> obsSeq) {
-        return ForwardBackwardCalculatorBase.Instance.computeAll(hmm, obsSeq);
+        return RegularForwardBackwardCalculatorBase.Instance.computeAll(hmm, obsSeq);
     }
 
     /**

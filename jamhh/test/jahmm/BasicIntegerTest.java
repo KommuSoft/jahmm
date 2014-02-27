@@ -4,7 +4,7 @@
  */
 package jahmm;
 
-import jahmm.calculators.ForwardBackwardCalculatorBase;
+import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.calculators.KMeansCalculator;
 import jahmm.calculators.ViterbiCalculator;
 import jahmm.observables.ObservationInteger;
@@ -49,9 +49,9 @@ public class BasicIntegerTest
      */
     public void testForwardBackward() {
 
-        assertEquals(1.8697705349794245E-5, ForwardBackwardCalculatorBase.Instance.computeProbability(hmm, sequence), DELTA);
+        assertEquals(1.8697705349794245E-5, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, sequence), DELTA);
 
-        assertEquals(1.8697705349794245E-5, ForwardBackwardCalculatorBase.Instance.computeProbability(hmm, sequence), DELTA);
+        assertEquals(1.8697705349794245E-5, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, sequence), DELTA);
     }
 
     /**

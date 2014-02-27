@@ -37,7 +37,7 @@ public class ForwardBackwardScaledCalculatorTest {
         RegularHmmBase<ObservationDiscrete<Events>> hmm = new RegularHmmBase<>(pi, trans, state0, state1);
         @SuppressWarnings("unchecked")
         List<ObservationDiscrete<Events>> sequence = new ListArray<>(new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.NoUmbrella), new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.Umbrella));
-        Tuple3<double[][], double[][], Double> abp = ForwardBackwardScaledCalculatorBase.Instance.computeAll(hmm, sequence);
+        Tuple3<double[][], double[][], Double> abp = RegularForwardBackwardScaledCalculatorBase.Instance.computeAll(hmm, sequence);
         double[][] a = abp.getItem1();
         double[][] b = abp.getItem2();
         double p = abp.getItem3();
@@ -83,8 +83,8 @@ public class ForwardBackwardScaledCalculatorTest {
             Opdf<ObservationDiscrete<Tris>> state2 = new OpdfDiscrete<>(Tris.class, exhaust[0x02]);
             @SuppressWarnings("unchecked")
             RegularHmmBase<ObservationDiscrete<Tris>> hmm = new RegularHmmBase<>(pi, trans, state0, state1, state2);
-            double expected = ForwardBackwardCalculatorBase.Instance.computeProbability(hmm, tris);
-            double actual = ForwardBackwardScaledCalculatorBase.Instance.computeProbability(hmm, tris);
+            double expected = RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, tris);
+            double actual = RegularForwardBackwardScaledCalculatorBase.Instance.computeProbability(hmm, tris);
             AssertExtensions.assertEquals(expected, actual);
         }
     }

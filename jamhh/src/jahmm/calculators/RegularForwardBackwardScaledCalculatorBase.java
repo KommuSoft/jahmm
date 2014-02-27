@@ -27,13 +27,14 @@ import jutlis.tuples.Tuple3Base;
  * For more information on the scaling procedure, read <i>Rabiner</i> and
  * <i>Juang</i>'s <i>Fundamentals of speech recognition</i> (Prentice Hall,
  * 1993).
+ * @param <TObs>
  */
-public final class ForwardBackwardScaledCalculatorBase<TObs extends Observation> extends ForwardBackwardCalculatorBase<TObs> {
+public final class RegularForwardBackwardScaledCalculatorBase<TObs extends Observation> extends RegularForwardBackwardCalculatorBase<TObs> {
 
-    public static final ForwardBackwardScaledCalculatorBase Instance = new ForwardBackwardScaledCalculatorBase();
-    private static final Logger LOG = Logger.getLogger(ForwardBackwardScaledCalculatorBase.class.getName());
+    public static final RegularForwardBackwardScaledCalculatorBase Instance = new RegularForwardBackwardScaledCalculatorBase();
+    private static final Logger LOG = Logger.getLogger(RegularForwardBackwardScaledCalculatorBase.class.getName());
 
-    protected ForwardBackwardScaledCalculatorBase() {
+    protected RegularForwardBackwardScaledCalculatorBase() {
     }
 
     private double computeProbability(double[] ctFactors) {
