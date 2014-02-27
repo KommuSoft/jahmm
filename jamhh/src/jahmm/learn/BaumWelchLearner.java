@@ -4,7 +4,7 @@
  */
 package jahmm.learn;
 
-import jahmm.RegularHmmBase;
+import jahmm.RegularHmm;
 import jahmm.calculators.ForwardBackwardCalculatorBase;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
@@ -43,8 +43,8 @@ public class BaumWelchLearner {
      * based. Each sequence must have a length higher or equal to 2.
      * @return A new, updated HMM.
      */
-    public <O extends Observation> RegularHmmBase<O> iterate(RegularHmmBase<O> hmm, List<? extends List<? extends O>> sequences) {
-        RegularHmmBase<O> nhmm;
+    public <O extends Observation> RegularHmm<O> iterate(RegularHmm<O> hmm, List<? extends List<? extends O>> sequences) {
+        RegularHmm<O> nhmm;
         try {
             nhmm = hmm.clone();
         } catch (CloneNotSupportedException e) {
@@ -106,8 +106,7 @@ public class BaumWelchLearner {
 
         for (int o = 0; o < sequences.size(); o++) {
             for (int i = 0; i < hmm.nbStates(); i++) {
-                nhmm.setPi(i,
-                        nhmm.getPi(i) + allGamma[o][0][i] / sequences.size());
+                nhmm.setPi(i,nhmm.getPi(i) + allGamma[o][0][i] / sequences.size());
             }
         }
 
@@ -137,7 +136,7 @@ public class BaumWelchLearner {
         return nhmm;
     }
 
-    protected <O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(RegularHmmBase<O> hmm, List<? extends O> obsSeq) {
+    protected <O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(RegularHmm<O> hmm, List<? extends O> obsSeq) {
         return ForwardBackwardCalculatorBase.Instance.computeAll(hmm, obsSeq);
     }
 
@@ -154,8 +153,8 @@ public class BaumWelchLearner {
      * @return The HMM that best matches the set of observation sequences given
      * (according to the Baum-Welch algorithm).
      */
-    public <O extends Observation> RegularHmmBase<O> learn(RegularHmmBase<O> initialHmm, List<? extends List<? extends O>> sequences) {
-        RegularHmmBase<O> hmm = initialHmm;
+    public <O extends Observation> RegularHmm<O> learn(RegularHmm<O> initialHmm, List<? extends List<? extends O>> sequences) {
+        RegularHmm<O> hmm = initialHmm;
         for (int i = 0; i < nbIterations; i++) {
             hmm = iterate(hmm, sequences);
         }
@@ -170,7 +169,7 @@ public class BaumWelchLearner {
      * @param hmm
      * @return
      */
-    protected <O extends Observation> double[][][] estimateXi(List<? extends O> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmmBase<O> hmm) {
+    protected <O extends Observation> double[][][] estimateXi(List<? extends O> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<O> hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
         }

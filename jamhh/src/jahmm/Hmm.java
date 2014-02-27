@@ -37,7 +37,7 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      * @throws CloneNotSupportedException An exception such that classes lower
      * in the hierarchy can fail to clone.
      */
-    Hmm<TObs, TInt> clone() throws CloneNotSupportedException;
+    public abstract Hmm<TObs, TInt> clone() throws CloneNotSupportedException;
 
     /**
      * Returns the probability associated with the transition going from state
@@ -50,7 +50,7 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      * @return The probability associated to the transition going from
      * <code>i</code> to state <code>j</code>.
      */
-    double getAij(int i, int j);
+    public abstract double getAij(int i, int j);
 
     /**
      * Returns the opdf associated with a given state.
@@ -59,7 +59,7 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      * <code>0 &le; stateNb &lt; nbStates()</code>.
      * @return The opdf associated to state <code>stateNb</code>.
      */
-    Opdf<TObs> getOpdf(int stateNb);
+    public abstract Opdf<TObs> getOpdf(int stateNb);
 
     /**
      * Returns the <i>pi</i> value associated with a given state.
@@ -68,7 +68,7 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      * <code>0 &le; stateNb &lt; nbStates()</code>
      * @return The <i>pi</i> value associated to <code>stateNb</code>.
      */
-    double getPi(int stateNb);
+    public abstract double getPi(int stateNb);
 
     /**
      * Returns the natural logarithm of observation sequences probability given
@@ -78,7 +78,7 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      * @param oseq A non-empty observation sequence.
      * @return The probability of this sequence.
      */
-    double lnProbability(List<? extends TInt> oseq);
+    public abstract double lnProbability(List<? extends TInt> oseq);
 
     /**
      * Returns an array containing the most likely state sequence matching an
@@ -91,14 +91,14 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      * @return An array containing the most likely sequence of state numbers.
      * This array can be modified.
      */
-    int[] mostLikelyStateSequence(List<? extends TInt> oseq);
+    public abstract int[] mostLikelyStateSequence(List<? extends TInt> oseq);
 
     /**
      * Returns the number of states of this HMM.
      *
      * @return The number of states of this HMM.
      */
-    int nbStates();
+    public abstract int nbStates();
 
     /**
      * Returns the probability of an observation sequence given this HMM.
@@ -106,7 +106,7 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      * @param oseq A non-empty observation sequence.
      * @return The probability of this sequence.
      */
-    double probability(List<? extends TInt> oseq);
+    public abstract double probability(List<? extends TInt> oseq);
 
     /**
      * Returns the probability of an observation sequence along a state sequence
@@ -117,7 +117,7 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      * of this array must be equal to the length of <code>oseq</code>
      * @return The probability P[oseq,sseq|H], where H is this HMM.
      */
-    double probability(List<? extends TInt> oseq, int[] sseq);
+    public abstract double probability(List<? extends TInt> oseq, int[] sseq);
 
     /**
      * Gives a description of this HMM.
@@ -125,7 +125,7 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      * @return A textual description of this HMM.
      */
     @Override
-    String toString();
+    public abstract String toString();
 
     /**
      * Gives a description of this HMM.
@@ -133,12 +133,28 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      * @param nf A number formatter used to print numbers (e.g. Aij values).
      * @return A textual description of this HMM.
      */
-    String toString(NumberFormat nf);
+    public abstract String toString(NumberFormat nf);
 
-    void fold();
+    /**
+     * Takes as input distribution (pi) of states the distribution of the states
+     * after one iteration, regardless of any interaction.
+     */
+    public abstract void fold();
 
-    void fold(int n);
+    /**
+     * Takes as input distribution (pi) of states the distribution of the states
+     * after <i>n</i> iterations regardless of any interaction.
+     *
+     * @param n The given number of iterations.
+     */
+    public abstract void fold(int n);
 
-    void fold(Iterable<? extends TInt> interaction);
+    /**
+     * Takes as input distribution (pi) of states the distribution of the states
+     * after the given sequence of interaction (Observations, input, ...).
+     *
+     * @param interaction The given iterable of interactions.
+     */
+    public abstract void fold(Iterable<? extends TInt> interaction);
 
 }
