@@ -160,7 +160,7 @@ public class SimpleExample {
 
     /* Generate several observation sequences using a HMM */
     static <O extends Observation> List<List<O>>
-            generateSequences(RegularHmmBase<O> hmm) {
+            generateSequences(RegularHmm<O> hmm) {
         MarkovGenerator<O> mg = new MarkovGenerator<>(hmm);
 
         List<List<O>> sequences = new ArrayList<>();
