@@ -3,11 +3,13 @@
 *.*~*
 #Results
 *.dot
+*.class
+
 #Private to project
-/jamhh/nbproject/private/
-*jamhh/build*
-*jamhh/dist*
-*jamhh/lib*
-*jamhh/nbproject*
-*jamhh/target*
+jahmm/nbproject/private/
+jahmm/build*
+jahmm/dist*
+jahmm/lib*
+jahmm/nbproject*
+jahmm/target*
 *private*
