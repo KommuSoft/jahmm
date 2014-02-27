@@ -31,6 +31,7 @@ package jahmm.apps.sample;
  * 2006-02-05: Renamed, adapted to v0.6.0. (JMF)
  * 2009-06-06: Updated comments with new website URL
  */
+import jahmm.RegularHmm;
 import jahmm.RegularHmmBase;
 import jahmm.draw.InvariantHmmDotDrawer;
 import jahmm.learn.BaumWelchLearner;
@@ -43,8 +44,6 @@ import jahmm.toolbox.MarkovGenerator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import jutils.collections.CollectionUtils;
 
 /**
@@ -72,7 +71,7 @@ public class SimpleExample {
     static public void main(String[] argv)
             throws java.io.IOException {
         /* Build a HMM and generate observation sequences using this HMM */
-        RegularHmmBase<ObservationDiscrete<Packet>> hmm = buildHmm();
+        RegularHmm<ObservationDiscrete<Packet>> hmm = buildHmm();
 
         List<List<ObservationDiscrete<Packet>>> sequences;
         sequences = generateSequences(hmm);
@@ -82,7 +81,7 @@ public class SimpleExample {
         /* Baum-Welch learning */
         BaumWelchLearner bwl = new BaumWelchLearner();
 
-        RegularHmmBase<ObservationDiscrete<Packet>> learntHmm = buildInitHmm();
+        RegularHmm<ObservationDiscrete<Packet>> learntHmm = buildInitHmm();
 
         // This object measures the distance between two HMMs
         KullbackLeiblerDistanceCalculator klc

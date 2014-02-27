@@ -157,4 +157,14 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      */
     public abstract void fold(Iterable<? extends TInt> interaction);
 
+    /**
+     * Sets the <i>pi</i> value associated with a given state.
+     *
+     * @param stateNb A state number such that
+     * <code>0 &le; stateNb &lt; nbStates()</code>.
+     * @param value The <i>pi</i> value to associate to state number
+     * <code>stateNb</code>
+     */
+    void setPi(int stateNb, double value);
+
 }
