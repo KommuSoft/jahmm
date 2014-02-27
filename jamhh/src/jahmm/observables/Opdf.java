@@ -4,9 +4,13 @@
  */
 package jahmm.observables;
 
-import jahmm.INumberFormatString;
+import jahmm.Hmm;
+import jahmm.io.INumberFormatString;
+import java.io.IOException;
 import java.io.Serializable;
+import java.io.Writer;
 import java.util.Collection;
+import jutils.draw.DotDrawer;
 
 /**
  * Objects implementing this interface represent an observation probability
@@ -85,4 +89,22 @@ public interface Opdf<O extends Observation> extends Cloneable, Serializable, IN
      * @return @throws java.lang.CloneNotSupportedException
      */
     public abstract Opdf<O> clone() throws CloneNotSupportedException;
+
+    /**
+     * Adds graphical elements to the dot graph.
+     *
+     * @param drawer The drawer to use.
+     * @param writer The writer to write the information to.
+     * @throws java.io.IOException If writer to the drawer fails.
+     */
+    public abstract void dotDrawNode(DotDrawer<? extends Hmm> drawer, Writer writer, String prefix) throws IOException;
+
+    /**
+     * Adds edges to the earlier generated graphical elements of the dot graph.
+     *
+     * @param drawer The drawer to use.
+     * @param writer The writer to write the information to.
+     * @throws java.io.IOException If writer to the drawer fails.
+     */
+    public abstract void dotDrawEdge(DotDrawer<? extends Hmm> drawer, Writer writer, String prefix, String source) throws IOException;
 }

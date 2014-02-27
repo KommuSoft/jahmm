@@ -31,7 +31,8 @@ package jahmm.apps.sample;
  * 2006-02-05: Renamed, adapted to v0.6.0. (JMF)
  * 2009-06-06: Updated comments with new website URL
  */
-import jahmm.Hmm;
+import jahmm.RegularHmm;
+import jahmm.RegularHmmBase;
 import jahmm.draw.InvariantHmmDotDrawer;
 import jahmm.learn.BaumWelchLearner;
 import jahmm.observables.Observation;
@@ -70,8 +71,7 @@ public class SimpleExample {
     static public void main(String[] argv)
             throws java.io.IOException {
         /* Build a HMM and generate observation sequences using this HMM */
-
-        Hmm<ObservationDiscrete<Packet>> hmm = buildHmm();
+        RegularHmm<ObservationDiscrete<Packet>> hmm = buildHmm();
 
         List<List<ObservationDiscrete<Packet>>> sequences;
         sequences = generateSequences(hmm);
@@ -81,7 +81,7 @@ public class SimpleExample {
         /* Baum-Welch learning */
         BaumWelchLearner bwl = new BaumWelchLearner();
 
-        Hmm<ObservationDiscrete<Packet>> learntHmm = buildInitHmm();
+        RegularHmm<ObservationDiscrete<Packet>> learntHmm = buildInitHmm();
 
         // This object measures the distance between two HMMs
         KullbackLeiblerDistanceCalculator klc
@@ -115,9 +115,9 @@ public class SimpleExample {
     }
 
     /* The HMM this example is based on */
-    static Hmm<ObservationDiscrete<Packet>> buildHmm() {
-        Hmm<ObservationDiscrete<Packet>> hmm
-                = new Hmm<>(2,
+    static RegularHmmBase<ObservationDiscrete<Packet>> buildHmm() {
+        RegularHmmBase<ObservationDiscrete<Packet>> hmm
+                = new RegularHmmBase<>(2,
                         new OpdfDiscreteFactory<>(Packet.class));
 
         hmm.setPi(0, 0.95);
@@ -137,9 +137,9 @@ public class SimpleExample {
     }
 
     /* Initial guess for the Baum-Welch algorithm */
-    static Hmm<ObservationDiscrete<Packet>> buildInitHmm() {
-        Hmm<ObservationDiscrete<Packet>> hmm
-                = new Hmm<>(2,
+    static RegularHmmBase<ObservationDiscrete<Packet>> buildInitHmm() {
+        RegularHmmBase<ObservationDiscrete<Packet>> hmm
+                = new RegularHmmBase<>(2,
                         new OpdfDiscreteFactory<>(Packet.class));
 
         hmm.setPi(0, 0.50);
@@ -160,7 +160,7 @@ public class SimpleExample {
 
     /* Generate several observation sequences using a HMM */
     static <O extends Observation> List<List<O>>
-            generateSequences(Hmm<O> hmm) {
+            generateSequences(RegularHmm<O> hmm) {
         MarkovGenerator<O> mg = new MarkovGenerator<>(hmm);
 
         List<List<O>> sequences = new ArrayList<>();

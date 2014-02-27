@@ -4,7 +4,7 @@
  */
 package jahmm.io;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -24,7 +24,7 @@ public class HmmBinaryWriter {
      * @param hmm
      * @throws java.io.IOException
      */
-    static public void write(OutputStream stream, Hmm<?> hmm)
+    static public void write(OutputStream stream, RegularHmmBase<?> hmm)
             throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(stream);
         oos.writeObject(hmm);

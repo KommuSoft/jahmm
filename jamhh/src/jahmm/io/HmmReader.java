@@ -4,7 +4,7 @@
  */
 package jahmm.io;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
 import java.io.IOException;
@@ -65,7 +65,7 @@ public class HmmReader {
      * @throws java.io.IOException
      * @throws be.ac.ulg.montefiore.run.jahmm.io.FileFormatException
      */
-    public static <O extends Observation> Hmm<O>
+    public static <O extends Observation> RegularHmmBase<O>
             read(Reader reader, OpdfReader<? extends Opdf<O>> opdfReader)
             throws IOException, FileFormatException {
         StreamTokenizer st = new StreamTokenizer(reader);
@@ -82,7 +82,7 @@ public class HmmReader {
             readState(st, nbStates, i, pi, a, opdfs, opdfReader);
         }
 
-        return new Hmm<>(pi, a, opdfs);
+        return new RegularHmmBase<>(pi, a, opdfs);
     }
 
     static private <O extends Observation> void readState(StreamTokenizer st, int nbStates, int stateNb, double[] pi, double[][] a, List<Opdf<O>> opdfs, OpdfReader<? extends Opdf<O>> opdfReader)

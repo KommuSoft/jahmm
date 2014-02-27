@@ -1,10 +1,9 @@
 package jahmm.calculators;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.observables.ObservationDiscrete;
 import jahmm.observables.Opdf;
 import jahmm.observables.OpdfDiscrete;
-import java.util.Arrays;
 import java.util.List;
 import jutils.testing.AssertExtensions;
 import jutlis.lists.ListArray;
@@ -32,10 +31,10 @@ public class ForwardBackwardCalculatorTest {
         Opdf<ObservationDiscrete<Events>> state1 = new OpdfDiscrete<>(Events.class, exhaust[0x01]);
         double[] pi = {0.5d, 0.5d};
         @SuppressWarnings("unchecked")
-        Hmm<ObservationDiscrete<Events>> hmm = new Hmm<>(pi, trans, state0, state1);
+        RegularHmmBase<ObservationDiscrete<Events>> hmm = new RegularHmmBase<>(pi, trans, state0, state1);
         @SuppressWarnings("unchecked")
         List<ObservationDiscrete<Events>> sequence = new ListArray<>(new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.NoUmbrella), new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.Umbrella));
-        Tuple3<double[][], double[][], Double> abp = ForwardBackwardCalculator.Instance.computeAll(hmm, sequence);
+        Tuple3<double[][], double[][], Double> abp = RegularForwardBackwardCalculatorBase.Instance.computeAll(hmm, sequence);
         double[][] a = abp.getItem1();
         double[][] b = abp.getItem2();
         double p = abp.getItem3();
@@ -43,10 +42,10 @@ public class ForwardBackwardCalculatorTest {
         double[] expectedb = {0.5923, 0.3763, 0.6533, 0.6273};
         AssertExtensions.pushEpsilon(0.01);
         for (int t = 0x00; t < expecteda.length; t++) {
-            AssertExtensions.assertEquals(a[t][0x00]*(1.0d-expecteda[t]), a[t][0x01]*expecteda[t]);
+            AssertExtensions.assertEquals(a[t][0x00] * (1.0d - expecteda[t]), a[t][0x01] * expecteda[t]);
         }
         for (int t = 0x00; t < expectedb.length; t++) {
-            AssertExtensions.assertEquals(b[t][0x00]*(1.0d-expectedb[t]), b[t][0x01]*expectedb[t]);
+            AssertExtensions.assertEquals(b[t][0x00] * (1.0d - expectedb[t]), b[t][0x01] * expectedb[t]);
         }
         AssertExtensions.assertEquals(1.0d, b[expectedb.length][0x00]);
         AssertExtensions.assertEquals(1.0d, b[expectedb.length][0x01]);

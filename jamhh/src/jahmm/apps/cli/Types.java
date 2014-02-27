@@ -4,7 +4,7 @@
  */
 package jahmm.apps.cli;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.apps.cli.CommandLineArguments.Arguments;
 import jahmm.io.FileFormatException;
 import jahmm.io.ObservationIntegerReader;
@@ -104,7 +104,7 @@ class IntegerRelatedObjects implements RelatedObjs<ObservationInteger> {
     }
 
     @Override
-    public MarkovGenerator<ObservationInteger> generator(Hmm<ObservationInteger> hmm) {
+    public MarkovGenerator<ObservationInteger> generator(RegularHmmBase<ObservationInteger> hmm) {
         return new MarkovGenerator<>(hmm);
     }
 }
@@ -162,7 +162,7 @@ class RealRelatedObjects implements RelatedObjs<ObservationReal> {
     }
 
     @Override
-    public MarkovGenerator<ObservationReal> generator(Hmm<ObservationReal> hmm) {
+    public MarkovGenerator<ObservationReal> generator(RegularHmmBase<ObservationReal> hmm) {
         return new MarkovGenerator<>(hmm);
     }
 }
@@ -206,7 +206,7 @@ class VectorRelatedObjects implements RelatedObjs<ObservationVector> {
     }
 
     @Override
-    public MarkovGenerator<ObservationVector> generator(Hmm<ObservationVector> hmm) {
+    public MarkovGenerator<ObservationVector> generator(RegularHmmBase<ObservationVector> hmm) {
         return new MarkovGenerator<>(hmm);
     }
 }

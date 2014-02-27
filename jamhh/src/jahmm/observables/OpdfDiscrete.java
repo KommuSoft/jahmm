@@ -4,6 +4,9 @@
  */
 package jahmm.observables;
 
+import jahmm.Hmm;
+import java.io.IOException;
+import java.io.Writer;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,6 +14,9 @@ import java.util.Collection;
 import java.util.EnumMap;
 import java.util.EnumSet;
 import java.util.List;
+import jutils.draw.DotDrawer;
+import jutlis.tuples.Tuple2;
+import jutlis.tuples.Tuple2Base;
 
 /**
  * This class implements a distribution over a finite set of elements. This set
@@ -18,7 +24,7 @@ import java.util.List;
  *
  * @param <E>
  */
-public class OpdfDiscrete<E extends Enum<E>> implements Opdf<ObservationDiscrete<E>> {
+public class OpdfDiscrete<E extends Enum<E>> extends OpdfBase<ObservationDiscrete<E>> implements Opdf<ObservationDiscrete<E>> {
 
     private static final long serialVersionUID = 1L;
 
@@ -164,5 +170,26 @@ public class OpdfDiscrete<E extends Enum<E>> implements Opdf<ObservationDiscrete
         }
 
         return s;
+    }
+
+    @Override
+    public void dotDrawNode(DotDrawer<? extends Hmm> drawer, Writer writer, String prefix) throws IOException {
+        Tuple2<String, String> shapeTuple = new Tuple2Base<>("shape", "triangle");
+        Tuple2<String, String> labelTuple = new Tuple2Base<>("label", "");
+        for (E val : this.values) {
+            String vals = val.toString();
+            labelTuple.setItem2(String.format("\"%s\"", vals));
+            drawer.nodeStatement(writer, prefix + vals, shapeTuple, labelTuple);
+        }
+    }
+
+    @Override
+    public void dotDrawEdge(DotDrawer<? extends Hmm> drawer, Writer writer, String prefix, String source) throws IOException {
+        Tuple2<String, String> labelTuple = new Tuple2Base<>("label", "");
+        for (E val : this.values) {
+            String vals = val.toString();
+            labelTuple.setItem2(String.format("\"%s\"", this.probability(new ObservationDiscrete<>(val))));
+            drawer.nodeStatement(writer, prefix + vals, labelTuple);
+        }
     }
 }

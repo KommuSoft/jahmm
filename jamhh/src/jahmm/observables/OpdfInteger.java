@@ -12,7 +12,7 @@ import java.util.Collection;
  * This class represents a distribution of a finite number of positive integer
  * observations.
  */
-public final class OpdfInteger implements Opdf<ObservationInteger> {
+public final class OpdfInteger extends OpdfBase<ObservationInteger> implements Opdf<ObservationInteger> {
 
     private static final long serialVersionUID = 1L;
 

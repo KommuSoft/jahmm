@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 /**
  * This class represents a multivariate Gaussian distribution function.
  */
-public final class OpdfMultiGaussian implements Opdf<ObservationVector> {
+public final class OpdfMultiGaussian extends OpdfBase<ObservationVector> implements Opdf<ObservationVector> {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(OpdfMultiGaussian.class.getName());

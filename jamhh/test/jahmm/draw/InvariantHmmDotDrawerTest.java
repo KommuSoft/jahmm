@@ -1,6 +1,6 @@
 package jahmm.draw;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.observables.ObservationInteger;
 import jahmm.observables.OpdfIntegerFactory;
 import java.io.IOException;
@@ -21,7 +21,7 @@ public class InvariantHmmDotDrawerTest {
 
     @Test
     public void testWrite() throws IOException {
-        Hmm<ObservationInteger> hmm = new Hmm<>(4, new OpdfIntegerFactory(2));
+        RegularHmmBase<ObservationInteger> hmm = new RegularHmmBase<>(4, new OpdfIntegerFactory(2));
         String expected = "digraph {\n"
                 + "	initial [shape=box];\n"
                 + "	0 -> 0 [label=0.25];\n"

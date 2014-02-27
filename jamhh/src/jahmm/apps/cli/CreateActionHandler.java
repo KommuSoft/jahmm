@@ -4,7 +4,7 @@
  */
 package jahmm.apps.cli;
 
-import jahmm.Hmm;
+import jahmm.RegularHmmBase;
 import jahmm.apps.cli.CommandLineArguments.Arguments;
 import jahmm.io.HmmWriter;
 import jahmm.io.OpdfWriter;
@@ -49,7 +49,7 @@ class CreateActionHandler
         OpdfFactory<? extends Opdf<O>> opdfFactory = relatedObjs.opdfFactory();
         OpdfWriter<? extends Opdf<O>> opdfWriter = relatedObjs.opdfWriter();
 
-        Hmm<O> hmm = new Hmm<>(nbStates, opdfFactory);
+        RegularHmmBase<O> hmm = new RegularHmmBase<>(nbStates, opdfFactory);
 
         HmmWriter.write(outWriter, opdfWriter, hmm);
     }

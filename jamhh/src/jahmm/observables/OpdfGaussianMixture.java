@@ -16,7 +16,7 @@ import java.util.Collection;
  * @author Benjamin Chung (Creation)
  * @author Jean-Marc Francois (Adaptations / small fix)
  */
-public final class OpdfGaussianMixture implements Opdf<ObservationReal> {
+public final class OpdfGaussianMixture extends OpdfBase<ObservationReal> implements Opdf<ObservationReal> {
 
     private static final long serialVersionUID = 1L;
 

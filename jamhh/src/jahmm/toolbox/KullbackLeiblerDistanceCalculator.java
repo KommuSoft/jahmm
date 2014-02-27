@@ -4,8 +4,8 @@
  */
 package jahmm.toolbox;
 
-import jahmm.Hmm;
-import jahmm.calculators.ForwardBackwardCalculator;
+import jahmm.RegularHmm;
+import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.observables.Observation;
 import java.util.List;
 
@@ -39,15 +39,15 @@ public class KullbackLeiblerDistanceCalculator {
      * @return The distance between <code>hmm1</code> and <code>hmm2</code> with
      * regard to <code>hmm1</code>
      */
-    public <O extends Observation> double distance(Hmm<O> hmm1, Hmm<? super O> hmm2) {
+    public <O extends Observation> double distance(RegularHmm<O> hmm1, RegularHmm<? super O> hmm2) {
         double distance = 0.;
 
         for (int i = 0; i < nbSequences; i++) {
 
             List<O> oseq = new MarkovGenerator<>(hmm1).observationSequence(sequencesLength);
 
-            double da = ForwardBackwardCalculator.Instance.computeProbability(hmm1, oseq);
-            double db = ForwardBackwardCalculator.Instance.computeProbability(hmm2, oseq);
+            double da = RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm1, oseq);
+            double db = RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm2, oseq);
 
             distance += (da - db) / sequencesLength;
         }

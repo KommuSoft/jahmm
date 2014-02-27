@@ -11,8 +11,14 @@ import jahmm.observables.Opdf;
 import jahmm.observables.OpdfFactory;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
+import jutils.ArrayUtils;
+import jutils.collections.CollectionUtils;
 import jutlis.lists.ListArray;
 
 /**
@@ -36,11 +42,15 @@ import jutlis.lists.ListArray;
  * vector being the i-th element of the sequence). A set of observation
  * sequences is a {@link java.util.List List} of such sequences.
  *
+ * @param <TIn> The type of input of the InputHmm.
+ * @param <TObs> The type of observations of the InputHmm.
+ * @note The A matrix has the following structure: A_{i,j,k} means the
+ * probability of moving from state i to j given input k.
  */
-public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][], ArrayList<Opdf<Out>>, InputObservationTuple<In, Out>> {
+public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> extends HmmBase<TObs, double[][][], ArrayList<Opdf<TObs>>, InputObservationTuple<TIn, TObs>> implements InputHmm<TObs, TIn> {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(IHmm.class.getName());
+    private static final Logger LOG = Logger.getLogger(InputHmmBase.class.getName());
 
     protected static double[][][] cloneA(double[][][] a) {
         int n = a.length;
@@ -72,6 +82,7 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
         }
         return a;
     }
+    private final HashMap<TIn, Integer> indexRegister = new HashMap<>();
 
     /**
      * Creates a new IHMM. Each state has the same <i>pi</i> value and the
@@ -82,9 +93,10 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
      * @param nbStates The (strictly positive) number of states of the IHMM.
      * @param opdfFactory A pdf generator that is used to build the pdfs
      * associated to each state.
+     * @param possibleInput The possible input of that may occur.
      */
-    public IHmm(int nbSymbols, int nbStates, OpdfFactory<? extends Opdf<Out>> opdfFactory) {
-        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<Out>>(nbStates));
+    public InputHmmBase(int nbSymbols, int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory, Iterable<TIn> possibleInput) {
+        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<TObs>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
             b.add(opdfFactory.factor());
         }
@@ -102,8 +114,9 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
      * @param opdfs The observation distributions.  <code>opdfs.get(i)</code> is
      * the observation distribution associated with state <code>i</code>. The
      * distributions are not copied.
+     * @param possibleInput The possible input that may occur
      */
-    public IHmm(double[] pi, double[][][] a, List<? extends Opdf<Out>> opdfs) {
+    public InputHmmBase(double[] pi, double[][][] a, List<? extends Opdf<TObs>> opdfs, Iterable<TIn> possibleInput) {
         super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
         this.checkConstraints();
     }
@@ -119,9 +132,12 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
      * @param opdfs The observation distributions.  <code>opdfs.get(i)</code> is
      * the observation distribution associated with state <code>i</code>. The
      * distributions are not copied.
+     * @param possibleInput The possible input that may occur
      */
-    public IHmm(double[] pi, double[][][] a, Opdf<Out>... opdfs) {
-        this(pi, a, new ListArray<>(opdfs));
+    protected InputHmmBase(double[] pi, double[][][] a, List<? extends Opdf<TObs>> opdfs, Map<TIn, Integer> possibleInput) {
+        super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
+        this.checkConstraints();
+        CollectionUtils.putAll(this.indexRegister, possibleInput);
     }
 
     /**
@@ -131,9 +147,10 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
      *
      * @param nbSymbols The (strictly positive) number of states of the HMM.
      * @param nbStates The (strictly positive) number of states of the HMM.
+     * @param possibleInput The possible input that may occur
      */
-    protected IHmm(int nbSymbols, int nbStates) {
-        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<Out>>(nbStates));
+    protected InputHmmBase(int nbSymbols, int nbStates, Iterable<TIn> possibleInput) {
+        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<TObs>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
             this.b.add(null);
         }
@@ -143,6 +160,15 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
     private void checkConstraints() {
         if (a.length == 0 || pi.length != a.length || b.size() != a.length) {
             throw new IllegalArgumentException("Wrong dimensions");
+        }
+    }
+
+    private void initializeIndexRegister(Iterable<TIn> possibleInput) {
+        this.indexRegister.clear();
+        int i = 0x00;
+        for (TIn obs : possibleInput) {
+            this.indexRegister.put(obs, i);
+            i++;
         }
     }
 
@@ -173,18 +199,15 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
      * in the hierarchy can fail to clone.
      */
     @Override
-    public IHmm<In, Out> clone()
-            throws CloneNotSupportedException {
-        IHmm<In, Out> ihmm = new IHmm<>(nbSymbols(), nbStates());
-        //TODO
-        return ihmm;
+    public InputHmmBase<TObs, TIn> clone() throws CloneNotSupportedException {
+        return new InputHmmBase<>(this.pi, this.a, this.b, this.indexRegister);
     }
 
     /**
      * Returns the probability associated with the transition going from state
      * <i>i</i> to state <i>j</i> (<i>a<sub>i,j</sub></i>).
-     *     
-* @param i The first state number such that
+     *
+     * @param i The first state number such that
      * <code>0 &le; i &lt; nbStates()</code>.
      * @param j The second state number such that
      * <code>0 &le; j &lt; nbStates()</code>.
@@ -204,8 +227,8 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
     /**
      * Returns the probability associated with the transition going from state
      * <i>i</i> to state <i>j</i> (<i>a<sub>i,j</sub></i>).
-     *     
-* @param i The first state number such that
+     *
+     * @param i The first state number such that
      * <code>0 &le; i &lt; nbStates()</code>.
      * @param j The second state number such that
      * <code>0 &le; j &lt; nbStates()</code>.
@@ -220,8 +243,8 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
 
     /**
      * Gives a description of this IHMM.
-     *     
-* @return A textual description of this IHMM.
+     *
+     * @return A textual description of this IHMM.
      */
     @Override
     public String toString() {
@@ -230,8 +253,8 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
 
     /**
      * Gives a description of this HMM.
-     *     
-* @param nf A number formatter used to print numbers (e.g. Aij values).
+     *
+     * @param nf A number formatter used to print numbers (e.g. Aij values).
      * @return A textual description of this HMM.
      */
     @Override
@@ -276,33 +299,122 @@ public class IHmm<In, Out extends Observation> extends HmmBase<Out, double[][][]
     }
 
     @Override
-    public Opdf<Out> getOpdf(int stateNb) {
+    public Opdf<TObs> getOpdf(int stateNb) {
+        return this.b.get(stateNb);
+    }
+
+    @Override
+    public double lnProbability(List<? extends InputObservationTuple<TIn, TObs>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double lnProbability(List<? extends InputObservationTuple<In, Out>> oseq) {
+    public int[] mostLikelyStateSequence(List<? extends InputObservationTuple<TIn, TObs>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public int[] mostLikelyStateSequence(List<? extends InputObservationTuple<In, Out>> oseq) {
+    public double probability(List<? extends InputObservationTuple<TIn, TObs>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double probability(List<? extends InputObservationTuple<In, Out>> oseq) {
+    public double probability(List<? extends InputObservationTuple<TIn, TObs>> oseq, int[] sseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double probability(List<? extends InputObservationTuple<In, Out>> oseq, int[] sseq) {
+    public void fold(Iterable<? extends InputObservationTuple<TIn, TObs>> interaction) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void fold(Iterable<? extends InputObservationTuple<In, Out>> interaction) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void splitInput(final TIn originalIn, final TIn... newIns) {
+        if (newIns != null && newIns.length > 0x00) {
+            if (newIns.length > 0x00) {
+                Integer originalIndex = this.indexRegister.remove(originalIn);
+                CollectionUtils.incrementValueByIndex(this.indexRegister, new ListArray<>(originalIndex), -0x01);
+                if (originalIndex != null) {
+                    final int origix = originalIndex;
+                    final int offset = this.indexRegister.size();
+                    int idxPtr = offset;
+                    for (TIn newIn : newIns) {
+                        if (!this.indexRegister.containsKey(newIn)) {
+                            this.indexRegister.put(newIn, idxPtr);
+                            idxPtr++;
+                        }
+                    }
+                    for (int i = 0x00; i < a.length; i++) {
+                        double[][] ai = this.a[i];
+                        double[] source = ai[origix];
+                        int nSource = source.length;
+                        double[][] newa = new double[idxPtr][];
+                        System.arraycopy(ai, 0, newa, 0, origix);
+                        System.arraycopy(ai, origix + 0x01, newa, origix, offset - origix - 0x01);
+                        newa[offset] = source;
+                        for (int j = offset + 0x01; j < idxPtr; j++) {
+                            newa[j] = Arrays.copyOf(source, nSource);
+                        }
+                        this.a[i] = ai;
+                    }
+                } else {
+                    throw new UnsupportedOperationException("Cannot split a currently unknown input.");
+                }
+            } else {
+                CollectionUtils.replaceKey(indexRegister, originalIn, newIns[0x00]);
+            }
+        } else {
+            throw new IllegalArgumentException("Cannot split to zero branches.");
+        }
+    }
+
+    @Override
+    public void mergeInput(final TIn newIn, final TIn... originalIns) {
+        if (originalIns != null && originalIns.length > 0x00) {
+            if (originalIns.length > 0x01) {
+                final ListArray<TIn> originalList = new ListArray<>(originalIns);
+                final ArrayList<Integer> ids = new ArrayList<>();
+                CollectionUtils.removeAll(this.indexRegister, originalList, ids);
+                Collections.sort(ids);
+                final double scale = 1.0d / ids.size();
+                final int first = ids.get(0x00);
+                final List<Integer> subl = ids.subList(0x01, ids.size() - 0x01);
+                CollectionUtils.incrementValueByIndex(this.indexRegister, subl, -0x01);
+                this.indexRegister.put(newIn, first);
+                final int nState = this.indexRegister.size();
+                //TODO weight by Pi?
+                for (int i = 0x00; i < a.length; i++) {
+                    double[][] ai = a[i];
+                    double[] aif = ai[first];
+                    for (int snd : subl) {
+                        double[] ais = ai[snd];
+                        for (int j = 0x00; j < ais.length; j++) {
+                            aif[j] += ais[j];
+                        }
+                    }
+                    for (int j = 0x00; j < aif.length; j++) {
+                        aif[j] *= scale;
+                    }
+                    double[][] newa = new double[nState][];
+                    ArrayUtils.copySkipArray(newa, ai, subl);
+                    a[i] = newa;
+                }
+            } else {
+                CollectionUtils.replaceKey(this.indexRegister, originalIns[0x00], newIn);
+            }
+        } else {
+            throw new IllegalArgumentException("Cannot merge zero branches.");
+        }
+    }
+
+    @Override
+    public int getInputIndex(TIn x) {
+        return this.indexRegister.get(x);
+    }
+
+    @Override
+    public double getAixj(int i, TIn x, int j) {
+        return this.a[i][getInputIndex(x)][j];
     }
 
 }

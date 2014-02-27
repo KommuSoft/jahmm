@@ -4,11 +4,9 @@
  */
 package jahmm.calculators;
 
-import jahmm.Hmm;
+import jahmm.RegularHmm;
 import jahmm.observables.Observation;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -29,16 +27,17 @@ import jutlis.tuples.Tuple3Base;
  * For more information on the scaling procedure, read <i>Rabiner</i> and
  * <i>Juang</i>'s <i>Fundamentals of speech recognition</i> (Prentice Hall,
  * 1993).
+ * @param <TObs>
  */
-public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalculator {
+public final class RegularForwardBackwardScaledCalculatorBase<TObs extends Observation> extends RegularForwardBackwardCalculatorBase<TObs> {
 
-    public static final ForwardBackwardScaledCalculator Instance = new ForwardBackwardScaledCalculator();
-    private static final Logger LOG = Logger.getLogger(ForwardBackwardScaledCalculator.class.getName());
+    public static final RegularForwardBackwardScaledCalculatorBase Instance = new RegularForwardBackwardScaledCalculatorBase();
+    private static final Logger LOG = Logger.getLogger(RegularForwardBackwardScaledCalculatorBase.class.getName());
 
-    protected ForwardBackwardScaledCalculator() {
+    protected RegularForwardBackwardScaledCalculatorBase() {
     }
 
-    private <O extends Observation> double computeProbability(double[] ctFactors) {
+    private double computeProbability(double[] ctFactors) {
         double lnProbability = 0.;
         int T = ctFactors.length;
 
@@ -54,7 +53,7 @@ public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalcul
      * Hidden Markov Model. The algorithms implemented use scaling to avoid
      * underflows.
      *
-     * @param <O>
+     * @param <TObs>
      * @param hmm A Hidden Markov Model;
      * @param oseq An observations sequence.
      * @param flags How the computation should be done. See the
@@ -63,7 +62,7 @@ public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalcul
      * @return The probability of the given sequence of observations.
      */
     @Override
-    public <O extends Observation> double computeProbability(Hmm<O> hmm, Collection<ComputationType> flags, List<? extends O> oseq) {
+    public double computeProbability(RegularHmm<TObs> hmm, Collection<ComputationType> flags, List<? extends TObs> oseq) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException();
         }
@@ -89,16 +88,16 @@ public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalcul
      * @param ctFactors>
      * @param hmm
      * @param oseq
-     * @return 
+     * @return
      */
-    public <O extends Observation> double[][] computeAlpha(Hmm<? super O> hmm, Collection<O> oseq, double... ctFactors) {
+    public double[][] computeAlpha(RegularHmm<? super TObs> hmm, Collection<? extends TObs> oseq, double... ctFactors) {
         int T = ctFactors.length;
         int s = hmm.nbStates();
-        Iterator<? extends O> seqIterator = oseq.iterator();
+        Iterator<? extends TObs> seqIterator = oseq.iterator();
         double[][] alpha = new double[T][s];
         if (seqIterator.hasNext()) {
 
-            O observation = seqIterator.next();
+            TObs observation = seqIterator.next();
 
             for (int i = 0x00; i < s; i++) {
                 alpha[0x00][i] = hmm.getPi(i) * hmm.getOpdf(i).probability(observation);
@@ -124,7 +123,7 @@ public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalcul
 
     /* Computes the content of the scaled beta array.  The scaling factors are
      those computed for alpha. */
-    public <O extends Observation> double[][] computeBeta(Hmm<? super O> hmm, List<O> oseq, double... ctFactors) {
+    public double[][] computeBeta(RegularHmm<? super TObs> hmm, List<? extends TObs> oseq, double... ctFactors) {
         int T = ctFactors.length;
         int s = hmm.nbStates();
         double[][] beta = new double[T][s];
@@ -133,7 +132,7 @@ public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalcul
         }
 
         for (int t = T - 2; t >= 0; t--) {
-            O observation = oseq.get(t + 1);
+            TObs observation = oseq.get(t + 1);
             for (int i = 0; i < s; i++) {
                 double sum = 0.;
                 for (int j = 0; j < s; j++) {
@@ -147,14 +146,14 @@ public final class ForwardBackwardScaledCalculator extends ForwardBackwardCalcul
     }
 
     @Override
-    public <O extends Observation> Tuple3<double[][], double[][], Double> computeAll(Hmm<? super O> hmm, List<O> oseq) {
+    public Tuple3<double[][], double[][], Double> computeAll(RegularHmm<TObs> hmm, List<? extends TObs> oseq) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException();
         }
         int t = oseq.size();
         double[] ctFactors = new double[t];
-        double[][] alpha = computeAlpha(hmm, oseq,ctFactors);
-        double[][] beta = computeBeta(hmm, oseq,ctFactors);
+        double[][] alpha = computeAlpha(hmm, oseq, ctFactors);
+        double[][] beta = computeBeta(hmm, oseq, ctFactors);
         double probability = computeProbability(ctFactors);
         return new Tuple3Base<>(alpha, beta, probability);
     }

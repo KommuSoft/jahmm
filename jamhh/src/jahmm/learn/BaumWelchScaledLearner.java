@@ -4,8 +4,8 @@
  */
 package jahmm.learn;
 
-import jahmm.Hmm;
-import jahmm.calculators.ForwardBackwardScaledCalculator;
+import jahmm.RegularHmm;
+import jahmm.calculators.RegularForwardBackwardScaledCalculatorBase;
 import jahmm.observables.Observation;
 import java.util.Iterator;
 import java.util.List;
@@ -31,8 +31,8 @@ public class BaumWelchScaledLearner extends BaumWelchLearner {
     }
 
     @Override
-    protected <O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(Hmm<O> hmm, List<? extends O> obsSeq) {
-        return ForwardBackwardScaledCalculator.Instance.computeAll(hmm, obsSeq);
+    protected <O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(RegularHmm<O> hmm, List<? extends O> obsSeq) {
+        return RegularForwardBackwardScaledCalculatorBase.Instance.computeAll(hmm, obsSeq);
     }
 
     /* Here, the xi (and, thus, gamma) values are not divided by the
@@ -50,7 +50,7 @@ public class BaumWelchScaledLearner extends BaumWelchLearner {
      * @return
      */
     @Override
-    protected <O extends Observation> double[][][] estimateXi(List<? extends O> sequence, Tuple3<double[][], double[][], Double> abp, Hmm<O> hmm) {
+    protected <O extends Observation> double[][][] estimateXi(List<? extends O> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<O> hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
         }

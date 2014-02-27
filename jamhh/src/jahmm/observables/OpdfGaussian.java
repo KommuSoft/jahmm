@@ -12,7 +12,7 @@ import java.util.Collection;
 /**
  * This class represents a (mono variate) Gaussian distribution function.
  */
-public class OpdfGaussian implements Opdf<ObservationReal> {
+public class OpdfGaussian extends OpdfBase<ObservationReal> implements Opdf<ObservationReal> {
 
     private static final long serialVersionUID = 1L;
 
