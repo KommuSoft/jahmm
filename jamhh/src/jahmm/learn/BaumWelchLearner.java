@@ -5,8 +5,15 @@ import jahmm.observables.Observation;
 import java.util.List;
 
 /**
+ * The interface of the Baum-Welch learner. An iterative algorithm that aims to
+ * maximize the probability of the given list of observation sequences.
  *
  * @author kommusoft
+ * @param <TObs> The type of the observations related to the hidden Markov
+ * Model.
+ * @param <TInt> The type of interaction of the hidden Markov Model, interaction
+ * should at least include the observations.
+ * @param <THmm> The type of the hidden Markov model.
  */
 public interface BaumWelchLearner<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>> {
 

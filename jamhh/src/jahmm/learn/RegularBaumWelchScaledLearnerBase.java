@@ -31,6 +31,13 @@ public class RegularBaumWelchScaledLearnerBase<TObs extends Observation> extends
     public RegularBaumWelchScaledLearnerBase() {
     }
 
+    /**
+     * Returns the relevant calculator to calculate alpha- and beta-values and
+     * probability of a given sequence.
+     *
+     * @return The relevant calculator to calculate alpha- and beta-values and
+     * probability of a given sequence.
+     */
     @Override
     @SuppressWarnings("unchecked")
     protected ForwardBackwardCalculator<double[][], double[][], TObs, TObs, RegularHmm<TObs>> getCalculator() {
@@ -38,20 +45,24 @@ public class RegularBaumWelchScaledLearnerBase<TObs extends Observation> extends
     }
 
     /**
-     * Here, the xi (and, thus, gamma) values are not divided by the probability
-     * of the sequence because this probability might be too small and induce an
-     * underflow. xi[t][i][j] still can be interpreted as P[q_t = i and q_(t+1)
-     * = j | obsSeq, hmm] because we assume that the scaling factors are such
-     * that their product is equal to the inverse of the probability of the
-     * sequence.
+     * Calculates the estimated Xi values of the given sequence of interactions
+     * and the given hidden Markov Model.
      *
-     * @param sequence
-     * @param abp
-     * @param hmm
-     * @return
+     * @param hmm The hidden Markov model to compute the gamma values of.
+     * @param sequence The sequence of interactions to learn from.
+     * @param abp A tuple containing the alpha- and beta- values of the sequence
+     * together with the probability of the sequence.
+     * @return The estimated xi values.
+     *
+     * @note Here, the xi (and, thus, gamma) values are not divided by the
+     * probability of the sequence because this probability might be too small
+     * and induce an underflow. xi[t][i][j] still can be interpreted as P[q_t =
+     * i and q_(t+1) = j | obsSeq, hmm] because we assume that the scaling
+     * factors are such that their product is equal to the inverse of the
+     * probability of the sequence.
      */
     @Override
-    protected double[][][] estimateXi(List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<TObs> hmm) {
+    protected double[][][] estimateXi(RegularHmm<TObs> hmm, List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
         }
