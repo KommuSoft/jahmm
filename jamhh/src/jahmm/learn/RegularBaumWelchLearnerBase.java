@@ -5,6 +5,7 @@
 package jahmm.learn;
 
 import jahmm.RegularHmm;
+import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
@@ -17,15 +18,17 @@ import jutlis.tuples.Tuple3;
 /**
  * An implementation of the Baum-Welch learning algorithm. This algorithm finds
  * a HMM that models a set of observation sequences.
+ *
+ * @param <TObs>
  */
-public class RegularBaumWelchLearner<TObs extends Observation> extends BaumWelchLearnerBase<TObs, TObs, RegularHmm<TObs>> {
+public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumWelchLearnerBase<TObs, TObs, RegularHmm<TObs>, double[][], double[][]> {
 
-    private static final Logger LOG = Logger.getLogger(RegularBaumWelchLearner.class.getName());
+    private static final Logger LOG = Logger.getLogger(RegularBaumWelchLearnerBase.class.getName());
 
     /**
      * Initializes a Baum-Welch instance.
      */
-    public RegularBaumWelchLearner() {
+    public RegularBaumWelchLearnerBase() {
     }
 
     /**
@@ -132,11 +135,6 @@ public class RegularBaumWelchLearner<TObs extends Observation> extends BaumWelch
         return nhmm;
     }
 
-    @SuppressWarnings("unchecked")
-    protected Tuple3<double[][], double[][], Double> getAlphaBetaProbability(RegularHmm<TObs> hmm, List<? extends TObs> obsSeq) {
-        return RegularForwardBackwardCalculatorBase.Instance.computeAll(hmm, obsSeq);
-    }
-
     /**
      * Does a fixed number of iterations (see {@link #getNbIterations}) of the
      * Baum-Welch algorithm.
@@ -226,5 +224,11 @@ public class RegularBaumWelchLearner<TObs extends Observation> extends BaumWelch
         }
 
         return gamma;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    protected ForwardBackwardCalculator<double[][], double[][], TObs, TObs, RegularHmm<TObs>> getCalculator() {
+        return RegularForwardBackwardCalculatorBase.Instance;
     }
 }

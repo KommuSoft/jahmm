@@ -6,13 +6,19 @@
 package jahmm.learn;
 
 import jahmm.Hmm;
+import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.observables.Observation;
+import java.util.List;
+import jutlis.tuples.Tuple3;
 
 /**
  *
  * @author kommusoft
+ * @param <TObs>
+ * @param <TInt>
+ * @param <THmm>
  */
-public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>> implements BaumWelchLearner<TObs, TInt, THmm> {
+public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>,TAlpha,TBeta> implements BaumWelchLearner<TObs, TInt, THmm> {
 
     /**
      * Number of iterations performed by the {@link #learn} method.
@@ -44,5 +50,11 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
         }
         nbIterations = nb;
     }
+    
+    protected Tuple3<TAlpha, TBeta, Double> getAlphaBetaProbability(THmm hmm, List<? extends TInt> obsSeq) {
+        return this.getCalculator().computeAll(hmm, obsSeq);
+    }
+    
+    protected abstract ForwardBackwardCalculator<TAlpha,TBeta,TObs,TInt,THmm> getCalculator ();
 
 }

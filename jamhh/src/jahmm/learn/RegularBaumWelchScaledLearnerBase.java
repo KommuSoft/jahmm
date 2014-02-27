@@ -5,6 +5,7 @@
 package jahmm.learn;
 
 import jahmm.RegularHmm;
+import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.calculators.RegularForwardBackwardScaledCalculatorBase;
 import jahmm.observables.Observation;
 import java.util.Iterator;
@@ -20,20 +21,20 @@ import jutlis.tuples.Tuple3;
  * <i>Juang</i>'s <i>Fundamentals of speech recognition</i> (Prentice Hall,
  * 1993).
  */
-public class RegularBaumWelchScaledLearner<TObs extends Observation> extends RegularBaumWelchLearner<TObs> {
+public class RegularBaumWelchScaledLearnerBase<TObs extends Observation> extends RegularBaumWelchLearnerBase<TObs> {
 
-    private static final Logger LOG = Logger.getLogger(RegularBaumWelchScaledLearner.class.getName());
+    private static final Logger LOG = Logger.getLogger(RegularBaumWelchScaledLearnerBase.class.getName());
 
     /**
      * Initializes a Baum-Welch algorithm implementation.
      */
-    public RegularBaumWelchScaledLearner() {
+    public RegularBaumWelchScaledLearnerBase() {
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    protected Tuple3<double[][], double[][], Double> getAlphaBetaProbability(RegularHmm<TObs> hmm, List<? extends TObs> obsSeq) {
-        return RegularForwardBackwardScaledCalculatorBase.Instance.computeAll(hmm, obsSeq);
+    protected ForwardBackwardCalculator<double[][], double[][], TObs, TObs, RegularHmm<TObs>> getCalculator() {
+        return RegularForwardBackwardScaledCalculatorBase.Instance;
     }
 
     /**
