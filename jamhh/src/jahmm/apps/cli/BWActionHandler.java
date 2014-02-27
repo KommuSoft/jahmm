@@ -69,7 +69,7 @@ class BWActionHandler
         OpdfWriter<? extends Opdf<O>> opdfWriter = relatedObjs.opdfWriter();
 
         RegularHmmBase<O> initHmm = HmmReader.read(hmmFileReader, opdfReader);
-        RegularBaumWelchLearner bw = new RegularBaumWelchScaledLearner();
+        RegularBaumWelchLearner<O> bw = new RegularBaumWelchScaledLearner<>();
         bw.setNbIterations(nbIterations);
         RegularHmm<O> hmm = bw.learn(initHmm, seqs);
         HmmWriter.write(hmmFileWriter, opdfWriter, hmm);
