@@ -6,7 +6,6 @@
 package jahmm.learn;
 
 import jahmm.Hmm;
-import jahmm.RegularHmm;
 import jahmm.observables.Observation;
 
 /**
