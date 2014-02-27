@@ -127,8 +127,6 @@ public final class OpdfInteger extends OpdfBase<ObservationInteger> implements O
             throw new IllegalArgumentException();
         }
 
-        Arrays.fill(probabilities, 0.);
-
         int i = 0;
         for (ObservationInteger o : co) {
             probabilities[o.value] += weights[i++];

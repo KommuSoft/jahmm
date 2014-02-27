@@ -21,7 +21,7 @@ import jutlis.tuples.Tuple3;
  *
  * @param <TObs>
  */
-public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumWelchLearnerBase<TObs, TObs, RegularHmm<TObs>, double[][], double[][]> {
+public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumWelchLearnerBase<TObs, TObs, RegularHmm<TObs>, double[][], double[][], double[][][], double[][]> {
 
     private static final Logger LOG = Logger.getLogger(RegularBaumWelchLearnerBase.class.getName());
 
@@ -61,11 +61,6 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
         double aijNum[][] = new double[hmm.nbStates()][hmm.nbStates()];
         double aijDen[] = new double[hmm.nbStates()];
 
-        Arrays.fill(aijDen, 0.);
-        for (int i = 0; i < hmm.nbStates(); i++) {
-            Arrays.fill(aijNum[i], 0.);
-        }
-
         int g = 0;
         for (List<? extends TObs> obsSeq : sequences) {
 
@@ -86,8 +81,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
         }
 
         for (int i = 0; i < hmm.nbStates(); i++) {
-            if (aijDen[i] == 0.) // State i is not reachable
-            {
+            if (aijDen[i] <= 0.) {//state i is not reachable
                 for (int j = 0; j < hmm.nbStates(); j++) {
                     nhmm.setAij(i, j, hmm.getAij(i, j));
                 }
@@ -100,7 +94,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
 
         /* pi computation */
         for (int i = 0; i < hmm.nbStates(); i++) {
-            nhmm.setPi(i, 0.);
+            nhmm.setPi(i, 0.0d);
         }
 
         for (int o = 0; o < sequences.size(); o++) {
@@ -136,34 +130,13 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
     }
 
     /**
-     * Does a fixed number of iterations (see {@link #getNbIterations}) of the
-     * Baum-Welch algorithm.
      *
-     * @param initialHmm An initial estimation of the expected HMM. This
-     * estimate is critical as the Baum-Welch algorithm only find local minima
-     * of its likelihood function.
-     * @param sequences The observation sequences on which the learning is
-     * based. Each sequence must have a length higher or equal to 2.
-     * @return The HMM that best matches the set of observation sequences given
-     * (according to the Baum-Welch algorithm).
-     */
-    @Override
-    public RegularHmm<TObs> learn(RegularHmm<TObs> initialHmm, List<? extends List<? extends TObs>> sequences) {
-        RegularHmm<TObs> hmm = initialHmm;
-        for (int i = 0; i < nbIterations; i++) {
-            hmm = iterate(hmm, sequences);
-        }
-        return hmm;
-    }
-
-    /**
-     *
-     * @param <O>
      * @param sequence
      * @param abp
      * @param hmm
      * @return
      */
+    @Override
     protected double[][][] estimateXi(List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<TObs> hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
@@ -192,22 +165,18 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
         return xi;
     }
 
-    /* gamma[][] could be computed directly using the alpha and beta
-     * arrays, but this (slower) method is prefered because it doesn't
-     * change if the xi array has been scaled (and should be changed with
-     * the scaled alpha and beta arrays).
-     */
     /**
+     * Gamma can be computed directly using the alpha and beta arrays, but this
+     * (slower) method is preferred because it doesn't change if the xi array
+     * has been scaled (and should be changed with the scaled alpha and beta
+     * arrays).
      *
-     * @param xi
-     * @return
+     * @param xi The estimated xi variables.
+     * @return The estimated gamma values.
      */
+    @Override
     protected double[][] estimateGamma(double[][][] xi) {
         double[][] gamma = new double[xi.length + 1][xi[0].length];
-
-        for (int t = 0; t < xi.length + 1; t++) {
-            Arrays.fill(gamma[t], 0.);
-        }
 
         for (int t = 0; t < xi.length; t++) {
             for (int i = 0; i < xi[0].length; i++) {

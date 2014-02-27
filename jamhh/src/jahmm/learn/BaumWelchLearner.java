@@ -33,7 +33,6 @@ public interface BaumWelchLearner<TObs extends Observation, TInt extends Observa
      * Does a fixed number of iterations (see {@link #getNbIterations}) of the
      * Baum-Welch algorithm.
      *
-     * @param <O>
      * @param initialHmm An initial estimation of the expected HMM. This
      * estimate is critical as the Baum-Welch algorithm only find local minima
      * of its likelihood function.
@@ -43,6 +42,21 @@ public interface BaumWelchLearner<TObs extends Observation, TInt extends Observa
      * (according to the Baum-Welch algorithm).
      */
     public abstract THmm learn(THmm initialHmm, List<? extends List<? extends TInt>> sequences);
+
+    /**
+     * Does a fixed number of iterations (see {@link #getNbIterations}) of the
+     * Baum-Welch algorithm.
+     *
+     * @param initialHmm An initial estimation of the expected HMM. This
+     * estimate is critical as the Baum-Welch algorithm only find local minima
+     * of its likelihood function.
+     * @param sequences The observation sequences on which the learning is
+     * based. Each sequence must have a length higher or equal to 2.
+     * @param nbIterations The number of iterations the algorithm uses.
+     * @return The HMM that best matches the set of observation sequences given
+     * (according to the Baum-Welch algorithm).
+     */
+    public abstract THmm learn(THmm initialHmm, List<? extends List<? extends TInt>> sequences, int nbIterations);
 
     /**
      * Sets the number of iterations performed by the {@link #learn} method.
