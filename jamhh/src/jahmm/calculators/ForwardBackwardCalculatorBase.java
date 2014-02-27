@@ -22,7 +22,10 @@ import jutlis.tuples.Tuple3Base;
  * @param <TInt>
  * @param <THmm>
  */
-public abstract class ForwardBackwardCalculatorRaw<TAlpha, TBeta, TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>> implements ForwardBackwardCalculator<TAlpha, TBeta, TObs, TInt, THmm> {
+public abstract class ForwardBackwardCalculatorBase<TAlpha, TBeta, TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>> implements ForwardBackwardCalculator<TAlpha, TBeta, TObs, TInt, THmm> {
+
+    protected ForwardBackwardCalculatorBase() {
+    }
 
     @Override
     public TAlpha computeAlpha(THmm hmm, TInt... oseq) {

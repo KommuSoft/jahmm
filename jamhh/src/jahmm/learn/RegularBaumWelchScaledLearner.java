@@ -20,14 +20,14 @@ import jutlis.tuples.Tuple3;
  * <i>Juang</i>'s <i>Fundamentals of speech recognition</i> (Prentice Hall,
  * 1993).
  */
-public class BaumWelchScaledLearner extends BaumWelchLearner {
+public class RegularBaumWelchScaledLearner extends RegularBaumWelchLearner {
 
-    private static final Logger LOG = Logger.getLogger(BaumWelchScaledLearner.class.getName());
+    private static final Logger LOG = Logger.getLogger(RegularBaumWelchScaledLearner.class.getName());
 
     /**
      * Initializes a Baum-Welch algorithm implementation.
      */
-    public BaumWelchScaledLearner() {
+    public RegularBaumWelchScaledLearner() {
     }
 
     @Override

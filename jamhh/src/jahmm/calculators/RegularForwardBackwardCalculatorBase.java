@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @param <TObs>
  */
-public class RegularForwardBackwardCalculatorBase<TObs extends Observation> extends ForwardBackwardCalculatorRaw<double[][], double[][], TObs, TObs, RegularHmm<TObs>> implements RegularForwardBackwardCalculator<TObs> {
+public class RegularForwardBackwardCalculatorBase<TObs extends Observation> extends ForwardBackwardCalculatorBase<double[][], double[][], TObs, TObs, RegularHmm<TObs>> implements RegularForwardBackwardCalculator<TObs> {
 
     public static final RegularForwardBackwardCalculatorBase Instance = new RegularForwardBackwardCalculatorBase();
     private static final Logger LOG = Logger.getLogger(RegularForwardBackwardCalculatorBase.class.getName());

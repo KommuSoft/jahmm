@@ -18,9 +18,9 @@ import jutlis.tuples.Tuple3;
  * An implementation of the Baum-Welch learning algorithm. This algorithm finds
  * a HMM that models a set of observation sequences.
  */
-public class BaumWelchLearner {
+public class RegularBaumWelchLearner {
 
-    private static final Logger LOG = Logger.getLogger(BaumWelchLearner.class.getName());
+    private static final Logger LOG = Logger.getLogger(RegularBaumWelchLearner.class.getName());
 
     /**
      * Number of iterations performed by the {@link #learn} method.
@@ -30,7 +30,7 @@ public class BaumWelchLearner {
     /**
      * Initializes a Baum-Welch instance.
      */
-    public BaumWelchLearner() {
+    public RegularBaumWelchLearner() {
     }
 
     /**
@@ -106,7 +106,7 @@ public class BaumWelchLearner {
 
         for (int o = 0; o < sequences.size(); o++) {
             for (int i = 0; i < hmm.nbStates(); i++) {
-                nhmm.setPi(i,nhmm.getPi(i) + allGamma[o][0][i] / sequences.size());
+                nhmm.setPi(i, nhmm.getPi(i) + allGamma[o][0][i] / sequences.size());
             }
         }
 
