@@ -21,7 +21,6 @@ public interface BaumWelchLearner<TObs extends Observation, TInt extends Observa
      * Performs one iteration of the Baum-Welch algorithm. In one iteration, a
      * new HMM is computed using a previously estimated HMM.
      *
-     * @param <TObs>
      * @param hmm A previously estimated HMM.
      * @param sequences The observation sequences on which the learning is
      * based. Each sequence must have a length higher or equal to 2.
