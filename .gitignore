@@ -4,10 +4,10 @@
 #Results
 *.dot
 #Private to project
-/jamhh/nbproject/private/
-*jamhh/build*
-*jamhh/dist*
-*jamhh/lib*
-*jamhh/nbproject*
-*jamhh/target*
+jamhh/nbproject/private/
+jamhh/build*
+jamhh/dist*
+jamhh/lib
+jamhh/nbproject*
+jamhh/target*
 *private*
