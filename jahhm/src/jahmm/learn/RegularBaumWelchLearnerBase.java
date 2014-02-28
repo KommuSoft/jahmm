@@ -66,8 +66,8 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
 
             Tuple3<double[][], double[][], Double> abp = getAlphaBetaProbability(hmm, obsSeq);
 
-            double xi[][][] = estimateXi(hmm, obsSeq, abp);
-            double gamma[][] = allGamma[g++] = estimateGamma(hmm, obsSeq, abp, xi);
+            double xi[][][] = estimateXi(obsSeq, abp, hmm);
+            double gamma[][] = allGamma[g++] = estimateGamma(xi);
 
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int t = 0; t < obsSeq.size() - 1; t++) {
@@ -130,17 +130,14 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
     }
 
     /**
-     * Calculates the estimated Xi values of the given sequence of interactions
-     * and the given hidden Markov Model.
      *
-     * @param hmm The hidden Markov model to compute the gamma values of.
-     * @param sequence The sequence of interactions to learn from.
-     * @param abp A tuple containing the alpha- and beta- values of the sequence
-     * together with the probability of the sequence.
-     * @return The estimated xi values.
+     * @param sequence
+     * @param abp
+     * @param hmm
+     * @return
      */
     @Override
-    protected double[][][] estimateXi(RegularHmm<TObs> hmm, List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp) {
+    protected double[][][] estimateXi(List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<TObs> hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
         }
@@ -169,23 +166,16 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
     }
 
     /**
-     * Calculates the estimated Gamma values of the given sequence of
-     * interactions and the given hidden Markov Model.
+     * Gamma can be computed directly using the alpha and beta arrays, but this
+     * (slower) method is preferred because it doesn't change if the xi array
+     * has been scaled (and should be changed with the scaled alpha and beta
+     * arrays).
      *
-     * @param hmm The hidden Markov model to compute the gamma values of.
-     * @param sequence The sequence of interactions to learn from.
-     * @param abp A tuple containing the alpha- and beta- values of the sequence
-     * together with the probability of the sequence.
      * @param xi The estimated xi variables.
      * @return The estimated gamma values.
-     *
-     * @note Gamma can be computed directly using the alpha and beta arrays, but
-     * this (slower) method is preferred because it doesn't change if the xi
-     * array has been scaled (and should be changed with the scaled alpha and
-     * beta arrays).
      */
     @Override
-    protected double[][] estimateGamma(RegularHmm<TObs> hmm, List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, double[][][] xi) {
+    protected double[][] estimateGamma(double[][][] xi) {
         double[][] gamma = new double[xi.length + 1][xi[0].length];
 
         for (int t = 0; t < xi.length; t++) {
