@@ -1,0 +1,3 @@
+[submodule "jutils"]
+	path = jutils
+	url = git@github.com:KommuSoft/jutil.git
