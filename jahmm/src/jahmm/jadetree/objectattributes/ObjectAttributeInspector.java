@@ -28,18 +28,19 @@ public class ObjectAttributeInspector {
     }
 
     public static <T> ObjectAttribute<T, ? extends Object> generateObjectAttribute(Class<T> classdef, Method method, ObjectAttributeAnnotation oaa) {
-        Class<?> result = method.getReturnType();
+        Class<?> result = TypeUtils.getWrapper(method.getReturnType());
         String name = oaa.name();
         if (TypeUtils.isNominal(result)) {
             return new NominalInspectedObjectAttribute<>(method, name, result);
-        } else if (result == double.class) {
+        } else if (result == Double.class) {
             return new DoubleInspectedContinuObjectAttribute<>(method, name, result);
-        } else if (result == float.class) {
+        } else if (result == Float.class) {
             return new FloatInspectedContinuObjectAttribute<>(method, name, result);
-        } else if (result.isAssignableFrom(Comparable.class)) {
+        } else if (TypeUtils.isOrdinal(result)) {
             return new OrdinalInspectedObjectAttribute<>(method, name, result);
+        } else {
+            return null;
         }
-        return null;
     }
 
     private ObjectAttributeInspector() {

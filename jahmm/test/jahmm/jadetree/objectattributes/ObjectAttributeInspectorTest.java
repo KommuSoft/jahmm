@@ -44,23 +44,24 @@ public class ObjectAttributeInspectorTest {
         Assert.assertEquals(0x02, resfoo3.size());
         Assert.assertEquals(0x04, resfoo4.size());
         itfoo4 = resfoo4.iterator();
-        Assert.assertTrue(itfoo4.hasNext());
-        oa4 = itfoo4.next();
-        System.out.println(oa4.getClass());
-        AssertExtensions.assertTypeof(NominalInspectedObjectAttribute.class, oa4);
-        Assert.assertEquals("bar3", oa4.getName());
-        Assert.assertTrue(itfoo4.hasNext());
-        oa4 = itfoo4.next();
-        AssertExtensions.assertTypeof(FloatInspectedContinuObjectAttribute.class, oa4);
-        Assert.assertEquals("bar2", oa4.getName());
-        Assert.assertTrue(itfoo4.hasNext());
-        oa4 = itfoo4.next();
-        AssertExtensions.assertTypeof(DoubleInspectedContinuObjectAttribute.class, oa4);
-        Assert.assertEquals("bar1", oa4.getName());
-        Assert.assertTrue(itfoo4.hasNext());
-        oa4 = itfoo4.next();
-        AssertExtensions.assertTypeof(OrdinalInspectedObjectAttribute.class, oa4);
-        Assert.assertEquals("bar4", oa4.getName());
+        for (int i = 0x00; i < 0x04; i++) {
+            Assert.assertTrue(itfoo4.hasNext());
+            oa4 = itfoo4.next();
+            Class<?> cls = oa4.getClass();
+            if (cls == NominalInspectedObjectAttribute.class) {
+                AssertExtensions.assertTypeof(NominalInspectedObjectAttribute.class, oa4);
+                Assert.assertEquals("bar3", oa4.getName());
+            } else if (cls == DoubleInspectedContinuObjectAttribute.class) {
+                AssertExtensions.assertTypeof(DoubleInspectedContinuObjectAttribute.class, oa4);
+                Assert.assertEquals("bar1", oa4.getName());
+            } else if (cls == OrdinalInspectedObjectAttribute.class) {
+                AssertExtensions.assertTypeof(OrdinalInspectedObjectAttribute.class, oa4);
+                Assert.assertEquals("bar4", oa4.getName());
+            } else {
+                AssertExtensions.assertTypeof(FloatInspectedContinuObjectAttribute.class, oa4);
+                Assert.assertEquals("bar2", oa4.getName());
+            }
+        }
         Assert.assertFalse(itfoo4.hasNext());
     }
 

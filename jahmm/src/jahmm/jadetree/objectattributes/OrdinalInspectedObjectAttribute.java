@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import jutils.types.TypeUtils;
 
 /**
  *
@@ -19,7 +20,7 @@ public class OrdinalInspectedObjectAttribute<TSource, TTarget> extends OrdinalOb
     private final Method method;
 
     public OrdinalInspectedObjectAttribute(Method method, String name, Class<? extends TTarget> result) {
-        if (!Comparable.class.isAssignableFrom(result) || method.getReturnType() != result) {
+        if (!Comparable.class.isAssignableFrom(result) || TypeUtils.getWrapper(method.getReturnType()) != result) {
             throw new IllegalArgumentException("The resulting class must be comparable and must be the result of the given method.");
         }
         this.name = name;
