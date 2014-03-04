@@ -14,8 +14,8 @@ public class ObjectAttributeInspector {
 
     private static final Logger LOG = Logger.getLogger(ObjectAttributeInspector.class.getName());
 
-    public static <T> Collection<ObjectAttribute<T, Object>> inspect(Class<T> toinspect) {
-        LinkedList<ObjectAttribute<T, Object>> ll = new LinkedList<>();
+    public static <T> Collection<ObjectAttribute<T, ? extends Object>> inspect(Class<T> toinspect) {
+        LinkedList<ObjectAttribute<T, ? extends Object>> ll = new LinkedList<>();
         for (Method method : toinspect.getMethods()) {
             if (method.getParameterTypes().length == 0x00) {
                 ObjectAttributeAnnotation oaa = method.getAnnotation(ObjectAttributeAnnotation.class);
@@ -27,12 +27,17 @@ public class ObjectAttributeInspector {
         return ll;
     }
 
-    public static <T> ObjectAttribute<T, Object> generateObjectAttribute(Class<T> classdef, Method method, ObjectAttributeAnnotation oaa) {
+    public static <T> ObjectAttribute<T, ? extends Object> generateObjectAttribute(Class<T> classdef, Method method, ObjectAttributeAnnotation oaa) {
         Class<?> result = method.getReturnType();
+        String name = oaa.name();
         if (TypeUtils.isNominal(result)) {
-            return new NominalInspectedObjectAttribute<>(method, oaa.name(), result);
+            return new NominalInspectedObjectAttribute<>(method, name, result);
+        } else if (result == double.class) {
+            return new DoubleInspectedContinuObjectAttribute<>(method, name, result);
+        } else if (result == float.class) {
+            return new FloatInspectedContinuObjectAttribute<>(method, name, result);
         } else if (result.isAssignableFrom(Comparable.class)) {
-            return new OrdinalInspectedObjectAttribute<>(method, oaa.name(), result);
+            return new OrdinalInspectedObjectAttribute<>(method, name, result);
         }
         return null;
     }
