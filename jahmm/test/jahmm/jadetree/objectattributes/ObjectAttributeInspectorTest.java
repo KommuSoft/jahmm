@@ -19,11 +19,11 @@ public class ObjectAttributeInspectorTest {
 
     @Test
     public void testInspect() throws IllegalAccessException, InvocationTargetException {
-        Collection<ObjectAttribute<Foo1, Object>> resfoo1 = ObjectAttributeInspector.inspect(Foo1.class);
-        Collection<ObjectAttribute<Foo2, Object>> resfoo2 = ObjectAttributeInspector.inspect(Foo2.class);
-        Collection<ObjectAttribute<Foo3, Object>> resfoo3 = ObjectAttributeInspector.inspect(Foo3.class);
-        Iterator<ObjectAttribute<Foo2, Object>> itfoo2 = resfoo2.iterator();
-        ObjectAttribute<Foo2, Object> oa2;
+        Collection<ObjectAttribute<Foo1, ? extends Object>> resfoo1 = ObjectAttributeInspector.inspect(Foo1.class);
+        Collection<ObjectAttribute<Foo2, ? extends Object>> resfoo2 = ObjectAttributeInspector.inspect(Foo2.class);
+        Collection<ObjectAttribute<Foo3, ? extends Object>> resfoo3 = ObjectAttributeInspector.inspect(Foo3.class);
+        Iterator<ObjectAttribute<Foo2, ? extends Object>> itfoo2 = resfoo2.iterator();
+        ObjectAttribute<Foo2, ? extends Object> oa2;
         Foo2 foo2t = new Foo2(true);
         Foo2 foo2f = new Foo2(false);
         Foo3 foo3t = new Foo3(true);
