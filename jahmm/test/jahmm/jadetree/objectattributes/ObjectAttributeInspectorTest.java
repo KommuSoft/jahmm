@@ -44,6 +44,12 @@ public class ObjectAttributeInspectorTest {
         Assert.assertEquals(0x02, resfoo3.size());
         Assert.assertEquals(0x04, resfoo4.size());
         itfoo4 = resfoo4.iterator();
+        Foo4 foo415g2 = new Foo4(0.15, EnumFoo.Git, 0x02);
+        Foo4 foo400h3 = new Foo4(0.00, EnumFoo.Hub, 0x03);
+        Foo4 foo482b4 = new Foo4(0.82, EnumFoo.Bit, 0x04);
+        Foo4 foo414B9 = new Foo4(0.41, EnumFoo.Bucket, 0x09);
+        Foo4 foo4NNg8 = new Foo4(Double.NaN, EnumFoo.Git, 0x08);
+        Foo4 foo4NIh7 = new Foo4(Double.NEGATIVE_INFINITY, EnumFoo.Hub, 0x07);
         for (int i = 0x00; i < 0x04; i++) {
             Assert.assertTrue(itfoo4.hasNext());
             oa4 = itfoo4.next();
@@ -51,15 +57,39 @@ public class ObjectAttributeInspectorTest {
             if (cls == NominalInspectedObjectAttribute.class) {
                 AssertExtensions.assertTypeof(NominalInspectedObjectAttribute.class, oa4);
                 Assert.assertEquals("bar3", oa4.getName());
+                Assert.assertEquals(EnumFoo.Git, oa4.evaluate(foo415g2));
+                Assert.assertEquals(EnumFoo.Hub, oa4.evaluate(foo400h3));
+                Assert.assertEquals(EnumFoo.Bit, oa4.evaluate(foo482b4));
+                Assert.assertEquals(EnumFoo.Bucket, oa4.evaluate(foo414B9));
+                Assert.assertEquals(EnumFoo.Git, oa4.evaluate(foo4NNg8));
+                Assert.assertEquals(EnumFoo.Hub, oa4.evaluate(foo4NIh7));
             } else if (cls == DoubleInspectedContinuObjectAttribute.class) {
                 AssertExtensions.assertTypeof(DoubleInspectedContinuObjectAttribute.class, oa4);
                 Assert.assertEquals("bar1", oa4.getName());
+                Assert.assertEquals(0.15, oa4.evaluate(foo415g2));
+                Assert.assertEquals(0.00, oa4.evaluate(foo400h3));
+                Assert.assertEquals(0.82, oa4.evaluate(foo482b4));
+                Assert.assertEquals(0.41, oa4.evaluate(foo414B9));
+                Assert.assertEquals(Double.NaN, oa4.evaluate(foo4NNg8));
+                Assert.assertEquals(Double.NEGATIVE_INFINITY, oa4.evaluate(foo4NIh7));
             } else if (cls == OrdinalInspectedObjectAttribute.class) {
                 AssertExtensions.assertTypeof(OrdinalInspectedObjectAttribute.class, oa4);
                 Assert.assertEquals("bar4", oa4.getName());
+                Assert.assertEquals(0x02, oa4.evaluate(foo415g2));
+                Assert.assertEquals(0x03, oa4.evaluate(foo400h3));
+                Assert.assertEquals(0x04, oa4.evaluate(foo482b4));
+                Assert.assertEquals(0x09, oa4.evaluate(foo414B9));
+                Assert.assertEquals(0x08, oa4.evaluate(foo4NNg8));
+                Assert.assertEquals(0x07, oa4.evaluate(foo4NIh7));
             } else {
                 AssertExtensions.assertTypeof(FloatInspectedContinuObjectAttribute.class, oa4);
                 Assert.assertEquals("bar2", oa4.getName());
+                Assert.assertEquals(0.85f, oa4.evaluate(foo415g2));
+                Assert.assertEquals(1.00f, oa4.evaluate(foo400h3));
+                Assert.assertEquals(0.18f, oa4.evaluate(foo482b4));
+                Assert.assertEquals(0.59f, oa4.evaluate(foo414B9));
+                Assert.assertEquals(Float.NaN, oa4.evaluate(foo4NNg8));
+                Assert.assertEquals(Float.POSITIVE_INFINITY, oa4.evaluate(foo4NIh7));
             }
         }
         Assert.assertFalse(itfoo4.hasNext());
