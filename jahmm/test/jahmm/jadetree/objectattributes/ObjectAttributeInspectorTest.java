@@ -42,16 +42,25 @@ public class ObjectAttributeInspectorTest {
         Assert.assertEquals(Boolean.TRUE, oa2.evaluate(foo2t));
         Assert.assertEquals(Boolean.FALSE, oa2.evaluate(foo2f));
         Assert.assertEquals(0x02, resfoo3.size());
-        Assert.assertEquals(0x02, resfoo4.size());
+        Assert.assertEquals(0x04, resfoo4.size());
         itfoo4 = resfoo4.iterator();
+        Assert.assertTrue(itfoo4.hasNext());
+        oa4 = itfoo4.next();
+        System.out.println(oa4.getClass());
+        AssertExtensions.assertTypeof(NominalInspectedObjectAttribute.class, oa4);
+        Assert.assertEquals("bar3", oa4.getName());
+        Assert.assertTrue(itfoo4.hasNext());
+        oa4 = itfoo4.next();
+        AssertExtensions.assertTypeof(FloatInspectedContinuObjectAttribute.class, oa4);
+        Assert.assertEquals("bar2", oa4.getName());
         Assert.assertTrue(itfoo4.hasNext());
         oa4 = itfoo4.next();
         AssertExtensions.assertTypeof(DoubleInspectedContinuObjectAttribute.class, oa4);
         Assert.assertEquals("bar1", oa4.getName());
         Assert.assertTrue(itfoo4.hasNext());
         oa4 = itfoo4.next();
-        AssertExtensions.assertTypeof(FloatInspectedContinuObjectAttribute.class, oa4);
-        Assert.assertEquals("bar2", oa4.getName());
+        AssertExtensions.assertTypeof(OrdinalInspectedObjectAttribute.class, oa4);
+        Assert.assertEquals("bar4", oa4.getName());
         Assert.assertFalse(itfoo4.hasNext());
     }
 
@@ -113,9 +122,13 @@ public class ObjectAttributeInspectorTest {
     private class Foo4 {
 
         private final double value1;
+        private final EnumFoo value3;
+        private final int value4;
 
-        Foo4(double value1) {
+        Foo4(double value1, EnumFoo value3, int value4) {
             this.value1 = value1;
+            this.value3 = value3;
+            this.value4 = value4;
         }
 
         @ObjectAttributeAnnotation(name = "bar1")
@@ -127,6 +140,25 @@ public class ObjectAttributeInspectorTest {
         public float value2() {
             return (float) (1.0d - value1);
         }
+
+        @ObjectAttributeAnnotation(name = "bar3")
+        public EnumFoo value3() {
+            return this.value3;
+        }
+
+        @ObjectAttributeAnnotation(name = "bar4")
+        public int value4() {
+            return this.value4;
+        }
+
+    }
+
+    private enum EnumFoo {
+
+        Git,
+        Hub,
+        Bit,
+        Bucket
 
     }
 

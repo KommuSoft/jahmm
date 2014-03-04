@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jahmm.learn;
 
 /**
@@ -11,5 +10,5 @@ package jahmm.learn;
  * @author kommusoft
  */
 public class InputBaumWelchLearner {
-    
+
 }
