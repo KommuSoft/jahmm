@@ -31,6 +31,8 @@ public class ObjectAttributeInspector {
         Class<?> result = method.getReturnType();
         if (TypeUtils.isNominal(result)) {
             return new NominalInspectedObjectAttribute<>(method, oaa.name(), result);
+        } else if (result.isAssignableFrom(Comparable.class)) {
+            return new OrdinalInspectedObjectAttribute<>(method, oaa.name(), result);
         }
         return null;
     }
