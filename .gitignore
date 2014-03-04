@@ -11,3 +11,5 @@ jamhh/lib
 jamhh/nbproject*
 jamhh/target*
 *private*
+/jahmm/build/
+/jahmm/dist/
