@@ -22,7 +22,11 @@ public abstract class DecisionNodeBase<TSource> extends IdableBase implements De
 
     @Override
     public DecisionTree<TSource> getTree() {
-        return this.parent.getTree();
+        if (this.parent != null) {
+            return this.parent.getTree();
+        } else {
+            return null;
+        }
     }
 
 }
