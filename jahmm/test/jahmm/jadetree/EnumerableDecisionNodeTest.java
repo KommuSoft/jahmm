@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jahmm.jadetree;
 
 import org.junit.Test;
@@ -14,7 +13,7 @@ import static org.junit.Assert.*;
  * @author kommusoft
  */
 public class EnumerableDecisionNodeTest {
-    
+
     public EnumerableDecisionNodeTest() {
     }
 
@@ -23,13 +22,6 @@ public class EnumerableDecisionNodeTest {
      */
     @Test
     public void testNextHop() {
-        System.out.println("nextHop");
-        Object source = null;
-        EnumerableDecisionNode instance = null;
-        DecisionRealNode expResult = null;
-        DecisionRealNode result = instance.nextHop(source);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -38,10 +30,6 @@ public class EnumerableDecisionNodeTest {
      */
     @Test
     public void testReplaceChild() {
-        System.out.println("replaceChild");
-        EnumerableDecisionNode instance = null;
-        instance.replaceChild(null);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -50,12 +38,6 @@ public class EnumerableDecisionNodeTest {
      */
     @Test
     public void testGetChildren() {
-        System.out.println("getChildren");
-        EnumerableDecisionNode instance = null;
-        Iterable<DecisionRealNode<TSource>> expResult = null;
-        Iterable<DecisionRealNode<TSource>> result = instance.getChildren();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
@@ -64,13 +46,7 @@ public class EnumerableDecisionNodeTest {
      */
     @Test
     public void testToString() {
-        System.out.println("toString");
-        EnumerableDecisionNode instance = null;
-        String expResult = "";
-        String result = instance.toString();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }
