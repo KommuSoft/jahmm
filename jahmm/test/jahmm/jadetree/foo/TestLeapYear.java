@@ -7,13 +7,13 @@ import java.util.logging.Logger;
  *
  * @author kommusoft
  */
-public class TestObject1 {
+public class TestLeapYear {
 
-    private static final Logger LOG = Logger.getLogger(TestObject1.class.getName());
+    private static final Logger LOG = Logger.getLogger(TestLeapYear.class.getName());
 
     private final int year;
 
-    public TestObject1(int year) {
+    public TestLeapYear(int year) {
         this.year = year;
     }
 

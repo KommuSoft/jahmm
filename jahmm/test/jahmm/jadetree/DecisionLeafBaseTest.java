@@ -1,9 +1,8 @@
 package jahmm.jadetree;
 
-import java.sql.Date;
+import jahmm.jadetree.foo.TestLeapYear;
 import junit.framework.Assert;
 import jutils.collections.CollectionUtils;
-import jutils.iterators.SingleIterable;
 import jutils.testing.AssertExtensions;
 import jutlis.lists.ListArray;
 import org.junit.Test;
@@ -175,7 +174,12 @@ public class DecisionLeafBaseTest {
      */
     @Test
     public void testExpandThis() {
-        fail("The test case is a prototype.");
+        TestLeapYear[] yrs = new TestLeapYear[0x400];
+        for(int i = 0x00; i < 0x400; i++) {
+            yrs[i] = new TestLeapYear(i);
+        }
+        TestLeapYear.isLeapYear.method;
+        Id3ClassificationTree tree = new Id3ClassificationTree();
     }
 
     /**

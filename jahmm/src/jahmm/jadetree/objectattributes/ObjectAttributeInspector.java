@@ -17,6 +17,7 @@ public class ObjectAttributeInspector {
     public static <T> Collection<ObjectAttribute<T, ? extends Object>> inspect(Class<T> toinspect) {
         LinkedList<ObjectAttribute<T, ? extends Object>> ll = new LinkedList<>();
         for (Method method : toinspect.getMethods()) {
+            @SuppressWarnings("unchecked")
             ObjectAttribute<T, ? extends Object> oaa = (ObjectAttribute<T, ? extends Object>) inspect(method);
             if (oaa != null) {
                 ll.add(oaa);
@@ -33,6 +34,32 @@ public class ObjectAttributeInspector {
             }
         }
         return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> ObjectAttribute<? extends Object, ? extends Object> inspect(Class<T> toinspect, String annotationName) {
+        for (Method method : toinspect.getMethods()) {
+            ObjectAttributeAnnotation oaa = method.getAnnotation(ObjectAttributeAnnotation.class);
+            if (oaa != null && oaa.name().equals(annotationName)) {
+                return inspect(method);
+            }
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> Iterable<ObjectAttribute<T, ? extends Object>> inspect(Class<T> toinspect, Iterable<String> annotationNames) {
+        LinkedList<ObjectAttribute<T, ? extends Object>> ll = new LinkedList<>();
+        for (String annotationName : annotationNames) {
+            for (Method method : toinspect.getMethods()) {
+                ObjectAttributeAnnotation oaa = method.getAnnotation(ObjectAttributeAnnotation.class);
+                if (oaa != null && oaa.name().equals(annotationName)) {
+                    ll.add((ObjectAttribute<T, ? extends Object>) inspect(method));
+                    break;
+                }
+            }
+        }
+        return ll;
     }
 
     private static ObjectAttribute<? extends Object, ? extends Object> generateObjectAttribute(Method method, ObjectAttributeAnnotation oaa) {
