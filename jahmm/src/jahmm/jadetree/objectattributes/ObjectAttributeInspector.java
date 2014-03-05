@@ -17,17 +17,25 @@ public class ObjectAttributeInspector {
     public static <T> Collection<ObjectAttribute<T, ? extends Object>> inspect(Class<T> toinspect) {
         LinkedList<ObjectAttribute<T, ? extends Object>> ll = new LinkedList<>();
         for (Method method : toinspect.getMethods()) {
-            if (method.getParameterTypes().length == 0x00) {
-                ObjectAttributeAnnotation oaa = method.getAnnotation(ObjectAttributeAnnotation.class);
-                if (oaa != null) {
-                    ll.add(generateObjectAttribute(toinspect, method, oaa));
-                }
+            ObjectAttribute<T, ? extends Object> oaa = (ObjectAttribute<T, ? extends Object>) inspect(method);
+            if (oaa != null) {
+                ll.add(oaa);
             }
         }
         return ll;
     }
 
-    public static <T> ObjectAttribute<T, ? extends Object> generateObjectAttribute(Class<T> classdef, Method method, ObjectAttributeAnnotation oaa) {
+    public static ObjectAttribute<? extends Object, ? extends Object> inspect(Method method) {
+        if (method.getParameterTypes().length == 0x00) {
+            ObjectAttributeAnnotation oaa = method.getAnnotation(ObjectAttributeAnnotation.class);
+            if (oaa != null) {
+                return generateObjectAttribute(method, oaa);
+            }
+        }
+        return null;
+    }
+
+    private static ObjectAttribute<? extends Object, ? extends Object> generateObjectAttribute(Method method, ObjectAttributeAnnotation oaa) {
         Class<?> result = TypeUtils.getWrapper(method.getReturnType());
         String name = oaa.name();
         if (TypeUtils.isNominal(result)) {
