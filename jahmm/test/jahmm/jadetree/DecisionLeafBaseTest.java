@@ -77,6 +77,26 @@ public class DecisionLeafBaseTest {
         Assert.assertEquals(0x06, CollectionUtils.size(dlb.getStoredSources()));
         Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
         AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6), dlb.getStoredSources());
+        dlb.insert(ob5);
+        Assert.assertEquals(0x07, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5), dlb.getStoredSources());
+        dlb.insert(ob4);
+        Assert.assertEquals(0x08, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5, ob4), dlb.getStoredSources());
+        dlb.insert(ob3);
+        Assert.assertEquals(0x09, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5, ob4, ob3), dlb.getStoredSources());
+        dlb.insert(ob2);
+        Assert.assertEquals(0x0a, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5, ob4, ob3, ob2), dlb.getStoredSources());
+        dlb.insert(ob1);
+        Assert.assertEquals(0x0b, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5, ob4, ob3, ob2, ob1), dlb.getStoredSources());
     }
 
     /**
@@ -84,11 +104,202 @@ public class DecisionLeafBaseTest {
      */
     @Test
     public void testIsLeaf() {
-        System.out.println("isLeaf");
+        DecisionLeafBase<Object> dlb = new DecisionLeafBase<>(null);
+        Assert.assertTrue(dlb.isLeaf());
+    }
+
+    /**
+     * Test of recalcMaximumExpandLeaf method, of class DecisionLeafBase.
+     */
+    @Test
+    public void testRecalcMaximumExpandLeaf() {
+        Object ob1 = 0.05d;
+        Object ob2 = "Foo";
+        Object ob3 = null;
+        Object ob4 = "Bar";
+        Object ob5 = -0x09;
+        Object ob6 = Float.NaN;
+        DecisionLeafBase<Object> dlb = new DecisionLeafBase<>(null);
+        Assert.assertEquals(null, dlb.getParent());
+        Assert.assertEquals(null, dlb.getTree());
+        Assert.assertEquals(0x00, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        Assert.assertEquals(dlb, dlb.recalcMaximumExpandLeaf());
+        dlb.insert(ob1);
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new SingleIterable<>(ob1), dlb.getStoredSources());
+        Assert.assertEquals(dlb, dlb.recalcMaximumExpandLeaf());
+        dlb.insert(ob2);
+        Assert.assertEquals(0x02, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2), dlb.getStoredSources());
+        Assert.assertEquals(dlb, dlb.recalcMaximumExpandLeaf());
+        dlb.insert(ob3);
+        Assert.assertEquals(0x03, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3), dlb.getStoredSources());
+        Assert.assertEquals(dlb, dlb.recalcMaximumExpandLeaf());
+        dlb.insert(ob4);
+        Assert.assertEquals(0x04, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4), dlb.getStoredSources());
+        Assert.assertEquals(dlb, dlb.recalcMaximumExpandLeaf());
+        dlb.insert(ob5);
+        Assert.assertEquals(0x05, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5), dlb.getStoredSources());
+        Assert.assertEquals(dlb, dlb.recalcMaximumExpandLeaf());
+        dlb.insert(ob6);
+        Assert.assertEquals(0x06, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6), dlb.getStoredSources());
+        Assert.assertEquals(dlb, dlb.recalcMaximumExpandLeaf());
+        dlb.insert(ob5);
+        Assert.assertEquals(0x07, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5), dlb.getStoredSources());
+        Assert.assertEquals(dlb, dlb.recalcMaximumExpandLeaf());
+        dlb.insert(ob4);
+        Assert.assertEquals(0x08, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5, ob4), dlb.getStoredSources());
+        Assert.assertEquals(dlb, dlb.recalcMaximumExpandLeaf());
+        dlb.insert(ob3);
+        Assert.assertEquals(0x09, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5, ob4, ob3), dlb.getStoredSources());
+        Assert.assertEquals(dlb, dlb.recalcMaximumExpandLeaf());
+        dlb.insert(ob2);
+        Assert.assertEquals(0x0a, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5, ob4, ob3, ob2), dlb.getStoredSources());
+        Assert.assertEquals(dlb, dlb.recalcMaximumExpandLeaf());
+        dlb.insert(ob1);
+        Assert.assertEquals(0x0b, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5, ob4, ob3, ob2, ob1), dlb.getStoredSources());
+        Assert.assertEquals(dlb, dlb.recalcMaximumExpandLeaf());
+    }
+
+    /**
+     * Test of recalcMaximumReduceInode method, of class DecisionLeafBase.
+     */
+    @Test
+    public void testRecalcMaximumReduceInode() {
+        Object ob1 = 0.05d;
+        Object ob2 = "Foo";
+        Object ob3 = null;
+        Object ob4 = "Bar";
+        Object ob5 = -0x09;
+        Object ob6 = Float.NaN;
+        DecisionLeafBase<Object> dlb = new DecisionLeafBase<>(null);
+        Assert.assertEquals(null, dlb.getParent());
+        Assert.assertEquals(null, dlb.getTree());
+        Assert.assertEquals(0x00, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        Assert.assertEquals(null, dlb.recalcMaximumReduceInode());
+        dlb.insert(ob1);
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new SingleIterable<>(ob1), dlb.getStoredSources());
+        Assert.assertEquals(null, dlb.recalcMaximumReduceInode());
+        dlb.insert(ob2);
+        Assert.assertEquals(0x02, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2), dlb.getStoredSources());
+        Assert.assertEquals(null, dlb.recalcMaximumReduceInode());
+        dlb.insert(ob3);
+        Assert.assertEquals(0x03, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3), dlb.getStoredSources());
+        Assert.assertEquals(null, dlb.recalcMaximumReduceInode());
+        dlb.insert(ob4);
+        Assert.assertEquals(0x04, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4), dlb.getStoredSources());
+        Assert.assertEquals(null, dlb.recalcMaximumReduceInode());
+        dlb.insert(ob5);
+        Assert.assertEquals(0x05, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5), dlb.getStoredSources());
+        Assert.assertEquals(null, dlb.recalcMaximumReduceInode());
+        dlb.insert(ob6);
+        Assert.assertEquals(0x06, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6), dlb.getStoredSources());
+        Assert.assertEquals(null, dlb.recalcMaximumReduceInode());
+        dlb.insert(ob5);
+        Assert.assertEquals(0x07, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5), dlb.getStoredSources());
+        Assert.assertEquals(null, dlb.recalcMaximumReduceInode());
+        dlb.insert(ob4);
+        Assert.assertEquals(0x08, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5, ob4), dlb.getStoredSources());
+        Assert.assertEquals(null, dlb.recalcMaximumReduceInode());
+        dlb.insert(ob3);
+        Assert.assertEquals(0x09, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5, ob4, ob3), dlb.getStoredSources());
+        Assert.assertEquals(null, dlb.recalcMaximumReduceInode());
+        dlb.insert(ob2);
+        Assert.assertEquals(0x0a, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5, ob4, ob3, ob2), dlb.getStoredSources());
+        Assert.assertEquals(null, dlb.recalcMaximumReduceInode());
+        dlb.insert(ob1);
+        Assert.assertEquals(0x0b, CollectionUtils.size(dlb.getStoredSources()));
+        Assert.assertEquals(0x01, CollectionUtils.size(dlb.getPartitionedStoredSources()));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5, ob4, ob3, ob2, ob1), dlb.getStoredSources());
+        Assert.assertEquals(null, dlb.recalcMaximumReduceInode());
+    }
+
+    /**
+     * Test of getStoredSources method, of class DecisionLeafBase.
+     */
+    @Test
+    public void testGetStoredSources() {
+        System.out.println("getStoredSources");
         DecisionLeafBase instance = null;
-        boolean expResult = false;
-        boolean result = instance.isLeaf();
+        Iterable expResult = null;
+        Iterable result = instance.getStoredSources();
         assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getPartitionedStoredSources method, of class DecisionLeafBase.
+     */
+    @Test
+    public void testGetPartitionedStoredSources() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of expandThis method, of class DecisionLeafBase.
+     */
+    @Test
+    public void testExpandThis() {
+        System.out.println("expandThis");
+        DecisionLeafBase instance = null;
+        instance.expandThis();
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of reduceScore method, of class DecisionLeafBase.
+     */
+    @Test
+    public void testReduceScore() {
+        System.out.println("reduceScore");
+        DecisionLeafBase instance = null;
+        double expResult = 0.0;
+        double result = instance.reduceScore();
+        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -115,82 +326,6 @@ public class DecisionLeafBaseTest {
         System.out.println("makeDirty");
         DecisionLeafBase instance = null;
         instance.makeDirty();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of recalcMaximumExpandLeaf method, of class DecisionLeafBase.
-     */
-    @Test
-    public void testRecalcMaximumExpandLeaf() {
-        System.out.println("recalcMaximumExpandLeaf");
-        DecisionLeafBase instance = null;
-        DecisionLeaf expResult = null;
-        DecisionLeaf result = instance.recalcMaximumExpandLeaf();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of recalcMaximumReduceInode method, of class DecisionLeafBase.
-     */
-    @Test
-    public void testRecalcMaximumReduceInode() {
-        System.out.println("recalcMaximumReduceInode");
-        DecisionLeafBase instance = null;
-        DecisionRealInode expResult = null;
-        DecisionRealInode result = instance.recalcMaximumReduceInode();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getStoredSources method, of class DecisionLeafBase.
-     */
-    @Test
-    public void testGetStoredSources() {
-        System.out.println("getStoredSources");
-        DecisionLeafBase instance = null;
-        Iterable expResult = null;
-        Iterable result = instance.getStoredSources();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getPartitionedStoredSources method, of class DecisionLeafBase.
-     */
-    @Test
-    public void testGetPartitionedStoredSources() {
-         fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of expandThis method, of class DecisionLeafBase.
-     */
-    @Test
-    public void testExpandThis() {
-        System.out.println("expandThis");
-        DecisionLeafBase instance = null;
-        instance.expandThis();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of reduceScore method, of class DecisionLeafBase.
-     */
-    @Test
-    public void testReduceScore() {
-        System.out.println("reduceScore");
-        DecisionLeafBase instance = null;
-        double expResult = 0.0;
-        double result = instance.reduceScore();
-        assertEquals(expResult, result, 0.0);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
