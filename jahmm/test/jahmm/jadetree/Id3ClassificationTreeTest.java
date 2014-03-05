@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jahmm.jadetree;
 
+import java.util.logging.Logger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -14,7 +14,9 @@ import static org.junit.Assert.*;
  * @author kommusoft
  */
 public class Id3ClassificationTreeTest {
-    
+
+    private static final Logger LOG = Logger.getLogger(Id3ClassificationTreeTest.class.getName());
+
     public Id3ClassificationTreeTest() {
     }
 
@@ -23,8 +25,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testGetParent() {
-        Id3ClassificationTree tree = new Id3ClassificationTree();
-        
+        fail("The test case is a prototype.");
     }
 
     /**
@@ -178,5 +179,5 @@ public class Id3ClassificationTreeTest {
     public void testClassifyInsert() {
         fail("The test case is a prototype.");
     }
-    
+
 }

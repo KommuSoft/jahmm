@@ -177,20 +177,26 @@ public class DecisionLeafBaseTest {
      */
     @Test
     public void testExpandThis() {
-        TestLeapYear[] yrs = new TestLeapYear[0x400];
-        for(int i = 0x00; i < 0x400; i++) {
+        int nYears = 0x400;
+        TestLeapYear[] yrs = new TestLeapYear[nYears];
+        for (int i = 0x00; i < nYears; i++) {
             yrs[i] = new TestLeapYear(i);
         }
         @SuppressWarnings("unchecked")
-        NominalObjectAttribute<TestLeapYear,? extends Object> oa = (NominalObjectAttribute<TestLeapYear,? extends Object>) ObjectAttributeInspector.inspect(TestLeapYear.class, "leap");
-        Iterable<ObjectAttribute<TestLeapYear,? extends Object>> oas = ObjectAttributeInspector.inspect(TestLeapYear.class, "div2","div4","div8","div16","div100","div200","div500","div1000");
+        NominalObjectAttribute<TestLeapYear, ? extends Object> oa = (NominalObjectAttribute<TestLeapYear, ? extends Object>) ObjectAttributeInspector.inspect(TestLeapYear.class, "leap");
+        Iterable<ObjectAttribute<TestLeapYear, ? extends Object>> oas = ObjectAttributeInspector.inspect(TestLeapYear.class, "div2", "div4", "div8", "div16", "div100", "div200", "div500", "div1000");
         Id3ClassificationTree<TestLeapYear> tree = new Id3ClassificationTree<TestLeapYear>(oa);
         tree.addSourceAttribute(oas);
         AssertExtensions.assertTypeof(DecisionLeafBase.class, tree.getRoot());
         DecisionLeafBase<TestLeapYear> root = (DecisionLeafBase<TestLeapYear>) tree.getRoot();
         Assert.assertEquals(tree, root.getParent());
         Assert.assertEquals(tree, root.getTree());
-        tree.insert(null);
+        tree.insert(yrs);
+        Assert.assertEquals(nYears, CollectionUtils.size(root.getStoredSources()));
+        AssertExtensions.assertEqualsOrderedDeep(new ListArray<>(yrs), root.getStoredSources());
+        AssertExtensions.assertGreaterThan(tree.expandScore(), 0.00d);
+        AssertExtensions.assertGreaterThan(root.expandScore(), 0.00d);
+        tree.expand();
     }
 
     /**
