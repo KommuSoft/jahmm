@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.logging.Logger;
 import jutils.types.TypeUtils;
+import jutlis.lists.ListArray;
 
 /**
  *
@@ -60,6 +61,10 @@ public class ObjectAttributeInspector {
             }
         }
         return ll;
+    }
+
+    public static <T> Iterable<ObjectAttribute<T, ? extends Object>> inspect(Class<T> toinspect, String... annotationNames) {
+        return inspect(toinspect, new ListArray<>(annotationNames));
     }
 
     private static ObjectAttribute<? extends Object, ? extends Object> generateObjectAttribute(Method method, ObjectAttributeAnnotation oaa) {
