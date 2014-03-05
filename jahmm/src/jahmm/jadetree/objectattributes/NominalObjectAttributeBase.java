@@ -23,7 +23,7 @@ import jutlis.tuples.Holder;
 public abstract class NominalObjectAttributeBase<TSource, TTarget> implements NominalObjectAttribute<TSource, TTarget> {
 
     @Override
-    public double calculateScore(List<TSource> source, Function<TSource, Object> target, Holder<Object> state) {
+    public double calculateScore(List<TSource> source, Function<TSource, ? extends Object> target, Holder<Object> state) {
         final HashMap<TTarget, ArrayList<TSource>> classified = new HashMap<>();
         FactoryMethod<ArrayList<TSource>> fm = CollectionFactoryMethods.arrayListFactory();
         CollectionUtils.classify(classified, source, this, fm);
@@ -32,7 +32,7 @@ public abstract class NominalObjectAttributeBase<TSource, TTarget> implements No
     }
 
     @Override
-    public DecisionRealNode<TSource> createDecisionNode(DecisionInode<TSource> parent, List<TSource> source, Function<TSource, Object> target, Holder<Object> state) {
+    public DecisionRealNode<TSource> createDecisionNode(DecisionInode<TSource> parent, List<TSource> source, Function<TSource, ? extends Object> target, Holder<Object> state) {
         @SuppressWarnings("unchecked")
         HashMap<TTarget, LinkedList<TSource>> data = (HashMap<TTarget, LinkedList<TSource>>) state.getData();
         return new EnumerableDecisionNode<>(parent, this, data);

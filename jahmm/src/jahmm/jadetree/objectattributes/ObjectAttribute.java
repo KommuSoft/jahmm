@@ -15,8 +15,8 @@ import jutlis.tuples.Holder;
  */
 public interface ObjectAttribute<TSource, TTarget> extends Name, Function<TSource, TTarget> {
 
-    public abstract double calculateScore(List<TSource> source, Function<TSource, Object> function, Holder<Object> state);
+    public abstract double calculateScore(List<TSource> source, Function<TSource, ? extends Object> function, Holder<Object> state);
 
-    public abstract DecisionRealNode<TSource> createDecisionNode(DecisionInode<TSource> parent, List<TSource> source, Function<TSource, Object> function, Holder<Object> state);
+    public abstract DecisionRealNode<TSource> createDecisionNode(DecisionInode<TSource> parent, List<TSource> source, Function<TSource, ? extends Object> function, Holder<Object> state);
 
 }

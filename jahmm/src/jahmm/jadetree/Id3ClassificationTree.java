@@ -15,11 +15,11 @@ import jutils.iterators.SingleIterable;
  */
 public class Id3ClassificationTree<TSource> extends DecisionInodeBase<TSource> implements DecisionTree<TSource> {
 
-    private final ArrayList<ObjectAttribute<TSource, Object>> sourceAttributes = new ArrayList<>();
-    private final NominalObjectAttribute<TSource, Object> targetAttribute;
+    private final ArrayList<ObjectAttribute<TSource, ? extends Object>> sourceAttributes = new ArrayList<>();
+    private final NominalObjectAttribute<TSource, ? extends Object> targetAttribute;
     private DecisionRealNode<TSource> root;
 
-    public Id3ClassificationTree(final NominalObjectAttribute<TSource, Object> targetAttribute) {
+    public Id3ClassificationTree(final NominalObjectAttribute<TSource, ? extends Object> targetAttribute) {
         super(null);
         this.targetAttribute = targetAttribute;
     }
@@ -77,24 +77,24 @@ public class Id3ClassificationTree<TSource> extends DecisionInodeBase<TSource> i
     }
 
     @Override
-    public List<ObjectAttribute<TSource, Object>> getSourceAttributes() {
+    public List<ObjectAttribute<TSource, ? extends Object>> getSourceAttributes() {
         return Collections.unmodifiableList(this.sourceAttributes);
     }
 
     @Override
-    public void addSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute) {
+    public void addSourceAttribute(ObjectAttribute<TSource, ? extends Object> sourceAttribute) {
         this.sourceAttributes.add(sourceAttribute);
         this.root.makeDirty();
     }
 
     @Override
-    public void removeSourceAttribute(ObjectAttribute<TSource, Object> sourceAttribute) {
+    public void removeSourceAttribute(ObjectAttribute<TSource, ? extends Object> sourceAttribute) {
         this.sourceAttributes.remove(sourceAttribute);
         this.root.makeDirty();
     }
 
     @Override
-    public NominalObjectAttribute<TSource, Object> getTargetAttribute() {
+    public NominalObjectAttribute<TSource, ? extends Object> getTargetAttribute() {
         return this.targetAttribute;
     }
 

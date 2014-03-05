@@ -1,6 +1,8 @@
 package jahmm.jadetree;
 
 import jahmm.jadetree.foo.TestLeapYear;
+import jahmm.jadetree.objectattributes.NominalObjectAttribute;
+import jahmm.jadetree.objectattributes.ObjectAttributeInspector;
 import junit.framework.Assert;
 import jutils.collections.CollectionUtils;
 import jutils.testing.AssertExtensions;
@@ -178,8 +180,9 @@ public class DecisionLeafBaseTest {
         for(int i = 0x00; i < 0x400; i++) {
             yrs[i] = new TestLeapYear(i);
         }
-        TestLeapYear.isLeapYear.method;
-        Id3ClassificationTree tree = new Id3ClassificationTree();
+        @SuppressWarnings("unchecked")
+        NominalObjectAttribute<TestLeapYear,? extends Object> oa = (NominalObjectAttribute<TestLeapYear,? extends Object>) ObjectAttributeInspector.inspect(TestLeapYear.class, "leap");
+        Id3ClassificationTree<TestLeapYear> tree = new Id3ClassificationTree<TestLeapYear>(oa);
     }
 
     /**
