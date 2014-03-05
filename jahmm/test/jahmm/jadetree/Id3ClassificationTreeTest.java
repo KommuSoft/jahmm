@@ -23,7 +23,8 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testGetParent() {
-        fail("The test case is a prototype.");
+        Id3ClassificationTree tree = new Id3ClassificationTree();
+        
     }
 
     /**
