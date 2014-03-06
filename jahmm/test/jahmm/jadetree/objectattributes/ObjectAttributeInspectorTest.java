@@ -194,45 +194,4 @@ public class ObjectAttributeInspectorTest {
 
     }
 
-    /**
-     * Test of inspect method, of class ObjectAttributeInspector.
-     */
-    @Test
-    public void testInspect_Class() {
-        
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of inspect method, of class ObjectAttributeInspector.
-     */
-    @Test
-    public void testInspect_Method() {
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of inspect method, of class ObjectAttributeInspector.
-     */
-    @Test
-    public void testInspect_Class_String() {
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of inspect method, of class ObjectAttributeInspector.
-     */
-    @Test
-    public void testInspect_Class_Iterable() {
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of inspect method, of class ObjectAttributeInspector.
-     */
-    @Test
-    public void testInspect_Class_StringArr() {
-        fail("The test case is a prototype.");
-    }
-
 }
