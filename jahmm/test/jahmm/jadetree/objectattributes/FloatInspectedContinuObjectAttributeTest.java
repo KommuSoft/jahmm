@@ -1,20 +1,22 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package jahmm.jadetree.objectattributes;
 
+import jahmm.jadetree.foo.TestSquareEquation;
+import java.util.logging.Logger;
+import jutils.testing.AssertExtensions;
+import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
+import utils.TestParameters;
 
 /**
  *
  * @author kommusoft
  */
 public class FloatInspectedContinuObjectAttributeTest {
-    
+
+    private static final Logger LOG = Logger.getLogger(FloatInspectedContinuObjectAttributeTest.class.getName());
+
+    String[] names = new String[]{"x1", "x2"};
+
     public FloatInspectedContinuObjectAttributeTest() {
     }
 
@@ -23,13 +25,14 @@ public class FloatInspectedContinuObjectAttributeTest {
      */
     @Test
     public void testGetName() {
-        System.out.println("getName");
-        FloatInspectedContinuObjectAttribute instance = null;
-        String expResult = "";
-        String result = instance.getName();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        for (String name : names) {
+            ObjectAttribute<TestSquareEquation, ? extends Object> tly = ObjectAttributeInspector.inspect(TestSquareEquation.class, name);
+            AssertExtensions.assertTypeof(FloatInspectedContinuObjectAttribute.class, tly);
+            Assert.assertEquals(name, tly.getName());
+            @SuppressWarnings("unchecked")
+            FloatInspectedContinuObjectAttribute<TestSquareEquation> nioa = (FloatInspectedContinuObjectAttribute<TestSquareEquation>) tly;
+            Assert.assertEquals(name, nioa.getName());
+        }
     }
 
     /**
@@ -37,14 +40,22 @@ public class FloatInspectedContinuObjectAttributeTest {
      */
     @Test
     public void testEvaluate() {
-        System.out.println("evaluate");
-        Object x = null;
-        FloatInspectedContinuObjectAttribute instance = null;
-        Float expResult = null;
-        Float result = instance.evaluate(x);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ObjectAttribute<TestSquareEquation, ? extends Object> tly;
+        FloatInspectedContinuObjectAttribute<TestSquareEquation> nioa;
+        tly = ObjectAttributeInspector.inspect(TestSquareEquation.class, "x1");
+        AssertExtensions.assertTypeof(FloatInspectedContinuObjectAttribute.class, tly);
+        nioa = (FloatInspectedContinuObjectAttribute<TestSquareEquation>) tly;
+        for (int i = 0x00; i < TestParameters.NUMBER_OF_TESTS; i++) {
+            TestSquareEquation tlyi = TestSquareEquation.randomInstance();
+            Assert.assertEquals((Float) tlyi.getX1(), nioa.evaluate(tlyi));
+        }
+        tly = ObjectAttributeInspector.inspect(TestSquareEquation.class, "x2");
+        AssertExtensions.assertTypeof(FloatInspectedContinuObjectAttribute.class, tly);
+        nioa = (FloatInspectedContinuObjectAttribute<TestSquareEquation>) tly;
+        for (int i = 0x00; i < TestParameters.NUMBER_OF_TESTS; i++) {
+            TestSquareEquation tlyi = TestSquareEquation.randomInstance();
+            Assert.assertEquals((Float) tlyi.getX2(), nioa.evaluate(tlyi));
+        }
     }
-    
+
 }
