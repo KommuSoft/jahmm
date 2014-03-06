@@ -1,9 +1,11 @@
 package jahmm.jadetree;
 
+import jahmm.jadetree.foo.Foo;
 import jahmm.jadetree.foo.TestLeapYear;
 import jahmm.jadetree.objectattributes.NominalObjectAttribute;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
 import jahmm.jadetree.objectattributes.ObjectAttributeInspector;
+import java.lang.reflect.Field;
 import junit.framework.Assert;
 import jutils.collections.CollectionUtils;
 import jutils.testing.AssertExtensions;
@@ -108,6 +110,7 @@ public class DecisionLeafBaseTest {
         expected = new ListArray<>(ob1, ob2, ob3, ob4, ob5, ob6, ob5, ob4, ob3, ob2, ob1);
         AssertExtensions.assertEqualsOrderedDeep(expected, dlb.getStoredSources());
         AssertExtensions.assertEqualsOrderedDeep(new ListArray<>(expected), dlb.getPartitionedStoredSources());
+
     }
 
     /**
