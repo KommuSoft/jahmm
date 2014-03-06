@@ -6,6 +6,7 @@ import java.util.Iterator;
 import jutils.collections.valuesets.BooleanSet;
 import jutils.testing.AssertExtensions;
 import org.junit.Assert;
+import static org.junit.Assert.fail;
 import org.junit.Test;
 
 /**
@@ -191,6 +192,47 @@ public class ObjectAttributeInspectorTest {
         Bit,
         Bucket
 
+    }
+
+    /**
+     * Test of inspect method, of class ObjectAttributeInspector.
+     */
+    @Test
+    public void testInspect_Class() {
+        
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of inspect method, of class ObjectAttributeInspector.
+     */
+    @Test
+    public void testInspect_Method() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of inspect method, of class ObjectAttributeInspector.
+     */
+    @Test
+    public void testInspect_Class_String() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of inspect method, of class ObjectAttributeInspector.
+     */
+    @Test
+    public void testInspect_Class_Iterable() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of inspect method, of class ObjectAttributeInspector.
+     */
+    @Test
+    public void testInspect_Class_StringArr() {
+        fail("The test case is a prototype.");
     }
 
 }

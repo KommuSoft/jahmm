@@ -1,23 +1,24 @@
 package jahmm.jadetree;
 
-import jahmm.jadetree.foo.Foo;
 import jahmm.jadetree.foo.TestLeapYear;
 import jahmm.jadetree.objectattributes.NominalObjectAttribute;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
 import jahmm.jadetree.objectattributes.ObjectAttributeInspector;
-import java.lang.reflect.Field;
+import java.util.logging.Logger;
 import junit.framework.Assert;
 import jutils.collections.CollectionUtils;
 import jutils.testing.AssertExtensions;
 import jutlis.lists.ListArray;
+import static org.junit.Assert.fail;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author kommusoft
  */
 public class DecisionLeafBaseTest {
+
+    private static final Logger LOG = Logger.getLogger(DecisionLeafBaseTest.class.getName());
 
     public DecisionLeafBaseTest() {
     }
