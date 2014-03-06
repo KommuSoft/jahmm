@@ -38,11 +38,11 @@ public class ObjectAttributeInspector {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> ObjectAttribute<? extends Object, ? extends Object> inspect(Class<T> toinspect, String annotationName) {
+    public static <T> ObjectAttribute<T, ? extends Object> inspect(Class<T> toinspect, String annotationName) {
         for (Method method : toinspect.getMethods()) {
             ObjectAttributeAnnotation oaa = method.getAnnotation(ObjectAttributeAnnotation.class);
             if (oaa != null && oaa.name().equals(annotationName)) {
-                return inspect(method);
+                return (ObjectAttribute<T, ? extends Object>) inspect(method);
             }
         }
         return null;

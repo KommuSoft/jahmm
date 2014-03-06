@@ -1,36 +1,35 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package jahmm.jadetree.objectattributes;
 
-import java.util.Set;
+import jahmm.jadetree.foo.TestLeapYear;
+import java.util.logging.Logger;
+import jutils.testing.AssertExtensions;
+import jutils.types.TypeUtils;
+import org.junit.Assert;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author kommusoft
  */
 public class NominalInspectedObjectAttributeTest {
-    
+
+    private static final Logger LOG = Logger.getLogger(NominalInspectedObjectAttributeTest.class.getName());
+
     public NominalInspectedObjectAttributeTest() {
     }
 
     /**
-     * Test of getPossibleValues method, of class NominalInspectedObjectAttribute.
+     * Test of getPossibleValues method, of class
+     * NominalInspectedObjectAttribute.
      */
     @Test
     public void testGetPossibleValues() {
-        System.out.println("getPossibleValues");
-        NominalInspectedObjectAttribute instance = null;
-        Set expResult = null;
-        Set result = instance.getPossibleValues();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ObjectAttribute<TestLeapYear,? extends Object> tly = ObjectAttributeInspector.inspect(TestLeapYear.class, "div4");
+        AssertExtensions.assertTypeof(NominalInspectedObjectAttribute.class, tly);
+        NominalInspectedObjectAttribute<TestLeapYear,? extends Object> nioa = (NominalInspectedObjectAttribute<TestLeapYear,? extends Object>) tly;
+        Assert.assertEquals(TypeUtils.getNominalSet(Boolean.class), nioa.getPossibleValues());
     }
 
     /**
@@ -53,13 +52,11 @@ public class NominalInspectedObjectAttributeTest {
      */
     @Test
     public void testGetName() {
-        System.out.println("getName");
-        NominalInspectedObjectAttribute instance = null;
-        String expResult = "";
-        String result = instance.getName();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ObjectAttribute<TestLeapYear,? extends Object> tly = ObjectAttributeInspector.inspect(TestLeapYear.class, "div4");
+        AssertExtensions.assertTypeof(NominalInspectedObjectAttribute.class, tly);
+        Assert.assertEquals("div4", tly.getName());
+        NominalInspectedObjectAttribute<TestLeapYear,? extends Object> nioa = (NominalInspectedObjectAttribute<TestLeapYear,? extends Object>) tly;
+        Assert.assertEquals("div4", nioa.getName());
     }
-    
+
 }
