@@ -2,6 +2,7 @@ package jahmm.jadetree.foo;
 
 import jahmm.jadetree.objectattributes.ObjectAttributeAnnotation;
 import java.util.logging.Logger;
+import jutils.probability.ProbabilityUtils;
 
 /**
  *
@@ -12,6 +13,13 @@ public class TestSquareEquation {
     private static final Logger LOG = Logger.getLogger(TestSquareEquation.class.getName());
 
     private final double a, b, c;
+
+    public static TestSquareEquation randomInstance() {
+        double a = ProbabilityUtils.nextDouble();
+        double b = ProbabilityUtils.nextDouble();
+        double c = ProbabilityUtils.nextDouble();
+        return new TestSquareEquation(a, b, c);
+    }
 
     public TestSquareEquation(double a, double b, double c) {
         this.a = a;
