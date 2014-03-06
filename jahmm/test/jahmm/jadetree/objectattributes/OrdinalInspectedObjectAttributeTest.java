@@ -1,20 +1,23 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package jahmm.jadetree.objectattributes;
 
+import jahmm.jadetree.foo.TestLeapYear;
+import java.util.logging.Logger;
+import jutils.testing.AssertExtensions;
+import org.junit.Assert;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import utils.TestParameters;
 
 /**
  *
  * @author kommusoft
  */
 public class OrdinalInspectedObjectAttributeTest {
-    
+
+    private static final Logger LOG = Logger.getLogger(OrdinalInspectedObjectAttributeTest.class.getName());
+
+    String[] names = new String[]{"year"};
+
     public OrdinalInspectedObjectAttributeTest() {
     }
 
@@ -39,13 +42,13 @@ public class OrdinalInspectedObjectAttributeTest {
      */
     @Test
     public void testGetName() {
-        System.out.println("getName");
-        OrdinalInspectedObjectAttribute instance = null;
-        String expResult = "";
-        String result = instance.getName();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        for (String name : names) {
+            ObjectAttribute<TestLeapYear, ? extends Object> tly = ObjectAttributeInspector.inspect(TestLeapYear.class, name);
+            AssertExtensions.assertTypeof(OrdinalInspectedObjectAttribute.class, tly);
+            Assert.assertEquals(name, tly.getName());
+            OrdinalInspectedObjectAttribute<TestLeapYear, ? extends Object> nioa = (OrdinalInspectedObjectAttribute<TestLeapYear, ? extends Object>) tly;
+            Assert.assertEquals(name, nioa.getName());
+        }
     }
 
     /**
@@ -53,14 +56,15 @@ public class OrdinalInspectedObjectAttributeTest {
      */
     @Test
     public void testEvaluate() {
-        System.out.println("evaluate");
-        Object x = null;
-        OrdinalInspectedObjectAttribute instance = null;
-        Object expResult = null;
-        Object result = instance.evaluate(x);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ObjectAttribute<TestLeapYear, ? extends Object> tly;
+        OrdinalInspectedObjectAttribute<TestLeapYear, ? extends Object> nioa;
+        tly = ObjectAttributeInspector.inspect(TestLeapYear.class, "year");
+        AssertExtensions.assertTypeof(OrdinalInspectedObjectAttribute.class, tly);
+        nioa = (OrdinalInspectedObjectAttribute<TestLeapYear, ? extends Object>) tly;
+        for (int i = 0x00; i < TestParameters.NUMBER_OF_TESTS; i++) {
+            TestLeapYear tlyi = new TestLeapYear(i);
+            Assert.assertEquals(tlyi.year(), nioa.evaluate(tlyi));
+        }
     }
 
     /**
@@ -78,5 +82,5 @@ public class OrdinalInspectedObjectAttributeTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
+
 }

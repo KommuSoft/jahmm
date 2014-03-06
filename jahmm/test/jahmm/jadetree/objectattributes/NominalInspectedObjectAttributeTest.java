@@ -15,8 +15,8 @@ import utils.TestParameters;
 public class NominalInspectedObjectAttributeTest {
 
     private static final Logger LOG = Logger.getLogger(NominalInspectedObjectAttributeTest.class.getName());
-    
-    String[] names = new String[] {"div2","div4","div8","div16","div100","div200","div500","div1000","leap"};
+
+    String[] names = new String[]{"div2", "div4", "div8", "div16", "div100", "div200", "div500", "div1000", "leap"};
 
     public NominalInspectedObjectAttributeTest() {
     }
@@ -27,7 +27,7 @@ public class NominalInspectedObjectAttributeTest {
      */
     @Test
     public void testGetPossibleValues() {
-        for (ObjectAttribute<TestLeapYear, ? extends Object> tly : ObjectAttributeInspector.inspect(TestLeapYear.class) ) {
+        for (ObjectAttribute<TestLeapYear, ? extends Object> tly : ObjectAttributeInspector.inspect(TestLeapYear.class, this.names)) {
             AssertExtensions.assertTypeof(NominalInspectedObjectAttribute.class, tly);
             NominalInspectedObjectAttribute<TestLeapYear, ? extends Object> nioa = (NominalInspectedObjectAttribute<TestLeapYear, ? extends Object>) tly;
             Assert.assertEquals(TypeUtils.getNominalSet(Boolean.class), nioa.getPossibleValues());
@@ -111,7 +111,7 @@ public class NominalInspectedObjectAttributeTest {
      */
     @Test
     public void testGetName() {
-        for(String name : names) {
+        for (String name : names) {
             ObjectAttribute<TestLeapYear, ? extends Object> tly = ObjectAttributeInspector.inspect(TestLeapYear.class, name);
             AssertExtensions.assertTypeof(NominalInspectedObjectAttribute.class, tly);
             Assert.assertEquals(name, tly.getName());
