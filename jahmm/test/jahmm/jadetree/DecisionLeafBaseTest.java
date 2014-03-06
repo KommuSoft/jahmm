@@ -197,6 +197,9 @@ public class DecisionLeafBaseTest {
         AssertExtensions.assertGreaterThan(tree.expandScore(), 0.00d);
         AssertExtensions.assertGreaterThan(root.expandScore(), 0.00d);
         tree.expand();
+        AssertExtensions.assertTypeof(EnumerableDecisionNode.class, tree.getRoot());
+        EnumerableDecisionNode<TestLeapYear,?> root2 = (EnumerableDecisionNode<TestLeapYear,?>) tree.getRoot();
+        Assert.assertEquals("div100", root2.toString());
     }
 
     /**
