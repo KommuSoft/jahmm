@@ -198,8 +198,18 @@ public class DecisionLeafBaseTest {
         AssertExtensions.assertGreaterThan(root.expandScore(), 0.00d);
         tree.expand();
         AssertExtensions.assertTypeof(EnumerableDecisionNode.class, tree.getRoot());
-        EnumerableDecisionNode<TestLeapYear,?> root2 = (EnumerableDecisionNode<TestLeapYear,?>) tree.getRoot();
+        @SuppressWarnings("unchecked")
+        EnumerableDecisionNode<TestLeapYear,Object> root2 = (EnumerableDecisionNode<TestLeapYear,Object>) tree.getRoot();
         Assert.assertEquals("div100", root2.toString());
+        AssertExtensions.assertTypeof(DecisionLeafBase.class, root2.getChild(Boolean.TRUE));
+        AssertExtensions.assertTypeof(DecisionLeafBase.class, root2.getChild(Boolean.FALSE));
+        DecisionLeafBase<TestLeapYear> leaft = (DecisionLeafBase<TestLeapYear>) root2.getChild(Boolean.TRUE);
+        DecisionLeafBase<TestLeapYear> leaff = (DecisionLeafBase<TestLeapYear>) root2.getChild(Boolean.FALSE);
+        Assert.assertEquals(0x01+(nYears-0x01)/100, CollectionUtils.size(leaft.getStoredSources()));
+        Assert.assertEquals(nYears-0x01-(nYears-0x01)/100, CollectionUtils.size(leaff.getStoredSources()));
+        Assert.assertEquals(nYears, CollectionUtils.size(root.getStoredSources()));
+        Assert.assertEquals(0x02, CollectionUtils.size(root2.getPartitionedStoredSources()));
+        AssertExtensions.assertGreaterThan(CollectionUtils.size(leaff.getStoredSources()), CollectionUtils.size(leaft.getStoredSources()));
     }
 
     /**
