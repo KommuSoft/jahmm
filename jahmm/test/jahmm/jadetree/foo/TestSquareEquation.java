@@ -75,4 +75,30 @@ public class TestSquareEquation {
         return this.getD2() < 0.0d;
     }
 
+    /**
+     * @return the c
+     */
+    @ObjectAttributeAnnotation(name = "x1")
+    public float getX1() {
+        if (this.isSol2()) {
+            return (float) (0.5d * (-b - Math.sqrt(this.getD2())) / a);
+        } else if (this.isSol1()) {
+            return (float) (-0.5d * b / a);
+        } else {
+            return Float.NaN;
+        }
+    }
+
+    /**
+     * @return the c
+     */
+    @ObjectAttributeAnnotation(name = "x2")
+    public float getX2() {
+        if (this.isSol2()) {
+            return (float) (0.5d * (-b + Math.sqrt(this.getD2())) / a);
+        } else {
+            return Float.NaN;
+        }
+    }
+
 }
