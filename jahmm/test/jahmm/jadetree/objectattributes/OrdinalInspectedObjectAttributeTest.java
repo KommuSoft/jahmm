@@ -5,7 +5,6 @@ import java.util.logging.Logger;
 import jutils.testing.AssertExtensions;
 import org.junit.Assert;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import utils.TestParameters;
 
 /**
@@ -13,11 +12,11 @@ import utils.TestParameters;
  * @author kommusoft
  */
 public class OrdinalInspectedObjectAttributeTest {
-
+    
     private static final Logger LOG = Logger.getLogger(OrdinalInspectedObjectAttributeTest.class.getName());
-
+    
     String[] names = new String[]{"year"};
-
+    
     public OrdinalInspectedObjectAttributeTest() {
     }
 
@@ -26,15 +25,17 @@ public class OrdinalInspectedObjectAttributeTest {
      */
     @Test
     public void testCompareWith() {
-        System.out.println("compareWith");
-        Object source = null;
-        Object target = null;
-        OrdinalInspectedObjectAttribute instance = null;
-        int expResult = 0;
-        int result = instance.compareWith(source, target);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ObjectAttribute<TestLeapYear, ? extends Object> tly;
+        OrdinalInspectedObjectAttribute<TestLeapYear,Object> nioa;
+        tly = ObjectAttributeInspector.inspect(TestLeapYear.class, "year");
+        AssertExtensions.assertTypeof(OrdinalInspectedObjectAttribute.class, tly);
+        nioa = (OrdinalInspectedObjectAttribute<TestLeapYear, Object>) tly;
+        for (int i = 0x00; i < TestParameters.NUMBER_OF_TESTS; i++) {
+            TestLeapYear tlyi = new TestLeapYear(i);
+            for (int j = 0x00; j < TestParameters.NUMBER_OF_TESTS; j++) {
+                Assert.assertEquals(((Integer) tlyi.year()).compareTo(j), nioa.compareWith(tlyi, j));
+            }
+        }
     }
 
     /**
@@ -72,15 +73,18 @@ public class OrdinalInspectedObjectAttributeTest {
      */
     @Test
     public void testCompare() {
-        System.out.println("compare");
-        Object t1 = null;
-        Object t2 = null;
-        OrdinalInspectedObjectAttribute instance = null;
-        int expResult = 0;
-        int result = instance.compare(t1, t2);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ObjectAttribute<TestLeapYear, ? extends Object> tly;
+        OrdinalInspectedObjectAttribute<TestLeapYear, ? extends Object> nioa;
+        tly = ObjectAttributeInspector.inspect(TestLeapYear.class, "year");
+        AssertExtensions.assertTypeof(OrdinalInspectedObjectAttribute.class, tly);
+        nioa = (OrdinalInspectedObjectAttribute<TestLeapYear, ? extends Object>) tly;
+        for (int i = 0x00; i < TestParameters.NUMBER_OF_TESTS; i++) {
+            TestLeapYear tlyi = new TestLeapYear(i);
+            for (int j = 0x00; j < TestParameters.NUMBER_OF_TESTS; j++) {
+                TestLeapYear tlyj = new TestLeapYear(j);
+                Assert.assertEquals(((Integer) tlyi.year()).compareTo(tlyj.year()), nioa.compare(tlyi, tlyj));
+            }
+        }
     }
-
+    
 }
