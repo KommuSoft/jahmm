@@ -6,6 +6,7 @@ import jutils.iterators.ListGenericIterable;
 import static jutils.testing.AssertExtensions.assertEquals;
 import jutlis.algebra.Function;
 import org.junit.Test;
+import utils.TestParameters;
 
 /**
  *
@@ -56,11 +57,9 @@ public class DecisionTreeUtilsTest {
 
     @Test
     public void testCalculateEntropyPartition() {
-        double expResult = 0.0;
-        /*double result = DecisionTreeUtils.calculateEntropyPartition(null);
-         assertEquals(expResult, result, 0.0);
-         // TODO review the generated test code and remove the default call to fail.
-         fail("The test case is a prototype.");//*/
+        for(int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            
+        }
     }
 
     private class Foo implements Function<Foo, Integer> {

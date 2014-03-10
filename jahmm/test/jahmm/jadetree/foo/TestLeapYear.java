@@ -67,4 +67,9 @@ public class TestLeapYear {
         return this.div4() && (this.div1000() || !this.div100());
     }
 
+    @Override
+    public String toString() {
+        return ((Integer) year).toString();
+    }
+
 }
