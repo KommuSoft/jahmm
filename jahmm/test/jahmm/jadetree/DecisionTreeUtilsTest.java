@@ -7,10 +7,12 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 import jutils.MathUtils;
 import jutils.iterators.ListGenericIterable;
+import jutils.probability.ProbabilityUtils;
 import jutils.testing.AssertExtensions;
 import static jutils.testing.AssertExtensions.assertEquals;
 import jutlis.algebra.Function;
 import jutlis.lists.ListArray;
+import static org.junit.Assert.fail;
 import org.junit.Test;
 import utils.TestParameters;
 
@@ -26,7 +28,7 @@ public class DecisionTreeUtilsTest {
     }
 
     @Test
-    public void testCalculateEntropy() {
+    public void testCalculateEntropy00() {
         double expResult;
         double result;
         expResult = 0.0d;
@@ -53,40 +55,58 @@ public class DecisionTreeUtilsTest {
     }
 
     @Test
+    public void testCalculateEntropy01() {
+        ObjectAttribute<Test2B, ? extends Object> target = ObjectAttributeInspector.inspect(Test2B.class, "bool1");
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE);
+            ArrayList<Test2B> data = new ArrayList<>(N);
+            int n = 0x00;
+            for (int i = 0x00; i < N; i++) {
+                Test2B t2i = new Test2B();
+                data.add(t2i);
+                if (t2i.isBool1()) {
+                    n++;
+                }
+            }
+            double expected = DecisionTreeUtils.calculateEntropy2p((double) n / N);
+            double result = DecisionTreeUtils.calculateEntropy(data, target);
+            String msg = data.toString();
+            AssertExtensions.assertEquals(msg,expected, result);
+        }
+    }
+
+    @Test
     public void testCalculateEntropyFlipIndex() {
-        int expResult = 0;
-        /*int result = DecisionTreeUtils.calculateEntropyFlipIndex(null);
-         assertEquals(expResult, result);
-         // TODO review the generated test code and remove the default call to fail.
-         fail("The test case is a prototype.");//*/
+        fail("This test is a prototype");
     }
 
     @Test
     @SuppressWarnings("unchecked")
     public void testCalculateEntropyPartition() {
-        ObjectAttribute<Test2B,? extends Object> target = ObjectAttributeInspector.inspect(Test2B.class, "bool2");
-        AssertExtensions.pushEpsilon(1e-4);
-        for(int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
-            ArrayList<Test2B> data0 = new ArrayList<>(TestParameters.TEST_SIZE/0x03);
-            ArrayList<Test2B> data1 = new ArrayList<>(TestParameters.TEST_SIZE/0x03);
+        ObjectAttribute<Test2B, ? extends Object> target = ObjectAttributeInspector.inspect(Test2B.class, "bool2");
+        AssertExtensions.pushEpsilon(1e-2);
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            ArrayList<Test2B> data0 = new ArrayList<>(TestParameters.TEST_SIZE / 0x03);
+            ArrayList<Test2B> data1 = new ArrayList<>(TestParameters.TEST_SIZE / 0x03);
             int n = 0x00, n0 = 0x00, n1 = 0x00;
-            for(int i = 0x00; i < TestParameters.TEST_SIZE; i++) {
+            for (int i = 0x00; i < TestParameters.TEST_SIZE; i++) {
                 Test2B t2i = new Test2B();
-                if(t2i.isBool1()) {
+                if (t2i.isBool1()) {
                     data0.add(t2i);
                     n++;
-                    if(t2i.isBool2()) {
+                    if (t2i.isBool2()) {
                         n0++;
                     }
-                }
-                else {
+                } else {
                     data1.add(t2i);
-                    if(t2i.isBool2()) {
+                    if (t2i.isBool2()) {
                         n1++;
                     }
                 }
             }
-            AssertExtensions.assertEquals(DecisionTreeUtils.calculateEntropy2pSplit((double) n/TestParameters.TEST_SIZE, (double) n0/n, (double) n1/n), DecisionTreeUtils.calculateEntropyPartition(new ListArray<>(data0,data1), target));
+            double expected = DecisionTreeUtils.calculateEntropy2pSplit((double) n / TestParameters.TEST_SIZE, (double) n0 / n, (double) n1 / n);
+            double result = DecisionTreeUtils.calculateEntropyPartition(new ListArray<>(data0, data1), target);
+            AssertExtensions.assertEquals(expected, result);
         }
         AssertExtensions.popEpsilon();
     }

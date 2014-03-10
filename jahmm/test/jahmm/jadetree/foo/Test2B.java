@@ -42,7 +42,7 @@ public class Test2B {
 
     @Override
     public String toString() {
-        return ((Boolean) bool1).toString().charAt(0x00) + "/" + ((Boolean) bool1).toString().charAt(0x01);
+        return ((Boolean) bool1).toString().charAt(0x00) + "/" + ((Boolean) bool2).toString().charAt(0x00);
     }
 
 }
