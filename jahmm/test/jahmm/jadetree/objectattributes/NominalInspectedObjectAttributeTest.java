@@ -1,5 +1,6 @@
 package jahmm.jadetree.objectattributes;
 
+import jahmm.jadetree.DecisionTreeUtils;
 import jahmm.jadetree.foo.TestLeapYear;
 import java.util.logging.Logger;
 import jutils.testing.AssertExtensions;
@@ -119,18 +120,42 @@ public class NominalInspectedObjectAttributeTest {
             Assert.assertEquals(name, nioa.getName());
         }
     }
-    
+
     @Test
-    public void testScore () {
+    public void testScore() {
         //a boring test
         TestLeapYear[] tly = new TestLeapYear[TestParameters.NUMBER_OF_TESTS];
-        for(int i = 0x01, j = 0x00; j < TestParameters.NUMBER_OF_TESTS; i += 0x04, j++) {
+        for (int i = 0x01, j = 0x00; j < TestParameters.NUMBER_OF_TESTS; i += 0x04, j++) {
             tly[j] = new TestLeapYear(i);
         }
-        ObjectAttribute oa = ObjectAttributeInspector.inspect(TestLeapYear.class, "div2");
-        ObjectAttribute target = ObjectAttributeInspector.inspect(TestLeapYear.class, "leap");
-        double scrore = oa.calculateScore(target, null, tly);
-        AssertExtensions.assertEquals(0.0d, scrore);
+        ObjectAttribute<TestLeapYear, ? extends Object> oad2 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div2");
+        ObjectAttribute<TestLeapYear, ? extends Object> oad4 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div4");
+        ObjectAttribute<TestLeapYear, ? extends Object> oad8 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div8");
+        ObjectAttribute<TestLeapYear, ? extends Object> oad16 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div16");
+        ObjectAttribute<TestLeapYear, ? extends Object> oad100 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div100");
+        ObjectAttribute<TestLeapYear, ? extends Object> oad200 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div200");
+        ObjectAttribute<TestLeapYear, ? extends Object> oad500 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div500");
+        ObjectAttribute<TestLeapYear, ? extends Object> oad1000 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div1000");
+        ObjectAttribute<TestLeapYear, ? extends Object> target = ObjectAttributeInspector.inspect(TestLeapYear.class, "leap");
+        AssertExtensions.assertEquals(0.0d, oad2.calculateScore(target, null, tly));
+        AssertExtensions.assertEquals(0.0d, oad4.calculateScore(target, null, tly));
+        AssertExtensions.assertEquals(0.0d, oad8.calculateScore(target, null, tly));
+        AssertExtensions.assertEquals(0.0d, oad16.calculateScore(target, null, tly));
+        AssertExtensions.assertEquals(0.0d, oad100.calculateScore(target, null, tly));
+        AssertExtensions.assertEquals(0.0d, oad200.calculateScore(target, null, tly));
+        AssertExtensions.assertEquals(0.0d, oad500.calculateScore(target, null, tly));
+        AssertExtensions.assertEquals(0.0d, oad1000.calculateScore(target, null, tly));
+
+        int n = 160;
+        tly = new TestLeapYear[n];
+        for (int i = 0x00; i < n; i++) {
+            tly[i] = new TestLeapYear(i);
+        }
+        double p, p0, p1;
+        p = 0.5d;
+        p0 = (double) (n / 0x02 - 0x01) / n;
+        p1 = 0.0d;
+        AssertExtensions.assertEquals(p * DecisionTreeUtils.calculateEntropy2p(p0) + (1.0d - p) * DecisionTreeUtils.calculateEntropy2p(p1), oad2.calculateScore(target, null, tly));
     }
 
 }

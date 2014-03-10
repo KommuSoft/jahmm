@@ -91,6 +91,15 @@ public class DecisionTreeUtils {
         return calculateEntropy(sources, frequency, function, null);
     }
 
+    public static double calculateEntropy2p(double p) {
+        if(p <= 0.0d || p >= 1.0d) {
+            return 0.0d;
+        } else {
+            double pa = 1.0d - p;
+            return -MathUtils.INVLOG2 * (p * Math.log(p) - pa * Math.log(pa));
+        }
+    }
+
     public static <TSource> double calculateEntropy(Iterable<TSource> sources) {
         return calculateEntropy(sources, new FunctionIdentity<TSource>());
     }
