@@ -21,7 +21,11 @@ public class Test2B {
     }
 
     public Test2B() {
-        this(ProbabilityUtils.nextBoolean(), ProbabilityUtils.nextBoolean());
+        this(0.5d);
+    }
+    
+    public Test2B(double probability) {
+        this(ProbabilityUtils.nextBoolean(probability), ProbabilityUtils.nextBoolean(probability));
     }
 
     /**
