@@ -96,7 +96,7 @@ public class DecisionTreeUtils {
             return 0.0d;
         } else {
             double pa = 1.0d - p;
-            return -MathUtils.INVLOG2 * (p * Math.log(p) - pa * Math.log(pa));
+            return -MathUtils.INVLOG2 * (p * Math.log(p) + pa * Math.log(pa));
         }
     }
 

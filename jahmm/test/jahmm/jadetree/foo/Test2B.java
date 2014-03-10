@@ -40,4 +40,9 @@ public class Test2B {
         return bool2;
     }
 
+    @Override
+    public String toString() {
+        return ((Boolean) bool1).toString().charAt(0x00) + "/" + ((Boolean) bool1).toString().charAt(0x01);
+    }
+
 }

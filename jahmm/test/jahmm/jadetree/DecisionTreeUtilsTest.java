@@ -1,10 +1,16 @@
 package jahmm.jadetree;
 
+import jahmm.jadetree.foo.Test2B;
+import jahmm.jadetree.objectattributes.ObjectAttribute;
+import jahmm.jadetree.objectattributes.ObjectAttributeInspector;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 import jutils.MathUtils;
 import jutils.iterators.ListGenericIterable;
+import jutils.testing.AssertExtensions;
 import static jutils.testing.AssertExtensions.assertEquals;
 import jutlis.algebra.Function;
+import jutlis.lists.ListArray;
 import org.junit.Test;
 import utils.TestParameters;
 
@@ -56,10 +62,33 @@ public class DecisionTreeUtilsTest {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testCalculateEntropyPartition() {
+        ObjectAttribute<Test2B,? extends Object> target = ObjectAttributeInspector.inspect(Test2B.class, "bool2");
+        AssertExtensions.pushEpsilon(1e-4);
         for(int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
-            
+            ArrayList<Test2B> data0 = new ArrayList<>(TestParameters.TEST_SIZE/0x03);
+            ArrayList<Test2B> data1 = new ArrayList<>(TestParameters.TEST_SIZE/0x03);
+            int n = 0x00, n0 = 0x00, n1 = 0x00;
+            for(int i = 0x00; i < TestParameters.TEST_SIZE; i++) {
+                Test2B t2i = new Test2B();
+                if(t2i.isBool1()) {
+                    data0.add(t2i);
+                    n++;
+                    if(t2i.isBool2()) {
+                        n0++;
+                    }
+                }
+                else {
+                    data1.add(t2i);
+                    if(t2i.isBool2()) {
+                        n1++;
+                    }
+                }
+            }
+            AssertExtensions.assertEquals(DecisionTreeUtils.calculateEntropy2pSplit((double) n/TestParameters.TEST_SIZE, (double) n0/n, (double) n1/n), DecisionTreeUtils.calculateEntropyPartition(new ListArray<>(data0,data1), target));
         }
+        AssertExtensions.popEpsilon();
     }
 
     private class Foo implements Function<Foo, Integer> {
