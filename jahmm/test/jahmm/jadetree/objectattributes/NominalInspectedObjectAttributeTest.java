@@ -119,5 +119,18 @@ public class NominalInspectedObjectAttributeTest {
             Assert.assertEquals(name, nioa.getName());
         }
     }
+    
+    @Test
+    public void testScore () {
+        //a boring test
+        TestLeapYear[] tly = new TestLeapYear[TestParameters.NUMBER_OF_TESTS];
+        for(int i = 0x01, j = 0x00; j < TestParameters.NUMBER_OF_TESTS; i += 0x04, j++) {
+            tly[j] = new TestLeapYear(i);
+        }
+        ObjectAttribute oa = ObjectAttributeInspector.inspect(TestLeapYear.class, "div2");
+        ObjectAttribute target = ObjectAttributeInspector.inspect(TestLeapYear.class, "leap");
+        double scrore = oa.calculateScore(target, null, tly);
+        AssertExtensions.assertEquals(0.0d, scrore);
+    }
 
 }

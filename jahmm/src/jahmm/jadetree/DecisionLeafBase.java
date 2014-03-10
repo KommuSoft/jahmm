@@ -75,7 +75,7 @@ public final class DecisionLeafBase<TSource> extends DecisionRealNodeBase<TSourc
         HolderBase<Object> curData = new HolderBase<>();
         ObjectAttribute<TSource, ? extends Object> target = this.getTree().getTargetAttribute();
         for (ObjectAttribute<TSource, ? extends Object> oa : this.getTree().getSourceAttributes()) {
-            double sc = oa.calculateScore(this.memory, target, curData);
+            double sc = oa.calculateScore(target, curData, this.memory);
             if (sc > maxScore) {
                 maxScore = sc;
                 maxIndex = i;

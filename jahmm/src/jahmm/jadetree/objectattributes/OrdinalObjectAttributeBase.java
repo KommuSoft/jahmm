@@ -17,7 +17,7 @@ import jutlis.tuples.Tuple2Base;
  * @param <TSource> The domain of the function.
  * @param <TTarget> The range of the function.
  */
-public abstract class OrdinalObjectAttributeBase<TSource, TTarget> implements OrdinalObjectAttribute<TSource, TTarget> {
+public abstract class OrdinalObjectAttributeBase<TSource, TTarget> extends ObjectAttributeBase<TSource,TTarget> implements OrdinalObjectAttribute<TSource, TTarget> {
 
     @Override
     public TTarget getBetween(TSource source1, TSource source2) {
@@ -29,12 +29,12 @@ public abstract class OrdinalObjectAttributeBase<TSource, TTarget> implements Or
     }
 
     @Override
-    public double calculateScore(List<TSource> list, Function<TSource, ? extends Object> target, Holder<Object> state) {
-        Collections.sort(list, this);
+    public double calculateScore(Function<TSource, ? extends Object> function, Holder<Object> state, List<TSource> source) {
+        Collections.sort(source, this);
         Tuple2<Integer, Double> te = new Tuple2Base<>();
-        int split = DecisionTreeUtils.calculateEntropyFlipIndex(list, target, te);
+        int split = DecisionTreeUtils.calculateEntropyFlipIndex(source, function, te);
         if (state != null) {
-            this.getBetween(list.get(split), list.get(split + 0x01));
+            this.getBetween(source.get(split), source.get(split + 0x01));
             state.setData(split);
         }
         return te.getItem2();
