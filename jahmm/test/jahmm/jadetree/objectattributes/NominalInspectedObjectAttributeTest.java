@@ -16,10 +16,20 @@ import utils.TestParameters;
 public class NominalInspectedObjectAttributeTest {
 
     private static final Logger LOG = Logger.getLogger(NominalInspectedObjectAttributeTest.class.getName());
+    private final ObjectAttribute<TestLeapYear, ? extends Object> oad2, oad4, oad8, oad16, oad100, oad200, oad500, oad1000, target;
 
     String[] names = new String[]{"div2", "div4", "div8", "div16", "div100", "div200", "div500", "div1000", "leap"};
 
     public NominalInspectedObjectAttributeTest() {
+        oad2 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div2");
+        oad4 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div4");
+        oad8 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div8");
+        oad16 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div16");
+        oad100 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div100");
+        oad200 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div200");
+        oad500 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div500");
+        oad1000 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div1000");
+        target = ObjectAttributeInspector.inspect(TestLeapYear.class, "leap");
     }
 
     /**
@@ -122,21 +132,12 @@ public class NominalInspectedObjectAttributeTest {
     }
 
     @Test
-    public void testScore() {
+    public void testScore00() {
         //a boring test
         TestLeapYear[] tly = new TestLeapYear[TestParameters.NUMBER_OF_TESTS];
         for (int i = 0x01, j = 0x00; j < TestParameters.NUMBER_OF_TESTS; i += 0x04, j++) {
             tly[j] = new TestLeapYear(i);
         }
-        ObjectAttribute<TestLeapYear, ? extends Object> oad2 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div2");
-        ObjectAttribute<TestLeapYear, ? extends Object> oad4 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div4");
-        ObjectAttribute<TestLeapYear, ? extends Object> oad8 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div8");
-        ObjectAttribute<TestLeapYear, ? extends Object> oad16 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div16");
-        ObjectAttribute<TestLeapYear, ? extends Object> oad100 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div100");
-        ObjectAttribute<TestLeapYear, ? extends Object> oad200 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div200");
-        ObjectAttribute<TestLeapYear, ? extends Object> oad500 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div500");
-        ObjectAttribute<TestLeapYear, ? extends Object> oad1000 = ObjectAttributeInspector.inspect(TestLeapYear.class, "div1000");
-        ObjectAttribute<TestLeapYear, ? extends Object> target = ObjectAttributeInspector.inspect(TestLeapYear.class, "leap");
         AssertExtensions.assertEquals(0.0d, oad2.calculateScore(target, null, tly));
         AssertExtensions.assertEquals(0.0d, oad4.calculateScore(target, null, tly));
         AssertExtensions.assertEquals(0.0d, oad8.calculateScore(target, null, tly));
@@ -145,17 +146,28 @@ public class NominalInspectedObjectAttributeTest {
         AssertExtensions.assertEquals(0.0d, oad200.calculateScore(target, null, tly));
         AssertExtensions.assertEquals(0.0d, oad500.calculateScore(target, null, tly));
         AssertExtensions.assertEquals(0.0d, oad1000.calculateScore(target, null, tly));
+    }
 
+    @Test
+    public void testScore01() {
         int n = 160;
-        tly = new TestLeapYear[n];
+        double expected, score;
+        TestLeapYear[] tly = new TestLeapYear[n];
         for (int i = 0x00; i < n; i++) {
             tly[i] = new TestLeapYear(i);
         }
-        double p, p0, p1;
-        p = 0.5d;
-        p0 = (double) (n / 0x02 - 0x01) / n;
-        p1 = 0.0d;
-        AssertExtensions.assertEquals(p * DecisionTreeUtils.calculateEntropy2p(p0) + (1.0d - p) * DecisionTreeUtils.calculateEntropy2p(p1), oad2.calculateScore(target, null, tly));
+        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / 2.0d, (n / 2.0d - 1.0d) / n, 0.0d);
+        score = oad2.calculateScore(target, null, tly);
+        AssertExtensions.assertEquals(expected, score);
+        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / 2.0d, (n / 2.0d - 1.0d) / n, 0.0d);
+        score = oad4.calculateScore(target, null, tly);
+        AssertExtensions.assertEquals(expected, score);
+        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / 2.0d, (n / 2.0d - 1.0d) / n, 0.0d);
+        score = oad8.calculateScore(target, null, tly);
+        AssertExtensions.assertEquals(expected, score);
+        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / 2.0d, (n / 2.0d - 1.0d) / n, 0.0d);
+        score = oad16.calculateScore(target, null, tly);
+        AssertExtensions.assertEquals(expected, score);
     }
 
 }

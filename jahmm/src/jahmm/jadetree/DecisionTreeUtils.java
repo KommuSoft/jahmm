@@ -92,12 +92,16 @@ public class DecisionTreeUtils {
     }
 
     public static double calculateEntropy2p(double p) {
-        if(p <= 0.0d || p >= 1.0d) {
+        if (p <= 0.0d || p >= 1.0d) {
             return 0.0d;
         } else {
             double pa = 1.0d - p;
             return -MathUtils.INVLOG2 * (p * Math.log(p) - pa * Math.log(pa));
         }
+    }
+
+    public static double calculateEntropy2pSplit(double pSplit, double p0, double p1) {
+        return pSplit * DecisionTreeUtils.calculateEntropy2p(p0) + (1.0d - pSplit) * DecisionTreeUtils.calculateEntropy2p(p1);
     }
 
     public static <TSource> double calculateEntropy(Iterable<TSource> sources) {
