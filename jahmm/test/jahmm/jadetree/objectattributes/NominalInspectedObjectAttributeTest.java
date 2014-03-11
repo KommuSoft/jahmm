@@ -152,6 +152,7 @@ public class NominalInspectedObjectAttributeTest {
     public void testScore01() {
         int n = 160;
         double expected, score;
+        AssertExtensions.pushEpsilon(0.001d);
         TestLeapYear[] tly = new TestLeapYear[n];
         for (int i = 0x00; i < n; i++) {
             tly[i] = new TestLeapYear(i);
@@ -168,6 +169,7 @@ public class NominalInspectedObjectAttributeTest {
         expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / 2.0d, (n / 2.0d - 1.0d) / n, 0.0d);
         score = oad16.calculateScore(target, null, tly);
         AssertExtensions.assertEquals(expected, score);
+        AssertExtensions.popEpsilon();
     }
 
 }

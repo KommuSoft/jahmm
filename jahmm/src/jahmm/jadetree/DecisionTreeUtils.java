@@ -1,5 +1,6 @@
 package jahmm.jadetree;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -82,7 +83,7 @@ public class DecisionTreeUtils {
         if (ttl > 0x00) {
             return (rawentropy / ttl + Math.log(ttl)) * MathUtils.INVLOG2;
         } else {
-            return Double.NaN;
+            return 0.0d;
         }
     }
 
@@ -92,12 +93,29 @@ public class DecisionTreeUtils {
     }
 
     public static double calculateEntropy2p(double p) {
-        if (p <= 0.0d || p >= 1.0d) {
+        if (p <= 0.0d || p >= 1.0d || Double.isNaN(p)) {
             return 0.0d;
         } else {
             double pa = 1.0d - p;
             return -MathUtils.INVLOG2 * (p * Math.log(p) + pa * Math.log(pa));
         }
+    }
+
+    public static double calculateEntropy2p(double... ps) {
+        double entropy = 0.0d;
+        double rest = 1.0d;
+        for (double p : ps) {
+            if (p > 0.0d && p < 1.0d) {
+                entropy -= p * Math.log(p);
+            }
+            rest -= p;
+        }
+        double p = rest;
+        if (p > 0.0d && p < 1.0d) {
+            entropy -= p * Math.log(p);
+        }
+        return MathUtils.INVLOG2 * entropy;
+
     }
 
     public static double calculateEntropy2pSplit(double pSplit, double p0, double p1) {

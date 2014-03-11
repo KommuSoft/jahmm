@@ -1,9 +1,11 @@
 package jahmm.jadetree;
 
-import jahmm.jadetree.foo.Test2B;
+import jahmm.jadetree.foo.Test2B1T;
+import jahmm.jadetree.foo.TrisEnum;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
 import jahmm.jadetree.objectattributes.ObjectAttributeInspector;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Logger;
 import jutils.MathUtils;
 import jutils.iterators.ListGenericIterable;
@@ -56,14 +58,14 @@ public class DecisionTreeUtilsTest {
 
     @Test
     public void testCalculateEntropy01() {
-        ObjectAttribute<Test2B, ? extends Object> target = ObjectAttributeInspector.inspect(Test2B.class, "bool1");
+        ObjectAttribute<Test2B1T, ? extends Object> target = ObjectAttributeInspector.inspect(Test2B1T.class, "bool1");
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
             double p = ProbabilityUtils.nextDouble();
             int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE);
-            ArrayList<Test2B> data = new ArrayList<>(N);
+            ArrayList<Test2B1T> data = new ArrayList<>(N);
             int n = 0x00;
             for (int i = 0x00; i < N; i++) {
-                Test2B t2i = new Test2B(p);
+                Test2B1T t2i = new Test2B1T(p);
                 data.add(t2i);
                 if (t2i.isBool1()) {
                     n++;
@@ -72,7 +74,33 @@ public class DecisionTreeUtilsTest {
             double expected = DecisionTreeUtils.calculateEntropy2p((double) n / N);
             double result = DecisionTreeUtils.calculateEntropy(data, target);
             String msg = data.toString();
-            AssertExtensions.assertEquals(msg, expected, result);
+            AssertExtensions.assertEquals(expected, result);
+        }
+    }
+
+    @Test
+    public void testCalculateEntropy02() {
+        ObjectAttribute<Test2B1T, ? extends Object> target = ObjectAttributeInspector.inspect(Test2B1T.class, "tris");
+        TrisEnum[] tev = TrisEnum.values();
+        int[] counters = new int[tev.length];
+        double[] probs = new double[tev.length];
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE);
+            ArrayList<Test2B1T> data = new ArrayList<>(N);
+            Arrays.fill(counters, 0x00);
+            int n = 0x00;
+            for (int i = 0x00; i < N; i++) {
+                int j = ProbabilityUtils.nextInt(tev.length);
+                counters[j]++;
+                Test2B1T t2i = new Test2B1T(tev[j]);
+                data.add(t2i);
+            }
+            for(int i = 0x00; i < tev.length; i++) {
+                probs[i] = (double) counters[i]/N;
+            }
+            double expected = DecisionTreeUtils.calculateEntropy2p(probs);
+            double result = DecisionTreeUtils.calculateEntropy(data, target);
+            AssertExtensions.assertEquals(expected, result);
         }
     }
 
@@ -84,15 +112,16 @@ public class DecisionTreeUtilsTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testCalculateEntropyPartition() {
-        ObjectAttribute<Test2B, ? extends Object> target = ObjectAttributeInspector.inspect(Test2B.class, "bool2");
+        AssertExtensions.pushEpsilon(0.01d);
+        ObjectAttribute<Test2B1T, ? extends Object> target = ObjectAttributeInspector.inspect(Test2B1T.class, "bool2");
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
             int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE);
-            ArrayList<Test2B> data0 = new ArrayList<>(N / 0x03);
-            ArrayList<Test2B> data1 = new ArrayList<>(N / 0x03);
+            ArrayList<Test2B1T> data0 = new ArrayList<>(N / 0x03);
+            ArrayList<Test2B1T> data1 = new ArrayList<>(N / 0x03);
             int n = 0x00, n0 = 0x00, n1 = 0x00;
             double p = ProbabilityUtils.nextDouble();
             for (int i = 0x00; i < TestParameters.TEST_SIZE; i++) {
-                Test2B t2i = new Test2B(p);
+                Test2B1T t2i = new Test2B1T(p);
                 if (t2i.isBool1()) {
                     data0.add(t2i);
                     n++;
@@ -108,8 +137,17 @@ public class DecisionTreeUtilsTest {
             }
             double expected = DecisionTreeUtils.calculateEntropy2pSplit((double) n / N, (double) n0 / n, (double) n1 / (N - n));
             double result = DecisionTreeUtils.calculateEntropyPartition(new ListArray<>(data0, data1), target);
+            System.out.println("---");
+            for(Test2B1T item : data0) {
+                System.out.println(item);
+            }
+            System.out.println("///");
+            for(Test2B1T item : data1) {
+                System.out.println(item);
+            }
             AssertExtensions.assertEquals(expected, result);
         }
+        AssertExtensions.popEpsilon();
     }
 
     private class Foo implements Function<Foo, Integer> {
