@@ -142,7 +142,7 @@ public class DecisionTreeUtilsTest {
             ArrayList<Test2B1T> data1 = new ArrayList<>(N / 0x03);
             int n = 0x00, n0 = 0x00, n1 = 0x00;
             double p = ProbabilityUtils.nextDouble();
-            for (int i = 0x00; i < TestParameters.TEST_SIZE; i++) {
+            for (int i = 0x00; i < N; i++) {
                 Test2B1T t2i = new Test2B1T(p);
                 if (t2i.isBool1()) {
                     data0.add(t2i);
