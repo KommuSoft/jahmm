@@ -118,7 +118,7 @@ public class DecisionTreeUtils {
     }
 
     public static double calculateEntropy2pSplit(double pSplit, double p0, double p1) {
-        return pSplit * DecisionTreeUtils.calculateEntropy2p(p0) + (1.0d - pSplit) * DecisionTreeUtils.calculateEntropy2p(p1);
+        return DecisionTreeUtils.calculateEntropy2p(p0*pSplit+p1*(1-pSplit))-pSplit * DecisionTreeUtils.calculateEntropy2p(p0) + (1.0d - pSplit) * DecisionTreeUtils.calculateEntropy2p(p1);
     }
 
     public static <TSource> double calculateEntropy(Iterable<TSource> sources) {
@@ -194,7 +194,7 @@ public class DecisionTreeUtils {
             entropy += subentropy * subtotal;
             total += subtotal;
         }
-        return entropy / total;
+        return calculateEntropy(frequency, null) - entropy / total;
     }
 
     public static <TSource, TTarget> double calculateReduceEntropy(Iterable<? extends Iterable<? extends TSource>> sources, Function<TSource, TTarget> function) {

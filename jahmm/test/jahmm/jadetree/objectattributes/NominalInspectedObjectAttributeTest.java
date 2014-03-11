@@ -151,22 +151,28 @@ public class NominalInspectedObjectAttributeTest {
     @Test
     public void testScore01() {
         int n = 160;
+        int y = (n + 3) / 4 - (n + 99) / 100 - (n + 999) / 1000;
         double expected, score;
+        double c;
         AssertExtensions.pushEpsilon(0.001d);
         TestLeapYear[] tly = new TestLeapYear[n];
         for (int i = 0x00; i < n; i++) {
             tly[i] = new TestLeapYear(i);
         }
-        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / 2.0d, (n / 2.0d - 1.0d) / n, 0.0d);
+        c = 2.0d;
+        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / c, y*c/n, 0.0d);
         score = oad2.calculateScore(target, null, tly);
         AssertExtensions.assertEquals(expected, score);
-        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / 2.0d, (n / 2.0d - 1.0d) / n, 0.0d);
+        c = 4.0d;
+        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / c, y * c / n, 0.0d);
         score = oad4.calculateScore(target, null, tly);
         AssertExtensions.assertEquals(expected, score);
-        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / 2.0d, (n / 2.0d - 1.0d) / n, 0.0d);
+        c = 8.0d;
+        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / c, 21*c/n, 19*c/n);
         score = oad8.calculateScore(target, null, tly);
         AssertExtensions.assertEquals(expected, score);
-        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / 2.0d, (n / 2.0d - 1.0d) / n, 0.0d);
+        c = 16.0d;
+        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / c, (n / 2.0d - 1.0d) / n, 0.0d);
         score = oad16.calculateScore(target, null, tly);
         AssertExtensions.assertEquals(expected, score);
         AssertExtensions.popEpsilon();

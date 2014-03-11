@@ -159,7 +159,6 @@ public class DecisionTreeUtilsTest {
             }
             double expected = DecisionTreeUtils.calculateEntropy2pSplit((double) n / N, (double) n0 / n, (double) n1 / (N - n));
             double result = DecisionTreeUtils.calculateEntropyPartition(new ListArray<>(data0, data1), target);
-            System.out.println(data0.toString() + data1.toString());
             AssertExtensions.assertEquals(expected, result);
         }
         AssertExtensions.popEpsilon();

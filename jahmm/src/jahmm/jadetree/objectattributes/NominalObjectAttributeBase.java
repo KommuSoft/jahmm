@@ -30,7 +30,7 @@ public abstract class NominalObjectAttributeBase<TSource, TTarget> extends Objec
         if (state != null) {
             state.setData(classified);
         }
-        return DecisionTreeUtils.calculateEntropyPartition(classified.values(), function);
+        return DecisionTreeUtils.calculateInformationGainPartition(classified.values(), function);
     }
 
     @Override
