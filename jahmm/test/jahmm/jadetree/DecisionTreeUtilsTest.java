@@ -107,7 +107,7 @@ public class DecisionTreeUtilsTest {
     @Test
     public void testCalculateEntropy03() {
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
-            int M = 0x01+ProbabilityUtils.nextInt(TestParameters.NUMBER_OF_CATEGORIES-0x01);
+            int M = 0x01 + ProbabilityUtils.nextInt(TestParameters.NUMBER_OF_CATEGORIES - 0x01);
             int[] counters = new int[M];
             double[] probs = new double[M];
             int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE);
@@ -133,7 +133,7 @@ public class DecisionTreeUtilsTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testCalculateEntropyPartition() {
+    public void testCalculateEntropyPartition00() {
         AssertExtensions.pushEpsilon(0.01d);
         ObjectAttribute<Test2B1T, ? extends Object> target = ObjectAttributeInspector.inspect(Test2B1T.class, "bool2");
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
@@ -163,6 +163,17 @@ public class DecisionTreeUtilsTest {
             AssertExtensions.assertEquals(expected, result);
         }
         AssertExtensions.popEpsilon();
+    }
+
+    public void testCalculateEntropyPartition01() {
+        String[] dat0 = {"tfO", "ttO", "tfO", "tfO", "tfO", "tfO", "tfO", "ttO", "ttO", "ttO", "tfO", "ttO", "tfO", "tfO", "ttO", "tfO", "tfO", "ttO", "tfO", "ttO", "tfO", "tfO", "ttO", "tfO", "ttO", "tfO", "ttO", "ttO", "ttO", "tfO", "tfO", "ttO", "tfO", "tfO", "tfO", "ttO", "ttO", "ttO", "tfO", "ttO", "ttO", "tfO", "ttO", "tfO"};
+        String[] dat1 = {"ftO", "ftO", "ffO", "ftO", "ftO", "ffO", "ftO", "ffO", "ftO", "ftO", "ftO", "ffO", "ffO", "ftO", "ffO", "ffO", "ftO", "ftO", "ftO", "ftO", "ffO", "ffO", "ftO", "ftO", "ffO", "ffO", "ffO", "ftO", "ftO", "ftO", "ftO", "ftO", "ftO", "ftO", "ftO", "ffO"};
+        ArrayList<Test2B1T> part0 = new ArrayList<>();
+        ArrayList<Test2B1T> part1 = new ArrayList<>();
+        ObjectAttribute<Test2B1T, ? extends Object> target = ObjectAttributeInspector.inspect(Test2B1T.class, "bool2");
+        double expected = DecisionTreeUtils.calculateEntropy2pSplit(44.0d / 80, 20.0d/ 44.0d, 13.0d/36.0d);
+        double result = DecisionTreeUtils.calculateEntropyPartition(new ListArray<>(part0, part1), target);
+        AssertExtensions.assertEquals(expected, result);
     }
 
     private class Foo implements Function<Foo, Integer> {

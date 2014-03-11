@@ -21,7 +21,7 @@ public class DecisionTreeUtils {
     private static final Logger LOG = Logger.getLogger(DecisionTreeUtils.class.getName());
 
     public static <TEntry> double calculateRawEntropy(Map<TEntry, Integer> counters, Holder<Integer> total) {
-        double rawEntropy = 0.0;
+        double rawEntropy = 0.0d;
         int ttl = 0x00;
         for (Integer fi : counters.values()) {
             rawEntropy -= fi * Math.log(fi);
@@ -43,7 +43,7 @@ public class DecisionTreeUtils {
         if (ttl > 0x00) {
             return (rawentropy / ttl + Math.log(ttl)) * MathUtils.INVLOG2;
         } else {
-            return Double.NaN;
+            return 0.0d;
         }
     }
 
@@ -170,6 +170,25 @@ public class DecisionTreeUtils {
         double subentropy;
         for (Iterable<? extends TSource> subsource : sources) {
             subentropy = calculateEntropy(subsource, frequency, function, ttl);
+            frequency.clear();
+            subtotal = ttl.getData();
+            entropy += subentropy * subtotal;
+            total += subtotal;
+        }
+        return entropy / total;
+    }
+
+    public static <TSource, TTarget> double calculateInformationGainPartition(Iterable<? extends Iterable<? extends TSource>> sources, Function<TSource, TTarget> function) {
+        final HashMap<TTarget, Integer> frequency = new HashMap<>();
+        final HashMap<TTarget, Integer> totFrequency = new HashMap<>();
+        Holder<Integer> ttl = new HolderBase<>();
+        int total = 0;
+        int subtotal;
+        double entropy = 0.0d;
+        double subentropy;
+        for (Iterable<? extends TSource> subsource : sources) {
+            subentropy = calculateEntropy(subsource, frequency, function, ttl);
+            CollectionUtils.mergeMapWithAdd(totFrequency, frequency);
             frequency.clear();
             subtotal = ttl.getData();
             entropy += subentropy * subtotal;
