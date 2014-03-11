@@ -95,11 +95,33 @@ public class DecisionTreeUtilsTest {
                 Test2B1T t2i = new Test2B1T(tev[j]);
                 data.add(t2i);
             }
-            for(int i = 0x00; i < tev.length; i++) {
-                probs[i] = (double) counters[i]/N;
+            for (int i = 0x00; i < tev.length; i++) {
+                probs[i] = (double) counters[i] / N;
             }
             double expected = DecisionTreeUtils.calculateEntropy2p(probs);
             double result = DecisionTreeUtils.calculateEntropy(data, target);
+            AssertExtensions.assertEquals(expected, result);
+        }
+    }
+
+    @Test
+    public void testCalculateEntropy03() {
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int M = 0x01+ProbabilityUtils.nextInt(TestParameters.NUMBER_OF_CATEGORIES-0x01);
+            int[] counters = new int[M];
+            double[] probs = new double[M];
+            int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE);
+            ArrayList<Integer> data = new ArrayList<>(N);
+            for (int i = 0x00; i < N; i++) {
+                int j = ProbabilityUtils.nextInt(M);
+                counters[j]++;
+                data.add(j);
+            }
+            for (int i = 0x00; i < M; i++) {
+                probs[i] = (double) counters[i] / N;
+            }
+            double expected = DecisionTreeUtils.calculateEntropy2p(probs);
+            double result = DecisionTreeUtils.calculateEntropy(data);
             AssertExtensions.assertEquals(expected, result);
         }
     }
@@ -137,14 +159,7 @@ public class DecisionTreeUtilsTest {
             }
             double expected = DecisionTreeUtils.calculateEntropy2pSplit((double) n / N, (double) n0 / n, (double) n1 / (N - n));
             double result = DecisionTreeUtils.calculateEntropyPartition(new ListArray<>(data0, data1), target);
-            System.out.println("---");
-            for(Test2B1T item : data0) {
-                System.out.println(item);
-            }
-            System.out.println("///");
-            for(Test2B1T item : data1) {
-                System.out.println(item);
-            }
+            System.out.println(data0.toString() + data1.toString());
             AssertExtensions.assertEquals(expected, result);
         }
         AssertExtensions.popEpsilon();

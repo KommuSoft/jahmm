@@ -64,7 +64,7 @@ public class Test2B1T {
 
     @Override
     public String toString() {
-        return ((Boolean) bool1).toString().charAt(0x00) + "/" + ((Boolean) bool2).toString().charAt(0x00) + "/" + this.trival.toString().charAt(0x00);
+        return "" + ((Boolean) bool1).toString().charAt(0x00) + ((Boolean) bool2).toString().charAt(0x00) + this.trival.toString().charAt(0x00);
     }
 
 }
