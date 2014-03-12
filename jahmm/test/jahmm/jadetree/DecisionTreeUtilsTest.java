@@ -15,7 +15,6 @@ import jutils.testing.AssertExtensions;
 import static jutils.testing.AssertExtensions.assertEquals;
 import jutlis.algebra.Function;
 import jutlis.lists.ListArray;
-import static org.junit.Assert.fail;
 import org.junit.Test;
 import utils.TestParameters;
 
@@ -153,8 +152,27 @@ public class DecisionTreeUtilsTest {
     }
 
     @Test
-    public void testCalculateEntropyFlipIndex() {
-        fail("This test is a prototype");
+    public void testCalculateEntropyFlipIndex00() {
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int m = 0x01 + ProbabilityUtils.nextInt(TestParameters.NUMBER_OF_CATEGORIES);
+            double[] array = ProbabilityUtils.fillRandomScale(m);
+            
+        }
+    }
+
+    @Test
+    public void testCalculateEntropyFlipIndex01() {
+
+    }
+
+    @Test
+    public void testCalculateEntropyFlipIndex02() {
+
+    }
+
+    @Test
+    public void testCalculateEntropyFlipIndex03() {
+
     }
 
     @Test
@@ -193,10 +211,17 @@ public class DecisionTreeUtilsTest {
     public void testCalculateEntropyPartition01() {
         String[] dat0 = {"tfO", "ttO", "tfO", "tfO", "tfO", "tfO", "tfO", "ttO", "ttO", "ttO", "tfO", "ttO", "tfO", "tfO", "ttO", "tfO", "tfO", "ttO", "tfO", "ttO", "tfO", "tfO", "ttO", "tfO", "ttO", "tfO", "ttO", "ttO", "ttO", "tfO", "tfO", "ttO", "tfO", "tfO", "tfO", "ttO", "ttO", "ttO", "tfO", "ttO", "ttO", "tfO", "ttO", "tfO"};
         String[] dat1 = {"ftO", "ftO", "ffO", "ftO", "ftO", "ffO", "ftO", "ffO", "ftO", "ftO", "ftO", "ffO", "ffO", "ftO", "ffO", "ffO", "ftO", "ftO", "ftO", "ftO", "ffO", "ffO", "ftO", "ftO", "ffO", "ffO", "ffO", "ftO", "ftO", "ftO", "ftO", "ftO", "ftO", "ftO", "ftO", "ffO"};
-        ArrayList<Test2B1T> part0 = new ArrayList<>();
-        ArrayList<Test2B1T> part1 = new ArrayList<>();
+        ArrayList<Test2B1T> part0 = new ArrayList<>(dat0.length);
+        ArrayList<Test2B1T> part1 = new ArrayList<>(dat1.length);
+        for (String s : dat0) {
+            part0.add(new Test2B1T(s));
+        }
+        for (String s : dat1) {
+            part1.add(new Test2B1T(s));
+        }
         ObjectAttribute<Test2B1T, ? extends Object> target = ObjectAttributeInspector.inspect(Test2B1T.class, "bool2");
-        double expected = DecisionTreeUtils.calculateEntropy2pSplit(44.0d / 80, 20.0d / 44.0d, 13.0d / 36.0d);
+        double expected = DecisionTreeUtils.calculateEntropy2pSplit(44.0d / 80.0d, 20.0d / 44.0d, 13.0d / 36.0d);
+        @SuppressWarnings("unchecked")
         double result = DecisionTreeUtils.calculateEntropyPartition(new ListArray<>(part0, part1), target);
         AssertExtensions.assertEquals(expected, result);
     }

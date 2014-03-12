@@ -71,5 +71,10 @@ public class DoubleInspectedContinuObjectAttributeTest {
             Assert.assertEquals((Double)tlyi.getD2(), nioa.evaluate(tlyi));
         }
     }
+    
+    @Test
+    public void testScore00() {
+        
+    }
 
 }

@@ -133,7 +133,6 @@ public class NominalInspectedObjectAttributeTest {
 
     @Test
     public void testScore00() {
-        //a boring test
         TestLeapYear[] tly = new TestLeapYear[TestParameters.NUMBER_OF_TESTS];
         for (int i = 0x01, j = 0x00; j < TestParameters.NUMBER_OF_TESTS; i += 0x04, j++) {
             tly[j] = new TestLeapYear(i);
@@ -159,7 +158,7 @@ public class NominalInspectedObjectAttributeTest {
         int y = y4 - y100 + y1000;
         double expected, score;
         int c;
-        AssertExtensions.pushEpsilon(0.001d);
+        AssertExtensions.pushEpsilon(0.00001d);
         TestLeapYear[] tly = new TestLeapYear[n];
         for (int i = 0x00; i < n; i++) {
             tly[i] = new TestLeapYear(i);

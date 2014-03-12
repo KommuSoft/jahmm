@@ -12,11 +12,11 @@ import utils.TestParameters;
  * @author kommusoft
  */
 public class OrdinalInspectedObjectAttributeTest {
-    
+
     private static final Logger LOG = Logger.getLogger(OrdinalInspectedObjectAttributeTest.class.getName());
-    
+
     String[] names = new String[]{"year"};
-    
+
     public OrdinalInspectedObjectAttributeTest() {
     }
 
@@ -26,7 +26,7 @@ public class OrdinalInspectedObjectAttributeTest {
     @Test
     public void testCompareWith() {
         ObjectAttribute<TestLeapYear, ? extends Object> tly;
-        OrdinalInspectedObjectAttribute<TestLeapYear,Object> nioa;
+        OrdinalInspectedObjectAttribute<TestLeapYear, Object> nioa;
         tly = ObjectAttributeInspector.inspect(TestLeapYear.class, "year");
         AssertExtensions.assertTypeof(OrdinalInspectedObjectAttribute.class, tly);
         nioa = (OrdinalInspectedObjectAttribute<TestLeapYear, Object>) tly;
@@ -68,6 +68,11 @@ public class OrdinalInspectedObjectAttributeTest {
         }
     }
 
+    @Test
+    public void testScore00() {
+
+    }
+
     /**
      * Test of compare method, of class OrdinalInspectedObjectAttribute.
      */
@@ -86,5 +91,5 @@ public class OrdinalInspectedObjectAttributeTest {
             }
         }
     }
-    
+
 }
