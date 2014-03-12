@@ -243,7 +243,8 @@ public class DecisionLeafBaseTest {
         AssertExtensions.assertEqualsOrderedDeep(new ListArray<>(yrs), root.getStoredSources());
         AssertExtensions.assertGreaterThan(tree.expandScore(), 0.00d);
         AssertExtensions.assertGreaterThan(root.expandScore(), 0.00d);
-        Assert.assertTrue(Double.isNaN(tree.reduceScore()));
+        Assert.assertTrue(Double.isInfinite(tree.reduceScore()));
+        AssertExtensions.assertLessThanOrEqual(tree.reduceScore(),Double.NEGATIVE_INFINITY);
     }
 
     /**
@@ -293,6 +294,11 @@ public class DecisionLeafBaseTest {
         tree.addSourceAttribute(oas);
         AssertExtensions.assertTypeof(DecisionLeafBase.class, tree.getRoot());
         DecisionLeafBase<TestLeapYear> root = (DecisionLeafBase<TestLeapYear>) tree.getRoot();
+        Assert.assertEquals(tree, root.getParent());
+        Assert.assertEquals(tree, root.getTree());
+        tree.insert(yrs);
+        Assert.assertEquals(nYears, CollectionUtils.size(root.getStoredSources()));
+        AssertExtensions.assertEqualsOrderedDeep(new ListArray<>(yrs), root.getStoredSources());
         AssertExtensions.assertGreaterThan(tree.expandScore(), 0.00d);
         AssertExtensions.assertGreaterThan(root.expandScore(), 0.00d);
         AssertExtensions.assertEquals(root.expandScore(), tree.expandScore());
