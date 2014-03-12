@@ -189,7 +189,7 @@ public class DecisionLeafBaseTest {
         @SuppressWarnings("unchecked")
         NominalObjectAttribute<TestLeapYear, ? extends Object> oa = (NominalObjectAttribute<TestLeapYear, ? extends Object>) ObjectAttributeInspector.inspect(TestLeapYear.class, "leap");
         Iterable<ObjectAttribute<TestLeapYear, ? extends Object>> oas = ObjectAttributeInspector.inspect(TestLeapYear.class, "div2", "div4", "div8", "div16", "div100", "div200", "div500", "div1000");
-        Id3ClassificationTree<TestLeapYear> tree = new Id3ClassificationTree<TestLeapYear>(oa);
+        Id3ClassificationTree<TestLeapYear> tree = new Id3ClassificationTree<>(oa);
         tree.addSourceAttribute(oas);
         AssertExtensions.assertTypeof(DecisionLeafBase.class, tree.getRoot());
         DecisionLeafBase<TestLeapYear> root = (DecisionLeafBase<TestLeapYear>) tree.getRoot();
@@ -216,7 +216,7 @@ public class DecisionLeafBaseTest {
         AssertExtensions.assertGreaterThan(CollectionUtils.size(leaff.getStoredSources()), CollectionUtils.size(leaft.getStoredSources()));
         AssertExtensions.assertGreaterThan(tree.expandScore(), 0.00d);
         AssertExtensions.assertGreaterThan(root2.expandScore(), 0.00d);
-        Assert.assertEquals(leaff, root2.getMaximumExpandLeaf());
+        Assert.assertEquals(leaft, root2.getMaximumExpandLeaf());
     }
 
     /**
@@ -224,15 +224,26 @@ public class DecisionLeafBaseTest {
      */
     @Test
     public void testReduceScore() {
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of isDirty method, of class DecisionLeafBase.
-     */
-    @Test
-    public void testIsDirty() {
-        fail("The test case is a prototype.");
+        int nYears = 0x400;
+        TestLeapYear[] yrs = new TestLeapYear[nYears];
+        for (int i = 0x00; i < nYears; i++) {
+            yrs[i] = new TestLeapYear(i);
+        }
+        @SuppressWarnings("unchecked")
+        NominalObjectAttribute<TestLeapYear, ? extends Object> oa = (NominalObjectAttribute<TestLeapYear, ? extends Object>) ObjectAttributeInspector.inspect(TestLeapYear.class, "leap");
+        Iterable<ObjectAttribute<TestLeapYear, ? extends Object>> oas = ObjectAttributeInspector.inspect(TestLeapYear.class, "div2", "div4", "div8", "div16", "div100", "div200", "div500", "div1000");
+        Id3ClassificationTree<TestLeapYear> tree = new Id3ClassificationTree<>(oa);
+        tree.addSourceAttribute(oas);
+        AssertExtensions.assertTypeof(DecisionLeafBase.class, tree.getRoot());
+        DecisionLeafBase<TestLeapYear> root = (DecisionLeafBase<TestLeapYear>) tree.getRoot();
+        Assert.assertEquals(tree, root.getParent());
+        Assert.assertEquals(tree, root.getTree());
+        tree.insert(yrs);
+        Assert.assertEquals(nYears, CollectionUtils.size(root.getStoredSources()));
+        AssertExtensions.assertEqualsOrderedDeep(new ListArray<>(yrs), root.getStoredSources());
+        AssertExtensions.assertGreaterThan(tree.expandScore(), 0.00d);
+        AssertExtensions.assertGreaterThan(root.expandScore(), 0.00d);
+        Assert.assertTrue(Double.isNaN(tree.reduceScore()));
     }
 
     /**
@@ -270,7 +281,21 @@ public class DecisionLeafBaseTest {
      */
     @Test
     public void testExpandScore() {
-        fail("The test case is a prototype.");
+        int nYears = 0x400;
+        TestLeapYear[] yrs = new TestLeapYear[nYears];
+        for (int i = 0x00; i < nYears; i++) {
+            yrs[i] = new TestLeapYear(i);
+        }
+        @SuppressWarnings("unchecked")
+        NominalObjectAttribute<TestLeapYear, ? extends Object> oa = (NominalObjectAttribute<TestLeapYear, ? extends Object>) ObjectAttributeInspector.inspect(TestLeapYear.class, "leap");
+        Iterable<ObjectAttribute<TestLeapYear, ? extends Object>> oas = ObjectAttributeInspector.inspect(TestLeapYear.class, "div2", "div4", "div8", "div16", "div100", "div200", "div500", "div1000");
+        Id3ClassificationTree<TestLeapYear> tree = new Id3ClassificationTree<>(oa);
+        tree.addSourceAttribute(oas);
+        AssertExtensions.assertTypeof(DecisionLeafBase.class, tree.getRoot());
+        DecisionLeafBase<TestLeapYear> root = (DecisionLeafBase<TestLeapYear>) tree.getRoot();
+        AssertExtensions.assertGreaterThan(tree.expandScore(), 0.00d);
+        AssertExtensions.assertGreaterThan(root.expandScore(), 0.00d);
+        AssertExtensions.assertEquals(root.expandScore(), tree.expandScore());
     }
 
 }
