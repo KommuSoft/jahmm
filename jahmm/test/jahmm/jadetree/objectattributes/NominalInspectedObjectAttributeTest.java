@@ -151,28 +151,33 @@ public class NominalInspectedObjectAttributeTest {
     @Test
     public void testScore01() {
         int n = 160;
-        int y = (n + 3) / 4 - (n + 99) / 100 - (n + 999) / 1000;
+        int y4 = (n + 3) / 4;
+        int y8 = (n + 7) / 8;
+        int y16 = (n + 15) / 16;
+        int y100 = (n + 99) / 100;
+        int y1000 = (n + 999) / 1000;
+        int y = y4 - y100 + y1000;
         double expected, score;
-        double c;
+        int c;
         AssertExtensions.pushEpsilon(0.001d);
         TestLeapYear[] tly = new TestLeapYear[n];
         for (int i = 0x00; i < n; i++) {
             tly[i] = new TestLeapYear(i);
         }
-        c = 2.0d;
-        expected = DecisionTreeUtils.calculateInformationGain(1.0d / c, y*c/n, 0.0d);
+        c = 2;
+        expected = DecisionTreeUtils.calculateInformationGain(n, (n + c - 1) / c, y, 0);
         score = oad2.calculateScore(target, null, tly);
         AssertExtensions.assertEquals(expected, score);
-        c = 4.0d;
-        expected = DecisionTreeUtils.calculateInformationGain(1.0d / c, y * c / n, 0.0d);
+        c = 4;
+        expected = DecisionTreeUtils.calculateInformationGain(n, (n + c - 1) / c, y, 0);
         score = oad4.calculateScore(target, null, tly);
         AssertExtensions.assertEquals(expected, score);
-        c = 8.0d;
-        expected = DecisionTreeUtils.calculateInformationGain(1.0d / c, 21*c/n, 19*c/n);
+        c = 8;
+        expected = DecisionTreeUtils.calculateInformationGain(n, (n + c - 1) / c, y8, y - y8);
         score = oad8.calculateScore(target, null, tly);
         AssertExtensions.assertEquals(expected, score);
-        c = 16.0d;
-        expected = DecisionTreeUtils.calculateInformationGain(1.0d / c, (n / 2.0d - 1.0d) / n, 0.0d);
+        c = 16;
+        expected = DecisionTreeUtils.calculateInformationGain(n, (n + c - 1) / c, y16, y - y16);
         score = oad16.calculateScore(target, null, tly);
         AssertExtensions.assertEquals(expected, score);
         AssertExtensions.popEpsilon();

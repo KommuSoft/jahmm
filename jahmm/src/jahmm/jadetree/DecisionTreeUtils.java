@@ -124,7 +124,11 @@ public class DecisionTreeUtils {
     }
 
     public static double calculateInformationGain(double pSplit, double p0, double p1) {
-        return DecisionTreeUtils.calculateEntropy2p(pSplit * p0 + (1.0d - pSplit) * p1) - pSplit * DecisionTreeUtils.calculateEntropy2p(p0) + (1.0d - pSplit) * DecisionTreeUtils.calculateEntropy2p(p1);
+        return DecisionTreeUtils.calculateEntropy2p(pSplit * p0 + (1.0d - pSplit) * p1) - pSplit * DecisionTreeUtils.calculateEntropy2p(p0) - (1.0d - pSplit) * DecisionTreeUtils.calculateEntropy2p(p1);
+    }
+
+    public static double calculateInformationGain(int total, int group1, int positive1, int positive2) {
+        return calculateInformationGain((double) group1 / total, (double) positive1 / group1, (double) positive2 / (total - group1));
     }
 
     public static <TSource> double calculateEntropy(Iterable<TSource> sources) {
