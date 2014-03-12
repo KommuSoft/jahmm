@@ -6,6 +6,7 @@ import jahmm.jadetree.objectattributes.ObjectAttribute;
 import jahmm.jadetree.objectattributes.ObjectAttributeInspector;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.logging.Logger;
 import jutils.MathUtils;
 import jutils.iterators.ListGenericIterable;
@@ -127,6 +128,31 @@ public class DecisionTreeUtilsTest {
     }
 
     @Test
+    public void testCalculateEntropy04() {
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int M = 0x01 + ProbabilityUtils.nextInt(TestParameters.NUMBER_OF_CATEGORIES - 0x01);
+            int[] counters = new int[M];
+            double[] probs = new double[M];
+            int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE);
+            HashMap<Integer, Integer> data = new HashMap<>(M);
+            for (int i = 0x00; i < M; i++) {
+                data.put(i, 0x00);
+            }
+            for (int i = 0x00; i < N; i++) {
+                int j = ProbabilityUtils.nextInt(M);
+                counters[j]++;
+                data.put(j, data.get(j) + 0x01);
+            }
+            for (int i = 0x00; i < M; i++) {
+                probs[i] = (double) counters[i] / N;
+            }
+            double expected = DecisionTreeUtils.calculateEntropy2p(probs);
+            double result = DecisionTreeUtils.calculateEntropy(data, null);
+            AssertExtensions.assertEquals(expected, result);
+        }
+    }
+
+    @Test
     public void testCalculateEntropyFlipIndex() {
         fail("This test is a prototype");
     }
@@ -170,7 +196,7 @@ public class DecisionTreeUtilsTest {
         ArrayList<Test2B1T> part0 = new ArrayList<>();
         ArrayList<Test2B1T> part1 = new ArrayList<>();
         ObjectAttribute<Test2B1T, ? extends Object> target = ObjectAttributeInspector.inspect(Test2B1T.class, "bool2");
-        double expected = DecisionTreeUtils.calculateEntropy2pSplit(44.0d / 80, 20.0d/ 44.0d, 13.0d/36.0d);
+        double expected = DecisionTreeUtils.calculateEntropy2pSplit(44.0d / 80, 20.0d / 44.0d, 13.0d / 36.0d);
         double result = DecisionTreeUtils.calculateEntropyPartition(new ListArray<>(part0, part1), target);
         AssertExtensions.assertEquals(expected, result);
     }

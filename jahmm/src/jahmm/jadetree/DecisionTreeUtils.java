@@ -24,8 +24,10 @@ public class DecisionTreeUtils {
         double rawEntropy = 0.0d;
         int ttl = 0x00;
         for (Integer fi : counters.values()) {
-            rawEntropy -= fi * Math.log(fi);
-            ttl += fi;
+            if (fi != null && fi > 0x00) {
+                rawEntropy -= fi * Math.log(fi);
+                ttl += fi;
+            }
         }
         if (total != null) {
             total.setData(ttl);
@@ -120,9 +122,9 @@ public class DecisionTreeUtils {
     public static double calculateEntropy2pSplit(double pSplit, double p0, double p1) {
         return pSplit * DecisionTreeUtils.calculateEntropy2p(p0) + (1.0d - pSplit) * DecisionTreeUtils.calculateEntropy2p(p1);
     }
-    
-    public static double calculateInformationGain (double pSplit, double p0, double p1) {
-        return DecisionTreeUtils.calculateEntropy2p(pSplit*p0+(1.0d-pSplit)*p1) - pSplit * DecisionTreeUtils.calculateEntropy2p(p0) + (1.0d - pSplit) * DecisionTreeUtils.calculateEntropy2p(p1);
+
+    public static double calculateInformationGain(double pSplit, double p0, double p1) {
+        return DecisionTreeUtils.calculateEntropy2p(pSplit * p0 + (1.0d - pSplit) * p1) - pSplit * DecisionTreeUtils.calculateEntropy2p(p0) + (1.0d - pSplit) * DecisionTreeUtils.calculateEntropy2p(p1);
     }
 
     public static <TSource> double calculateEntropy(Iterable<TSource> sources) {
@@ -198,7 +200,7 @@ public class DecisionTreeUtils {
             entropy += subentropy * subtotal;
             total += subtotal;
         }
-        return calculateEntropy(frequency, null) - entropy / total;
+        return calculateEntropy(totFrequency, null) - entropy / total;
     }
 
     public static <TSource, TTarget> double calculateReduceEntropy(Iterable<? extends Iterable<? extends TSource>> sources, Function<TSource, TTarget> function) {
