@@ -160,19 +160,19 @@ public class NominalInspectedObjectAttributeTest {
             tly[i] = new TestLeapYear(i);
         }
         c = 2.0d;
-        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / c, y*c/n, 0.0d);
+        expected = DecisionTreeUtils.calculateInformationGain(1.0d / c, y*c/n, 0.0d);
         score = oad2.calculateScore(target, null, tly);
         AssertExtensions.assertEquals(expected, score);
         c = 4.0d;
-        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / c, y * c / n, 0.0d);
+        expected = DecisionTreeUtils.calculateInformationGain(1.0d / c, y * c / n, 0.0d);
         score = oad4.calculateScore(target, null, tly);
         AssertExtensions.assertEquals(expected, score);
         c = 8.0d;
-        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / c, 21*c/n, 19*c/n);
+        expected = DecisionTreeUtils.calculateInformationGain(1.0d / c, 21*c/n, 19*c/n);
         score = oad8.calculateScore(target, null, tly);
         AssertExtensions.assertEquals(expected, score);
         c = 16.0d;
-        expected = DecisionTreeUtils.calculateEntropy2pSplit(1.0d / c, (n / 2.0d - 1.0d) / n, 0.0d);
+        expected = DecisionTreeUtils.calculateInformationGain(1.0d / c, (n / 2.0d - 1.0d) / n, 0.0d);
         score = oad16.calculateScore(target, null, tly);
         AssertExtensions.assertEquals(expected, score);
         AssertExtensions.popEpsilon();
