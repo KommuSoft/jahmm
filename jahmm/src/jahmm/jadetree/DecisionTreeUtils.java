@@ -171,7 +171,8 @@ public class DecisionTreeUtils {
         return maxFlip;
     }
     
-    public static <TSource, TTarget> int calculateEntropyFlipIndex(Iterable<TSource> sources, Function<TSource, TTarget> function, Tuple2<Integer, Double> total_entropy) {
+    public static <TSource, TTarget> int calculateInformationGainFlipIndex(Iterable<TSource> sources, Function<TSource, TTarget> function, Tuple2<Integer, Double> total_entropy) {
+        //TODO
         final HashMap<TTarget, Integer> rFreq = new HashMap<>();
         Holder<Integer> subholder = total_entropy;
         if (subholder == null) {
