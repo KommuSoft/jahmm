@@ -18,6 +18,8 @@ import jutils.testing.AssertExtensions;
 import static jutils.testing.AssertExtensions.assertEquals;
 import jutlis.algebra.Function;
 import jutlis.lists.ListArray;
+import jutlis.tuples.Tuple2;
+import jutlis.tuples.Tuple2Base;
 import org.junit.Assert;
 import org.junit.Test;
 import utils.TestParameters;
@@ -159,8 +161,11 @@ public class DecisionTreeUtilsTest {
     public void testCalculateEntropyFlipIndex00() {
         ObjectAttribute<FooIntDouble, ? extends Object> target = ObjectAttributeInspector.inspect(FooIntDouble.class, "integer");
         ListArray<FooIntDouble> tids = new ListArray<>(new FooIntDouble(0x00, 0.0d), new FooIntDouble(0x00, 0.4d), new FooIntDouble(0x00, 0.8d), new FooIntDouble(0x00, 1.2d), new FooIntDouble(0x01, 1.6d), new FooIntDouble(0x01, 2.0d));
-        int split = DecisionTreeUtils.calculateEntropyFlipIndex(tids, target, null);
+        Tuple2<Integer, Double> total_entropy = new Tuple2Base<>();
+        int split = DecisionTreeUtils.calculateEntropyFlipIndex(tids, target, total_entropy);
         Assert.assertEquals(0x04, split);
+        Assert.assertEquals(0x06, (int) total_entropy.getItem1());
+        AssertExtensions.assertEquals(0.0d, total_entropy.getItem2());
     }
 
     @Test
