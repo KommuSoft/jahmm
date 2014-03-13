@@ -49,10 +49,10 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
      * @param sequences A vector of observation sequences. Each observation
      * sequences is a vector of null null null null null null null null null
      * null null null null null null null null null null null null null null
-     * null null null null null null null     {@link be.ac.ulg.montefiore.run.jahmm.Observation
+     * null null null null null null null null null null     {@link be.ac.ulg.montefiore.run.jahmm.Observation
 	 *                observations} compatible with the null null null null null null null null
      * null null null null null null null null null null null null null null
-     * null null null null null null null null     {@link be.ac.ulg.montefiore.run.jahmm.CentroidFactory
+     * null null null null null null null null null null null     {@link be.ac.ulg.montefiore.run.jahmm.CentroidFactory
 	 *                k-means algorithm}.
      * @throws java.lang.CloneNotSupportedException
      */

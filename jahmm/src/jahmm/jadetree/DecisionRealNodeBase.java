@@ -16,12 +16,12 @@ public abstract class DecisionRealNodeBase<TSource> extends DecisionNodeBase<TSo
 
     @Override
     public void reduce() {
-        this.maximumReduceInode.reduceThis();
+        this.getMaximumReduceInode().reduceThis();
     }
 
     @Override
     public void expand() {
-        this.maximumExpandLeaf.expandThis();
+        this.getMaximumExpandLeaf().expandThis();
     }
 
     @Override

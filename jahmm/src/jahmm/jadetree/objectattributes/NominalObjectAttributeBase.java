@@ -20,19 +20,21 @@ import jutlis.tuples.Holder;
  * @param <TSource>
  * @param <TTarget>
  */
-public abstract class NominalObjectAttributeBase<TSource, TTarget> implements NominalObjectAttribute<TSource, TTarget> {
+public abstract class NominalObjectAttributeBase<TSource, TTarget> extends ObjectAttributeBase<TSource, TTarget> implements NominalObjectAttribute<TSource, TTarget> {
 
     @Override
-    public double calculateScore(List<TSource> source, Function<TSource, Object> target, Holder<Object> state) {
+    public double calculateScore(Function<TSource, ? extends Object> function, Holder<Object> state, List<TSource> source) {
         final HashMap<TTarget, ArrayList<TSource>> classified = new HashMap<>();
         FactoryMethod<ArrayList<TSource>> fm = CollectionFactoryMethods.arrayListFactory();
         CollectionUtils.classify(classified, source, this, fm);
-        state.setData(classified);
-        return DecisionTreeUtils.calculateEntropyPartition(classified.values(), target);
+        if (state != null) {
+            state.setData(classified);
+        }
+        return DecisionTreeUtils.calculateInformationGainPartition(classified.values(), function);
     }
 
     @Override
-    public DecisionRealNode<TSource> createDecisionNode(DecisionInode<TSource> parent, List<TSource> source, Function<TSource, Object> target, Holder<Object> state) {
+    public DecisionRealNode<TSource> createDecisionNode(DecisionInode<TSource> parent, List<TSource> source, Function<TSource, ? extends Object> target, Holder<Object> state) {
         @SuppressWarnings("unchecked")
         HashMap<TTarget, LinkedList<TSource>> data = (HashMap<TTarget, LinkedList<TSource>>) state.getData();
         return new EnumerableDecisionNode<>(parent, this, data);

@@ -27,6 +27,7 @@ import jutlis.tuples.Tuple3Base;
  * For more information on the scaling procedure, read <i>Rabiner</i> and
  * <i>Juang</i>'s <i>Fundamentals of speech recognition</i> (Prentice Hall,
  * 1993).
+ *
  * @param <TObs>
  */
 public final class RegularForwardBackwardScaledCalculatorBase<TObs extends Observation> extends RegularForwardBackwardCalculatorBase<TObs> {

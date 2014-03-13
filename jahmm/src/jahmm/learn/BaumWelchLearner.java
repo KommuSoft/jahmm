@@ -106,7 +106,7 @@ public class BaumWelchLearner {
 
         for (int o = 0; o < sequences.size(); o++) {
             for (int i = 0; i < hmm.nbStates(); i++) {
-                nhmm.setPi(i,nhmm.getPi(i) + allGamma[o][0][i] / sequences.size());
+                nhmm.setPi(i, nhmm.getPi(i) + allGamma[o][0][i] / sequences.size());
             }
         }
 
