@@ -1,20 +1,24 @@
 package jahmm.jadetree;
 
+import jahmm.jadetree.foo.FooIntDouble;
 import jahmm.jadetree.foo.Test2B1T;
 import jahmm.jadetree.foo.TrisEnum;
 import jahmm.jadetree.objectattributes.ObjectAttribute;
 import jahmm.jadetree.objectattributes.ObjectAttributeInspector;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.logging.Logger;
 import jutils.MathUtils;
+import jutils.collections.CollectionUtils;
 import jutils.iterators.ListGenericIterable;
 import jutils.probability.ProbabilityUtils;
 import jutils.testing.AssertExtensions;
 import static jutils.testing.AssertExtensions.assertEquals;
 import jutlis.algebra.Function;
 import jutlis.lists.ListArray;
+import org.junit.Assert;
 import org.junit.Test;
 import utils.TestParameters;
 
@@ -153,26 +157,47 @@ public class DecisionTreeUtilsTest {
 
     @Test
     public void testCalculateEntropyFlipIndex00() {
+        ObjectAttribute<FooIntDouble, ? extends Object> target = ObjectAttributeInspector.inspect(FooIntDouble.class, "integer");
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
-            int m = 0x01 + ProbabilityUtils.nextInt(TestParameters.NUMBER_OF_CATEGORIES);
-            double[] array = ProbabilityUtils.fillRandomScale(m);
-            
+            int n = 0x02 + ProbabilityUtils.nextInt(TestParameters.TEST_SIZE);
+            int m = 0x01 + ProbabilityUtils.nextInt(n - 0x01);
+            double ps = ProbabilityUtils.nextDouble();
+            ArrayList<FooIntDouble> tids = new ArrayList<>();
+            for (int i = 0x00; i < m; i++) {
+                double p = ps * ProbabilityUtils.nextDouble();
+                FooIntDouble tid = new FooIntDouble(0x00, p);
+                tids.add(tid);
+            }
+            for (int i = m; i < n; i++) {
+                double p = ps + (1.0d - ps) * ProbabilityUtils.nextDouble();
+                FooIntDouble tid = new FooIntDouble(0x01, p);
+                tids.add(tid);
+            }
+            int split = DecisionTreeUtils.calculateEntropyFlipIndex(tids, target, null);
+            Assert.assertEquals(split, m);
         }
     }
 
     @Test
     public void testCalculateEntropyFlipIndex01() {
-
-    }
-
-    @Test
-    public void testCalculateEntropyFlipIndex02() {
-
-    }
-
-    @Test
-    public void testCalculateEntropyFlipIndex03() {
-
+        ObjectAttribute<FooIntDouble, ? extends Object> target = ObjectAttributeInspector.inspect(FooIntDouble.class, "integer");
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int m = 0x01 + ProbabilityUtils.nextInt(TestParameters.NUMBER_OF_CATEGORIES);
+            int n = 0x02 + ProbabilityUtils.nextInt(TestParameters.TEST_SIZE);
+            double[] ps = ProbabilityUtils.fillRandomScale(m);
+            Integer[] cnts = new Integer[m];
+            ArrayList<FooIntDouble> tids = new ArrayList<>();
+            for (int i = 0x00; i < n; i++) {
+                double p = ProbabilityUtils.nextDouble();
+                int category = CollectionUtils.getLowestInsertionPoint(ps, p);
+                cnts[category]++;
+                FooIntDouble tid = new FooIntDouble(category, p);
+                tids.add(tid);
+            }
+            Collections.sort(tids);
+            int split = DecisionTreeUtils.calculateEntropyFlipIndex(tids, target, null);
+            AssertExtensions.assertContains(split, new ListArray<>(cnts));
+        }
     }
 
     @Test
