@@ -158,6 +158,14 @@ public class DecisionTreeUtilsTest {
     @Test
     public void testCalculateEntropyFlipIndex00() {
         ObjectAttribute<FooIntDouble, ? extends Object> target = ObjectAttributeInspector.inspect(FooIntDouble.class, "integer");
+        ListArray<FooIntDouble> tids = new ListArray<>(new FooIntDouble(0x00,0.0d),new FooIntDouble(0x00,0.4d),new FooIntDouble(0x00,0.8d),new FooIntDouble(0x00,1.2d),new FooIntDouble(0x01,1.6d),new FooIntDouble(0x01,2.0d));
+        int split = DecisionTreeUtils.calculateEntropyFlipIndex(tids, target, null);
+        Assert.assertEquals(0x03, split);
+    }
+
+    @Test
+    public void testCalculateEntropyFlipIndex01() {
+        ObjectAttribute<FooIntDouble, ? extends Object> target = ObjectAttributeInspector.inspect(FooIntDouble.class, "integer");
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
             int n = 0x02 + ProbabilityUtils.nextInt(TestParameters.TEST_SIZE);
             int m = 0x01 + ProbabilityUtils.nextInt(n - 0x01);
@@ -174,18 +182,21 @@ public class DecisionTreeUtilsTest {
                 tids.add(tid);
             }
             int split = DecisionTreeUtils.calculateEntropyFlipIndex(tids, target, null);
-            Assert.assertEquals(split, m);
+            Assert.assertEquals(m, split);
         }
     }
 
     @Test
-    public void testCalculateEntropyFlipIndex01() {
+    public void testCalculateEntropyFlipIndex02() {
         ObjectAttribute<FooIntDouble, ? extends Object> target = ObjectAttributeInspector.inspect(FooIntDouble.class, "integer");
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
             int m = 0x01 + ProbabilityUtils.nextInt(TestParameters.NUMBER_OF_CATEGORIES);
             int n = 0x02 + ProbabilityUtils.nextInt(TestParameters.TEST_SIZE);
             double[] ps = ProbabilityUtils.fillRandomScale(m);
-            Integer[] cnts = new Integer[m];
+            Integer[] cnts = new Integer[m + 0x01];
+            for(int i = 0x00; i < cnts.length; i++) {
+                cnts[i] = 0x00;
+            }
             ArrayList<FooIntDouble> tids = new ArrayList<>();
             for (int i = 0x00; i < n; i++) {
                 double p = ProbabilityUtils.nextDouble();
