@@ -37,4 +37,9 @@ public class FooIntDouble implements Comparable<FooIntDouble> {
         return ((Double) doubl).compareTo(t.doubl);
     }
 
+    @Override
+    public String toString() {
+        return String.format("%s/%s", this.integer, this.doubl);
+    }
+
 }

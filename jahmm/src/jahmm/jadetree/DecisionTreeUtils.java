@@ -145,20 +145,26 @@ public class DecisionTreeUtils {
         final int N = subholder.getData();
         final HashMap<TTarget, Integer> lFreq = new HashMap<>(rFreq.size());
         int lN = 0x00, rN = N, maxFlip = -0x01, newF;
-        double maxS = Double.NEGATIVE_INFINITY, lS, rS, S;
+        double maxS = Double.POSITIVE_INFINITY, lS, rS, S;
         for (TSource s : sources) {
             lN++;
             if (lN < N) {
                 TTarget target = function.evaluate(s);
                 rN--;
                 newF = CollectionUtils.incrementKey(lFreq, target);
-                lRawS -= newF * Math.log(newF) - (newF - 0x01) * Math.log(newF - 0x01);
+                lRawS -= newF * Math.log(newF);
+                if(newF > 0x01) {
+                    lRawS += (newF - 0x01) * Math.log(newF - 0x01);
+                }
                 newF = CollectionUtils.decrementKey(rFreq, target);
-                rRawS -= newF * Math.log(newF) - (newF + 0x01) * Math.log(newF + 0x01);
+                rRawS += (newF + 0x01) * Math.log(newF + 0x01);
+                if(newF > 0x00) {
+                    rRawS -= newF * Math.log(newF);
+                }
                 lS = lN * Math.log(lN) + lRawS;
                 rS = rN * Math.log(rN) + rRawS;
                 S = lS + rS;
-                if (S > maxS) {
+                if (S < maxS) {
                     maxS = S;
                     maxFlip = lN;
                 }
