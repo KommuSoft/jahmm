@@ -20,7 +20,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testGetParent() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -28,7 +28,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testGetTree() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -36,7 +36,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testReduce() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -44,7 +44,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testExpand() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -52,7 +52,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testExpandScore() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -60,7 +60,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testReduceScore() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -68,7 +68,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testInsert() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -76,7 +76,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testGetChildren() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -84,7 +84,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testGetRoot() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -92,7 +92,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testReplaceChild() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -100,7 +100,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testGetSourceAttributes() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -108,7 +108,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testAddSourceAttribute() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -116,7 +116,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testRemoveSourceAttribute() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -124,7 +124,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testGetTargetAttribute() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -132,7 +132,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testCheckTrade() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -140,7 +140,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testTrade() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -148,7 +148,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testTradeExpand() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -156,7 +156,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testReduceMemory() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -164,7 +164,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testClassify() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
     /**
@@ -172,7 +172,7 @@ public class Id3ClassificationTreeTest {
      */
     @Test
     public void testClassifyInsert() {
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
 
 }

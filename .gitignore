@@ -13,3 +13,5 @@ jamhh/target*
 *private*
 /jahmm/build/
 /jahmm/dist/
+jahmm/.jacocoverage/*
+/jahmm/.jacocoverage/*
