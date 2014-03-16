@@ -8,8 +8,10 @@ import jahmm.jadetree.objectattributes.ObjectAttributeInspector;
 import java.util.logging.Logger;
 import junit.framework.Assert;
 import jutils.collections.CollectionUtils;
+import jutils.iterators.EmptyIterable;
+import jutils.iterators.SingleIterable;
 import jutils.testing.AssertExtensions;
-import static org.junit.Assert.fail;
+import jutlis.lists.ListArray;
 import org.junit.Test;
 
 /**
@@ -93,7 +95,7 @@ public class EnumerableDecisionNodeTest {
         DecisionLeafBase<Test2B1T> la4 = new DecisionLeafBase<>(null);
         edn.replaceChild(la, la4);
         DecisionRealNode<Test2B1T> la5 = edn.nextHop(new Test2B1T(false, false, TrisEnum.Odin));
-        Assert.assertEquals(la5,la4);
+        Assert.assertEquals(la5, la4);
         edn.replaceChild(lb, la);
         DecisionRealNode<Test2B1T> lb5 = edn.nextHop(new Test2B1T(false, false, TrisEnum.Dva));
         Assert.assertEquals(lb5, la);
@@ -106,8 +108,16 @@ public class EnumerableDecisionNodeTest {
      * Test of getChildren method, of class EnumerableDecisionNode.
      */
     @Test
+    @SuppressWarnings("unchecked")
     public void testGetChildren() {
-        fail("The test case is a prototype.");
+        EnumerableDecisionNode<Test2B1T, ? extends Object> edn = new EnumerableDecisionNode<>(null, oae);
+        AssertExtensions.assertEqualsOrdered(EmptyIterable.Instance, edn.getChildren());
+        DecisionRealNode<Test2B1T> la = edn.nextHop(new Test2B1T(false, false, TrisEnum.Odin));
+        AssertExtensions.assertEqualsOrdered(new SingleIterable<>(la), edn.getChildren());
+        DecisionRealNode<Test2B1T> lb = edn.nextHop(new Test2B1T(false, false, TrisEnum.Dva));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(la, lb), edn.getChildren());
+        DecisionRealNode<Test2B1T> lc = edn.nextHop(new Test2B1T(false, false, TrisEnum.Tri));
+        AssertExtensions.assertEqualsOrdered(new ListArray<>(la, lb, lc), edn.getChildren());
     }
 
     /**
