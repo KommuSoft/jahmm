@@ -1,14 +1,17 @@
 package jahmm.jadetree;
 
+import java.util.logging.Logger;
+import static org.junit.Assert.fail;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author kommusoft
  */
 public class PredicateDecisionNodeTest {
-    
+
+    private static final Logger LOG = Logger.getLogger(PredicateDecisionNodeTest.class.getName());
+
     public PredicateDecisionNodeTest() {
     }
 
@@ -35,5 +38,5 @@ public class PredicateDecisionNodeTest {
     public void testGetPredicate() {
         fail("The test case is a prototype.");
     }
-    
+
 }
