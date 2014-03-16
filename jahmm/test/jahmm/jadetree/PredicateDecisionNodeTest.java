@@ -73,9 +73,9 @@ public class PredicateDecisionNodeTest {
     @Test
     public void testInsert() {
         PredicateDecisionNode<Integer> pdn1 = new PredicateDecisionNode<>(null, pred1, TestData.vals1);
+        PredicateDecisionNode<String> pdn2 = new PredicateDecisionNode<>(null, pred2, TestData.vals2);
         AssertExtensions.assertEqualsOrdered(TestData.vals1le, pdn1.getTrueNode());
         AssertExtensions.assertEqualsOrdered(TestData.vals1geq, pdn1.getFalseNode());
-        PredicateDecisionNode<String> pdn2 = new PredicateDecisionNode<>(null, pred2, TestData.vals2);
         AssertExtensions.assertEqualsOrdered(TestData.vals2geq, pdn2.getTrueNode());
         AssertExtensions.assertEqualsOrdered(TestData.vals2le, pdn2.getFalseNode());
     }

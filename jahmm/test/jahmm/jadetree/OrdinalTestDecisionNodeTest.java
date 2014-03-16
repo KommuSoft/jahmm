@@ -2,8 +2,11 @@ package jahmm.jadetree;
 
 import jahmm.jadetree.objectattributes.ComparableOrdinalObjectAttributeBase;
 import java.util.logging.Logger;
+import junit.framework.Assert;
+import jutils.testing.AssertExtensions;
 import static org.junit.Assert.fail;
 import org.junit.Test;
+import utils.TestData;
 
 /**
  *
@@ -12,8 +15,8 @@ import org.junit.Test;
 public class OrdinalTestDecisionNodeTest {
 
     private static final Logger LOG = Logger.getLogger(OrdinalTestDecisionNodeTest.class.getName());
-    private ComparableOrdinalObjectAttributeBase<Integer> ooa1 = new ComparableOrdinalObjectAttributeBase<>("value");
-    private ComparableOrdinalObjectAttributeBase<String> ooa2 = new ComparableOrdinalObjectAttributeBase<>("username");
+    private final ComparableOrdinalObjectAttributeBase<Integer> ooa1 = new ComparableOrdinalObjectAttributeBase<>(TestData.name1);
+    private final ComparableOrdinalObjectAttributeBase<String> ooa2 = new ComparableOrdinalObjectAttributeBase<>(TestData.name2);
 
     public OrdinalTestDecisionNodeTest() {
     }
@@ -23,8 +26,20 @@ public class OrdinalTestDecisionNodeTest {
      */
     @Test
     public void testTest() {
-        OrdinalTestDecisionNode<Integer,Integer> otdn1 = new OrdinalTestDecisionNode<>(null,ooa1,4);
-        OrdinalTestDecisionNode<String,String> otdn2 = new OrdinalTestDecisionNode<>(null,ooa2,"kommusoft");
+        OrdinalTestDecisionNode<Integer, Integer> otdn1 = new OrdinalTestDecisionNode<>(null, ooa1, TestData.split1);
+        OrdinalTestDecisionNode<String, String> otdn2 = new OrdinalTestDecisionNode<>(null, ooa2, TestData.split2);
+        for (Integer v : TestData.vals1geq) {
+            Assert.assertFalse(otdn1.test(v));
+        }
+        for (Integer v : TestData.vals1le) {
+            Assert.assertTrue(otdn1.test(v));
+        }
+        for (String v : TestData.vals2geq) {
+            Assert.assertFalse(otdn2.test(v));
+        }
+        for (String v : TestData.vals2le) {
+            Assert.assertTrue(otdn2.test(v));
+        }
     }
 
     /**
@@ -32,7 +47,10 @@ public class OrdinalTestDecisionNodeTest {
      */
     @Test
     public void testToString() {
-        fail("The test case is a prototype.");
+        OrdinalTestDecisionNode<Integer, Integer> otdn1 = new OrdinalTestDecisionNode<>(null, ooa1, TestData.split1);
+        OrdinalTestDecisionNode<String, String> otdn2 = new OrdinalTestDecisionNode<>(null, ooa2, TestData.split2);
+        Assert.assertEquals(String.format("%s < %s", TestData.name1, TestData.split1), otdn1.toString());
+        Assert.assertEquals(String.format("%s < %s", TestData.name2, TestData.split2), otdn2.toString());
     }
 
     /**
@@ -40,7 +58,10 @@ public class OrdinalTestDecisionNodeTest {
      */
     @Test
     public void testGetOrdinalArgument() {
-        fail("The test case is a prototype.");
+        OrdinalTestDecisionNode<Integer, Integer> otdn1 = new OrdinalTestDecisionNode<>(null, ooa1, TestData.split1);
+        OrdinalTestDecisionNode<String, String> otdn2 = new OrdinalTestDecisionNode<>(null, ooa2, TestData.split2);
+        Assert.assertEquals(ooa1, otdn1.getOrdinalArgument());
+        Assert.assertEquals(ooa2, otdn2.getOrdinalArgument());
     }
 
     /**
@@ -48,7 +69,23 @@ public class OrdinalTestDecisionNodeTest {
      */
     @Test
     public void testGetState() {
-        fail("The test case is a prototype.");
+        OrdinalTestDecisionNode<Integer, Integer> otdn1 = new OrdinalTestDecisionNode<>(null, ooa1, TestData.split1);
+        OrdinalTestDecisionNode<String, String> otdn2 = new OrdinalTestDecisionNode<>(null, ooa2, TestData.split2);
+        Assert.assertEquals(TestData.split1, otdn1.getState());
+        Assert.assertEquals(TestData.split2, otdn2.getState());
+    }
+
+    /**
+     * Test of test method, of class PredicateDecisionNode.
+     */
+    @Test
+    public void testInsert() {
+        OrdinalTestDecisionNode<Integer, Integer> otdn1 = new OrdinalTestDecisionNode<>(null, ooa1, TestData.split1);
+        OrdinalTestDecisionNode<String, String> otdn2 = new OrdinalTestDecisionNode<>(null, ooa2, TestData.split2);
+        AssertExtensions.assertEqualsOrdered(TestData.vals1le, otdn1.getTrueNode());
+        AssertExtensions.assertEqualsOrdered(TestData.vals1geq, otdn1.getFalseNode());
+        AssertExtensions.assertEqualsOrdered(TestData.vals2le, otdn2.getTrueNode());
+        AssertExtensions.assertEqualsOrdered(TestData.vals2geq, otdn2.getFalseNode());
     }
 
 }
