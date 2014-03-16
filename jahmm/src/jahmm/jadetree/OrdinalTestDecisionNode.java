@@ -2,6 +2,7 @@ package jahmm.jadetree;
 
 import jahmm.jadetree.objectattributes.OrdinalObjectAttribute;
 import java.util.logging.Logger;
+import jutlis.lists.ListArray;
 
 /**
  *
@@ -22,11 +23,15 @@ public class OrdinalTestDecisionNode<TSource, TState> extends TestDecisionNode<T
         this.state = state;
     }
 
-    public OrdinalTestDecisionNode(DecisionInode<TSource> tree, DecisionRealNodeBase<TSource> trueNode, DecisionRealNodeBase<TSource> falseNode, Iterable<TSource> toInsert, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
+    public OrdinalTestDecisionNode(DecisionInode<TSource> tree, DecisionRealNodeBase<TSource> trueNode, DecisionRealNodeBase<TSource> falseNode, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state, Iterable<TSource> toInsert) {
         super(tree, trueNode, falseNode);
         this.ordinalArgument = ordinalArgument;
         this.state = state;
         this.insert(toInsert);
+    }
+
+    public OrdinalTestDecisionNode(DecisionInode<TSource> tree, DecisionRealNodeBase<TSource> trueNode, DecisionRealNodeBase<TSource> falseNode, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state, TSource... toInsert) {
+        this(tree, trueNode, falseNode, ordinalArgument, state, new ListArray<>(toInsert));
     }
 
     public OrdinalTestDecisionNode(DecisionInode<TSource> tree, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
@@ -35,11 +40,15 @@ public class OrdinalTestDecisionNode<TSource, TState> extends TestDecisionNode<T
         this.state = state;
     }
 
-    public OrdinalTestDecisionNode(DecisionInode<TSource> tree, Iterable<TSource> toInsert, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
+    public OrdinalTestDecisionNode(DecisionInode<TSource> tree, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state, Iterable<TSource> toInsert) {
         super(tree);
         this.ordinalArgument = ordinalArgument;
         this.state = state;
         this.insert(toInsert);
+    }
+
+    public OrdinalTestDecisionNode(DecisionInode<TSource> tree, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state, TSource... toInsert) {
+        this(tree, ordinalArgument, state, new ListArray<>(toInsert));
     }
 
     @Override

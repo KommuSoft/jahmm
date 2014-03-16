@@ -1,8 +1,9 @@
 package jahmm.jadetree;
 
-import jahmm.jadetree.objectattributes.ComparableOrdinalObjectAttributeBase;
+import jahmm.jadetree.objectattributes.InternalOrdinalObjectAttributeBase;
 import java.util.logging.Logger;
 import junit.framework.Assert;
+import jutils.collections.CollectionUtils;
 import jutils.testing.AssertExtensions;
 import static org.junit.Assert.fail;
 import org.junit.Test;
@@ -15,8 +16,8 @@ import utils.TestData;
 public class OrdinalTestDecisionNodeTest {
 
     private static final Logger LOG = Logger.getLogger(OrdinalTestDecisionNodeTest.class.getName());
-    private final ComparableOrdinalObjectAttributeBase<Integer> ooa1 = new ComparableOrdinalObjectAttributeBase<>(TestData.name1);
-    private final ComparableOrdinalObjectAttributeBase<String> ooa2 = new ComparableOrdinalObjectAttributeBase<>(TestData.name2);
+    private final InternalOrdinalObjectAttributeBase<Integer> ooa1 = new InternalOrdinalObjectAttributeBase<>(TestData.name1);
+    private final InternalOrdinalObjectAttributeBase<String> ooa2 = new InternalOrdinalObjectAttributeBase<>(TestData.name2);
 
     public OrdinalTestDecisionNodeTest() {
     }
@@ -80,8 +81,8 @@ public class OrdinalTestDecisionNodeTest {
      */
     @Test
     public void testInsert() {
-        OrdinalTestDecisionNode<Integer, Integer> otdn1 = new OrdinalTestDecisionNode<>(null, ooa1, TestData.split1);
-        OrdinalTestDecisionNode<String, String> otdn2 = new OrdinalTestDecisionNode<>(null, ooa2, TestData.split2);
+        OrdinalTestDecisionNode<Integer, Integer> otdn1 = new OrdinalTestDecisionNode<>(null, ooa1, TestData.split1,TestData.vals1);
+        OrdinalTestDecisionNode<String, String> otdn2 = new OrdinalTestDecisionNode<>(null, ooa2, TestData.split2,TestData.vals2);
         AssertExtensions.assertEqualsOrdered(TestData.vals1le, otdn1.getTrueNode());
         AssertExtensions.assertEqualsOrdered(TestData.vals1geq, otdn1.getFalseNode());
         AssertExtensions.assertEqualsOrdered(TestData.vals2le, otdn2.getTrueNode());
