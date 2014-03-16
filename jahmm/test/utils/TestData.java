@@ -2,6 +2,7 @@ package utils;
 
 import jahmm.jadetree.foo.Test2B1T;
 import jahmm.jadetree.foo.TrisEnum;
+import java.util.logging.Logger;
 import jutlis.lists.ListArray;
 
 /**
@@ -24,6 +25,7 @@ public class TestData {
     public static final ListArray<Test2B1T> vals3a = new ListArray<>(new Test2B1T(false, false, TrisEnum.Odin), new Test2B1T(true, true, TrisEnum.Odin));
     public static final ListArray<Test2B1T> vals3b = new ListArray<>(new Test2B1T(false, true, TrisEnum.Dva));
     public static final ListArray<Test2B1T> vals3c = new ListArray<>(new Test2B1T(true, false, TrisEnum.Tri));
+    private static final Logger LOG = Logger.getLogger(TestData.class.getName());
 
     private TestData() {
     }
