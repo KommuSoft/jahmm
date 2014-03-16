@@ -111,13 +111,13 @@ public class EnumerableDecisionNodeTest {
     @SuppressWarnings("unchecked")
     public void testGetChildren() {
         EnumerableDecisionNode<Test2B1T, ? extends Object> edn = new EnumerableDecisionNode<>(null, oae);
-        AssertExtensions.assertEqualsOrdered(EmptyIterable.Instance, edn.getChildren());
+        AssertExtensions.assertEqualsUnordered(EmptyIterable.Instance, edn.getChildren());
         DecisionRealNode<Test2B1T> la = edn.nextHop(new Test2B1T(false, false, TrisEnum.Odin));
-        AssertExtensions.assertEqualsOrdered(new SingleIterable<>(la), edn.getChildren());
+        AssertExtensions.assertEqualsUnordered(new SingleIterable<>(la), edn.getChildren());
         DecisionRealNode<Test2B1T> lb = edn.nextHop(new Test2B1T(false, false, TrisEnum.Dva));
-        AssertExtensions.assertEqualsOrdered(new ListArray<>(la, lb), edn.getChildren());
+        AssertExtensions.assertEqualsUnordered(new ListArray<>(la, lb), edn.getChildren());
         DecisionRealNode<Test2B1T> lc = edn.nextHop(new Test2B1T(false, false, TrisEnum.Tri));
-        AssertExtensions.assertEqualsOrdered(new ListArray<>(la, lb, lc), edn.getChildren());
+        AssertExtensions.assertEqualsUnordered(new ListArray<>(la, lb, lc), edn.getChildren());
     }
 
     /**
