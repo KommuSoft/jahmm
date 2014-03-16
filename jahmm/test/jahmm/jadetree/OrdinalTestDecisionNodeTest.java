@@ -1,5 +1,6 @@
 package jahmm.jadetree;
 
+import jahmm.jadetree.objectattributes.ComparableOrdinalObjectAttributeBase;
 import java.util.logging.Logger;
 import static org.junit.Assert.fail;
 import org.junit.Test;
@@ -11,6 +12,8 @@ import org.junit.Test;
 public class OrdinalTestDecisionNodeTest {
 
     private static final Logger LOG = Logger.getLogger(OrdinalTestDecisionNodeTest.class.getName());
+    private ComparableOrdinalObjectAttributeBase<Integer> ooa1 = new ComparableOrdinalObjectAttributeBase<>("value");
+    private ComparableOrdinalObjectAttributeBase<String> ooa2 = new ComparableOrdinalObjectAttributeBase<>("username");
 
     public OrdinalTestDecisionNodeTest() {
     }
@@ -20,7 +23,8 @@ public class OrdinalTestDecisionNodeTest {
      */
     @Test
     public void testTest() {
-        fail("The test case is a prototype.");
+        OrdinalTestDecisionNode<Integer,Integer> otdn1 = new OrdinalTestDecisionNode<>(null,ooa1,4);
+        OrdinalTestDecisionNode<String,String> otdn2 = new OrdinalTestDecisionNode<>(null,ooa2,"kommusoft");
     }
 
     /**
