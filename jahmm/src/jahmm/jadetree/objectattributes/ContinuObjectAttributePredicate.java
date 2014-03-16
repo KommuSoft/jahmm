@@ -1,7 +1,7 @@
 package jahmm.jadetree.objectattributes;
 
 import java.util.logging.Logger;
-import jutlis.algebra.Predicate;
+import jutlis.algebra.PredicateBase;
 
 /**
  *
@@ -9,7 +9,7 @@ import jutlis.algebra.Predicate;
  * @param <TSource>
  * @param <TTarget>
  */
-public class ContinuObjectAttributePredicate<TSource, TTarget> implements Predicate<TSource> {
+public class ContinuObjectAttributePredicate<TSource, TTarget> extends PredicateBase<TSource> {
 
     private static final Logger LOG = Logger.getLogger(ContinuObjectAttributePredicate.class.getName());
 

@@ -1,5 +1,6 @@
 package jahmm.jadetree;
 
+import java.util.Iterator;
 import jutils.IdableBase;
 import jutlis.lists.ListArray;
 
@@ -40,6 +41,11 @@ public abstract class DecisionNodeBase<TSource> extends IdableBase implements De
     @Override
     public void insert(TSource... sources) {
         this.insert(new ListArray<>(sources));
+    }
+
+    @Override
+    public Iterator<TSource> iterator() {
+        return this.getStoredSources().iterator();
     }
 
 }

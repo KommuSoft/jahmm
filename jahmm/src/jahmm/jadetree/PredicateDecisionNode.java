@@ -1,6 +1,7 @@
 package jahmm.jadetree;
 
 import jutlis.algebra.Predicate;
+import jutlis.lists.ListArray;
 
 /**
  *
@@ -15,10 +16,14 @@ public class PredicateDecisionNode<TSource> extends TestDecisionNode<TSource> {
         this.predicate = predicate;
     }
 
-    public PredicateDecisionNode(DecisionInode<TSource> parent, DecisionRealNodeBase<TSource> trueNode, DecisionRealNodeBase<TSource> falseNode, Iterable<TSource> toInsert, Predicate<? super TSource> predicate) {
+    public PredicateDecisionNode(DecisionInode<TSource> parent, DecisionRealNodeBase<TSource> trueNode, DecisionRealNodeBase<TSource> falseNode, Predicate<? super TSource> predicate, Iterable<TSource> toInsert) {
         super(parent, trueNode, falseNode);
         this.predicate = predicate;
         this.insert(toInsert);
+    }
+
+    public PredicateDecisionNode(DecisionInode<TSource> parent, DecisionRealNodeBase<TSource> trueNode, DecisionRealNodeBase<TSource> falseNode, Predicate<? super TSource> predicate, TSource... toInsert) {
+        this(parent, trueNode, falseNode, predicate, new ListArray<>(toInsert));
     }
 
     public PredicateDecisionNode(DecisionInode<TSource> parent, Predicate<? super TSource> predicate) {
@@ -26,10 +31,14 @@ public class PredicateDecisionNode<TSource> extends TestDecisionNode<TSource> {
         this.predicate = predicate;
     }
 
-    public PredicateDecisionNode(DecisionInode<TSource> parent, Iterable<TSource> toInsert, Predicate<? super TSource> predicate) {
+    public PredicateDecisionNode(DecisionInode<TSource> parent, Predicate<? super TSource> predicate, Iterable<TSource> toInsert) {
         super(parent);
         this.predicate = predicate;
         this.insert(toInsert);
+    }
+
+    public PredicateDecisionNode(DecisionInode<TSource> parent, Predicate<? super TSource> predicate, TSource... toInsert) {
+        this(parent, predicate, new ListArray<>(toInsert));
     }
 
     @Override
