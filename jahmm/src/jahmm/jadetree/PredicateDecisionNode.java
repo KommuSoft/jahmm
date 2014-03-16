@@ -16,8 +16,9 @@ public class PredicateDecisionNode<TSource> extends TestDecisionNode<TSource> {
     }
 
     public PredicateDecisionNode(DecisionInode<TSource> parent, DecisionRealNodeBase<TSource> trueNode, DecisionRealNodeBase<TSource> falseNode, Iterable<TSource> toInsert, Predicate<? super TSource> predicate) {
-        super(parent, trueNode, falseNode, toInsert);
+        super(parent, trueNode, falseNode);
         this.predicate = predicate;
+        this.insert(toInsert);
     }
 
     public PredicateDecisionNode(DecisionInode<TSource> parent, Predicate<? super TSource> predicate) {
@@ -26,8 +27,9 @@ public class PredicateDecisionNode<TSource> extends TestDecisionNode<TSource> {
     }
 
     public PredicateDecisionNode(DecisionInode<TSource> parent, Iterable<TSource> toInsert, Predicate<? super TSource> predicate) {
-        super(parent, toInsert);
+        super(parent);
         this.predicate = predicate;
+        this.insert(toInsert);
     }
 
     @Override

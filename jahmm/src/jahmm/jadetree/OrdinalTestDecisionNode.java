@@ -23,9 +23,10 @@ public class OrdinalTestDecisionNode<TSource, TState> extends TestDecisionNode<T
     }
 
     public OrdinalTestDecisionNode(DecisionInode<TSource> tree, DecisionRealNodeBase<TSource> trueNode, DecisionRealNodeBase<TSource> falseNode, Iterable<TSource> toInsert, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
-        super(tree, trueNode, falseNode, toInsert);
+        super(tree, trueNode, falseNode);
         this.ordinalArgument = ordinalArgument;
         this.state = state;
+        this.insert(toInsert);
     }
 
     public OrdinalTestDecisionNode(DecisionInode<TSource> tree, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
@@ -35,9 +36,10 @@ public class OrdinalTestDecisionNode<TSource, TState> extends TestDecisionNode<T
     }
 
     public OrdinalTestDecisionNode(DecisionInode<TSource> tree, Iterable<TSource> toInsert, OrdinalObjectAttribute<TSource, TState> ordinalArgument, TState state) {
-        super(tree, toInsert);
+        super(tree);
         this.ordinalArgument = ordinalArgument;
         this.state = state;
+        this.insert(toInsert);
     }
 
     @Override
