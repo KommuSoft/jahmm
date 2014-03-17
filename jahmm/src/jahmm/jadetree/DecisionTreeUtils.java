@@ -234,26 +234,8 @@ public class DecisionTreeUtils {
         return calculateEntropy(totFrequency, null) - entropy / total;
     }
 
-    public static <TSource, TTarget> double calculateReduceEntropy(Iterable<? extends Iterable<? extends TSource>> sources, Function<TSource, TTarget> function) {
-        final HashMap<TTarget, Integer> frequency = new HashMap<>();
-        final HashMap<TTarget, Integer> subFrequency = new HashMap<>();
-        Holder<Integer> ttl = new HolderBase<>();
-        int total = 0;
-        int subtotal;
-        double entropy = 0.0d;
-        double subentropy;
-        for (Iterable<? extends TSource> subsource : sources) {
-            subentropy = calculateEntropy(subsource, subFrequency, function, ttl);
-            for (Entry<TTarget, Integer> subEntry : subFrequency.entrySet()) {
-                CollectionUtils.incrementKey(frequency, subEntry.getKey(), subEntry.getValue());
-            }
-            subFrequency.clear();
-            subtotal = ttl.getData();
-            entropy += subentropy * subtotal;
-            total += subtotal;
-        }
-        double allEntropy = calculateEntropy(subFrequency, null);
-        return (entropy - allEntropy) / total;
+    public static <TSource, TTarget> double calculateInformationGainReduce(Iterable<? extends Iterable<? extends TSource>> sources, Function<TSource, TTarget> function) {
+        return -calculateInformationGainPartition(sources,function);
     }
 
     private DecisionTreeUtils() {// $COVERAGE-IGNORE$

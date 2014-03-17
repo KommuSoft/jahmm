@@ -23,9 +23,9 @@ public class Test2B1T {
     }
     
     public Test2B1T (String s) {
-        this.bool1 = (s.charAt(0x00) == 'T');
-        this.bool2 = (s.charAt(0x01) == 'T');
-        switch(s.charAt(0x02)) {
+        this.bool1 = (Character.toUpperCase(s.charAt(0x00)) == 'T');
+        this.bool2 = (Character.toUpperCase(s.charAt(0x01)) == 'T');
+        switch(Character.toUpperCase(s.charAt(0x02))) {
             case 'O' :
                 this.trival = TrisEnum.Odin;
             case 'D' :

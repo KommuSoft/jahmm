@@ -335,6 +335,8 @@ public class DecisionTreeUtilsTest {
         AssertExtensions.popEpsilon();
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
     public void testCalculateEntropyPartition01() {
         String[] dat0 = {"tfO", "ttO", "tfO", "tfO", "tfO", "tfO", "tfO", "ttO", "ttO", "ttO", "tfO", "ttO", "tfO", "tfO", "ttO", "tfO", "tfO", "ttO", "tfO", "ttO", "tfO", "tfO", "ttO", "tfO", "ttO", "tfO", "ttO", "ttO", "ttO", "tfO", "tfO", "ttO", "tfO", "tfO", "tfO", "ttO", "ttO", "ttO", "tfO", "ttO", "ttO", "tfO", "ttO", "tfO"};
         String[] dat1 = {"ftO", "ftO", "ffO", "ftO", "ftO", "ffO", "ftO", "ffO", "ftO", "ftO", "ftO", "ffO", "ffO", "ftO", "ffO", "ffO", "ftO", "ftO", "ftO", "ftO", "ffO", "ffO", "ftO", "ftO", "ffO", "ffO", "ffO", "ftO", "ftO", "ftO", "ftO", "ftO", "ftO", "ftO", "ftO", "ffO"};
@@ -347,10 +349,15 @@ public class DecisionTreeUtilsTest {
             part1.add(new Test2B1T(s));
         }
         ObjectAttribute<Test2B1T, ? extends Object> target = ObjectAttributeInspector.inspect(Test2B1T.class, "bool2");
-        double expected = DecisionTreeUtils.calculateEntropy2pSplit(44.0d / 80.0d, 20.0d / 44.0d, 13.0d / 36.0d);
+        double expected = DecisionTreeUtils.calculateEntropy2pSplit(44.0d / 80.0d, 20.0d / 44.0d, 23.0d / 36.0d);
         @SuppressWarnings("unchecked")
         double result = DecisionTreeUtils.calculateEntropyPartition(new ListArray<>(part0, part1), target);
         AssertExtensions.assertEquals(expected, result);
+        expected = DecisionTreeUtils.calculateInformationGain(44.0d / 80.0d, 20.0d / 44.0d, 23.0d / 36.0d);
+        result = DecisionTreeUtils.calculateInformationGainPartition(new ListArray<>(part0, part1), target);
+        AssertExtensions.assertEquals(expected, result);
+        result = DecisionTreeUtils.calculateInformationGainReduce(new ListArray<>(part0, part1), target);
+        AssertExtensions.assertEquals(-expected, result);
     }
 
     private class Foo implements Function<Foo, Integer> {

@@ -59,7 +59,7 @@ public abstract class DecisionRealInodeBase<TSource> extends DecisionRealNodeBas
     }
 
     private double recalcSelfReduce() {
-        return DecisionTreeUtils.calculateReduceEntropy(this.getPartitionedStoredSources(), this.getTree().getTargetAttribute());
+        return DecisionTreeUtils.calculateInformationGainReduce(this.getPartitionedStoredSources(), this.getTree().getTargetAttribute());
     }
 
     @Override
