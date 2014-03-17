@@ -18,6 +18,7 @@ import jutils.testing.AssertExtensions;
 import static jutils.testing.AssertExtensions.assertEquals;
 import jutlis.algebra.Function;
 import jutlis.lists.ListArray;
+import jutlis.tuples.HolderBase;
 import jutlis.tuples.Tuple2;
 import jutlis.tuples.Tuple2Base;
 import org.junit.Assert;
@@ -154,6 +155,47 @@ public class DecisionTreeUtilsTest {
             double expected = DecisionTreeUtils.calculateEntropy2p(probs);
             double result = DecisionTreeUtils.calculateEntropy(data, null);
             AssertExtensions.assertEquals(expected, result);
+            HolderBase<Integer> hb = new HolderBase<>();
+            result = DecisionTreeUtils.calculateEntropy(data, hb);
+            AssertExtensions.assertEquals(expected, result);
+            AssertExtensions.assertEquals(N, hb.getData());
+        }
+    }
+
+    @Test
+    public void testCalculateEntropy05() {
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int M = 0x01 + ProbabilityUtils.nextInt(TestParameters.NUMBER_OF_CATEGORIES - 0x01);
+            int[] counters = new int[M];
+            double[] probs = new double[M];
+            int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE);
+            HashMap<Integer, Integer> data = new HashMap<>(M);
+            for (int i = 0x00; i < M; i++) {
+                data.put(i, 0x00);
+            }
+            for (int i = 0x00; i < N; i++) {
+                int j = ProbabilityUtils.nextInt(M);
+                counters[j]++;
+                data.put(j, data.get(j) + 0x01);
+            }
+            for (int i = 0x00; i < M; i++) {
+                probs[i] = (double) counters[i] / N;
+            }
+            double expected = N*(MathUtils.LOG2*DecisionTreeUtils.calculateEntropy2p(probs)-Math.log(N));
+            double result = DecisionTreeUtils.calculateRawEntropy(data, null);
+            AssertExtensions.assertEquals(expected, result);
+        }
+    }
+    
+    @Test
+    public void testCalculateEntropy2p () {
+        for(int t = 0x03; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            double p = 1.0d/t;
+            double[] pis = new double[t-0x01];
+            for(int i = 0x00; i < pis.length; i++) {
+                pis[i] = p;
+            }
+            AssertExtensions.assertEquals(-Math.log(p)/Math.log(2.0d), DecisionTreeUtils.calculateEntropy2p(pis));
         }
     }
 
