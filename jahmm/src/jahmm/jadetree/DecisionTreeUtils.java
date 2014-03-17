@@ -141,7 +141,12 @@ public class DecisionTreeUtils {
         if (subholder == null) {
             subholder = new HolderBase<>();
         }
-        double rRawS = calculateRawEntropy(sources, rFreq, function, subholder), lRawS = 0.0d;
+        double rRawS = calculateRawEntropy(sources, rFreq, function, subholder);
+        return calculateEntropyFlipIndex(subholder, rFreq, sources, function, rRawS, total_entropy);
+    }
+
+    private static <TSource, TTarget> int calculateEntropyFlipIndex(Holder<Integer> subholder, final HashMap<TTarget, Integer> rFreq, Iterable<TSource> sources, Function<TSource, TTarget> function, double rRawSi, Tuple2<Integer, Double> total_entropy) {
+        double lRawS = 0.0d, rRawS = rRawSi;
         final int N = subholder.getData();
         final HashMap<TTarget, Integer> lFreq = new HashMap<>(rFreq.size());
         int lN = 0x00, rN = N, maxFlip = -0x01, newF;
@@ -153,12 +158,12 @@ public class DecisionTreeUtils {
                 rN--;
                 newF = CollectionUtils.incrementKey(lFreq, target);
                 lRawS -= newF * Math.log(newF);
-                if(newF > 0x01) {
+                if (newF > 0x01) {
                     lRawS += (newF - 0x01) * Math.log(newF - 0x01);
                 }
                 newF = CollectionUtils.decrementKey(rFreq, target);
                 rRawS += (newF + 0x01) * Math.log(newF + 0x01);
-                if(newF > 0x00) {
+                if (newF > 0x00) {
                     rRawS -= newF * Math.log(newF);
                 }
                 lS = lN * Math.log(lN) + lRawS;
@@ -176,42 +181,21 @@ public class DecisionTreeUtils {
         }
         return maxFlip;
     }
-    
-    public static <TSource, TTarget> int calculateInformationGainFlipIndex(Iterable<TSource> sources, Function<TSource, TTarget> function, Tuple2<Integer, Double> total_entropy) {
-        //TODO
+
+    public static <TSource, TTarget> int calculateInformationGainFlipIndex(Iterable<TSource> sources, Function<TSource, TTarget> function, Tuple2<Integer, Double> total_informationGain) {
         final HashMap<TTarget, Integer> rFreq = new HashMap<>();
-        Holder<Integer> subholder = total_entropy;
+        Holder<Integer> subholder = total_informationGain;
         if (subholder == null) {
             subholder = new HolderBase<>();
         }
-        double rRawS = calculateRawEntropy(sources, rFreq, function, subholder), lRawS = 0.0d;
-        final int N = subholder.getData();
-        final HashMap<TTarget, Integer> lFreq = new HashMap<>(rFreq.size());
-        int lN = 0x00, rN = N, maxFlip = -0x01, newF;
-        double maxS = Double.NEGATIVE_INFINITY, lS, rS, S;
-        for (TSource s : sources) {
-            lN++;
-            if (lN < N) {
-                TTarget target = function.evaluate(s);
-                rN--;
-                newF = CollectionUtils.incrementKey(lFreq, target);
-                lRawS -= newF * Math.log(newF) - (newF - 0x01) * Math.log(newF - 0x01);
-                newF = CollectionUtils.decrementKey(rFreq, target);
-                rRawS -= newF * Math.log(newF) - (newF + 0x01) * Math.log(newF + 0x01);
-                lS = lN * Math.log(lN) + lRawS;
-                rS = rN * Math.log(rN) + rRawS;
-                S = lS + rS;
-                if (S > maxS) {
-                    maxS = S;
-                    maxFlip = lN;
-                }
-            }
-
+        double rRawS = calculateRawEntropy(sources, rFreq, function, subholder);
+        double rawS = rRawS;
+        int index = calculateEntropyFlipIndex(subholder, rFreq, sources, function, rRawS, total_informationGain);
+        if (total_informationGain != null) {
+            int ttl = total_informationGain.getItem1();
+            total_informationGain.setItem2((rawS / ttl + Math.log(ttl)) * MathUtils.INVLOG2 - total_informationGain.getItem2());
         }
-        if (total_entropy != null) {
-            total_entropy.setItem2(maxS / (MathUtils.LOG2 * N));
-        }
-        return maxFlip;
+        return index;
     }
 
     public static <TSource, TTarget> double calculateEntropyPartition(Iterable<? extends Iterable<? extends TSource>> sources, Function<TSource, TTarget> function) {
