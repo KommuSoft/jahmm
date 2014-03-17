@@ -256,7 +256,7 @@ public class DecisionTreeUtils {
         return (entropy - allEntropy) / total;
     }
 
-    private DecisionTreeUtils() {
-    }
+    private DecisionTreeUtils() {// $COVERAGE-IGNORE$
+    }// $COVERAGE-IGNORE$
 
 }

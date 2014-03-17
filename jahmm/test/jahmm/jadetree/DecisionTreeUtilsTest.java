@@ -108,6 +108,7 @@ public class DecisionTreeUtilsTest {
             double expected = DecisionTreeUtils.calculateEntropy2p(probs);
             double result = DecisionTreeUtils.calculateEntropy(data, target);
             AssertExtensions.assertEquals(expected, result);
+            expected = 0.0d;
         }
     }
 
@@ -130,6 +131,15 @@ public class DecisionTreeUtilsTest {
             double expected = DecisionTreeUtils.calculateEntropy2p(probs);
             double result = DecisionTreeUtils.calculateEntropy(data);
             AssertExtensions.assertEquals(expected, result);
+            if(N != 0x00) {
+                expected = N*(MathUtils.LOG2*DecisionTreeUtils.calculateEntropy2p(probs)-Math.log(N));
+            }
+            result = DecisionTreeUtils.calculateRawEntropy(data);
+            AssertExtensions.assertEquals(expected, result);
+            HolderBase<Integer> hb = new HolderBase<>();
+            result = DecisionTreeUtils.calculateRawEntropy(data,hb);
+            AssertExtensions.assertEquals(expected, result);
+            AssertExtensions.assertEquals(N, hb.getData());
         }
     }
 
@@ -173,6 +183,7 @@ public class DecisionTreeUtilsTest {
             for (int i = 0x00; i < M; i++) {
                 data.put(i, 0x00);
             }
+            data.put(M, null);
             for (int i = 0x00; i < N; i++) {
                 int j = ProbabilityUtils.nextInt(M);
                 counters[j]++;
@@ -181,7 +192,10 @@ public class DecisionTreeUtilsTest {
             for (int i = 0x00; i < M; i++) {
                 probs[i] = (double) counters[i] / N;
             }
-            double expected = N*(MathUtils.LOG2*DecisionTreeUtils.calculateEntropy2p(probs)-Math.log(N));
+            double expected = 0.0d;
+            if(N != 0x00) {
+                expected = N*(MathUtils.LOG2*DecisionTreeUtils.calculateEntropy2p(probs)-Math.log(N));
+            }
             double result = DecisionTreeUtils.calculateRawEntropy(data, null);
             AssertExtensions.assertEquals(expected, result);
         }
