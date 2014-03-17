@@ -1,5 +1,5 @@
 #Coverage
 
-The agenda:
-
- - 2014-03-17: `jahmm/jadetree/DecisionTreeUtils.java`
+| File	| Last	| Status	|
+|---	|---	|---	|
+| `jahmm/jadetree/DecisionTreeUtils.java`	| 20140317	| complete (-2 constructor)	|
