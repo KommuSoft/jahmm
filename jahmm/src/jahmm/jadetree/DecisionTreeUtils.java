@@ -112,7 +112,6 @@ public class DecisionTreeUtils {
             rest -= p;
         }
         double p = rest;
-        System.out.println(String.format("%s %s", p > 0.0d, p < 1.0d));
         if (p > 0.0d && p < 1.0d) {
             entropy -= p * Math.log(p);
         }

@@ -230,6 +230,9 @@ public class DecisionTreeUtilsTest {
             AssertExtensions.assertEquals(expected, DecisionTreeUtils.calculateEntropy2p(pis));
             AssertExtensions.popEpsilon();
         }
+        AssertExtensions.pushEpsilon(1e-04d);
+        AssertExtensions.assertEquals(0.0d, DecisionTreeUtils.calculateEntropy2p(-1e-04d,-1e-04d));
+        AssertExtensions.popEpsilon();
     }
 
     @Test
