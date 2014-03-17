@@ -47,7 +47,7 @@ public class LearnerTest extends TestCase {
     public void testBaumWelch() {
         /* Model sequences using BW algorithm */
 
-        BaumWelchLearner bwl = new BaumWelchLearner();
+        BaumWelchLearnerBase bwl = new BaumWelchLearnerBase();
 
         RegularHmm<ObservationInteger> bwHmm = bwl.learn(hmm, sequences);
 

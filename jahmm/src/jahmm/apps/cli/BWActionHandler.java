@@ -12,7 +12,7 @@ import jahmm.io.HmmReader;
 import jahmm.io.HmmWriter;
 import jahmm.io.OpdfReader;
 import jahmm.io.OpdfWriter;
-import jahmm.learn.BaumWelchLearner;
+import jahmm.learn.BaumWelchLearnerBase;
 import jahmm.learn.BaumWelchScaledLearner;
 import jahmm.observables.CentroidFactory;
 import jahmm.observables.Observation;
@@ -69,7 +69,7 @@ class BWActionHandler
         OpdfWriter<? extends Opdf<O>> opdfWriter = relatedObjs.opdfWriter();
 
         RegularHmmBase<O> initHmm = HmmReader.read(hmmFileReader, opdfReader);
-        BaumWelchLearner bw = new BaumWelchScaledLearner();
+        BaumWelchLearnerBase bw = new BaumWelchScaledLearner();
         bw.setNbIterations(nbIterations);
         RegularHmm<O> hmm = bw.learn(initHmm, seqs);
         HmmWriter.write(hmmFileWriter, opdfWriter, hmm);

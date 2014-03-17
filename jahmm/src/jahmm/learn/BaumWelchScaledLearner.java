@@ -20,7 +20,7 @@ import jutlis.tuples.Tuple3;
  * <i>Juang</i>'s <i>Fundamentals of speech recognition</i> (Prentice Hall,
  * 1993).
  */
-public class BaumWelchScaledLearner extends BaumWelchLearner {
+public class BaumWelchScaledLearner<TObs extends Observation> extends BaumWelchLearnerBase<TObs> {
 
     private static final Logger LOG = Logger.getLogger(BaumWelchScaledLearner.class.getName());
 
@@ -31,7 +31,7 @@ public class BaumWelchScaledLearner extends BaumWelchLearner {
     }
 
     @Override
-    protected <O extends Observation> Tuple3<double[][], double[][], Double> getAlphaBetaProbability(RegularHmm<O> hmm, List<? extends O> obsSeq) {
+    protected Tuple3<double[][], double[][], Double> getAlphaBetaProbability(RegularHmm<TObs> hmm, List<? extends TObs> obsSeq) {
         return RegularForwardBackwardScaledCalculatorBase.Instance.computeAll(hmm, obsSeq);
     }
 
@@ -50,7 +50,7 @@ public class BaumWelchScaledLearner extends BaumWelchLearner {
      * @return
      */
     @Override
-    protected <O extends Observation> double[][][] estimateXi(List<? extends O> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<O> hmm) {
+    protected double[][][] estimateXi(List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<TObs> hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
         }
@@ -59,11 +59,11 @@ public class BaumWelchScaledLearner extends BaumWelchLearner {
         double[][] alpha = abp.getItem1();
         double[][] beta = abp.getItem2();
 
-        Iterator<? extends O> seqIterator = sequence.iterator();
+        Iterator<? extends TObs> seqIterator = sequence.iterator();
         seqIterator.next();
 
         for (int t = 0; t < sequence.size() - 1; t++) {
-            O observation = seqIterator.next();
+            TObs observation = seqIterator.next();
 
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int j = 0; j < hmm.nbStates(); j++) {
