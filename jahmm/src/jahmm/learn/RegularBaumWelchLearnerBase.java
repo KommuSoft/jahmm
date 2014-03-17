@@ -19,19 +19,14 @@ import jutlis.tuples.Tuple3;
  * a HMM that models a set of observation sequences.
  * @param <TObs>
  */
-public class BaumWelchLearnerBase<TObs extends Observation> implements BaumWelchLearner<TObs,TObs,RegularHmm<TObs>> {
+public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumWelchLearnerBase<TObs,TObs,RegularHmm<TObs>> {
 
-    private static final Logger LOG = Logger.getLogger(BaumWelchLearnerBase.class.getName());
-
-    /**
-     * Number of iterations performed by the {@link #learn} method.
-     */
-    private int nbIterations = 9;
+    private static final Logger LOG = Logger.getLogger(RegularBaumWelchLearnerBase.class.getName());
 
     /**
      * Initializes a Baum-Welch instance.
      */
-    public BaumWelchLearnerBase() {
+    public RegularBaumWelchLearnerBase() {
     }
 
     /**
@@ -231,28 +226,5 @@ public class BaumWelchLearnerBase<TObs extends Observation> implements BaumWelch
         }
 
         return gamma;
-    }
-
-    /**
-     * Returns the number of iterations performed by the {@link #learn} method.
-     *
-     * @return The number of iterations performed.
-     */
-    @Override
-    public int getNbIterations() {
-        return nbIterations;
-    }
-
-    /**
-     * Sets the number of iterations performed by the {@link #learn} method.
-     *
-     * @param nb The (positive) number of iterations to perform.
-     */
-    @Override
-    public void setNbIterations(int nb) {
-        if (nb < 0) {
-            throw new IllegalArgumentException("Positive number expected");
-        }
-        nbIterations = nb;
     }
 }
