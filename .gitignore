@@ -15,3 +15,4 @@ jamhh/target*
 /jahmm/dist/
 jahmm/.jacocoverage/*
 /jahmm/.jacocoverage/*
+*jacoco*

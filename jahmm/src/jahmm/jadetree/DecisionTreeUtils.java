@@ -112,6 +112,7 @@ public class DecisionTreeUtils {
             rest -= p;
         }
         double p = rest;
+        System.out.println(String.format("%s %s", p > 0.0d, p < 1.0d));
         if (p > 0.0d && p < 1.0d) {
             entropy -= p * Math.log(p);
         }
@@ -235,7 +236,7 @@ public class DecisionTreeUtils {
     }
 
     public static <TSource, TTarget> double calculateInformationGainReduce(Iterable<? extends Iterable<? extends TSource>> sources, Function<TSource, TTarget> function) {
-        return -calculateInformationGainPartition(sources,function);
+        return -calculateInformationGainPartition(sources, function);
     }
 
     private DecisionTreeUtils() {// $COVERAGE-IGNORE$

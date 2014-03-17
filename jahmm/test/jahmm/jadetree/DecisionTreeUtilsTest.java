@@ -206,10 +206,29 @@ public class DecisionTreeUtilsTest {
         for(int t = 0x03; t < TestParameters.NUMBER_OF_TESTS; t++) {
             double p = 1.0d/t;
             double[] pis = new double[t-0x01];
+            double expected = -Math.log(p)/Math.log(2.0d);
             for(int i = 0x00; i < pis.length; i++) {
                 pis[i] = p;
             }
-            AssertExtensions.assertEquals(-Math.log(p)/Math.log(2.0d), DecisionTreeUtils.calculateEntropy2p(pis));
+            AssertExtensions.assertEquals(expected, DecisionTreeUtils.calculateEntropy2p(pis));
+            pis = new double[t];
+            for(int i = 0x00; i < pis.length; i++) {
+                pis[i] = p;
+            }
+            AssertExtensions.assertEquals(expected, DecisionTreeUtils.calculateEntropy2p(pis));
+            AssertExtensions.pushEpsilon(1e-04d);
+            p *= 1.0d+1e-06d;
+            for(int i = 0x00; i < pis.length; i++) {
+                pis[i] = p;
+            }
+            AssertExtensions.assertEquals(expected, DecisionTreeUtils.calculateEntropy2p(pis));
+            expected = -Math.log(p)/Math.log(2.0d);
+            pis = new double[t];
+            for(int i = 0x00; i < pis.length; i++) {
+                pis[i] = p;
+            }
+            AssertExtensions.assertEquals(expected, DecisionTreeUtils.calculateEntropy2p(pis));
+            AssertExtensions.popEpsilon();
         }
     }
 
@@ -222,6 +241,13 @@ public class DecisionTreeUtilsTest {
         Assert.assertEquals(0x04, split);
         Assert.assertEquals(0x06, (int) total_entropy.getItem1());
         AssertExtensions.assertEquals(0.0d, total_entropy.getItem2());
+        Tuple2<Integer, Double> total_informationGain = new Tuple2Base<>();
+        split = DecisionTreeUtils.calculateInformationGainFlipIndex(tids, target, total_informationGain);
+        Assert.assertEquals(0x04, split);
+        Assert.assertEquals(0x06, (int) total_entropy.getItem1());
+        AssertExtensions.assertEquals(DecisionTreeUtils.calculateInformationGain(4.0d/6.0d, 1.0d, 0.0d), total_informationGain.getItem2());
+        split = DecisionTreeUtils.calculateInformationGainFlipIndex(tids, target, null);
+        Assert.assertEquals(0x04, split);
     }
 
     @Test
