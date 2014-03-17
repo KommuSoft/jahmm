@@ -9,7 +9,6 @@ import junit.framework.Assert;
 import jutils.collections.CollectionUtils;
 import jutils.testing.AssertExtensions;
 import jutlis.lists.ListArray;
-import static org.junit.Assert.fail;
 import org.junit.Test;
 
 /**

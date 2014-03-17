@@ -19,22 +19,8 @@ public abstract class TestDecisionNode<TSource> extends DecisionRealInodeBase<TS
         this.falseNode = falseNode;
     }
 
-    protected TestDecisionNode(final DecisionInode<TSource> parent, DecisionRealNodeBase<TSource> trueNode, DecisionRealNodeBase<TSource> falseNode, Iterable<TSource> toInsert) {
-        this(parent, trueNode, falseNode);
-        for (TSource source : toInsert) {
-            this.insert(source);
-        }
-    }
-
     protected TestDecisionNode(final DecisionInode<TSource> parent) {
         this(parent, new DecisionLeafBase<>(parent), new DecisionLeafBase<>(parent));
-    }
-
-    protected TestDecisionNode(final DecisionInode<TSource> parent, Iterable<TSource> toInsert) {
-        this(parent);
-        for (TSource source : toInsert) {
-            this.insert(source);
-        }
     }
 
     protected abstract boolean test(TSource source);

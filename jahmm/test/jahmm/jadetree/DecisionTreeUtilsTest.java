@@ -18,6 +18,9 @@ import jutils.testing.AssertExtensions;
 import static jutils.testing.AssertExtensions.assertEquals;
 import jutlis.algebra.Function;
 import jutlis.lists.ListArray;
+import jutlis.tuples.HolderBase;
+import jutlis.tuples.Tuple2;
+import jutlis.tuples.Tuple2Base;
 import org.junit.Assert;
 import org.junit.Test;
 import utils.TestParameters;
@@ -105,6 +108,7 @@ public class DecisionTreeUtilsTest {
             double expected = DecisionTreeUtils.calculateEntropy2p(probs);
             double result = DecisionTreeUtils.calculateEntropy(data, target);
             AssertExtensions.assertEquals(expected, result);
+            expected = 0.0d;
         }
     }
 
@@ -127,6 +131,15 @@ public class DecisionTreeUtilsTest {
             double expected = DecisionTreeUtils.calculateEntropy2p(probs);
             double result = DecisionTreeUtils.calculateEntropy(data);
             AssertExtensions.assertEquals(expected, result);
+            if(N != 0x00) {
+                expected = N*(MathUtils.LOG2*DecisionTreeUtils.calculateEntropy2p(probs)-Math.log(N));
+            }
+            result = DecisionTreeUtils.calculateRawEntropy(data);
+            AssertExtensions.assertEquals(expected, result);
+            HolderBase<Integer> hb = new HolderBase<>();
+            result = DecisionTreeUtils.calculateRawEntropy(data,hb);
+            AssertExtensions.assertEquals(expected, result);
+            AssertExtensions.assertEquals(N, hb.getData());
         }
     }
 
@@ -152,14 +165,91 @@ public class DecisionTreeUtilsTest {
             double expected = DecisionTreeUtils.calculateEntropy2p(probs);
             double result = DecisionTreeUtils.calculateEntropy(data, null);
             AssertExtensions.assertEquals(expected, result);
+            HolderBase<Integer> hb = new HolderBase<>();
+            result = DecisionTreeUtils.calculateEntropy(data, hb);
+            AssertExtensions.assertEquals(expected, result);
+            AssertExtensions.assertEquals(N, hb.getData());
         }
+    }
+
+    @Test
+    public void testCalculateEntropy05() {
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int M = 0x01 + ProbabilityUtils.nextInt(TestParameters.NUMBER_OF_CATEGORIES - 0x01);
+            int[] counters = new int[M];
+            double[] probs = new double[M];
+            int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE);
+            HashMap<Integer, Integer> data = new HashMap<>(M);
+            for (int i = 0x00; i < M; i++) {
+                data.put(i, 0x00);
+            }
+            data.put(M, null);
+            for (int i = 0x00; i < N; i++) {
+                int j = ProbabilityUtils.nextInt(M);
+                counters[j]++;
+                data.put(j, data.get(j) + 0x01);
+            }
+            for (int i = 0x00; i < M; i++) {
+                probs[i] = (double) counters[i] / N;
+            }
+            double expected = 0.0d;
+            if(N != 0x00) {
+                expected = N*(MathUtils.LOG2*DecisionTreeUtils.calculateEntropy2p(probs)-Math.log(N));
+            }
+            double result = DecisionTreeUtils.calculateRawEntropy(data, null);
+            AssertExtensions.assertEquals(expected, result);
+        }
+    }
+    
+    @Test
+    public void testCalculateEntropy2p () {
+        for(int t = 0x03; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            double p = 1.0d/t;
+            double[] pis = new double[t-0x01];
+            double expected = -Math.log(p)/Math.log(2.0d);
+            for(int i = 0x00; i < pis.length; i++) {
+                pis[i] = p;
+            }
+            AssertExtensions.assertEquals(expected, DecisionTreeUtils.calculateEntropy2p(pis));
+            pis = new double[t];
+            for(int i = 0x00; i < pis.length; i++) {
+                pis[i] = p;
+            }
+            AssertExtensions.assertEquals(expected, DecisionTreeUtils.calculateEntropy2p(pis));
+            AssertExtensions.pushEpsilon(1e-04d);
+            p *= 1.0d+1e-06d;
+            for(int i = 0x00; i < pis.length; i++) {
+                pis[i] = p;
+            }
+            AssertExtensions.assertEquals(expected, DecisionTreeUtils.calculateEntropy2p(pis));
+            expected = -Math.log(p)/Math.log(2.0d);
+            pis = new double[t];
+            for(int i = 0x00; i < pis.length; i++) {
+                pis[i] = p;
+            }
+            AssertExtensions.assertEquals(expected, DecisionTreeUtils.calculateEntropy2p(pis));
+            AssertExtensions.popEpsilon();
+        }
+        AssertExtensions.pushEpsilon(1e-04d);
+        AssertExtensions.assertEquals(0.0d, DecisionTreeUtils.calculateEntropy2p(-1e-04d,-1e-04d));
+        AssertExtensions.popEpsilon();
     }
 
     @Test
     public void testCalculateEntropyFlipIndex00() {
         ObjectAttribute<FooIntDouble, ? extends Object> target = ObjectAttributeInspector.inspect(FooIntDouble.class, "integer");
         ListArray<FooIntDouble> tids = new ListArray<>(new FooIntDouble(0x00, 0.0d), new FooIntDouble(0x00, 0.4d), new FooIntDouble(0x00, 0.8d), new FooIntDouble(0x00, 1.2d), new FooIntDouble(0x01, 1.6d), new FooIntDouble(0x01, 2.0d));
-        int split = DecisionTreeUtils.calculateEntropyFlipIndex(tids, target, null);
+        Tuple2<Integer, Double> total_entropy = new Tuple2Base<>();
+        int split = DecisionTreeUtils.calculateEntropyFlipIndex(tids, target, total_entropy);
+        Assert.assertEquals(0x04, split);
+        Assert.assertEquals(0x06, (int) total_entropy.getItem1());
+        AssertExtensions.assertEquals(0.0d, total_entropy.getItem2());
+        Tuple2<Integer, Double> total_informationGain = new Tuple2Base<>();
+        split = DecisionTreeUtils.calculateInformationGainFlipIndex(tids, target, total_informationGain);
+        Assert.assertEquals(0x04, split);
+        Assert.assertEquals(0x06, (int) total_entropy.getItem1());
+        AssertExtensions.assertEquals(DecisionTreeUtils.calculateInformationGain(4.0d/6.0d, 1.0d, 0.0d), total_informationGain.getItem2());
+        split = DecisionTreeUtils.calculateInformationGainFlipIndex(tids, target, null);
         Assert.assertEquals(0x04, split);
     }
 
@@ -274,6 +364,8 @@ public class DecisionTreeUtilsTest {
         AssertExtensions.popEpsilon();
     }
 
+    @SuppressWarnings("unchecked")
+    @Test
     public void testCalculateEntropyPartition01() {
         String[] dat0 = {"tfO", "ttO", "tfO", "tfO", "tfO", "tfO", "tfO", "ttO", "ttO", "ttO", "tfO", "ttO", "tfO", "tfO", "ttO", "tfO", "tfO", "ttO", "tfO", "ttO", "tfO", "tfO", "ttO", "tfO", "ttO", "tfO", "ttO", "ttO", "ttO", "tfO", "tfO", "ttO", "tfO", "tfO", "tfO", "ttO", "ttO", "ttO", "tfO", "ttO", "ttO", "tfO", "ttO", "tfO"};
         String[] dat1 = {"ftO", "ftO", "ffO", "ftO", "ftO", "ffO", "ftO", "ffO", "ftO", "ftO", "ftO", "ffO", "ffO", "ftO", "ffO", "ffO", "ftO", "ftO", "ftO", "ftO", "ffO", "ffO", "ftO", "ftO", "ffO", "ffO", "ffO", "ftO", "ftO", "ftO", "ftO", "ftO", "ftO", "ftO", "ftO", "ffO"};
@@ -286,10 +378,15 @@ public class DecisionTreeUtilsTest {
             part1.add(new Test2B1T(s));
         }
         ObjectAttribute<Test2B1T, ? extends Object> target = ObjectAttributeInspector.inspect(Test2B1T.class, "bool2");
-        double expected = DecisionTreeUtils.calculateEntropy2pSplit(44.0d / 80.0d, 20.0d / 44.0d, 13.0d / 36.0d);
+        double expected = DecisionTreeUtils.calculateEntropy2pSplit(44.0d / 80.0d, 20.0d / 44.0d, 23.0d / 36.0d);
         @SuppressWarnings("unchecked")
         double result = DecisionTreeUtils.calculateEntropyPartition(new ListArray<>(part0, part1), target);
         AssertExtensions.assertEquals(expected, result);
+        expected = DecisionTreeUtils.calculateInformationGain(44.0d / 80.0d, 20.0d / 44.0d, 23.0d / 36.0d);
+        result = DecisionTreeUtils.calculateInformationGainPartition(new ListArray<>(part0, part1), target);
+        AssertExtensions.assertEquals(expected, result);
+        result = DecisionTreeUtils.calculateInformationGainReduce(new ListArray<>(part0, part1), target);
+        AssertExtensions.assertEquals(-expected, result);
     }
 
     private class Foo implements Function<Foo, Integer> {
