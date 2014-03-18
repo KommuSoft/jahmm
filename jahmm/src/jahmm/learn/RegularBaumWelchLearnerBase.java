@@ -162,7 +162,22 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
     }
 
     @Override
-    protected double[][] createANominator(RegularHmm<TObs> hmm) {
+    protected double[][] createANumerator(RegularHmm<TObs> hmm) {
         return new double[hmm.nbStates()][hmm.nbStates()];
+    }
+
+    @Override
+    protected void updateAbarGammaXi(double[][] gamma, double[][][] xi, double[] aijDen, double[][] aijNum) {
+        int I = aijDen.length;
+        int T = xi.length;
+        for (int i = 0; i < I; i++) {
+            for (int t = 0; t < T; t++) {
+                aijDen[i] += gamma[t][i];
+
+                for (int j = 0; j < I; j++) {
+                    aijNum[i][j] += xi[t][i][j];
+                }
+            }
+        }
     }
 }

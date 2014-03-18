@@ -61,8 +61,13 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
     }
 
     @Override
-    protected double[][][] createANominator(InputHmm<TObservation, TInteraction> hmm) {
+    protected double[][][] createANumerator(InputHmm<TObservation, TInteraction> hmm) {
         return new double[hmm.nbStates()][hmm.nbInput()][hmm.nbStates()];
+    }
+
+    @Override
+    protected void updateAbarGammaXi(double[][] gamma, double[][][] xi, double[][] aijDen, double[][][] aijNum) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

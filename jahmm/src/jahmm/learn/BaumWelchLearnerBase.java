@@ -153,13 +153,23 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
     protected abstract TADen createADenominator(THmm hmm);
 
     /**
-     * Creates a new instance of the â-nominator based on the given Hidden
+     * Creates a new instance of the â-numerator based on the given Hidden
      * Markov Model.
      *
      * @param hmm The given Hidden Markov Model.
-     * @return A new instance of the â-nominator.
+     * @return A new instance of the â-numerator.
      */
-    protected abstract TADen[] createANominator(THmm hmm);
+    protected abstract TADen[] createANumerator(THmm hmm);
+
+    /**
+     * Updates the â-values based on the given Gamma and Xi values.
+     *
+     * @param gamma The gamma values of the sequence.
+     * @param xi The xi values of the sequence.
+     * @param aijDen The denominators of the â-values.
+     * @param aijNum The numerators of the â-values.
+     */
+    protected abstract void updateAbarGammaXi(TGamma gamma, TXi xi, TADen aijDen, TADen[] aijNum);
 
     /**
      * Performs one iteration of the Baum-Welch algorithm. In one iteration, a
@@ -188,7 +198,7 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
         }
         TGamma[] allGamma = (TGamma[]) new Object[sequences.size()];
 
-        TADen[] aijNum = this.createANominator(hmm);
+        TADen[] aijNum = this.createANumerator(hmm);
         TADen aijDen = this.createADenominator(hmm);
 
         int g = 0;
@@ -199,17 +209,10 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
             TXi xi = estimateXi(obsSeq, abp, hmm);
             TGamma gamma = allGamma[g++] = estimateGamma(obsSeq, abp, hmm, xi);
 
-            /*
-             for (int i = 0; i < hmm.nbStates(); i++) {
-             for (int t = 0; t < obsSeq.size() - 1; t++) {
-             aijDen[i] += gamma[t][i];
+            updateAbarGammaXi(gamma, xi, aijDen, aijNum);
 
-             for (int j = 0; j < hmm.nbStates(); j++) {
-             aijNum[i][j] += xi[t][i][j];
-             }
-             }
-             }
-             }
+            /*
+             
 
              for (int i = 0; i < hmm.nbStates(); i++) {
              if (aijDen[i] > 0.) { // State i is reachable
