@@ -134,9 +134,10 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
      */
     @Override
     protected void setAValues(RegularHmm<TObs> hmm, double[][] aijNum, double[] aijDen) {
-        for (int i = 0; i < hmm.nbStates(); i++) {
+        int N = hmm.nbStates();
+        for (int i = 0; i < N; i++) {
             if (aijDen[i] > 0.) { // State i is reachable
-                for (int j = 0; j < hmm.nbStates(); j++) {
+                for (int j = 0; j < N; j++) {
                     hmm.setAij(i, j, aijNum[i][j] / aijDen[i]);
                 }
             }

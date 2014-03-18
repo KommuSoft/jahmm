@@ -51,11 +51,6 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
     }
 
     @Override
-    public InputHmm<TObservation, TInteraction> iterate(InputHmm<TObservation, TInteraction> hmm, List<? extends List<? extends InputObservationTuple<TInteraction, TObservation>>> sequences) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     protected double[][] createADenominator(InputHmm<TObservation, TInteraction> hmm) {
         return new double[hmm.nbStates()][hmm.nbInput()];
     }
@@ -84,7 +79,17 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
 
     @Override
     protected void setAValues(InputHmm<TObservation, TInteraction> hmm, double[][][] aijNum, double[][] aijDen) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int N = hmm.nbStates();
+        int M = hmm.nbInput();
+        for (int i = 0; i < N; i++) {
+            for (int k = 0; k < M; k++) {
+                if (aijDen[i][k] > 0.) { // State i is reachable
+                    for (int j = 0; j < N; j++) {
+                        hmm.setAixj(i, k, j, aijNum[i][k][j] / aijDen[i][k]);
+                    }
+                }
+            }
+        }
     }
 
     @Override
