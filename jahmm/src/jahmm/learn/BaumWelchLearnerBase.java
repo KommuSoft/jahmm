@@ -215,37 +215,30 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
         }
 
         /* pi computation */
-        /*for (int i = 0; i < hmm.nbStates(); i++) {
-         double total = 0.0d;
-         for (int o = 0; o < sequences.size(); o++) {
-         total += allGamma[o][0][i];
-         }
-         nhmm.setPi(i, total / sequences.size());
-         }
+        setPiValues(nhmm, allGamma);
 
-         /* pdfs computation */
-        /*for (int i = 0; i < hmm.nbStates(); i++) {
-         List<TObs> observations = KMeansLearner.flat(sequences);
-         double[] weights = new double[observations.size()];
-         double sum = 0.;
-         int j = 0;
+        /* pdfs computation */
+        for (int i = 0; i < hmm.nbStates(); i++) {
+            List<TObs> observations = KMeansLearner.flat(sequences);
+            double[] weights = new double[observations.size()];
+            double sum = 0.;
+            int j = 0;
 
-         int o = 0;
-         for (List<? extends TObs> obsSeq : sequences) {
-         for (int t = 0; t < obsSeq.size(); t++, j++) {
-         sum += weights[j] = allGamma[o][t][i];
-         }
-         o++;
-         }
+            int o = 0;
+            for (List<? extends TObs> obsSeq : sequences) {
+                for (int t = 0; t < obsSeq.size(); t++, j++) {
+                    sum += weights[j] = allGamma[o][t][i];
+                }
+                o++;
+            }
 
-         for (j--; j >= 0; j--) {
-         weights[j] /= sum;
-         }
+            for (j--; j >= 0; j--) {
+                weights[j] /= sum;
+            }
 
-         Opdf<TObs> opdf = nhmm.getOpdf(i);
-         opdf.fit(observations, weights);
-         }
-         */
+            Opdf<TObs> opdf = nhmm.getOpdf(i);
+            opdf.fit(observations, weights);
+        }
         return nhmm;
     }
 
@@ -258,5 +251,7 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
      * @param aijDen The denominators of the â-values.
      */
     protected abstract void setAValues(THmm hmm, TADen[] aijNum, TADen aijDen);
+
+    protected abstract void setPiValues(THmm nhmm, TGamma[] allGamma);
 
 }
