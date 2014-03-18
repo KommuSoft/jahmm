@@ -5,6 +5,7 @@ import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.calculators.InputForwardBackwardCalculatorBase;
 import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -18,7 +19,7 @@ import jutlis.tuples.Tuple3;
  * @param <TInteraction> The type of interactions regarding the Hidden Markov
  * Model.
  */
-public class InputBaumWelchLearnerBase<TObservation extends Observation, TInteraction extends Enum<TInteraction>> extends BaumWelchLearnerBase<TObservation, InputObservationTuple<TInteraction, TObservation>, InputHmm<TObservation, TInteraction>, double[][], double[][]> implements InputBaumWelchLearner<TObservation, TInteraction> {
+public class InputBaumWelchLearnerBase<TObservation extends Observation, TInteraction extends Enum<TInteraction>> extends BaumWelchLearnerBase<TObservation, InputObservationTuple<TInteraction, TObservation>, InputHmm<TObservation, TInteraction>, double[][], double[][], double[][][], double[][][]> implements InputBaumWelchLearner<TObservation, TInteraction> {
 
     private static final Logger LOG = Logger.getLogger(InputBaumWelchLearnerBase.class.getName());
 
@@ -33,33 +34,42 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
         }
-
         double[][] a = abp.getItem1();
         double[][] b = abp.getItem2();
         double pinv = 1.0d / abp.getItem3();
-
-        double xi[][][]
-                = new double[sequence.size() - 1][hmm.nbStates()][hmm.nbStates()];
-
+        double[][][] xi = new double[sequence.size() - 1][hmm.nbStates()][hmm.nbStates()];
         Iterator<? extends InputObservationTuple<TInteraction, TObservation>> seqIterator = sequence.iterator();
         seqIterator.next();
-
         for (int t = 0; t < sequence.size() - 1; t++) {
             InputObservationTuple<TInteraction, TObservation> interaction = seqIterator.next();
-
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int j = 0; j < hmm.nbStates(); j++) {
                     xi[t][i][j] = a[t][i] * hmm.getAixj(i, interaction.getInput(), j) * hmm.getOpdf(j).probability(interaction.getObservation()) * b[t + 1][j] * pinv;
                 }
             }
         }
-
         return xi;
     }
 
     @Override
-    protected double[][] estimateGamma(List<? extends InputObservationTuple<TInteraction, TObservation>> sequence, Tuple3<double[][], double[][], Double> abp, InputHmm<TObservation, TInteraction> hmm, double[][][] xi) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected double[][][] estimateGamma(List<? extends InputObservationTuple<TInteraction, TObservation>> sequence, Tuple3<double[][], double[][], Double> abp, InputHmm<TObservation, TInteraction> hmm, double[][][] xi) {
+        double[][][] gamma = new double[xi.length + 1][xi[0].length][0x01];
+        /*for (int t = 0; t < xi.length + 1; t++) {
+         Arrays.fill(gamma[t], 0.);
+         }
+         for (int t = 0; t < xi.length; t++) {
+         for (int i = 0; i < xi[0].length; i++) {
+         for (int j = 0; j < xi[0].length; j++) {
+         gamma[t][i] += xi[t][i][j];
+         }
+         }
+         }
+         for (int j = 0; j < xi[0].length; j++) {
+         for (int i = 0; i < xi[0].length; i++) {
+         gamma[xi.length][j] += xi[xi.length - 1][i][j];
+         }
+         }*/
+        return gamma;
     }
 
     @Override

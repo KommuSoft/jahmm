@@ -16,7 +16,7 @@ import jutlis.tuples.Tuple3;
  * @param <TAlpha> The type of the alpha-values.
  * @param <TBeta> The type of beta-values.
  */
-public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>, TAlpha, TBeta> implements BaumWelchLearner<TObs, TInt, THmm> {
+public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>, TAlpha, TBeta, TXi, TGamma> implements BaumWelchLearner<TObs, TInt, THmm> {
 
     /**
      * Number of iterations performed by the {@link #learn} method.
@@ -123,7 +123,7 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
      * @param hmm The given Hidden Markov Model.
      * @return The estimated Xi values.
      */
-    protected abstract double[][][] estimateXi(List<? extends TInt> sequence, Tuple3<TAlpha, TBeta, Double> abp, THmm hmm);
+    protected abstract TXi estimateXi(List<? extends TInt> sequence, Tuple3<TAlpha, TBeta, Double> abp, THmm hmm);
 
     /**
      * gamma[][] could be computed directly using the alpha and beta arrays, but
@@ -138,6 +138,6 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
      * @param xi The estimated Xi values.
      * @return The estimated Gamma values.
      */
-    protected abstract double[][] estimateGamma(List<? extends TInt> sequence, Tuple3<TAlpha, TBeta, Double> abp, THmm hmm, double[][][] xi);
+    protected abstract TGamma estimateGamma(List<? extends TInt> sequence, Tuple3<TAlpha, TBeta, Double> abp, THmm hmm, double[][][] xi);
 
 }

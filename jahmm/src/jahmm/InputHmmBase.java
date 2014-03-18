@@ -420,7 +420,7 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
 
     @Override
     public double getAixj(int i, Tagable<TIn> x, int j) {
-        return this.getAixj(i, x.getTag(), j)
+        return this.getAixj(i, x.getTag(), j);
     }
 
 }
