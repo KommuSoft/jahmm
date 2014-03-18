@@ -47,8 +47,8 @@ public class LearnerTest extends TestCase {
     public void testBaumWelch() {
         /* Model sequences using BW algorithm */
 
+        try {
         RegularBaumWelchLearnerBase<ObservationInteger> bwl = new RegularBaumWelchLearnerBase<>();
-
         RegularHmm<ObservationInteger> bwHmm = bwl.learn(hmm, sequences);
 
         assertEquals(0., klc.distance(bwHmm, hmm), DELTA);
@@ -58,6 +58,13 @@ public class LearnerTest extends TestCase {
         bwHmm = bwsl.learn(hmm, sequences);
 
         assertEquals(0., klc.distance(bwHmm, hmm), DELTA);
+        } catch(Throwable t) {
+            System.out.println(t);
+            System.out.println(t.getMessage());
+            System.out.println(t.getLocalizedMessage());
+            t.printStackTrace();
+            fail(t.toString());
+        }
     }
 
     /**

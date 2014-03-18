@@ -151,14 +151,14 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
      */
     @Override
     protected void setPiValues(RegularHmm<TObs> nhmm, double[][][] allGamma) {
-        int O = allGamma.length;
-        int I = allGamma[0x00][0x00].length;
-        for (int i = 0; i < I; i++) {
+        int nO = allGamma.length;
+        int nI = allGamma[0x00][0x00].length;
+        for (int i = 0; i < nI; i++) {
             double total = 0.0d;
-            for (int o = 0; o < O; o++) {
+            for (int o = 0; o < nO; o++) {
                 total += allGamma[o][0][i];
             }
-            nhmm.setPi(i, total / O);
+            nhmm.setPi(i, total / nO);
         }
     }
 

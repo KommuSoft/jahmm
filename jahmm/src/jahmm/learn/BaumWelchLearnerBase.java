@@ -3,6 +3,7 @@ package jahmm.learn;
 import jahmm.Hmm;
 import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.observables.Observation;
+import java.lang.reflect.Array;
 import java.util.List;
 import jutlis.tuples.Tuple3;
 
@@ -195,7 +196,7 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
         } catch (CloneNotSupportedException e) {
             throw new InternalError();
         }
-        TGamma[] allGamma = (TGamma[]) new Object[sequences.size()];
+        TGamma[] allGamma = null;
 
         TADen[] aijNum = this.createANumerator(hmm);
         TADen aijDen = this.createADenominator(hmm);
@@ -206,7 +207,12 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
             Tuple3<TAlpha, TBeta, Double> abp = getAlphaBetaProbability(hmm, obsSeq);
 
             TXi xi = estimateXi(obsSeq, abp, hmm);
-            TGamma gamma = allGamma[g++] = estimateGamma(obsSeq, abp, hmm, xi);
+            TGamma gamma = estimateGamma(obsSeq, abp, hmm, xi);
+            if (allGamma == null) {
+                allGamma = (TGamma[]) Array.newInstance(gamma.getClass(), sequences.size());
+            }
+            allGamma[g] = gamma;
+            g++;
 
             updateAbarXiGamma(hmm, obsSeq, xi, gamma, aijNum, aijDen);
 
@@ -214,6 +220,8 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
         }
 
         /* pi computation */
+        System.out.println(nhmm.getClass());
+        System.out.println(allGamma.getClass());
         setPiValues(nhmm, allGamma);
 
         /* pdfs computation */
