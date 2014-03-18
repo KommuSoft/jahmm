@@ -220,8 +220,6 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
         }
 
         /* pi computation */
-        System.out.println(nhmm.getClass());
-        System.out.println(allGamma.getClass());
         setPiValues(nhmm, allGamma);
 
         /* pdfs computation */
