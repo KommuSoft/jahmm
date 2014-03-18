@@ -43,5 +43,7 @@ public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> exten
      * state <i>j</i> given input <i>x</i>.
      */
     public abstract double getAixj(int i, Tagable<TIn> x, int j);
+    
+    public abstract int nbInput();
 
 }

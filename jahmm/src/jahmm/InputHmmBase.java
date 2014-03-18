@@ -423,4 +423,9 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
         return this.getAixj(i, x.getTag(), j);
     }
 
+    @Override
+    public int nbInput() {
+        return this.indexRegister.size();
+    }
+
 }

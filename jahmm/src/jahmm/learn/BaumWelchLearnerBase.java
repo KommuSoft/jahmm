@@ -15,6 +15,8 @@ import jutlis.tuples.Tuple3;
  * @param <THmm> The type of the Hidden Markov Model.
  * @param <TAlpha> The type of the alpha-values.
  * @param <TBeta> The type of beta-values.
+ * @param <TXi> The type of the xi-estimates.
+ * @param <TGamma> The type of the gamma-estimates.
  */
 public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>, TAlpha, TBeta, TXi, TGamma> implements BaumWelchLearner<TObs, TInt, THmm> {
 

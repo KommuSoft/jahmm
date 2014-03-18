@@ -21,7 +21,7 @@ import jutlis.tuples.Tuple3;
  *
  * @param <TObs>
  */
-public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumWelchLearnerBase<TObs, TObs, RegularHmm<TObs>, double[][], double[][], double[][][], double[][]> implements RegularBaumWelchLearner<TObs> {
+public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumWelchLearnerGammaBase<TObs, TObs, RegularHmm<TObs>, double[][], double[][]> implements RegularBaumWelchLearner<TObs> {
 
     private static final Logger LOG = Logger.getLogger(RegularBaumWelchLearnerBase.class.getName());
 
@@ -161,36 +161,6 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
             }
         }
         return xi;
-    }
-
-    /**
-     * gamma[][] could be computed directly using the alpha and beta arrays, but
-     * this (slower) method is preferred because it doesn't change if the xi
-     * array has been scaled (and should be changed with the scaled alpha and
-     * beta arrays).
-     *
-     * @param xi
-     * @return
-     */
-    @Override
-    protected double[][] estimateGamma(List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<TObs> hmm, double[][][] xi) {
-        double[][] gamma = new double[xi.length + 1][xi[0].length];
-        for (int t = 0; t < xi.length + 1; t++) {
-            Arrays.fill(gamma[t], 0.);
-        }
-        for (int t = 0; t < xi.length; t++) {
-            for (int i = 0; i < xi[0].length; i++) {
-                for (int j = 0; j < xi[0].length; j++) {
-                    gamma[t][i] += xi[t][i][j];
-                }
-            }
-        }
-        for (int j = 0; j < xi[0].length; j++) {
-            for (int i = 0; i < xi[0].length; i++) {
-                gamma[xi.length][j] += xi[xi.length - 1][i][j];
-            }
-        }
-        return gamma;
     }
 
     @Override
