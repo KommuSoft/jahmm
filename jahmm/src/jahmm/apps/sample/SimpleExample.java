@@ -79,7 +79,7 @@ public class SimpleExample {
         System.out.println(CollectionUtils.deepToString(sequences));
 
         /* Baum-Welch learning */
-        RegularBaumWelchLearnerBase bwl = new RegularBaumWelchLearnerBase();
+        RegularBaumWelchLearnerBase<ObservationDiscrete<Packet>> bwl = new RegularBaumWelchLearnerBase<>();
 
         RegularHmm<ObservationDiscrete<Packet>> learntHmm = buildInitHmm();
 

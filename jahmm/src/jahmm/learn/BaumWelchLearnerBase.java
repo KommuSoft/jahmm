@@ -218,32 +218,24 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
         setPiValues(nhmm, allGamma);
 
         /* pdfs computation */
-        for (int i = 0; i < hmm.nbStates(); i++) {
-            List<TObs> observations = KMeansLearner.flat(sequences);
-            double[] weights = new double[observations.size()];
-            double sum = 0.;
-            int j = 0;
+        setPdfValues(nhmm, sequences, allGamma);
 
-            int o = 0;
-            for (List<? extends TObs> obsSeq : sequences) {
-                for (int t = 0; t < obsSeq.size(); t++, j++) {
-                    sum += weights[j] = allGamma[o][t][i];
-                }
-                o++;
-            }
-
-            for (j--; j >= 0; j--) {
-                weights[j] /= sum;
-            }
-
-            Opdf<TObs> opdf = nhmm.getOpdf(i);
-            opdf.fit(observations, weights);
-        }
         return nhmm;
     }
 
     /**
-     * Sets the a-values of the Hidden Markov model based on the values of the
+     * Sets the pdf values based on the given sequence of interactions and the
+     * given gamma values.
+     *
+     * @param nhmm The given Hidden Markov Model to modify.
+     * @param sequences The given sequence of interactions.
+     * @param allGamma The list of all gamma values calculated based on all the
+     * lists of interactions.
+     */
+    protected abstract void setPdfValues(THmm nhmm, List<? extends List<? extends TInt>> sequences, TGamma[] allGamma);
+
+    /**
+     * Sets the a-values of the Hidden Markov Model based on the values of the
      * â-values.
      *
      * @param hmm The Hidden Markov Model to modify.
@@ -252,6 +244,12 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
      */
     protected abstract void setAValues(THmm hmm, TADen[] aijNum, TADen aijDen);
 
+    /**
+     * Sets the pi-values of the Hidden Markov Model based on the gamma values.
+     *
+     * @param nhmm The Hidden Markov Model to modify.
+     * @param allGamma The set of values
+     */
     protected abstract void setPiValues(THmm nhmm, TGamma[] allGamma);
 
 }

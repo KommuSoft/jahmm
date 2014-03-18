@@ -31,102 +31,18 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
     }
 
     /**
-     * Performs one iteration of the Baum-Welch algorithm. In one iteration, a
-     * new HMM is computed using a previously estimated HMM.
+     * Here, the xi (and, thus, gamma) values are not divided by the probability
+     * of the sequence because this probability might be too small and induce an
+     * underflow. xi[t][i][j] still can be interpreted as P[q_t = i and q_(t+1)
+     * = j | obsSeq, hmm] because we assume that the scaling factors are such
+     * that their product is equal to the inverse of the probability of the
+     * sequence.
      *
-     * @param hmm A previously estimated HMM.
-     * @param sequences The observation sequences on which the learning is
-     * based. Each sequence must have a length higher or equal to 2.
-     * @return A new, updated HMM.
-     *
-     * gamma and xi arrays are those defined by Rabiner and Juang allGamma[n] =
-     * gamma array associated to observation sequence n.
-     *
-     * a[i][j] = aijNum[i][j] / aijDen[i] aijDen[i] = expected number of
-     * transitions from state i aijNum[i][j] = expected number of transitions
-     * from state i to j
-     */
-    @Override
-    public RegularHmm<TObs> iterate(RegularHmm<TObs> hmm, List<? extends List<? extends TObs>> sequences) {
-        RegularHmm<TObs> nhmm;
-        try {
-            nhmm = hmm.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError();
-        }
-        double[][][] allGamma = new double[sequences.size()][][];
-
-        double[][] aijNum = new double[hmm.nbStates()][hmm.nbStates()];
-        double[] aijDen = new double[hmm.nbStates()];
-
-        int g = 0;
-        for (List<? extends TObs> obsSeq : sequences) {
-
-            Tuple3<double[][], double[][], Double> abp = getAlphaBetaProbability(hmm, obsSeq);
-
-            double[][][] xi = estimateXi(obsSeq, abp, hmm);
-            double[][] gamma = allGamma[g++] = estimateGamma(obsSeq, abp, hmm, xi);
-
-            for (int i = 0; i < hmm.nbStates(); i++) {
-                for (int t = 0; t < obsSeq.size() - 1; t++) {
-                    aijDen[i] += gamma[t][i];
-
-                    for (int j = 0; j < hmm.nbStates(); j++) {
-                        aijNum[i][j] += xi[t][i][j];
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < hmm.nbStates(); i++) {
-            if (aijDen[i] > 0.) { // State i is reachable
-                for (int j = 0; j < hmm.nbStates(); j++) {
-                    nhmm.setAij(i, j, aijNum[i][j] / aijDen[i]);
-                }
-            }
-        }
-
-        /* pi computation */
-        for (int i = 0; i < hmm.nbStates(); i++) {
-            double total = 0.0d;
-            for (int o = 0; o < sequences.size(); o++) {
-                total += allGamma[o][0][i];
-            }
-            nhmm.setPi(i, total / sequences.size());
-        }
-
-        /* pdfs computation */
-        for (int i = 0; i < hmm.nbStates(); i++) {
-            List<TObs> observations = KMeansLearner.flat(sequences);
-            double[] weights = new double[observations.size()];
-            double sum = 0.;
-            int j = 0;
-
-            int o = 0;
-            for (List<? extends TObs> obsSeq : sequences) {
-                for (int t = 0; t < obsSeq.size(); t++, j++) {
-                    sum += weights[j] = allGamma[o][t][i];
-                }
-                o++;
-            }
-
-            for (j--; j >= 0; j--) {
-                weights[j] /= sum;
-            }
-
-            Opdf<TObs> opdf = nhmm.getOpdf(i);
-            opdf.fit(observations, weights);
-        }
-
-        return nhmm;
-    }
-
-    /**
-     *
-     * @param sequence
-     * @param abp
-     * @param hmm
-     * @return
+     * @param sequence The sequence of interactions.
+     * @param abp A tuple containing alpha- and beta-values and the probability
+     * of the given interaction sequence.
+     * @param hmm The given Hidden Markov Model.
+     * @return The estimated Xi values.
      */
     @Override
     protected double[][][] estimateXi(List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<TObs> hmm) {
@@ -150,22 +66,49 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
         return xi;
     }
 
+    /**
+     * Gets the relevant calculator.
+     *
+     * @return The relevant calculator.
+     */
     @Override
     @SuppressWarnings("unchecked")
     protected ForwardBackwardCalculator<double[][], double[][], TObs, TObs, RegularHmm<TObs>> getCalculator() {
         return RegularForwardBackwardCalculatorBase.Instance;
     }
 
+    /**
+     * Creates a new instance of the â-denominator based on the given Hidden
+     * Markov Model.
+     *
+     * @param hmm The given Hidden Markov Model.
+     * @return A new instance of the â-denominator.
+     */
     @Override
     protected double[] createADenominator(RegularHmm<TObs> hmm) {
         return new double[hmm.nbStates()];
     }
 
+    /**
+     * Creates a new instance of the â-numerator based on the given Hidden
+     * Markov Model.
+     *
+     * @param hmm The given Hidden Markov Model.
+     * @return A new instance of the â-numerator.
+     */
     @Override
     protected double[][] createANumerator(RegularHmm<TObs> hmm) {
         return new double[hmm.nbStates()][hmm.nbStates()];
     }
 
+    /**
+     * Updates the â-values based on the given Gamma and Xi values.
+     *
+     * @param gamma The gamma values of the sequence.
+     * @param xi The xi values of the sequence.
+     * @param aijDen The denominators of the â-values.
+     * @param aijNum The numerators of the â-values.
+     */
     @Override
     protected void updateAbarXiGamma(double[][][] xi, double[][] gamma, double[][] aijNum, double[] aijDen) {
         int I = aijDen.length;
@@ -181,6 +124,14 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
         }
     }
 
+    /**
+     * Sets the a-values of the Hidden Markov Model based on the values of the
+     * â-values.
+     *
+     * @param hmm The Hidden Markov Model to modify.
+     * @param aijNum The numerators of the â-values.
+     * @param aijDen The denominators of the â-values.
+     */
     @Override
     protected void setAValues(RegularHmm<TObs> hmm, double[][] aijNum, double[] aijDen) {
         for (int i = 0; i < hmm.nbStates(); i++) {
@@ -192,6 +143,12 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
         }
     }
 
+    /**
+     * Sets the pi-values of the Hidden Markov Model based on the gamma values.
+     *
+     * @param nhmm The Hidden Markov Model to modify.
+     * @param allGamma The set of values
+     */
     @Override
     protected void setPiValues(RegularHmm<TObs> nhmm, double[][][] allGamma) {
         int O = allGamma.length;
@@ -202,6 +159,41 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
                 total += allGamma[o][0][i];
             }
             nhmm.setPi(i, total / O);
+        }
+    }
+
+    /**
+     * Sets the pdf values based on the given sequence of interactions and the
+     * given gamma values.
+     *
+     * @param nhmm The given Hidden Markov Model to modify.
+     * @param sequences The given sequence of interactions.
+     * @param allGamma The list of all gamma values calculated based on all the
+     * lists of interactions.
+     */
+    @Override
+    protected void setPdfValues(RegularHmm<TObs> nhmm, List<? extends List<? extends TObs>> sequences, double[][][] allGamma) {
+        int I = nhmm.nbStates();
+        for (int i = 0; i < I; i++) {
+            List<TObs> observations = KMeansLearner.flat(sequences);
+            double[] weights = new double[observations.size()];
+            double sum = 0.;
+            int j = 0;
+
+            int o = 0;
+            for (List<? extends TObs> obsSeq : sequences) {
+                for (int t = 0; t < obsSeq.size(); t++, j++) {
+                    sum += weights[j] = allGamma[o][t][i];
+                }
+                o++;
+            }
+
+            for (j--; j >= 0; j--) {
+                weights[j] /= sum;
+            }
+
+            Opdf<TObs> opdf = nhmm.getOpdf(i);
+            opdf.fit(observations, weights);
         }
     }
 

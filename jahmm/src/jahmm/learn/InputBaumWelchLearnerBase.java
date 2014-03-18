@@ -75,4 +75,14 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
+    protected void setPdfValues(InputHmm<TObservation, TInteraction> nhmm, List<? extends List<? extends InputObservationTuple<TInteraction, TObservation>>> sequences, double[][][] allGamma) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void setPiValues(InputHmm<TObservation, TInteraction> nhmm, double[][][] allGamma) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
