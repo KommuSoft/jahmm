@@ -18,7 +18,7 @@ import jutlis.tuples.Tuple3;
  * @param <TInteraction> The type of interactions regarding the Hidden Markov
  * Model.
  */
-public class InputBaumWelchLearnerBase<TObservation extends Observation, TInteraction extends Enum<TInteraction>> extends BaumWelchLearnerGammaBase<TObservation, InputObservationTuple<TInteraction, TObservation>, InputHmm<TObservation, TInteraction>, double[][], double[][]> implements InputBaumWelchLearner<TObservation, TInteraction> {
+public class InputBaumWelchLearnerBase<TObservation extends Observation, TInteraction extends Enum<TInteraction>> extends BaumWelchLearnerGammaBase<TObservation, InputObservationTuple<TInteraction, TObservation>, InputHmm<TObservation, TInteraction>, double[][], double[][], double[][]> implements InputBaumWelchLearner<TObservation, TInteraction> {
 
     private static final Logger LOG = Logger.getLogger(InputBaumWelchLearnerBase.class.getName());
 
@@ -53,6 +53,16 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
     @Override
     public InputHmm<TObservation, TInteraction> iterate(InputHmm<TObservation, TInteraction> hmm, List<? extends List<? extends InputObservationTuple<TInteraction, TObservation>>> sequences) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected double[][] createADenominator(InputHmm<TObservation, TInteraction> hmm) {
+        return new double[hmm.nbStates()][hmm.nbInput()];
+    }
+
+    @Override
+    protected double[][][] createANominator(InputHmm<TObservation, TInteraction> hmm) {
+        return new double[hmm.nbStates()][hmm.nbInput()][hmm.nbStates()];
     }
 
 }

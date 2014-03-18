@@ -1,7 +1,6 @@
 package jahmm.learn;
 
 import jahmm.Hmm;
-import jahmm.RegularHmm;
 import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
@@ -20,7 +19,7 @@ import jutlis.tuples.Tuple3;
  * @param <TXi> The type of the xi-estimates.
  * @param <TGamma> The type of the gamma-estimates.
  */
-public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>, TAlpha, TBeta, TXi, TGamma> implements BaumWelchLearner<TObs, TInt, THmm> {
+public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>, TAlpha, TBeta, TXi, TGamma, TADen> implements BaumWelchLearner<TObs, TInt, THmm> {
 
     /**
      * Number of iterations performed by the {@link #learn} method.
@@ -145,6 +144,24 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
     protected abstract TGamma estimateGamma(List<? extends TInt> sequence, Tuple3<TAlpha, TBeta, Double> abp, THmm hmm, TXi xi);
 
     /**
+     * Creates a new instance of the â-denominator based on the given Hidden
+     * Markov Model.
+     *
+     * @param hmm The given Hidden Markov Model.
+     * @return A new instance of the â-denominator.
+     */
+    protected abstract TADen createADenominator(THmm hmm);
+
+    /**
+     * Creates a new instance of the â-nominator based on the given Hidden
+     * Markov Model.
+     *
+     * @param hmm The given Hidden Markov Model.
+     * @return A new instance of the â-nominator.
+     */
+    protected abstract TADen[] createANominator(THmm hmm);
+
+    /**
      * Performs one iteration of the Baum-Welch algorithm. In one iteration, a
      * new HMM is computed using a previously estimated HMM.
      *
@@ -171,8 +188,8 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
         }
         TGamma[] allGamma = (TGamma[]) new Object[sequences.size()];
 
-        double[][] aijNum = new double[hmm.nbStates()][hmm.nbStates()];
-        double[] aijDen = new double[hmm.nbStates()];
+        TADen[] aijNum = this.createANominator(hmm);
+        TADen aijDen = this.createADenominator(hmm);
 
         int g = 0;
         for (List<? extends TInt> obsSeq : sequences) {
@@ -182,57 +199,58 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
             TXi xi = estimateXi(obsSeq, abp, hmm);
             TGamma gamma = allGamma[g++] = estimateGamma(obsSeq, abp, hmm, xi);
 
-            for (int i = 0; i < hmm.nbStates(); i++) {
-                for (int t = 0; t < obsSeq.size() - 1; t++) {
-                    aijDen[i] += gamma[t][i];
+            /*
+             for (int i = 0; i < hmm.nbStates(); i++) {
+             for (int t = 0; t < obsSeq.size() - 1; t++) {
+             aijDen[i] += gamma[t][i];
 
-                    for (int j = 0; j < hmm.nbStates(); j++) {
-                        aijNum[i][j] += xi[t][i][j];
-                    }
-                }
-            }
-        }
+             for (int j = 0; j < hmm.nbStates(); j++) {
+             aijNum[i][j] += xi[t][i][j];
+             }
+             }
+             }
+             }
 
-        for (int i = 0; i < hmm.nbStates(); i++) {
-            if (aijDen[i] > 0.) { // State i is reachable
-                for (int j = 0; j < hmm.nbStates(); j++) {
-                    nhmm.setAij(i, j, aijNum[i][j] / aijDen[i]);
-                }
-            }
+             for (int i = 0; i < hmm.nbStates(); i++) {
+             if (aijDen[i] > 0.) { // State i is reachable
+             for (int j = 0; j < hmm.nbStates(); j++) {
+             nhmm.setAij(i, j, aijNum[i][j] / aijDen[i]);
+             }
+             }*/
         }
 
         /* pi computation */
-        for (int i = 0; i < hmm.nbStates(); i++) {
-            double total = 0.0d;
-            for (int o = 0; o < sequences.size(); o++) {
-                total += allGamma[o][0][i];
-            }
-            nhmm.setPi(i, total / sequences.size());
-        }
+        /*for (int i = 0; i < hmm.nbStates(); i++) {
+         double total = 0.0d;
+         for (int o = 0; o < sequences.size(); o++) {
+         total += allGamma[o][0][i];
+         }
+         nhmm.setPi(i, total / sequences.size());
+         }
 
-        /* pdfs computation */
-        for (int i = 0; i < hmm.nbStates(); i++) {
-            List<TObs> observations = KMeansLearner.flat(sequences);
-            double[] weights = new double[observations.size()];
-            double sum = 0.;
-            int j = 0;
+         /* pdfs computation */
+        /*for (int i = 0; i < hmm.nbStates(); i++) {
+         List<TObs> observations = KMeansLearner.flat(sequences);
+         double[] weights = new double[observations.size()];
+         double sum = 0.;
+         int j = 0;
 
-            int o = 0;
-            for (List<? extends TObs> obsSeq : sequences) {
-                for (int t = 0; t < obsSeq.size(); t++, j++) {
-                    sum += weights[j] = allGamma[o][t][i];
-                }
-                o++;
-            }
+         int o = 0;
+         for (List<? extends TObs> obsSeq : sequences) {
+         for (int t = 0; t < obsSeq.size(); t++, j++) {
+         sum += weights[j] = allGamma[o][t][i];
+         }
+         o++;
+         }
 
-            for (j--; j >= 0; j--) {
-                weights[j] /= sum;
-            }
+         for (j--; j >= 0; j--) {
+         weights[j] /= sum;
+         }
 
-            Opdf<TObs> opdf = nhmm.getOpdf(i);
-            opdf.fit(observations, weights);
-        }
-
+         Opdf<TObs> opdf = nhmm.getOpdf(i);
+         opdf.fit(observations, weights);
+         }
+         */
         return nhmm;
     }
 

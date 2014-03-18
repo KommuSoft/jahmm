@@ -20,7 +20,7 @@ import jutlis.tuples.Tuple3;
  *
  * @param <TObs>
  */
-public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumWelchLearnerGammaBase<TObs, TObs, RegularHmm<TObs>, double[][], double[][]> implements RegularBaumWelchLearner<TObs> {
+public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumWelchLearnerGammaBase<TObs, TObs, RegularHmm<TObs>, double[][], double[][], double[]> implements RegularBaumWelchLearner<TObs> {
 
     private static final Logger LOG = Logger.getLogger(RegularBaumWelchLearnerBase.class.getName());
 
@@ -154,5 +154,15 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
     @SuppressWarnings("unchecked")
     protected ForwardBackwardCalculator<double[][], double[][], TObs, TObs, RegularHmm<TObs>> getCalculator() {
         return RegularForwardBackwardCalculatorBase.Instance;
+    }
+
+    @Override
+    protected double[] createADenominator(RegularHmm<TObs> hmm) {
+        return new double[hmm.nbStates()];
+    }
+
+    @Override
+    protected double[][] createANominator(RegularHmm<TObs> hmm) {
+        return new double[hmm.nbStates()][hmm.nbStates()];
     }
 }
