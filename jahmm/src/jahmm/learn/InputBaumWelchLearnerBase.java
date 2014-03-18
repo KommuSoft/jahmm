@@ -66,7 +66,12 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
     }
 
     @Override
-    protected void updateAbarGammaXi(double[][] gamma, double[][][] xi, double[][] aijDen, double[][][] aijNum) {
+    protected void updateAbarXiGamma(double[][][] xi, double[][] gamma, double[][][] aijNum, double[][] aijDen) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    protected void setAValues(InputHmm<TObservation, TInteraction> hmm, double[][][] aijNum, double[][] aijDen) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

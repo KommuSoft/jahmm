@@ -169,7 +169,7 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
      * @param aijDen The denominators of the â-values.
      * @param aijNum The numerators of the â-values.
      */
-    protected abstract void updateAbarGammaXi(TGamma gamma, TXi xi, TADen aijDen, TADen[] aijNum);
+    protected abstract void updateAbarXiGamma(TXi xi, TGamma gamma, TADen[] aijNum, TADen aijDen);
 
     /**
      * Performs one iteration of the Baum-Welch algorithm. In one iteration, a
@@ -209,17 +209,9 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
             TXi xi = estimateXi(obsSeq, abp, hmm);
             TGamma gamma = allGamma[g++] = estimateGamma(obsSeq, abp, hmm, xi);
 
-            updateAbarGammaXi(gamma, xi, aijDen, aijNum);
+            updateAbarXiGamma(xi, gamma, aijNum, aijDen);
 
-            /*
-             
-
-             for (int i = 0; i < hmm.nbStates(); i++) {
-             if (aijDen[i] > 0.) { // State i is reachable
-             for (int j = 0; j < hmm.nbStates(); j++) {
-             nhmm.setAij(i, j, aijNum[i][j] / aijDen[i]);
-             }
-             }*/
+            setAValues(nhmm, aijNum, aijDen);
         }
 
         /* pi computation */
@@ -256,5 +248,15 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
          */
         return nhmm;
     }
+
+    /**
+     * Sets the a-values of the Hidden Markov model based on the values of the
+     * â-values.
+     *
+     * @param hmm The Hidden Markov Model to modify.
+     * @param aijNum The numerators of the â-values.
+     * @param aijDen The denominators of the â-values.
+     */
+    protected abstract void setAValues(THmm hmm, TADen[] aijNum, TADen aijDen);
 
 }

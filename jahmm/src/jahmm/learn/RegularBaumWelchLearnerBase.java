@@ -167,7 +167,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
     }
 
     @Override
-    protected void updateAbarGammaXi(double[][] gamma, double[][][] xi, double[] aijDen, double[][] aijNum) {
+    protected void updateAbarXiGamma(double[][][] xi, double[][] gamma, double[][] aijNum, double[] aijDen) {
         int I = aijDen.length;
         int T = xi.length;
         for (int i = 0; i < I; i++) {
@@ -180,4 +180,16 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
             }
         }
     }
+
+    @Override
+    protected void setAValues(RegularHmm<TObs> hmm, double[][] aijNum, double[] aijDen) {
+        for (int i = 0; i < hmm.nbStates(); i++) {
+            if (aijDen[i] > 0.) { // State i is reachable
+                for (int j = 0; j < hmm.nbStates(); j++) {
+                    hmm.setAij(i, j, aijNum[i][j] / aijDen[i]);
+                }
+            }
+        }
+    }
+
 }
