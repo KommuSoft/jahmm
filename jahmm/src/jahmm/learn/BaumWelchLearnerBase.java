@@ -1,17 +1,22 @@
 package jahmm.learn;
 
 import jahmm.Hmm;
+import jahmm.RegularHmm;
+import jahmm.calculators.ForwardBackwardCalculator;
+import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.observables.Observation;
 import java.util.List;
+import jutlis.tuples.Tuple3;
 
 /**
- * A basic implementation of the 
+ * A basic implementation of the
+ *
  * @author kommusoft
  * @param <TObs> The type of observations regarding the Hidden Markov Model.
  * @param <TInt> The type of interactions regarding the Hidden Markov Model.
  * @param <THmm> The type of the Hidden Markov Model.
  */
-public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>> implements BaumWelchLearner<TObs, TInt, THmm> {
+public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>, TAlpha, TBeta> implements BaumWelchLearner<TObs, TInt, THmm> {
 
     /**
      * Number of iterations performed by the {@link #learn} method.
@@ -42,6 +47,27 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
             throw new IllegalArgumentException("Positive number expected");
         }
         nbIterations = nb;
+    }
+
+    /**
+     * Gets the relevant calculator.
+     *
+     * @return The relevant calculator.
+     */
+    protected abstract ForwardBackwardCalculator<TAlpha, TBeta, TObs, TInt, THmm> getCalculator();
+
+    /**
+     * Calculates the alpha and beta value of the given Hidden Markov Model and
+     * a list of interactions.
+     *
+     * @param hmm The given Hidden Markov Model.
+     * @param obsSeq The given list of interactions.
+     * @return A tuple containing the alpha- and beta-values and the probability
+     * of the list of observations.
+     */
+    @SuppressWarnings("unchecked")
+    protected Tuple3<TAlpha, TBeta, Double> getAlphaBetaProbability(THmm hmm, List<? extends TInt> obsSeq) {
+        return this.getCalculator().computeAll(hmm, obsSeq);
     }
 
     /**

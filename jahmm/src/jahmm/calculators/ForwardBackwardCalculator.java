@@ -1,7 +1,6 @@
 package jahmm.calculators;
 
 import jahmm.Hmm;
-import jahmm.RegularHmm;
 import jahmm.observables.Observation;
 import java.util.Collection;
 import java.util.List;

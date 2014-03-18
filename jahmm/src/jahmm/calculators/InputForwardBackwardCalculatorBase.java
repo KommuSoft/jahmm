@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt extends Enum<TInt>> extends ForwardBackwardCalculatorRaw<double[][], double[][], TObs, InputObservationTuple<TInt, TObs>, InputHmm<TObs, TInt>> implements InputForwardBackwardCalculator<TObs, TInt> {
 
-    private static final InputForwardBackwardCalculatorBase Instance = new InputForwardBackwardCalculatorBase();
+    public static final InputForwardBackwardCalculatorBase Instance = new InputForwardBackwardCalculatorBase();
 
     private static final Logger LOG = Logger.getLogger(InputForwardBackwardCalculatorBase.class.getName());
 
