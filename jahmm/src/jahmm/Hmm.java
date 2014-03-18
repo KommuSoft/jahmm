@@ -165,6 +165,6 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      * @param value The <i>pi</i> value to associate to state number
      * <code>stateNb</code>
      */
-    void setPi(int stateNb, double value);
+    public abstract void setPi(int stateNb, double value);
 
 }

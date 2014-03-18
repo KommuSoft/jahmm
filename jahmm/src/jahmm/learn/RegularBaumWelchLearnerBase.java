@@ -54,18 +54,18 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
         } catch (CloneNotSupportedException e) {
             throw new InternalError();
         }
-        double allGamma[][][] = new double[sequences.size()][][];
+        double[][][] allGamma = new double[sequences.size()][][];
 
-        double aijNum[][] = new double[hmm.nbStates()][hmm.nbStates()];
-        double aijDen[] = new double[hmm.nbStates()];
+        double[][] aijNum = new double[hmm.nbStates()][hmm.nbStates()];
+        double[] aijDen = new double[hmm.nbStates()];
 
         int g = 0;
         for (List<? extends TObs> obsSeq : sequences) {
 
             Tuple3<double[][], double[][], Double> abp = getAlphaBetaProbability(hmm, obsSeq);
 
-            double xi[][][] = estimateXi(obsSeq, abp, hmm);
-            double gamma[][] = allGamma[g++] = estimateGamma(obsSeq, abp, hmm, xi);
+            double[][][] xi = estimateXi(obsSeq, abp, hmm);
+            double[][] gamma = allGamma[g++] = estimateGamma(obsSeq, abp, hmm, xi);
 
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int t = 0; t < obsSeq.size() - 1; t++) {

@@ -1,8 +1,10 @@
 package jahmm.learn;
 
 import jahmm.Hmm;
+import jahmm.RegularHmm;
 import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.observables.Observation;
+import jahmm.observables.Opdf;
 import java.util.List;
 import jutlis.tuples.Tuple3;
 
@@ -140,6 +142,98 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
      * @param xi The estimated Xi values.
      * @return The estimated Gamma values.
      */
-    protected abstract TGamma estimateGamma(List<? extends TInt> sequence, Tuple3<TAlpha, TBeta, Double> abp, THmm hmm, double[][][] xi);
+    protected abstract TGamma estimateGamma(List<? extends TInt> sequence, Tuple3<TAlpha, TBeta, Double> abp, THmm hmm, TXi xi);
+
+    /**
+     * Performs one iteration of the Baum-Welch algorithm. In one iteration, a
+     * new HMM is computed using a previously estimated HMM.
+     *
+     * @param hmm A previously estimated HMM.
+     * @param sequences The observation sequences on which the learning is
+     * based. Each sequence must have a length higher or equal to 2.
+     * @return A new, updated HMM.
+     *
+     * gamma and xi arrays are those defined by Rabiner and Juang allGamma[n] =
+     * gamma array associated to observation sequence n.
+     *
+     * a[i][j] = aijNum[i][j] / aijDen[i] aijDen[i] = expected number of
+     * transitions from state i aijNum[i][j] = expected number of transitions
+     * from state i to j
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public THmm iterate(THmm hmm, List<? extends List<? extends TInt>> sequences) {
+        THmm nhmm;
+        try {
+            nhmm = (THmm) hmm.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new InternalError();
+        }
+        TGamma[] allGamma = (TGamma[]) new Object[sequences.size()];
+
+        double[][] aijNum = new double[hmm.nbStates()][hmm.nbStates()];
+        double[] aijDen = new double[hmm.nbStates()];
+
+        int g = 0;
+        for (List<? extends TInt> obsSeq : sequences) {
+
+            Tuple3<TAlpha, TBeta, Double> abp = getAlphaBetaProbability(hmm, obsSeq);
+
+            TXi xi = estimateXi(obsSeq, abp, hmm);
+            TGamma gamma = allGamma[g++] = estimateGamma(obsSeq, abp, hmm, xi);
+
+            for (int i = 0; i < hmm.nbStates(); i++) {
+                for (int t = 0; t < obsSeq.size() - 1; t++) {
+                    aijDen[i] += gamma[t][i];
+
+                    for (int j = 0; j < hmm.nbStates(); j++) {
+                        aijNum[i][j] += xi[t][i][j];
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < hmm.nbStates(); i++) {
+            if (aijDen[i] > 0.) { // State i is reachable
+                for (int j = 0; j < hmm.nbStates(); j++) {
+                    nhmm.setAij(i, j, aijNum[i][j] / aijDen[i]);
+                }
+            }
+        }
+
+        /* pi computation */
+        for (int i = 0; i < hmm.nbStates(); i++) {
+            double total = 0.0d;
+            for (int o = 0; o < sequences.size(); o++) {
+                total += allGamma[o][0][i];
+            }
+            nhmm.setPi(i, total / sequences.size());
+        }
+
+        /* pdfs computation */
+        for (int i = 0; i < hmm.nbStates(); i++) {
+            List<TObs> observations = KMeansLearner.flat(sequences);
+            double[] weights = new double[observations.size()];
+            double sum = 0.;
+            int j = 0;
+
+            int o = 0;
+            for (List<? extends TObs> obsSeq : sequences) {
+                for (int t = 0; t < obsSeq.size(); t++, j++) {
+                    sum += weights[j] = allGamma[o][t][i];
+                }
+                o++;
+            }
+
+            for (j--; j >= 0; j--) {
+                weights[j] /= sum;
+            }
+
+            Opdf<TObs> opdf = nhmm.getOpdf(i);
+            opdf.fit(observations, weights);
+        }
+
+        return nhmm;
+    }
 
 }
