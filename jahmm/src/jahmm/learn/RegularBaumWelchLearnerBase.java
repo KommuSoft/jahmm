@@ -71,7 +71,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
             Tuple3<double[][], double[][], Double> abp = getAlphaBetaProbability(hmm, obsSeq);
 
             double xi[][][] = estimateXi(obsSeq, abp, hmm);
-            double gamma[][] = allGamma[g++] = estimateGamma(xi);
+            double gamma[][] = allGamma[g++] = estimateGamma(obsSeq, abp, hmm, xi);
 
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int t = 0; t < obsSeq.size() - 1; t++) {
@@ -180,7 +180,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
      * @return
      */
     @Override
-    protected double[][] estimateGamma(double[][][] xi) {
+    protected double[][] estimateGamma(List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<TObs> hmm, double[][][] xi) {
         double[][] gamma = new double[xi.length + 1][xi[0].length];
 
         for (int t = 0; t < xi.length + 1; t++) {

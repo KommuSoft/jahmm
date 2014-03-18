@@ -1,9 +1,7 @@
 package jahmm.learn;
 
 import jahmm.Hmm;
-import jahmm.RegularHmm;
 import jahmm.calculators.ForwardBackwardCalculator;
-import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.observables.Observation;
 import java.util.List;
 import jutlis.tuples.Tuple3;
@@ -15,6 +13,8 @@ import jutlis.tuples.Tuple3;
  * @param <TObs> The type of observations regarding the Hidden Markov Model.
  * @param <TInt> The type of interactions regarding the Hidden Markov Model.
  * @param <THmm> The type of the Hidden Markov Model.
+ * @param <TAlpha> The type of the alpha-values.
+ * @param <TBeta> The type of beta-values.
  */
 public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>, TAlpha, TBeta> implements BaumWelchLearner<TObs, TInt, THmm> {
 
@@ -108,30 +108,36 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
     public THmm learn(THmm initialHmm, List<? extends List<? extends TInt>> sequences) {
         return this.learn(initialHmm, this.getNbIterations(), sequences);
     }
-    
-    /** Here, the xi (and, thus, gamma) values are not divided by the
-     probability of the sequence because this probability might be
-     too small and induce an underflow. xi[t][i][j] still can be
-     interpreted as P[q_t = i and q_(t+1) = j | obsSeq, hmm] because
-     we assume that the scaling factors are such that their product
-     is equal to the inverse of the probability of the sequence.
+
+    /**
+     * Here, the xi (and, thus, gamma) values are not divided by the probability
+     * of the sequence because this probability might be too small and induce an
+     * underflow. xi[t][i][j] still can be interpreted as P[q_t = i and q_(t+1)
+     * = j | obsSeq, hmm] because we assume that the scaling factors are such
+     * that their product is equal to the inverse of the probability of the
+     * sequence.
      *
-     * @param sequence
-     * @param abp
-     * @param hmm
-     * @return
+     * @param sequence The sequence of interactions.
+     * @param abp A tuple containing alpha- and beta-values and the probability
+     * of the given interaction sequence.
+     * @param hmm The given Hidden Markov Model.
+     * @return The estimated Xi values.
      */
     protected abstract double[][][] estimateXi(List<? extends TInt> sequence, Tuple3<TAlpha, TBeta, Double> abp, THmm hmm);
-    
+
     /**
      * gamma[][] could be computed directly using the alpha and beta arrays, but
      * this (slower) method is preferred because it doesn't change if the xi
      * array has been scaled (and should be changed with the scaled alpha and
      * beta arrays).
      *
-     * @param xi
-     * @return
+     * @param sequence The sequence of interactions.
+     * @param abp A tuple containing alpha- and beta-values and the probability
+     * of the given interaction sequence.
+     * @param hmm The given Hidden Markov Model.
+     * @param xi The estimated Xi values.
+     * @return The estimated Gamma values.
      */
-    protected abstract double[][] estimateGamma(double[][][] xi);
+    protected abstract double[][] estimateGamma(List<? extends TInt> sequence, Tuple3<TAlpha, TBeta, Double> abp, THmm hmm, double[][][] xi);
 
 }

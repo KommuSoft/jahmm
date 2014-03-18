@@ -31,7 +31,7 @@ public class InputBaumWelchLearnerBase<TObs extends Observation, TInt extends En
     }
 
     @Override
-    protected double[][] estimateGamma(double[][][] xi) {
+    protected double[][] estimateGamma(List<? extends InputObservationTuple<TInt, TObs>> sequence, Tuple3<double[][], double[][], Double> abp, InputHmm<TObs, TInt> hmm, double[][][] xi) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
