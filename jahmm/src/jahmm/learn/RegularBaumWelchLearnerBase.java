@@ -39,6 +39,13 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
      * @param sequences The observation sequences on which the learning is
      * based. Each sequence must have a length higher or equal to 2.
      * @return A new, updated HMM.
+     *
+     * gamma and xi arrays are those defined by Rabiner and Juang allGamma[n] =
+     * gamma array associated to observation sequence n.
+     *
+     * a[i][j] = aijNum[i][j] / aijDen[i] aijDen[i] = expected number of
+     * transitions from state i aijNum[i][j] = expected number of transitions
+     * from state i to j
      */
     @Override
     public RegularHmm<TObs> iterate(RegularHmm<TObs> hmm, List<? extends List<? extends TObs>> sequences) {
@@ -48,26 +55,14 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
         } catch (CloneNotSupportedException e) {
             throw new InternalError();
         }
-
-        /* gamma and xi arrays are those defined by Rabiner and Juang */
-        /* allGamma[n] = gamma array associated to observation sequence n */
         double allGamma[][][] = new double[sequences.size()][][];
-
-        /* a[i][j] = aijNum[i][j] / aijDen[i]
-         * aijDen[i] = expected number of transitions from state i
-         * aijNum[i][j] = expected number of transitions from state i to j
-         */
         double aijNum[][] = new double[hmm.nbStates()][hmm.nbStates()];
         double aijDen[] = new double[hmm.nbStates()];
-
         int g = 0;
         for (List<? extends TObs> obsSeq : sequences) {
-
             Tuple3<double[][], double[][], Double> abp = getAlphaBetaProbability(hmm, obsSeq);
-
             double xi[][][] = estimateXi(obsSeq, abp, hmm);
             double gamma[][] = allGamma[g++] = estimateGamma(obsSeq, abp, hmm, xi);
-
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int t = 0; t < obsSeq.size() - 1; t++) {
                     aijDen[i] += gamma[t][i];
@@ -80,12 +75,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
         }
 
         for (int i = 0; i < hmm.nbStates(); i++) {
-            if (aijDen[i] == 0.) // State i is not reachable
-            {
-                for (int j = 0; j < hmm.nbStates(); j++) {
-                    nhmm.setAij(i, j, hmm.getAij(i, j));
-                }
-            } else {
+            if (aijDen[i] > 0.) { // State i is not reachable
                 for (int j = 0; j < hmm.nbStates(); j++) {
                     nhmm.setAij(i, j, aijNum[i][j] / aijDen[i]);
                 }
