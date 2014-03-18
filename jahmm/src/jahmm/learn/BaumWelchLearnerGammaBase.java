@@ -1,6 +1,7 @@
 package jahmm.learn;
 
 import jahmm.Hmm;
+import jahmm.RegularHmm;
 import jahmm.observables.Observation;
 import java.util.List;
 import jutlis.tuples.Tuple3;
@@ -32,6 +33,25 @@ public abstract class BaumWelchLearnerGammaBase<TObs extends Observation, TInt e
             }
         }
         return gamma;
+    }
+
+    /**
+     * Sets the pi-values of the Hidden Markov Model based on the gamma values.
+     *
+     * @param nhmm The Hidden Markov Model to modify.
+     * @param allGamma The set of values
+     */
+    @Override
+    protected void setPiValues(THmm nhmm, double[][][] allGamma) {
+        int nO = allGamma.length;
+        int nI = allGamma[0x00][0x00].length;
+        for (int i = 0; i < nI; i++) {
+            double total = 0.0d;
+            for (int o = 0; o < nO; o++) {
+                total += allGamma[o][0][i];
+            }
+            nhmm.setPi(i, total / nO);
+        }
     }
 
 }

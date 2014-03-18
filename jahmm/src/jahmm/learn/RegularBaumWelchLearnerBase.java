@@ -145,25 +145,6 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
     }
 
     /**
-     * Sets the pi-values of the Hidden Markov Model based on the gamma values.
-     *
-     * @param nhmm The Hidden Markov Model to modify.
-     * @param allGamma The set of values
-     */
-    @Override
-    protected void setPiValues(RegularHmm<TObs> nhmm, double[][][] allGamma) {
-        int nO = allGamma.length;
-        int nI = allGamma[0x00][0x00].length;
-        for (int i = 0; i < nI; i++) {
-            double total = 0.0d;
-            for (int o = 0; o < nO; o++) {
-                total += allGamma[o][0][i];
-            }
-            nhmm.setPi(i, total / nO);
-        }
-    }
-
-    /**
      * Sets the pdf values based on the given sequence of interactions and the
      * given gamma values.
      *

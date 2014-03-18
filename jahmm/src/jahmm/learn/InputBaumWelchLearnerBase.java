@@ -83,7 +83,7 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
         int M = hmm.nbInput();
         for (int i = 0; i < N; i++) {
             for (int k = 0; k < M; k++) {
-                if (aijDen[i][k] > 0.) { // State i is reachable
+                if (aijDen[i][k] > 0.) { // State i is reachable given k
                     for (int j = 0; j < N; j++) {
                         hmm.setAixj(i, k, j, aijNum[i][k][j] / aijDen[i][k]);
                     }
@@ -94,11 +94,6 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
 
     @Override
     protected void setPdfValues(InputHmm<TObservation, TInteraction> nhmm, List<? extends List<? extends InputObservationTuple<TInteraction, TObservation>>> sequences, double[][][] allGamma) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    protected void setPiValues(InputHmm<TObservation, TInteraction> nhmm, double[][][] allGamma) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
