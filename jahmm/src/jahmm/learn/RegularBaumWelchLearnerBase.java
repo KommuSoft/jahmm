@@ -4,7 +4,6 @@
  */
 package jahmm.learn;
 
-import jahmm.Hmm;
 import jahmm.RegularHmm;
 import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.calculators.RegularForwardBackwardCalculatorBase;
@@ -142,6 +141,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
      * @param hmm
      * @return
      */
+    @Override
     protected double[][][] estimateXi(List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<TObs> hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
@@ -179,6 +179,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
      * @param xi
      * @return
      */
+    @Override
     protected double[][] estimateGamma(double[][][] xi) {
         double[][] gamma = new double[xi.length + 1][xi[0].length];
 

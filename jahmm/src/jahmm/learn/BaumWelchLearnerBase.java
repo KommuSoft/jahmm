@@ -108,5 +108,30 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
     public THmm learn(THmm initialHmm, List<? extends List<? extends TInt>> sequences) {
         return this.learn(initialHmm, this.getNbIterations(), sequences);
     }
+    
+    /** Here, the xi (and, thus, gamma) values are not divided by the
+     probability of the sequence because this probability might be
+     too small and induce an underflow. xi[t][i][j] still can be
+     interpreted as P[q_t = i and q_(t+1) = j | obsSeq, hmm] because
+     we assume that the scaling factors are such that their product
+     is equal to the inverse of the probability of the sequence.
+     *
+     * @param sequence
+     * @param abp
+     * @param hmm
+     * @return
+     */
+    protected abstract double[][][] estimateXi(List<? extends TInt> sequence, Tuple3<TAlpha, TBeta, Double> abp, THmm hmm);
+    
+    /**
+     * gamma[][] could be computed directly using the alpha and beta arrays, but
+     * this (slower) method is preferred because it doesn't change if the xi
+     * array has been scaled (and should be changed with the scaled alpha and
+     * beta arrays).
+     *
+     * @param xi
+     * @return
+     */
+    protected abstract double[][] estimateGamma(double[][][] xi);
 
 }
