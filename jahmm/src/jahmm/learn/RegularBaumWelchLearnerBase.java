@@ -110,7 +110,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
      * @param aijNum The numerators of the â-values.
      */
     @Override
-    protected void updateAbarXiGamma(double[][][] xi, double[][] gamma, double[][] aijNum, double[] aijDen) {
+    protected void updateAbarXiGamma(RegularHmm<TObs> hmm, List<? extends TObs> obsSeq, double[][][] xi, double[][] gamma, double[][] aijNum, double[] aijDen) {
         int I = aijDen.length;
         int T = xi.length;
         for (int i = 0; i < I; i++) {

@@ -66,8 +66,19 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
     }
 
     @Override
-    protected void updateAbarXiGamma(double[][][] xi, double[][] gamma, double[][][] aijNum, double[][] aijDen) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    protected void updateAbarXiGamma(InputHmm<TObservation, TInteraction> hmm, List<? extends InputObservationTuple<TInteraction, TObservation>> obsSeq, double[][][] xi, double[][] gamma, double[][][] aijNum, double[][] aijDen) {
+        int I = aijDen.length;
+        int T = xi.length;
+        for (int i = 0; i < I; i++) {
+            for (int t = 0; t < T; t++) {
+                int k = hmm.getInputIndex(null);//TODO: find observation
+                aijDen[i][k] += gamma[t][i];
+
+                for (int j = 0; j < I; j++) {
+                    aijNum[i][k][j] += xi[t][i][j];
+                }
+            }
+        }
     }
 
     @Override

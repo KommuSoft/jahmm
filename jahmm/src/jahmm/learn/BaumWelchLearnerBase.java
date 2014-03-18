@@ -3,7 +3,6 @@ package jahmm.learn;
 import jahmm.Hmm;
 import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.observables.Observation;
-import jahmm.observables.Opdf;
 import java.util.List;
 import jutlis.tuples.Tuple3;
 
@@ -169,7 +168,7 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
      * @param aijDen The denominators of the â-values.
      * @param aijNum The numerators of the â-values.
      */
-    protected abstract void updateAbarXiGamma(TXi xi, TGamma gamma, TADen[] aijNum, TADen aijDen);
+    protected abstract void updateAbarXiGamma(THmm hmm, List<? extends TInt> obsSeq, TXi xi, TGamma gamma, TADen[] aijNum, TADen aijDen);
 
     /**
      * Performs one iteration of the Baum-Welch algorithm. In one iteration, a
@@ -209,7 +208,7 @@ public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extend
             TXi xi = estimateXi(obsSeq, abp, hmm);
             TGamma gamma = allGamma[g++] = estimateGamma(obsSeq, abp, hmm, xi);
 
-            updateAbarXiGamma(xi, gamma, aijNum, aijDen);
+            updateAbarXiGamma(hmm, obsSeq, xi, gamma, aijNum, aijDen);
 
             setAValues(nhmm, aijNum, aijDen);
         }
