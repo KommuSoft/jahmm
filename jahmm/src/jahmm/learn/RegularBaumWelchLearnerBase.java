@@ -9,7 +9,6 @@ import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -56,13 +55,18 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
             throw new InternalError();
         }
         double allGamma[][][] = new double[sequences.size()][][];
+
         double aijNum[][] = new double[hmm.nbStates()][hmm.nbStates()];
         double aijDen[] = new double[hmm.nbStates()];
+
         int g = 0;
         for (List<? extends TObs> obsSeq : sequences) {
+
             Tuple3<double[][], double[][], Double> abp = getAlphaBetaProbability(hmm, obsSeq);
+
             double xi[][][] = estimateXi(obsSeq, abp, hmm);
             double gamma[][] = allGamma[g++] = estimateGamma(obsSeq, abp, hmm, xi);
+
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int t = 0; t < obsSeq.size() - 1; t++) {
                     aijDen[i] += gamma[t][i];
@@ -75,7 +79,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
         }
 
         for (int i = 0; i < hmm.nbStates(); i++) {
-            if (aijDen[i] > 0.) { // State i is not reachable
+            if (aijDen[i] > 0.) { // State i is reachable
                 for (int j = 0; j < hmm.nbStates(); j++) {
                     nhmm.setAij(i, j, aijNum[i][j] / aijDen[i]);
                 }
@@ -84,13 +88,11 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
 
         /* pi computation */
         for (int i = 0; i < hmm.nbStates(); i++) {
-            nhmm.setPi(i, 0.);
-        }
-
-        for (int o = 0; o < sequences.size(); o++) {
-            for (int i = 0; i < hmm.nbStates(); i++) {
-                nhmm.setPi(i, nhmm.getPi(i) + allGamma[o][0][i] / sequences.size());
+            double total = 0.0d;
+            for (int o = 0; o < sequences.size(); o++) {
+                total += allGamma[o][0][i];
             }
+            nhmm.setPi(i, total / sequences.size());
         }
 
         /* pdfs computation */
