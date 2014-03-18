@@ -137,7 +137,6 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
 
     /**
      *
-     * @param <O>
      * @param sequence
      * @param abp
      * @param hmm
@@ -171,12 +170,11 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
         return xi;
     }
 
-    /* gamma[][] could be computed directly using the alpha and beta
-     * arrays, but this (slower) method is prefered because it doesn't
-     * change if the xi array has been scaled (and should be changed with
-     * the scaled alpha and beta arrays).
-     */
     /**
+     * gamma[][] could be computed directly using the alpha and beta arrays, but
+     * this (slower) method is preferred because it doesn't change if the xi
+     * array has been scaled (and should be changed with the scaled alpha and
+     * beta arrays).
      *
      * @param xi
      * @return
@@ -206,6 +204,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected ForwardBackwardCalculator<double[][], double[][], TObs, TObs, RegularHmm<TObs>> getCalculator() {
         return RegularForwardBackwardCalculatorBase.Instance;
     }
