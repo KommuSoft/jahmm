@@ -428,4 +428,9 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
         return this.indexRegister.size();
     }
 
+    @Override
+    public int getInputIndex(Tagable<TIn> input) {
+        return this.getInputIndex(input.getTag());
+    }
+
 }

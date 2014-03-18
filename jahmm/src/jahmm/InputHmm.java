@@ -19,6 +19,8 @@ public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> exten
     //public abstract void resetInput(final Iterable<TIn> inputs);
     //public abstract void resetInput(final Class<TIn> enumClass);
     public abstract int getInputIndex(TIn input);
+    
+    public abstract int getInputIndex(Tagable<TIn> input);
 
     /**
      * Returns the probability of going from hidden state <i>i</i> to hidden

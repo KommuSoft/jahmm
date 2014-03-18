@@ -70,8 +70,9 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
         int I = aijDen.length;
         int T = xi.length;
         for (int i = 0; i < I; i++) {
-            for (int t = 0; t < T; t++) {
-                int k = hmm.getInputIndex(null);//TODO: find observation
+            Iterator<? extends InputObservationTuple<TInteraction, TObservation>> iterator = obsSeq.iterator();
+            for (int t = 0; t < T && iterator.hasNext(); t++) {
+                int k = hmm.getInputIndex(iterator.next().getInput());
                 aijDen[i][k] += gamma[t][i];
 
                 for (int j = 0; j < I; j++) {
