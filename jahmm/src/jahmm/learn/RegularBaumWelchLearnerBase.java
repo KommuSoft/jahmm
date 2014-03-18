@@ -19,7 +19,7 @@ import jutlis.tuples.Tuple3;
  * a HMM that models a set of observation sequences.
  * @param <TObs>
  */
-public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumWelchLearnerBase<TObs,TObs,RegularHmm<TObs>> {
+public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumWelchLearnerBase<TObs,TObs,RegularHmm<TObs>> implements RegularBaumWelchLearner<TObs> {
 
     private static final Logger LOG = Logger.getLogger(RegularBaumWelchLearnerBase.class.getName());
 
@@ -135,27 +135,6 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
     @SuppressWarnings("unchecked")
     protected Tuple3<double[][], double[][], Double> getAlphaBetaProbability(RegularHmm<TObs> hmm, List<? extends TObs> obsSeq) {
         return RegularForwardBackwardCalculatorBase.Instance.computeAll(hmm, obsSeq);
-    }
-
-    /**
-     * Does a fixed number of iterations (see {@link #getNbIterations}) of the
-     * Baum-Welch algorithm.
-     *
-     * @param initialHmm An initial estimation of the expected HMM. This
-     * estimate is critical as the Baum-Welch algorithm only find local minima
-     * of its likelihood function.
-     * @param sequences The observation sequences on which the learning is
-     * based. Each sequence must have a length higher or equal to 2.
-     * @return The HMM that best matches the set of observation sequences given
-     * (according to the Baum-Welch algorithm).
-     */
-    @Override
-    public RegularHmm<TObs> learn(RegularHmm<TObs> initialHmm, List<? extends List<? extends TObs>> sequences) {
-        RegularHmm<TObs> hmm = initialHmm;
-        for (int i = 0; i < nbIterations; i++) {
-            hmm = iterate(hmm, sequences);
-        }
-        return hmm;
     }
 
     /**

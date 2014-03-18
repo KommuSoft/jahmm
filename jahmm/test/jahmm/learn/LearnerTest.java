@@ -47,14 +47,14 @@ public class LearnerTest extends TestCase {
     public void testBaumWelch() {
         /* Model sequences using BW algorithm */
 
-        RegularBaumWelchLearnerBase bwl = new RegularBaumWelchLearnerBase();
+        RegularBaumWelchLearnerBase<ObservationInteger> bwl = new RegularBaumWelchLearnerBase<>();
 
         RegularHmm<ObservationInteger> bwHmm = bwl.learn(hmm, sequences);
 
         assertEquals(0., klc.distance(bwHmm, hmm), DELTA);
 
         /* Model sequences using the scaled BW algorithm */
-        RegularBaumWelchScaledLearnerBase bwsl = new RegularBaumWelchScaledLearnerBase();
+        RegularBaumWelchScaledLearnerBase<ObservationInteger> bwsl = new RegularBaumWelchScaledLearnerBase<>();
         bwHmm = bwsl.learn(hmm, sequences);
 
         assertEquals(0., klc.distance(bwHmm, hmm), DELTA);
