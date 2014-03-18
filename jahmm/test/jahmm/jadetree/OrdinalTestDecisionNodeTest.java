@@ -81,8 +81,8 @@ public class OrdinalTestDecisionNodeTest {
      */
     @Test
     public void testInsert() {
-        OrdinalTestDecisionNode<Integer, Integer> otdn1 = new OrdinalTestDecisionNode<>(null, ooa1, TestData.split1,TestData.vals1);
-        OrdinalTestDecisionNode<String, String> otdn2 = new OrdinalTestDecisionNode<>(null, ooa2, TestData.split2,TestData.vals2);
+        OrdinalTestDecisionNode<Integer, Integer> otdn1 = new OrdinalTestDecisionNode<>(null, ooa1, TestData.split1, TestData.vals1);
+        OrdinalTestDecisionNode<String, String> otdn2 = new OrdinalTestDecisionNode<>(null, ooa2, TestData.split2, TestData.vals2);
         AssertExtensions.assertEqualsOrdered(TestData.vals1le, otdn1.getTrueNode());
         AssertExtensions.assertEqualsOrdered(TestData.vals1geq, otdn1.getFalseNode());
         AssertExtensions.assertEqualsOrdered(TestData.vals2le, otdn2.getTrueNode());

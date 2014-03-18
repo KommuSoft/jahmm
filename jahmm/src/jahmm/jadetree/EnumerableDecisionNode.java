@@ -29,8 +29,8 @@ public class EnumerableDecisionNode<TSource, TTarget> extends AttributeDecisionN
             map.put(entry.getKey(), new DecisionLeafBase<>(this.getTree(), entry.getValue()));
         }
     }
-    
-    public DecisionRealNode<TSource> getChild (TTarget target) {
+
+    public DecisionRealNode<TSource> getChild(TTarget target) {
         return this.map.get(target);
     }
 

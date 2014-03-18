@@ -41,17 +41,17 @@ public class PredicateDecisionNodeTest {
     @Test
     public void testTest() {
         PredicateDecisionNode<Integer> pdn1 = new PredicateDecisionNode<>(null, pred1);
-        for(Integer v : TestData.vals1geq) {
+        for (Integer v : TestData.vals1geq) {
             Assert.assertFalse(pdn1.test(v));
         }
-        for(Integer v : TestData.vals1le) {
+        for (Integer v : TestData.vals1le) {
             Assert.assertTrue(pdn1.test(v));
         }
         PredicateDecisionNode<String> pdn2 = new PredicateDecisionNode<>(null, pred2);
-        for(String v : TestData.vals2le) {
+        for (String v : TestData.vals2le) {
             Assert.assertFalse(pdn2.test(v));
         }
-        for(String v : TestData.vals2geq) {
+        for (String v : TestData.vals2geq) {
             Assert.assertTrue(pdn2.test(v));
         }
     }

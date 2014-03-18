@@ -243,7 +243,7 @@ public class DecisionLeafBaseTest {
         AssertExtensions.assertGreaterThan(tree.expandScore(), 0.00d);
         AssertExtensions.assertGreaterThan(root.expandScore(), 0.00d);
         Assert.assertTrue(Double.isInfinite(tree.reduceScore()));
-        AssertExtensions.assertLessThanOrEqual(tree.reduceScore(),Double.NEGATIVE_INFINITY);
+        AssertExtensions.assertLessThanOrEqual(tree.reduceScore(), Double.NEGATIVE_INFINITY);
     }
 
     /**

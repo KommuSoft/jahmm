@@ -36,12 +36,13 @@ public class RegularBaumWelchScaledLearnerBase<TObs extends Observation> extends
         return RegularForwardBackwardScaledCalculatorBase.Instance;
     }
 
-    /** Here, the xi (and, thus, gamma) values are not divided by the
-     probability of the sequence because this probability might be
-     too small and induce an underflow. xi[t][i][j] still can be
-     interpreted as P[q_t = i and q_(t+1) = j | obsSeq, hmm] because
-     we assume that the scaling factors are such that their product
-     is equal to the inverse of the probability of the sequence.
+    /**
+     * Here, the xi (and, thus, gamma) values are not divided by the probability
+     * of the sequence because this probability might be too small and induce an
+     * underflow. xi[t][i][j] still can be interpreted as P[q_t = i and q_(t+1)
+     * = j | obsSeq, hmm] because we assume that the scaling factors are such
+     * that their product is equal to the inverse of the probability of the
+     * sequence.
      *
      * @param sequence
      * @param abp

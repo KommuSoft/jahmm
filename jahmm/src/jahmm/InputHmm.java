@@ -31,7 +31,7 @@ public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> exten
      * state <i>j</i> given input <i>x</i>.
      */
     public abstract double getAixj(int i, TIn x, int j);
-    
+
     /**
      * Returns the probability of going from hidden state <i>i</i> to hidden
      * state <i>j</i> given input <i>x</i>.
@@ -43,7 +43,7 @@ public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> exten
      * state <i>j</i> given input <i>x</i>.
      */
     public abstract double getAixj(int i, Tagable<TIn> x, int j);
-    
+
     public abstract int nbInput();
 
 }

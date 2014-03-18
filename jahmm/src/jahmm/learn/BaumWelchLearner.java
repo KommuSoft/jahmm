@@ -6,13 +6,13 @@ import java.util.List;
 
 /**
  * An interface representing the structure of a Baum-Welch Learner.
- * 
+ *
  * @author kommusoft
  * @param <TObs> The type of observations regarding the Hidden Markov Model.
  * @param <TInt> The type of interactions regarding the Hidden Markov Model.
  * @param <THmm> The type of the Hidden Markov Model.
  */
-public interface BaumWelchLearner<TObs extends Observation, TInt extends Observation,THmm extends Hmm<TObs,TInt>> {
+public interface BaumWelchLearner<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>> {
 
     /**
      * Returns the number of iterations performed by the {@link #learn} method.
@@ -45,7 +45,7 @@ public interface BaumWelchLearner<TObs extends Observation, TInt extends Observa
      * (according to the Baum-Welch algorithm).
      */
     public abstract THmm learn(THmm initialHmm, List<? extends List<? extends TInt>> sequences);
-    
+
     /**
      * Does a fixed number of iterations (see {@link #getNbIterations}) of the
      * Baum-Welch algorithm.
@@ -67,5 +67,5 @@ public interface BaumWelchLearner<TObs extends Observation, TInt extends Observa
      * @param nb The (positive) number of iterations to perform.
      */
     void setNbIterations(int nb);
-    
+
 }

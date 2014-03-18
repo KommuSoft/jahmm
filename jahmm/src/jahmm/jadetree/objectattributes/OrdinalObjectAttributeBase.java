@@ -17,7 +17,7 @@ import jutlis.tuples.Tuple2Base;
  * @param <TSource> The domain of the function.
  * @param <TTarget> The range of the function.
  */
-public abstract class OrdinalObjectAttributeBase<TSource, TTarget> extends ObjectAttributeBase<TSource,TTarget> implements OrdinalObjectAttribute<TSource, TTarget> {
+public abstract class OrdinalObjectAttributeBase<TSource, TTarget> extends ObjectAttributeBase<TSource, TTarget> implements OrdinalObjectAttribute<TSource, TTarget> {
 
     @Override
     public TTarget getBetween(TSource source1, TSource source2) {
