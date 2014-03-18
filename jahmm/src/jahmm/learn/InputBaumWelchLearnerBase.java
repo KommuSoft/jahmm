@@ -5,7 +5,6 @@ import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.calculators.InputForwardBackwardCalculatorBase;
 import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;

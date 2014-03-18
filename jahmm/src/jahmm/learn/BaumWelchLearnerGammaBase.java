@@ -20,9 +20,6 @@ public abstract class BaumWelchLearnerGammaBase<TObs extends Observation, TInt e
     @Override
     protected double[][] estimateGamma(List<? extends TInt> sequence, Tuple3<TAlpha, TBeta, Double> abp, THmm hmm, double[][][] xi) {
         double[][] gamma = new double[xi.length + 1][xi[0].length];
-        for (int t = 0; t < xi.length + 1; t++) {
-            Arrays.fill(gamma[t], 0.);
-        }
         for (int t = 0; t < xi.length; t++) {
             for (int i = 0; i < xi[0].length; i++) {
                 for (int j = 0; j < xi[0].length; j++) {

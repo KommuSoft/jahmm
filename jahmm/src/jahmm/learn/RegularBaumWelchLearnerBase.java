@@ -60,11 +60,6 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
         double aijNum[][] = new double[hmm.nbStates()][hmm.nbStates()];
         double aijDen[] = new double[hmm.nbStates()];
 
-        Arrays.fill(aijDen, 0.);
-        for (int i = 0; i < hmm.nbStates(); i++) {
-            Arrays.fill(aijNum[i], 0.);
-        }
-
         int g = 0;
         for (List<? extends TObs> obsSeq : sequences) {
 
