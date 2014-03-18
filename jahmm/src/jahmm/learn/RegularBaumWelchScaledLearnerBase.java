@@ -5,6 +5,8 @@
 package jahmm.learn;
 
 import jahmm.RegularHmm;
+import jahmm.calculators.ForwardBackwardCalculator;
+import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.calculators.RegularForwardBackwardScaledCalculatorBase;
 import jahmm.observables.Observation;
 import java.util.Iterator;
@@ -31,8 +33,8 @@ public class RegularBaumWelchScaledLearnerBase<TObs extends Observation> extends
     }
 
     @Override
-    protected Tuple3<double[][], double[][], Double> getAlphaBetaProbability(RegularHmm<TObs> hmm, List<? extends TObs> obsSeq) {
-        return RegularForwardBackwardScaledCalculatorBase.Instance.computeAll(hmm, obsSeq);
+    protected ForwardBackwardCalculator<double[][], double[][], TObs, TObs, RegularHmm<TObs>> getCalculator() {
+        return RegularForwardBackwardScaledCalculatorBase.Instance;
     }
 
     /* Here, the xi (and, thus, gamma) values are not divided by the
