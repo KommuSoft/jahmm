@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import jutils.ArrayUtils;
+import jutils.Tagable;
 import jutils.collections.CollectionUtils;
 import jutlis.lists.ListArray;
 
@@ -415,6 +416,11 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
     @Override
     public double getAixj(int i, TIn x, int j) {
         return this.a[i][getInputIndex(x)][j];
+    }
+
+    @Override
+    public double getAixj(int i, Tagable<TIn> x, int j) {
+        return this.getAixj(i, x.getTag(), j)
     }
 
 }

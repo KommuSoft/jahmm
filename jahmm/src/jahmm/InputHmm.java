@@ -2,6 +2,7 @@ package jahmm;
 
 import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
+import jutils.Tagable;
 
 /**
  *
@@ -30,5 +31,17 @@ public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> exten
      * state <i>j</i> given input <i>x</i>.
      */
     public abstract double getAixj(int i, TIn x, int j);
+    
+    /**
+     * Returns the probability of going from hidden state <i>i</i> to hidden
+     * state <i>j</i> given input <i>x</i>.
+     *
+     * @param i The initial state.
+     * @param x The given input.
+     * @param j The final state.
+     * @return The probability of going from hidden state <i>i</i> to hidden
+     * state <i>j</i> given input <i>x</i>.
+     */
+    public abstract double getAixj(int i, Tagable<TIn> x, int j);
 
 }
