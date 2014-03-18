@@ -415,12 +415,12 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
 
     @Override
     public double getAixj(int i, TIn x, int j) {
-        return this.a[i][getInputIndex(x)][j];
+        return this.getAixj(i, this.getInputIndex(x), j);
     }
 
     @Override
     public double getAixj(int i, Tagable<TIn> x, int j) {
-        return this.getAixj(i, x.getTag(), j);
+        return this.getAixj(i, this.getInputIndex(x), j);
     }
 
     @Override
@@ -431,6 +431,26 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
     @Override
     public int getInputIndex(Tagable<TIn> input) {
         return this.getInputIndex(input.getTag());
+    }
+
+    @Override
+    public double getAixj(int i, int x, int j) {
+        return this.a[i][x][j];
+    }
+
+    @Override
+    public void setAixj(int i, TIn x, int j, double aixj) {
+        this.setAixj(i, this.getInputIndex(x), j, aixj);
+    }
+
+    @Override
+    public void setAixj(int i, int x, int j, double aixj) {
+        this.a[i][x][j] = aixj;
+    }
+
+    @Override
+    public void setAixj(int i, Tagable<TIn> x, int j, double aixj) {
+        this.setAixj(i, this.getInputIndex(x), j, aixj);
     }
 
 }

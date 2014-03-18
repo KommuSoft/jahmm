@@ -19,7 +19,7 @@ public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> exten
     //public abstract void resetInput(final Iterable<TIn> inputs);
     //public abstract void resetInput(final Class<TIn> enumClass);
     public abstract int getInputIndex(TIn input);
-    
+
     public abstract int getInputIndex(Tagable<TIn> input);
 
     /**
@@ -39,13 +39,66 @@ public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> exten
      * state <i>j</i> given input <i>x</i>.
      *
      * @param i The initial state.
-     * @param x The given input.
+     * @param x The index of the given input.
+     * @param j The final state.
+     * @return The probability of going from hidden state <i>i</i> to hidden
+     * state <i>j</i> given input <i>x</i>.
+     */
+    public abstract double getAixj(int i, int x, int j);
+
+    /**
+     * Returns the probability of going from hidden state <i>i</i> to hidden
+     * state <i>j</i> given input <i>x</i>.
+     *
+     * @param i The initial state.
+     * @param x A tagable containing given input.
      * @param j The final state.
      * @return The probability of going from hidden state <i>i</i> to hidden
      * state <i>j</i> given input <i>x</i>.
      */
     public abstract double getAixj(int i, Tagable<TIn> x, int j);
 
+    /**
+     * Sets the probability of going from hidden state <i>i</i> to hidden state
+     * <i>j</i> given input <i>x</i>.
+     *
+     * @param i The initial state.
+     * @param x The given input.
+     * @param j The final state.
+     * @param aixj The new probability of a transition from state <i>i</i> to
+     * state <i>j</i> given input <i>x</i>.
+     */
+    public abstract void setAixj(int i, TIn x, int j, double aixj);
+
+    /**
+     * Sets the probability of going from hidden state <i>i</i> to hidden state
+     * <i>j</i> given input <i>x</i>.
+     *
+     * @param i The initial state.
+     * @param x The index of the given input.
+     * @param j The final state.
+     * @param aixj The new probability of a transition from state <i>i</i> to
+     * state <i>j</i> given input <i>x</i>.
+     */
+    public abstract void setAixj(int i, int x, int j, double aixj);
+
+    /**
+     * Sets the probability of going from hidden state <i>i</i> to hidden state
+     * <i>j</i> given input <i>x</i>.
+     *
+     * @param i The initial state.
+     * @param x A tagable containing given input.
+     * @param j The final state.
+     * @param aixj The new probability of a transition from state <i>i</i> to
+     * state <i>j</i> given input <i>x</i>.
+     */
+    public abstract void setAixj(int i, Tagable<TIn> x, int j, double aixj);
+
+    /**
+     * Gets the number of input symbols.
+     *
+     * @return The number of input symbols.
+     */
     public abstract int nbInput();
 
 }
