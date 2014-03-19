@@ -3,17 +3,27 @@ package jahmm;
 import jahmm.observables.Observation;
 
 /**
+ * The basic implementation of a Hidden Markov Model that all implemented types
+ * have in common.
  *
  * @author kommusoft
- * @param <TObs>
- * @param <TAMx>
- * @param <TBMx>
- * @param <TInt>
+ * @param <TObs> The type of the observations of the Hidden Markov Model.
+ * @param <TAMx> The type of a-values of the Hidden Markov Model.
+ * @param <TBMx> The type of b-values of the Hidden Markov Model.
+ * @param <TInt> The type of interaction of the hidden Markov Model.
  */
 public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends Observation> implements Hmm<TObs, TInt> {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Generates an initial distribution of the states for the given number of
+     * states.
+     *
+     * @param nbStates The given number of states.
+     * @return A uniform probability vector with the length equal to the number
+     * of states.
+     */
     protected static double[] generatePi(int nbStates) {
         if (nbStates <= 0) {
             throw new IllegalArgumentException("Number of states must be positive");
@@ -26,10 +36,29 @@ public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends
         return pi;
     }
 
+    /**
+     * The stored initial state distribution of the Hidden Markov Model.
+     */
     protected double pi[];
+
+    /**
+     * The stored a-values of the Hidden Markov Model.
+     */
     protected TAMx a;
+
+    /**
+     * The stored b-values of the Hidden Markov Model.
+     */
     protected TBMx b;
 
+    /**
+     * Creates a new instance of a Hidden Markov Model with given initial
+     * distribution and a- and b-values.
+     *
+     * @param pi The given initial distribution.
+     * @param a The given initial a-values.
+     * @param b The given initial b-values.
+     */
     protected HmmBase(double pi[], TAMx a, TBMx b) {
         this.pi = pi;
         this.a = a;
@@ -53,7 +82,7 @@ public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends
      */
     @Override
     public int nbStates() {
-        return pi.length;
+        return this.pi.length;
     }
 
     /**
@@ -65,7 +94,7 @@ public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends
      */
     @Override
     public double getPi(int stateNb) {
-        return pi[stateNb];
+        return this.pi[stateNb];
     }
 
     /**
@@ -76,10 +105,16 @@ public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends
      * @param value The <i>pi</i> value to associate to state number
      * <code>stateNb</code>
      */
+    @Override
     public void setPi(int stateNb, double value) {
-        pi[stateNb] = value;
+        this.pi[stateNb] = value;
     }
 
+    /**
+     * Takes as input distribution (pi) of states the distribution of the states
+     * after one iteration regardless of any interaction.
+     *
+     */
     @Override
     public void fold() {
         this.fold(0x01);
