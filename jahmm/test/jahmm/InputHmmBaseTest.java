@@ -1,18 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package jahmm;
 
 import jahmm.jadetree.foo.TrisEnum;
 import jahmm.observables.ObservationDiscrete;
+import jahmm.observables.OpdfDiscrete;
 import jahmm.observables.OpdfDiscreteFactory;
+import java.util.logging.Logger;
 import junit.framework.Assert;
 import jutils.probability.ProbabilityUtils;
 import jutils.testing.AssertExtensions;
+import static org.junit.Assert.fail;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import utils.TestParameters;
 
 /**
@@ -20,6 +17,8 @@ import utils.TestParameters;
  * @author kommusoft
  */
 public class InputHmmBaseTest {
+
+    private static final Logger LOG = Logger.getLogger(InputHmmBaseTest.class.getName());
 
     public InputHmmBaseTest() {
     }
@@ -142,12 +141,23 @@ public class InputHmmBaseTest {
     }
 
     @Test
-    public void testConstructor() {
+    public void testScenario00() {
         int N = 0x05;
-        int M = TrisEnum.values().length;
+        TrisEnum[] inputs = TrisEnum.values();
+        int M = inputs.length;
         InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(TrisEnum.class), TrisEnum.class);
         Assert.assertEquals(N, hmm.nbStates());
         Assert.assertEquals(M, hmm.nbSymbols());
+        System.out.println(hmm.getIndexRegister());
+        for (int i = 0x00; i < inputs.length; i++) {
+            for (int j = 0x00; j < inputs.length; j++) {
+                if (i == j) {
+                    Assert.assertEquals(hmm.getInputIndex(inputs[i]), hmm.getInputIndex(inputs[j]));
+                } else {
+                    Assert.assertNotSame(hmm.getInputIndex(inputs[i]), hmm.getInputIndex(inputs[j]));
+                }
+            }
+        }
         for (int i = 0x00; i < N; i++) {
             for (int j = 0x00; j < M; j++) {
                 for (int k = 0x00; k < N; k++) {
@@ -161,7 +171,66 @@ public class InputHmmBaseTest {
                 }
             }
         }
-        //Assert.assertEquals(N*M,hmm);
+        for (int i = 0x00; i < N; i++) {
+            for (int j = 0x00; j < M; j++) {
+                AssertExtensions.assertTypeof(OpdfDiscrete.class, hmm.getOpdf(i, j));
+                for (int l = 0x00; l < N; l++) {
+                    if (l != i) {
+                        for (int m = 0x00; m < M; m++) {
+                            if (m != j) {
+                                Assert.assertNotSame(hmm.getOpdf(i, j), hmm.getOpdf(l, m));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testScenario01() {
+        int N = 0x05;
+        TrisEnum[] inputs = TrisEnum.values();
+        int M = inputs.length;
+        InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(TrisEnum.class), inputs);
+        Assert.assertEquals(N, hmm.nbStates());
+        Assert.assertEquals(M, hmm.nbSymbols());
+        for (int i = 0x00; i < inputs.length; i++) {
+            for (int j = 0x00; j < inputs.length; j++) {
+                if (i == j) {
+                    Assert.assertEquals(hmm.getInputIndex(inputs[i]), hmm.getInputIndex(inputs[j]));
+                } else {
+                    Assert.assertNotSame(hmm.getInputIndex(inputs[i]), hmm.getInputIndex(inputs[j]));
+                }
+            }
+        }
+        for (int i = 0x00; i < N; i++) {
+            for (int j = 0x00; j < M; j++) {
+                for (int k = 0x00; k < N; k++) {
+                    for (int l = 0x00; l < N; l++) {
+                        for (int m = 0x00; m < M; m++) {
+                            for (int n = 0x00; n < N; n++) {
+                                Assert.assertEquals(hmm.getAixj(i, j, k), hmm.getAixj(l, m, n));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for (int i = 0x00; i < N; i++) {
+            for (int j = 0x00; j < M; j++) {
+                AssertExtensions.assertTypeof(OpdfDiscrete.class, hmm.getOpdf(i, j));
+                for (int l = 0x00; l < N; l++) {
+                    if (l != i) {
+                        for (int m = 0x00; m < M; m++) {
+                            if (m != j) {
+                                Assert.assertNotSame(hmm.getOpdf(i, j), hmm.getOpdf(l, m));
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -169,7 +238,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testGenerateA() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -177,7 +245,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testNbStates() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -185,7 +252,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testNbSymbols() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -193,7 +259,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testClone() throws Exception {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -201,7 +266,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testGetAij_int_int() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -209,7 +273,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testGetAij_3args() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -217,7 +280,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testToString_0args() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -225,7 +287,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testToString_NumberFormat() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -233,7 +294,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testFold_int() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -241,7 +301,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testGetOpdf() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -249,7 +308,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testLnProbability() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -257,7 +315,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testMostLikelyStateSequence() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -265,7 +322,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testProbability_List() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -273,7 +329,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testProbability_List_intArr() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -281,7 +336,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testFold_Iterable() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -289,7 +343,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testSplitInput() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -297,7 +350,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testMergeInput() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -305,7 +357,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testGetInputIndex_GenericType() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -313,15 +364,13 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testGetAixj_3args_1() {
-        fail("The test case is a prototype.");
     }
 
     /**
      * Test of getAixj method, of class InputHmmBase.
      */
     @Test
-    public void testGetAixj_3args_2() {
-        fail("The test case is a prototype.");
+    public void testGetAixj_3args_2() {;
     }
 
     /**
@@ -329,7 +378,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testGetInputIndex_Tagable() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -337,7 +385,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testGetAixj_3args_3() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -345,7 +392,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testSetAixj_4args_1() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -353,7 +399,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testSetAixj_4args_2() {
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -361,7 +406,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testSetAixj_4args_3() {
-        fail("The test case is a prototype.");
     }
 
 }

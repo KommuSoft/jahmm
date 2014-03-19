@@ -175,6 +175,11 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
         this(nbStates, opdfFactory, new ListArray<>(classdef.getEnumConstants()));
     }
 
+    @SuppressWarnings("unchecked")
+    public InputHmmBase(int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory, TIn... possibleInputs) {
+        this(nbStates, opdfFactory, new ListArray<>(possibleInputs));
+    }
+
     public InputHmmBase(double[] pi, double[][][] a, Iterable<? extends Opdf<TObs>> opdfs, Iterable<TIn> possibleInput) throws CloneNotSupportedException {
         super(pi.clone(), cloneA(a), generateB(a.length, CollectionUtils.size(possibleInput), opdfs));
         this.checkConstraints();
@@ -227,6 +232,10 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
             this.indexRegister.put(obs, i);
             i++;
         }
+    }
+
+    public Map<TIn, Integer> getIndexRegister() {
+        return Collections.unmodifiableMap(this.indexRegister);
     }
 
     /**
