@@ -22,8 +22,6 @@ public abstract class OpdfBase<O extends Observation> implements Opdf<O> {
     }
 
     @Override
-    public OpdfBase clone() throws CloneNotSupportedException {
-        return null;
-    }
+    public abstract OpdfBase<O> clone() throws CloneNotSupportedException;
 
 }

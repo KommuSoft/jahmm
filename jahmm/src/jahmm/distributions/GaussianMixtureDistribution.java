@@ -19,8 +19,8 @@ public class GaussianMixtureDistribution
 
     private static final long serialVersionUID = 2_634_624_658_500_627_331L;
 
-    private GaussianDistribution[] distributions;
-    private double proportions[];
+    private final GaussianDistribution[] distributions;
+    private final double[] proportions;
 
     /**
      * Creates a new pseudo-random, Gaussian mixture distribution. It is made of
@@ -86,6 +86,11 @@ public class GaussianMixtureDistribution
         }
     }
 
+    private GaussianMixtureDistribution(GaussianDistribution[] distributions, double[] proportions) {
+        this.distributions = distributions;
+        this.proportions = proportions;
+    }
+
     /**
      * Returns the number of Gaussians composing this mixture.
      *
@@ -139,5 +144,16 @@ public class GaussianMixtureDistribution
         }
 
         return sum;
+    }
+
+    @Override
+    public GaussianMixtureDistribution clone() throws CloneNotSupportedException {
+        GaussianDistribution[] gdo = this.distributions;
+        int n = gdo.length;
+        GaussianDistribution[] gds = new GaussianDistribution[this.distributions.length];
+        for (int i = 0x00; i < n; i++) {
+            gds[i] = gdo[i].clone();
+        }
+        return new GaussianMixtureDistribution(gds, this.proportions.clone());
     }
 }

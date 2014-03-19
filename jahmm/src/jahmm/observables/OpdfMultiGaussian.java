@@ -18,7 +18,7 @@ public final class OpdfMultiGaussian extends OpdfBase<ObservationVector> impleme
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(OpdfMultiGaussian.class.getName());
 
-    private MultiGaussianDistribution distribution;
+    private final MultiGaussianDistribution distribution;
 
     /**
      * Builds a new Gaussian probability distribution with zero mean and
@@ -44,6 +44,10 @@ public final class OpdfMultiGaussian extends OpdfBase<ObservationVector> impleme
         }
 
         distribution = new MultiGaussianDistribution(mean, covariance);
+    }
+
+    private OpdfMultiGaussian(MultiGaussianDistribution distribution) {
+        this.distribution = distribution;
     }
 
     /**
@@ -145,16 +149,13 @@ public final class OpdfMultiGaussian extends OpdfBase<ObservationVector> impleme
             i++;
         }
 
-        distribution = new MultiGaussianDistribution(mean, covariance);
+        distribution.setMean(mean);
+        distribution.setCovariance(covariance);
     }
 
     @Override
     public OpdfMultiGaussian clone() throws CloneNotSupportedException {
-        try {
-            return (OpdfMultiGaussian) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError(e);
-        }
+        return new OpdfMultiGaussian(this.distribution.clone());
     }
 
     /**

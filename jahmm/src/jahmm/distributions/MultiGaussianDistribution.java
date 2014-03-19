@@ -9,8 +9,7 @@ import java.util.Random;
 /**
  * This class implements a multi-variate Gaussian distribution.
  */
-public class MultiGaussianDistribution
-        implements MultiRandomDistribution {
+public class MultiGaussianDistribution implements MultiRandomDistribution {
 
     private final static Random randomGenerator = new Random();
 
@@ -149,5 +148,18 @@ public class MultiGaussianDistribution
         return Math.exp(expArg)
                 / (Math.pow(2. * Math.PI, dimension / 2.)
                 * Math.pow(covarianceDet(), .5));
+    }
+
+    public void setMean(double[] mean) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void setCovariance(double[][] covariance) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public MultiGaussianDistribution clone() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

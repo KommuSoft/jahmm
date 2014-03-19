@@ -36,4 +36,6 @@ public interface MultiRandomDistribution
      * @return The probability of the vector <code>v</code>.
      */
     public double probability(double[] v);
+
+    public abstract MultiRandomDistribution clone();
 }

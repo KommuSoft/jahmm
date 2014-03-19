@@ -16,7 +16,7 @@ public class OpdfGaussian extends OpdfBase<ObservationReal> implements Opdf<Obse
 
     private static final long serialVersionUID = 1L;
 
-    private GaussianDistribution distribution;
+    private final GaussianDistribution distribution;
 
     /**
      * Builds a new Gaussian probability distribution with zero mean and unit
@@ -35,6 +35,17 @@ public class OpdfGaussian extends OpdfBase<ObservationReal> implements Opdf<Obse
      */
     public OpdfGaussian(double mean, double variance) {
         distribution = new GaussianDistribution(mean, variance);
+    }
+
+    /**
+     * Builds a new Gaussian probability distribution with a given mean and
+     * covariance matrix.
+     *
+     * @param mean The distribution's mean.
+     * @param variance The distribution's variance.
+     */
+    private OpdfGaussian(GaussianDistribution distribution) {
+        this.distribution = distribution;
     }
 
     /**
@@ -105,16 +116,13 @@ public class OpdfGaussian extends OpdfBase<ObservationReal> implements Opdf<Obse
             variance += d * d * weights[i++];
         }
 
-        distribution = new GaussianDistribution(mean, variance);
+        this.distribution.setMean(mean);
+        this.distribution.setVariance(variance);
     }
 
     @Override
     public OpdfGaussian clone() throws CloneNotSupportedException {
-        try {
-            return (OpdfGaussian) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError(e);
-        }
+        return new OpdfGaussian(this.distribution.clone());
     }
 
     /**
