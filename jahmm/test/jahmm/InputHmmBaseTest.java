@@ -5,10 +5,9 @@
  */
 package jahmm;
 
-import jahmm.observables.InputObservationTuple;
-import jahmm.observables.Opdf;
-import java.text.NumberFormat;
-import java.util.List;
+import jahmm.jadetree.foo.TrisEnum;
+import jahmm.observables.ObservationDiscrete;
+import jahmm.observables.OpdfDiscreteFactory;
 import junit.framework.Assert;
 import jutils.probability.ProbabilityUtils;
 import jutils.testing.AssertExtensions;
@@ -140,6 +139,238 @@ public class InputHmmBaseTest {
                 }
             }
         }
+    }
+
+    @Test
+    public void testConstructor() {
+        int N = 0x05;
+        int M = TrisEnum.values().length;
+        InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(TrisEnum.class), TrisEnum.class);
+        Assert.assertEquals(N, hmm.nbStates());
+        Assert.assertEquals(M, hmm.nbSymbols());
+        Assert.assertEquals(M, hmm.nbInputs());
+        for (int i = 0x00; i < N; i++) {
+            for (int j = 0x00; j < M; j++) {
+                for (int k = 0x00; k < N; k++) {
+                    for (int l = 0x00; l < N; l++) {
+                        for (int m = 0x00; m < M; m++) {
+                            for (int n = 0x00; n < N; n++) {
+                                Assert.assertEquals(hmm.getAixj(i, j, k), hmm.getAixj(l, m, n));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //Assert.assertEquals(N*M,hmm);
+    }
+
+    /**
+     * Test of generateA method, of class InputHmmBase.
+     */
+    @Test
+    public void testGenerateA() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of nbStates method, of class InputHmmBase.
+     */
+    @Test
+    public void testNbStates() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of nbSymbols method, of class InputHmmBase.
+     */
+    @Test
+    public void testNbSymbols() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of clone method, of class InputHmmBase.
+     */
+    @Test
+    public void testClone() throws Exception {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getAij method, of class InputHmmBase.
+     */
+    @Test
+    public void testGetAij_int_int() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getAij method, of class InputHmmBase.
+     */
+    @Test
+    public void testGetAij_3args() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of toString method, of class InputHmmBase.
+     */
+    @Test
+    public void testToString_0args() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of toString method, of class InputHmmBase.
+     */
+    @Test
+    public void testToString_NumberFormat() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of fold method, of class InputHmmBase.
+     */
+    @Test
+    public void testFold_int() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getOpdf method, of class InputHmmBase.
+     */
+    @Test
+    public void testGetOpdf() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of lnProbability method, of class InputHmmBase.
+     */
+    @Test
+    public void testLnProbability() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of mostLikelyStateSequence method, of class InputHmmBase.
+     */
+    @Test
+    public void testMostLikelyStateSequence() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of probability method, of class InputHmmBase.
+     */
+    @Test
+    public void testProbability_List() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of probability method, of class InputHmmBase.
+     */
+    @Test
+    public void testProbability_List_intArr() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of fold method, of class InputHmmBase.
+     */
+    @Test
+    public void testFold_Iterable() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of splitInput method, of class InputHmmBase.
+     */
+    @Test
+    public void testSplitInput() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of mergeInput method, of class InputHmmBase.
+     */
+    @Test
+    public void testMergeInput() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getInputIndex method, of class InputHmmBase.
+     */
+    @Test
+    public void testGetInputIndex_GenericType() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getAixj method, of class InputHmmBase.
+     */
+    @Test
+    public void testGetAixj_3args_1() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getAixj method, of class InputHmmBase.
+     */
+    @Test
+    public void testGetAixj_3args_2() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of nbInputs method, of class InputHmmBase.
+     */
+    @Test
+    public void testNbInputs() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getInputIndex method, of class InputHmmBase.
+     */
+    @Test
+    public void testGetInputIndex_Tagable() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getAixj method, of class InputHmmBase.
+     */
+    @Test
+    public void testGetAixj_3args_3() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setAixj method, of class InputHmmBase.
+     */
+    @Test
+    public void testSetAixj_4args_1() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setAixj method, of class InputHmmBase.
+     */
+    @Test
+    public void testSetAixj_4args_2() {
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of setAixj method, of class InputHmmBase.
+     */
+    @Test
+    public void testSetAixj_4args_3() {
+        fail("The test case is a prototype.");
     }
 
 }

@@ -34,7 +34,7 @@ import jutlis.lists.ListArray;
  * @note The A matrix has the following structure: A_{i,j,k} means the
  * probability of moving from state i to j given input k.
  */
-public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> extends HmmBase<TObs, double[][][], ArrayList<Opdf<TObs>>, InputObservationTuple<TIn, TObs>> implements InputHmm<TObs, TIn> {
+public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> extends HmmBase<TObs, double[][][], ArrayList<ArrayList<Opdf<TObs>>>, InputObservationTuple<TIn, TObs>> implements InputHmm<TObs, TIn> {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(InputHmmBase.class.getName());
@@ -107,25 +107,41 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
         }
         return a;
     }
+
+    protected static <TObs extends Observation> Opdf<TObs>[][] generatePdfs() {
+        return null;
+    }
     private final HashMap<TIn, Integer> indexRegister = new HashMap<>();
 
     /**
      * Creates a new IHMM. Each state has the same <i>pi</i> value and the
      * transition probabilities are all equal.
      *
-     * @param nbSymbols The (strictly positive) number of input symbols of the
-     * IHMM.
      * @param nbStates The (strictly positive) number of states of the IHMM.
      * @param opdfFactory A pdf generator that is used to build the pdfs
      * associated to each state.
      * @param possibleInput The possible input of that may occur.
      */
-    public InputHmmBase(int nbSymbols, int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory, Iterable<TIn> possibleInput) {
-        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<TObs>>(nbStates));
+    public InputHmmBase(int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory, Iterable<TIn> possibleInput) {
+        super(generatePi(nbStates), generateA(CollectionUtils.size(possibleInput), nbStates), new ArrayList<ArrayList<Opdf<TObs>>>(CollectionUtils.size(possibleInput)));
         for (int i = 0; i < nbStates; i++) {
-            b.add(opdfFactory.factor());
+            //b.add(opdfFactory.factor());
         }
         this.checkConstraints();
+    }
+
+    /**
+     * Creates a new IHMM. Each state has the same <i>pi</i> value and the
+     * transition probabilities are all equal.
+     *
+     * @param nbStates The (strictly positive) number of states of the IHMM.
+     * @param opdfFactory A pdf generator that is used to build the pdfs
+     * associated to each state.
+     * @param classdef Gets the class definition of the input to derive the enum
+     * constants from.
+     */
+    public InputHmmBase(int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory, Class<TIn> classdef) {
+        this(nbStates, opdfFactory, new ListArray<>(classdef.getEnumConstants()));
     }
 
     /**
@@ -142,7 +158,7 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
      * @param possibleInput The possible input that may occur
      */
     public InputHmmBase(double[] pi, double[][][] a, List<? extends Opdf<TObs>> opdfs, Iterable<TIn> possibleInput) {
-        super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
+        super(pi.clone(), cloneA(a), new ArrayList<ArrayList<>>(opdfs));
         this.checkConstraints();
     }
 

@@ -41,4 +41,13 @@ public interface RegularHmm<TObs extends Observation> extends Hmm<TObs, TObs> {
      */
     public abstract void setOpdf(int stateNb, Opdf<TObs> opdf);
 
+    /**
+     * Returns the opdf associated with a given state.
+     *
+     * @param stateNb A state number such that
+     * <code>0 &le; stateNb &lt; nbStates()</code>.
+     * @return The opdf associated to state <code>stateNb</code>.
+     */
+    public abstract Opdf<TObs> getOpdf(int stateNb);
+
 }
