@@ -43,7 +43,7 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
             InputObservationTuple<TInteraction, TObservation> interaction = seqIterator.next();
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int j = 0; j < hmm.nbStates(); j++) {
-                    xi[t][i][j] = a[t][i] * hmm.getAixj(i, interaction.getInput(), j) * hmm.getOpdf(j).probability(interaction.getObservation()) * b[t + 1][j] * pinv;
+                    xi[t][i][j] = a[t][i] * hmm.getAixj(i, interaction.getInput(), j) * hmm.getOpdf(j, interaction.getInput()).probability(interaction.getObservation()) * b[t + 1][j] * pinv;
                 }
             }
         }

@@ -39,7 +39,7 @@ public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt e
             observation = seqIterator.next();
 
             for (int i = 0; i < hmm.nbStates(); i++) {
-                alpha[0][i] = hmm.getPi(i) * hmm.getOpdf(i).probability(observation.getItem2());
+                alpha[0][i] = hmm.getPi(i) * hmm.getOpdf(i, observation.getInput()).probability(observation.getObservation());
             }
 
             for (int t = 0; t < T; t++) {
@@ -50,7 +50,7 @@ public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt e
                     for (int i = 0; i < s; i++) {
                         sum += alpha[t][i] * hmm.getAixj(i, observation.getItem1().value, j);
                     }
-                    alpha[t + 0x01][j] = sum * hmm.getOpdf(j).probability(observation.getItem2());
+                    alpha[t + 0x01][j] = sum * hmm.getOpdf(j, observation.getInput()).probability(observation.getObservation());
                 }
             }
         }
@@ -74,7 +74,7 @@ public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt e
                 observation = oseq.get(t);
                 double sum = 0.0d;
                 for (int j = 0; j < s; j++) {
-                    sum += beta[t][j] * hmm.getAixj(i, observation.getItem1().value, j) * hmm.getOpdf(j).probability(observation.getItem2());
+                    sum += beta[t][j] * hmm.getAixj(i, observation.getItem1().value, j) * hmm.getOpdf(j, observation.getInput()).probability(observation.getObservation());
                 }
                 beta[t - 0x01][i] = sum;
             }
@@ -97,7 +97,7 @@ public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt e
             tmp = beta[0x00];
             InputObservationTuple<TInt, TObs> observation = oseq.get(0x00);
             for (int i = 0; i < n; i++) {
-                probability += hmm.getPi(i) * hmm.getOpdf(i).probability(observation.getItem2()) * tmp[i];
+                probability += hmm.getPi(i) * hmm.getOpdf(i, observation.getInput()).probability(observation.getObservation()) * tmp[i];
             }
         }
         return probability;

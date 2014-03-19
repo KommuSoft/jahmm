@@ -83,7 +83,7 @@ public final class InputForwardBackwardScaledCalculatorBase<TObs extends Observa
             InputObservationTuple<TInt, TObs> observation = seqIterator.next();
 
             for (int i = 0x00; i < s; i++) {
-                alpha[0x00][i] = hmm.getPi(i) * hmm.getOpdf(i).probability(observation.getItem2());
+                alpha[0x00][i] = hmm.getPi(i) * hmm.getOpdf(i, observation.getInput()).probability(observation.getObservation());
             }
 
             ctFactors[0x00] = ProbabilityUtils.scale(alpha[0x00]);
@@ -96,7 +96,7 @@ public final class InputForwardBackwardScaledCalculatorBase<TObs extends Observa
                     for (int j = 0; j < s; j++) {
                         sum += alpha[t - 1][j] * hmm.getAixj(j, observation.getItem1().value, i);
                     }
-                    alpha[t][i] = sum * hmm.getOpdf(i).probability(observation.getItem2());
+                    alpha[t][i] = sum * hmm.getOpdf(i, observation.getInput()).probability(observation.getObservation());
                 }
                 ctFactors[t] = ProbabilityUtils.scale(alpha[t]);
             }
@@ -119,7 +119,7 @@ public final class InputForwardBackwardScaledCalculatorBase<TObs extends Observa
             for (int i = 0; i < s; i++) {
                 double sum = 0.;
                 for (int j = 0; j < s; j++) {
-                    sum += beta[t + 1][j] * hmm.getAixj(i, observation.getItem1().value, j) * hmm.getOpdf(j).probability(observation.getItem2());
+                    sum += beta[t + 1][j] * hmm.getAixj(i, observation.getItem1().value, j) * hmm.getOpdf(j, observation.getInput()).probability(observation.getObservation());
                 }
                 beta[t][i] = sum;
                 beta[t][i] /= ctFactors[t];

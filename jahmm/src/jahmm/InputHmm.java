@@ -155,4 +155,26 @@ public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> exten
      */
     public abstract Opdf<TObs> getOpdf(int stateNb, int inputNb);
 
+    /**
+     * Returns the opdf associated with a given state.
+     *
+     * @param stateNb A state number such that
+     * <code>0 &le; stateNb &lt; nbStates()</code>.
+     * @param inputNb An input number such that
+     * <code>0 &le; inputNb &lt; nbInputs()</code>
+     * @return The opdf associated to state <code>stateNb</code>.
+     */
+    public abstract Opdf<TObs> getOpdf(int stateNb, TIn inputNb);
+
+    /**
+     * Returns the opdf associated with a given state.
+     *
+     * @param stateNb A state number such that
+     * <code>0 &le; stateNb &lt; nbStates()</code>.
+     * @param inputNb An input number such that
+     * <code>0 &le; inputNb &lt; nbInputs()</code>
+     * @return The opdf associated to state <code>stateNb</code>.
+     */
+    public abstract Opdf<TObs> getOpdf(int stateNb, Tagable<TIn> inputNb);
+
 }
