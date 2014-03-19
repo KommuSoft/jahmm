@@ -5,7 +5,7 @@ import jahmm.observables.Observation;
 import jutils.Tagable;
 
 /**
- * An interface describing a Input Hidden Markov Model as formulated by Falko
+ * An interface describing an Input Hidden Markov Model as formulated by Falko
  * Bause. Falko Bause defines in "Input Output Hidden Markov Models: for the
  * Aggregation of Performance Models" an Input Hidden Markov Model: a Markov
  * Model where in each state the next state and the observation depends on an

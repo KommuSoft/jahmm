@@ -3,8 +3,8 @@ package jahmm;
 import junit.framework.Assert;
 import jutils.probability.ProbabilityUtils;
 import jutils.testing.AssertExtensions;
+import static org.junit.Assert.fail;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import utils.TestParameters;
 
 /**
@@ -24,7 +24,7 @@ public class HmmBaseTest {
         try {
             HmmBase.generatePi(0x00);
             fail("Should throw an exception.");
-        } catch (Throwable t) {
+        } catch (IllegalArgumentException t) {
         }
     }
 
@@ -36,7 +36,7 @@ public class HmmBaseTest {
         try {
             HmmBase.generatePi(-0x01);
             fail("Should throw an exception.");
-        } catch (Throwable t) {
+        } catch (IllegalArgumentException t) {
         }
     }
 
@@ -48,7 +48,7 @@ public class HmmBaseTest {
         try {
             HmmBase.generatePi(-Integer.MIN_VALUE);
             fail("Should throw an exception.");
-        } catch (Throwable t) {
+        } catch (IllegalArgumentException t) {
         }
     }
 

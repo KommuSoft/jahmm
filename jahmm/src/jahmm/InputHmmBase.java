@@ -23,25 +23,11 @@ import jutils.collections.CollectionUtils;
 import jutlis.lists.ListArray;
 
 /**
- * Main Input-Hmm class; it implements an Hidden Markov Model with an input
- * layer. An IHMM is composed of:
- * <ul>
- * <li><i>states</i>: each state has a given probability of being initial
- * (<i>pi</i>) and an associated observation probability function (<i>opdf</i>).
- * Each state is associated to an index; the first state is numbered 0, the last
- * n-1 (where n is the number of states in the HMM); this number is given as an
- * argument to the various functions to refer to the matching state. </li>
- * <li><i>transition probabilities</i>: that is, the probability of going from
- * state <i>i</i> to state <i>j</i> (<i>a<sub>i,j</sub></i>).</li>
- * <li><i>inputs</i>: a sequence of inputs.</li>
- * </ul>
- * <p>
- * Important objects extensively used with HMMs are {@link Observation
- * Observation}s, observation sequences and set of observation sequences. An
- * observation sequence is simply a {@link List List} of
- * {@link Observation Observation}s (in the right order, the i-th element of the
- * vector being the i-th element of the sequence). A set of observation
- * sequences is a {@link java.util.List List} of such sequences.
+ * An implementation of an Input Hidden Markov Model as formulated by Falko
+ * Bause. Falko Bause defines in "Input Output Hidden Markov Models: for the
+ * Aggregation of Performance Models" an Input Hidden Markov Model: a Markov
+ * Model where in each state the next state and the observation depends on an
+ * input from a finite domain.
  *
  * @param <TIn> The type of input of the InputHmm.
  * @param <TObs> The type of observations of the InputHmm.
@@ -53,15 +39,50 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(InputHmmBase.class.getName());
 
-    protected static double[][][] cloneA(double[][][] a) {
+    /**
+     * Generates a clone of the given A-matrix.
+     *
+     * @param a The original A-matrix to make a clone from.
+     * @return A new A-matrix that contains all the elements of the original
+     * A-matrix.
+     * @throws IllegalArgumentException If the given matrix is not effective.
+     * @throws IllegalArgumentException If one of the rows of the given matrix
+     * is not effective.
+     * @throws IllegalArgumentException If the matrix contains no rows.
+     * @throws IllegalArgumentException If the matrix contains no columns.
+     * @throws IllegalArgumentException If some of the rows of the given matrix
+     * have a different length.
+     * @throws IllegalArgumentException If the matrix is not square (the number
+     * of elements in each column is not equal to the number of rows).
+     */
+    protected static double[][][] cloneA(double[][][] a) throws IllegalArgumentException {
+        if (a != null) {
+            throw new IllegalArgumentException("'A' is not effective.");
+        }
         int n = a.length;
+        if (a.length <= 0x00) {
+            throw new IllegalArgumentException("'A' must contain at least one row.");
+        }
         int m = a[0x00].length;
-        double[][][] clone = new double[n][][];
+        if (m <= 0x00) {
+            throw new IllegalArgumentException("'A' must contain at least one column.");
+        }
+        double[][][] clone = new double[n][m][];
+        double[][] row;
+        double[] column;
         for (int i = 0; i < n; i++) {
+            row = a[i];
+            if (row == null) {
+                throw new IllegalArgumentException("All rows of 'A' must be effective.");
+            }
             if (a[i].length != m) {
                 throw new IllegalArgumentException("'A' is not a consistent matrix.");
             }
             for (int j = 0; j < m; j++) {
+                column = row[j];
+                if (column != null) {
+                    throw new IllegalArgumentException("'A' contains a column that is not effective.");
+                }
                 if (a[i][j].length != n) {
                     throw new IllegalArgumentException("'A' is not a square matrix.");
                 }
