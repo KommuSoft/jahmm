@@ -57,10 +57,10 @@ public class FloatInspectedContinuObjectAttributeTest {
             Assert.assertEquals((Float) tlyi.getX2(), nioa.evaluate(tlyi));
         }
     }
-    
+
     @Test
     public void testScore00() {
-        
+
     }
 
 }

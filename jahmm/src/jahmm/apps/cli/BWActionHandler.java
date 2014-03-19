@@ -12,8 +12,8 @@ import jahmm.io.HmmReader;
 import jahmm.io.HmmWriter;
 import jahmm.io.OpdfReader;
 import jahmm.io.OpdfWriter;
-import jahmm.learn.BaumWelchLearner;
-import jahmm.learn.BaumWelchScaledLearner;
+import jahmm.learn.RegularBaumWelchLearnerBase;
+import jahmm.learn.RegularBaumWelchScaledLearnerBase;
 import jahmm.observables.CentroidFactory;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
@@ -26,23 +26,18 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Applies the Baum-Welch learning algorithm.
  */
-class BWActionHandler
-        extends ActionHandler {
+class BWActionHandler extends ActionHandler {
+
+    private static final Logger LOG = Logger.getLogger(BWActionHandler.class.getName());
 
     @Override
-    public void act()
-            throws IOException, FileFormatException,
-            AbnormalTerminationException {
-        EnumSet<Arguments> args = EnumSet.of(
-                Arguments.OPDF,
-                Arguments.OUT_HMM,
-                Arguments.IN_HMM,
-                Arguments.IN_SEQ,
-                Arguments.NB_ITERATIONS);
+    public void act() throws IOException, FileFormatException, AbnormalTerminationException {
+        EnumSet<Arguments> args = EnumSet.of(Arguments.OPDF, Arguments.OUT_HMM, Arguments.IN_HMM, Arguments.IN_SEQ, Arguments.NB_ITERATIONS);
         CommandLineArguments.checkArgs(args);
 
         int nbIterations = Arguments.NB_ITERATIONS.getAsInt();
@@ -53,25 +48,21 @@ class BWActionHandler
         Reader hmmReader = new InputStreamReader(hmmStream, Cli.CHARSET);
         Reader seqReader = new InputStreamReader(seqStream, Cli.CHARSET);
 
-        learn(Types.relatedObjs(), hmmReader, seqReader, hmmWriter,
-                nbIterations);
+        learn(Types.relatedObjs(), hmmReader, seqReader, hmmWriter, nbIterations);
 
         hmmWriter.flush();
     }
 
-    private <O extends Observation & CentroidFactory<O>> void
-            learn(RelatedObjs<O> relatedObjs, Reader hmmFileReader,
-                    Reader seqFileReader, Writer hmmFileWriter,
-                    int nbIterations)
-            throws IOException, FileFormatException {
+    private <O extends Observation & CentroidFactory<O>> void learn(RelatedObjs<O> relatedObjs, Reader hmmFileReader, Reader seqFileReader, Writer hmmFileWriter, int nbIterations) throws IOException, FileFormatException {
         List<List<O>> seqs = relatedObjs.readSequences(seqFileReader);
         OpdfReader<? extends Opdf<O>> opdfReader = relatedObjs.opdfReader();
         OpdfWriter<? extends Opdf<O>> opdfWriter = relatedObjs.opdfWriter();
 
         RegularHmmBase<O> initHmm = HmmReader.read(hmmFileReader, opdfReader);
-        BaumWelchLearner bw = new BaumWelchScaledLearner();
+        RegularBaumWelchLearnerBase<O> bw = new RegularBaumWelchScaledLearnerBase<>();
         bw.setNbIterations(nbIterations);
         RegularHmm<O> hmm = bw.learn(initHmm, seqs);
         HmmWriter.write(hmmFileWriter, opdfWriter, hmm);
     }
+
 }

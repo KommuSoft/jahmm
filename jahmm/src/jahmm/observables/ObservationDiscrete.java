@@ -5,6 +5,7 @@
 package jahmm.observables;
 
 import java.text.NumberFormat;
+import jutils.Tagable;
 
 /**
  * This class implements observations whose values are taken out of a finite set
@@ -12,7 +13,7 @@ import java.text.NumberFormat;
  *
  * @param <E>
  */
-public final class ObservationDiscrete<E extends Enum<E>> extends ObservationBase {
+public final class ObservationDiscrete<E extends Enum<E>> extends ObservationBase implements Tagable<E> {
 
     /**
      * This observation value.
@@ -35,5 +36,10 @@ public final class ObservationDiscrete<E extends Enum<E>> extends ObservationBas
     @Override
     public String toString(NumberFormat nf) {
         return toString();
+    }
+
+    @Override
+    public E getTag() {
+        return this.value;
     }
 }

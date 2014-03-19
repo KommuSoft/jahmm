@@ -34,7 +34,7 @@ package jahmm.apps.sample;
 import jahmm.RegularHmm;
 import jahmm.RegularHmmBase;
 import jahmm.draw.InvariantHmmDotDrawer;
-import jahmm.learn.BaumWelchLearner;
+import jahmm.learn.RegularBaumWelchLearnerBase;
 import jahmm.observables.Observation;
 import jahmm.observables.ObservationDiscrete;
 import jahmm.observables.OpdfDiscrete;
@@ -79,7 +79,7 @@ public class SimpleExample {
         System.out.println(CollectionUtils.deepToString(sequences));
 
         /* Baum-Welch learning */
-        BaumWelchLearner bwl = new BaumWelchLearner();
+        RegularBaumWelchLearnerBase<ObservationDiscrete<Packet>> bwl = new RegularBaumWelchLearnerBase<>();
 
         RegularHmm<ObservationDiscrete<Packet>> learntHmm = buildInitHmm();
 

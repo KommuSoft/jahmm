@@ -131,13 +131,13 @@ public class DecisionTreeUtilsTest {
             double expected = DecisionTreeUtils.calculateEntropy2p(probs);
             double result = DecisionTreeUtils.calculateEntropy(data);
             AssertExtensions.assertEquals(expected, result);
-            if(N != 0x00) {
-                expected = N*(MathUtils.LOG2*DecisionTreeUtils.calculateEntropy2p(probs)-Math.log(N));
+            if (N != 0x00) {
+                expected = N * (MathUtils.LOG2 * DecisionTreeUtils.calculateEntropy2p(probs) - Math.log(N));
             }
             result = DecisionTreeUtils.calculateRawEntropy(data);
             AssertExtensions.assertEquals(expected, result);
             HolderBase<Integer> hb = new HolderBase<>();
-            result = DecisionTreeUtils.calculateRawEntropy(data,hb);
+            result = DecisionTreeUtils.calculateRawEntropy(data, hb);
             AssertExtensions.assertEquals(expected, result);
             AssertExtensions.assertEquals(N, hb.getData());
         }
@@ -193,45 +193,45 @@ public class DecisionTreeUtilsTest {
                 probs[i] = (double) counters[i] / N;
             }
             double expected = 0.0d;
-            if(N != 0x00) {
-                expected = N*(MathUtils.LOG2*DecisionTreeUtils.calculateEntropy2p(probs)-Math.log(N));
+            if (N != 0x00) {
+                expected = N * (MathUtils.LOG2 * DecisionTreeUtils.calculateEntropy2p(probs) - Math.log(N));
             }
             double result = DecisionTreeUtils.calculateRawEntropy(data, null);
             AssertExtensions.assertEquals(expected, result);
         }
     }
-    
+
     @Test
-    public void testCalculateEntropy2p () {
-        for(int t = 0x03; t < TestParameters.NUMBER_OF_TESTS; t++) {
-            double p = 1.0d/t;
-            double[] pis = new double[t-0x01];
-            double expected = -Math.log(p)/Math.log(2.0d);
-            for(int i = 0x00; i < pis.length; i++) {
+    public void testCalculateEntropy2p() {
+        for (int t = 0x03; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            double p = 1.0d / t;
+            double[] pis = new double[t - 0x01];
+            double expected = -Math.log(p) / Math.log(2.0d);
+            for (int i = 0x00; i < pis.length; i++) {
                 pis[i] = p;
             }
             AssertExtensions.assertEquals(expected, DecisionTreeUtils.calculateEntropy2p(pis));
             pis = new double[t];
-            for(int i = 0x00; i < pis.length; i++) {
+            for (int i = 0x00; i < pis.length; i++) {
                 pis[i] = p;
             }
             AssertExtensions.assertEquals(expected, DecisionTreeUtils.calculateEntropy2p(pis));
             AssertExtensions.pushEpsilon(1e-04d);
-            p *= 1.0d+1e-06d;
-            for(int i = 0x00; i < pis.length; i++) {
+            p *= 1.0d + 1e-06d;
+            for (int i = 0x00; i < pis.length; i++) {
                 pis[i] = p;
             }
             AssertExtensions.assertEquals(expected, DecisionTreeUtils.calculateEntropy2p(pis));
-            expected = -Math.log(p)/Math.log(2.0d);
+            expected = -Math.log(p) / Math.log(2.0d);
             pis = new double[t];
-            for(int i = 0x00; i < pis.length; i++) {
+            for (int i = 0x00; i < pis.length; i++) {
                 pis[i] = p;
             }
             AssertExtensions.assertEquals(expected, DecisionTreeUtils.calculateEntropy2p(pis));
             AssertExtensions.popEpsilon();
         }
         AssertExtensions.pushEpsilon(1e-04d);
-        AssertExtensions.assertEquals(0.0d, DecisionTreeUtils.calculateEntropy2p(-1e-04d,-1e-04d));
+        AssertExtensions.assertEquals(0.0d, DecisionTreeUtils.calculateEntropy2p(-1e-04d, -1e-04d));
         AssertExtensions.popEpsilon();
     }
 
@@ -248,7 +248,7 @@ public class DecisionTreeUtilsTest {
         split = DecisionTreeUtils.calculateInformationGainFlipIndex(tids, target, total_informationGain);
         Assert.assertEquals(0x04, split);
         Assert.assertEquals(0x06, (int) total_entropy.getItem1());
-        AssertExtensions.assertEquals(DecisionTreeUtils.calculateInformationGain(4.0d/6.0d, 1.0d, 0.0d), total_informationGain.getItem2());
+        AssertExtensions.assertEquals(DecisionTreeUtils.calculateInformationGain(4.0d / 6.0d, 1.0d, 0.0d), total_informationGain.getItem2());
         split = DecisionTreeUtils.calculateInformationGainFlipIndex(tids, target, null);
         Assert.assertEquals(0x04, split);
     }
@@ -316,7 +316,7 @@ public class DecisionTreeUtilsTest {
             int sum = 0;
             boolean valid = true;
             for (int i = 0x00; i < cnts.length; i++) {
-                if(cnts[i] == 0x00) {
+                if (cnts[i] == 0x00) {
                     valid = false;
                     break;
                 }

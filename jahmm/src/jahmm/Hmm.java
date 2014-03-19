@@ -53,15 +53,6 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
     public abstract double getAij(int i, int j);
 
     /**
-     * Returns the opdf associated with a given state.
-     *
-     * @param stateNb A state number such that
-     * <code>0 &le; stateNb &lt; nbStates()</code>.
-     * @return The opdf associated to state <code>stateNb</code>.
-     */
-    public abstract Opdf<TObs> getOpdf(int stateNb);
-
-    /**
      * Returns the <i>pi</i> value associated with a given state.
      *
      * @param stateNb A state number such that
@@ -165,6 +156,6 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      * @param value The <i>pi</i> value to associate to state number
      * <code>stateNb</code>
      */
-    void setPi(int stateNb, double value);
+    public abstract void setPi(int stateNb, double value);
 
 }

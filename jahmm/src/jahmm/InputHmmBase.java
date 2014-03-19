@@ -14,53 +14,79 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import jutils.ArrayUtils;
+import jutils.Tagable;
 import jutils.collections.CollectionUtils;
 import jutlis.lists.ListArray;
 
 /**
- * Main Input-Hmm class; it implements an Hidden Markov Model with an input
- * layer. An IHMM is composed of:
- * <ul>
- * <li><i>states</i>: each state has a given probability of being initial
- * (<i>pi</i>) and an associated observation probability function (<i>opdf</i>).
- * Each state is associated to an index; the first state is numbered 0, the last
- * n-1 (where n is the number of states in the HMM); this number is given as an
- * argument to the various functions to refer to the matching state. </li>
- * <li><i>transition probabilities</i>: that is, the probability of going from
- * state <i>i</i> to state <i>j</i> (<i>a<sub>i,j</sub></i>).</li>
- * <li><i>inputs</i>: a sequence of inputs.</li>
- * </ul>
- * <p>
- * Important objects extensively used with HMMs are {@link Observation
- * Observation}s, observation sequences and set of observation sequences. An
- * observation sequence is simply a {@link List List} of
- * {@link Observation Observation}s (in the right order, the i-th element of the
- * vector being the i-th element of the sequence). A set of observation
- * sequences is a {@link java.util.List List} of such sequences.
+ * An implementation of an Input Hidden Markov Model as formulated by Falko
+ * Bause. Falko Bause defines in "Input Output Hidden Markov Models: for the
+ * Aggregation of Performance Models" an Input Hidden Markov Model: a Markov
+ * Model where in each state the next state and the observation depends on an
+ * input from a finite domain.
  *
  * @param <TIn> The type of input of the InputHmm.
  * @param <TObs> The type of observations of the InputHmm.
  * @note The A matrix has the following structure: A_{i,j,k} means the
  * probability of moving from state i to j given input k.
  */
-public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> extends HmmBase<TObs, double[][][], ArrayList<Opdf<TObs>>, InputObservationTuple<TIn, TObs>> implements InputHmm<TObs, TIn> {
+public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> extends HmmBase<TObs, double[][][], Object[][], InputObservationTuple<TIn, TObs>> implements InputHmm<TObs, TIn> {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(InputHmmBase.class.getName());
 
-    protected static double[][][] cloneA(double[][][] a) {
+    /**
+     * Generates a clone of the given A-matrix.
+     *
+     * @param a The original A-matrix to make a clone from.
+     * @return A new A-matrix that contains all the elements of the original
+     * A-matrix.
+     * @throws IllegalArgumentException If the given matrix is not effective.
+     * @throws IllegalArgumentException If one of the rows of the given matrix
+     * is not effective.
+     * @throws IllegalArgumentException If the matrix contains no rows.
+     * @throws IllegalArgumentException If the matrix contains no columns.
+     * @throws IllegalArgumentException If some of the rows of the given matrix
+     * have a different length.
+     * @throws IllegalArgumentException If the matrix is not square (the number
+     * of elements in each column is not equal to the number of rows).
+     */
+    protected static double[][][] cloneA(double[][][] a) throws IllegalArgumentException {
+        if (a == null) {
+            throw new IllegalArgumentException("'A' is not effective.");
+        }
         int n = a.length;
+        if (a.length <= 0x00) {
+            throw new IllegalArgumentException("'A' must contain at least one row.");
+        }
+        double[][] row = a[0x00];
+        if (row == null) {
+            throw new IllegalArgumentException("All rows of 'A' must be effective.");
+        }
         int m = a[0x00].length;
-        double[][][] clone = new double[n][][];
+        if (m <= 0x00) {
+            throw new IllegalArgumentException("'A' must contain at least one column.");
+        }
+        double[][][] clone = new double[n][m][];
+        double[] column;
         for (int i = 0; i < n; i++) {
+            row = a[i];
+            if (row == null) {
+                throw new IllegalArgumentException("All rows of 'A' must be effective.");
+            }
             if (a[i].length != m) {
                 throw new IllegalArgumentException("'A' is not a consistent matrix.");
             }
             for (int j = 0; j < m; j++) {
+                column = row[j];
+                if (column == null) {
+                    throw new IllegalArgumentException("'A' contains a column that is not effective.");
+                }
                 if (a[i][j].length != n) {
                     throw new IllegalArgumentException("'A' is not a square matrix.");
                 }
@@ -82,24 +108,80 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
         }
         return a;
     }
+
+    protected static <TObs extends Observation> Object[][] generateB(int nbStates, int nbSymbols, OpdfFactory<? extends Opdf<TObs>> opdfFactory) {
+        Object[][] b = new Object[nbStates][nbSymbols];
+        for (int i = 0x00; i < nbStates; i++) {
+            for (int j = 0x00; j < nbSymbols; j++) {
+                b[i][j] = opdfFactory.factor();
+            }
+        }
+        return b;
+    }
+
+    protected static <TObs extends Observation> Object[][] generateB(int nbStates, int nbSymbols, Iterable<? extends Opdf<TObs>> opdfs) throws CloneNotSupportedException {
+        Object[][] b = new Object[nbStates][nbSymbols];
+        Iterator<? extends Opdf<TObs>> opdfsi = opdfs.iterator();
+        for (int i = 0x00; i < nbStates && opdfsi.hasNext(); i++) {
+            Opdf<TObs> opdf = opdfsi.next();
+            for (int j = 0x00; j < nbSymbols; j++) {
+                b[i][j] = opdf.clone();
+            }
+        }
+        return b;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected static <TObs extends Observation> Object[][] cloneB(Object[][] original) throws CloneNotSupportedException {
+        int m = original.length;
+        int n = original[0x00].length;
+        Object[][] b = new Object[m][n];
+        for (int i = 0x00; i < m; i++) {
+            for (int j = 0x00; j < n; j++) {
+                b[i][j] = ((Opdf<TObs>) original[i][j]).clone();
+            }
+        }
+        return b;
+
+    }
+
     private final HashMap<TIn, Integer> indexRegister = new HashMap<>();
 
     /**
      * Creates a new IHMM. Each state has the same <i>pi</i> value and the
      * transition probabilities are all equal.
      *
-     * @param nbSymbols The (strictly positive) number of input symbols of the
-     * IHMM.
      * @param nbStates The (strictly positive) number of states of the IHMM.
      * @param opdfFactory A pdf generator that is used to build the pdfs
      * associated to each state.
      * @param possibleInput The possible input of that may occur.
      */
-    public InputHmmBase(int nbSymbols, int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory, Iterable<TIn> possibleInput) {
-        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<TObs>>(nbStates));
-        for (int i = 0; i < nbStates; i++) {
-            b.add(opdfFactory.factor());
-        }
+    public InputHmmBase(int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory, Iterable<TIn> possibleInput) {
+        super(generatePi(nbStates), generateA(CollectionUtils.size(possibleInput), nbStates), generateB(nbStates, CollectionUtils.size(possibleInput), opdfFactory));
+        this.checkConstraints();
+    }
+
+    /**
+     * Creates a new IHMM. Each state has the same <i>pi</i> value and the
+     * transition probabilities are all equal.
+     *
+     * @param nbStates The (strictly positive) number of states of the IHMM.
+     * @param opdfFactory A pdf generator that is used to build the pdfs
+     * associated to each state.
+     * @param classdef Gets the class definition of the input to derive the enum
+     * constants from.
+     */
+    public InputHmmBase(int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory, Class<TIn> classdef) {
+        this(nbStates, opdfFactory, new ListArray<>(classdef.getEnumConstants()));
+    }
+
+    @SuppressWarnings("unchecked")
+    public InputHmmBase(int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory, TIn... possibleInputs) {
+        this(nbStates, opdfFactory, new ListArray<>(possibleInputs));
+    }
+
+    public InputHmmBase(double[] pi, double[][][] a, Iterable<? extends Opdf<TObs>> opdfs, Iterable<TIn> possibleInput) throws CloneNotSupportedException {
+        super(pi.clone(), cloneA(a), generateB(a.length, CollectionUtils.size(possibleInput), opdfs));
         this.checkConstraints();
     }
 
@@ -115,27 +197,10 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
      * the observation distribution associated with state <code>i</code>. The
      * distributions are not copied.
      * @param possibleInput The possible input that may occur
+     * @throws java.lang.CloneNotSupportedException
      */
-    public InputHmmBase(double[] pi, double[][][] a, List<? extends Opdf<TObs>> opdfs, Iterable<TIn> possibleInput) {
-        super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
-        this.checkConstraints();
-    }
-
-    /**
-     * Creates a new IHMM. All the HMM parameters are given as arguments.
-     *
-     * @param pi The initial probability values.  <code>pi[i]</code> is the
-     * initial probability of state <code>i</code>. This array is copied.
-     * @param a The state transition probability array. <code>a[i][j][k]</code>
-     * is the probability of going from state <code>k</code> given input symbol
-     * <code>j</code> to state <code>j</code>. This array is copied.
-     * @param opdfs The observation distributions.  <code>opdfs.get(i)</code> is
-     * the observation distribution associated with state <code>i</code>. The
-     * distributions are not copied.
-     * @param possibleInput The possible input that may occur
-     */
-    protected InputHmmBase(double[] pi, double[][][] a, List<? extends Opdf<TObs>> opdfs, Map<TIn, Integer> possibleInput) {
-        super(pi.clone(), cloneA(a), new ArrayList<>(opdfs));
+    protected InputHmmBase(double[] pi, double[][][] a, Object[][] opdfs, Map<TIn, Integer> possibleInput) throws CloneNotSupportedException {
+        super(pi.clone(), cloneA(a), cloneB(opdfs));
         this.checkConstraints();
         CollectionUtils.putAll(this.indexRegister, possibleInput);
     }
@@ -150,15 +215,12 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
      * @param possibleInput The possible input that may occur
      */
     protected InputHmmBase(int nbSymbols, int nbStates, Iterable<TIn> possibleInput) {
-        super(generatePi(nbStates), generateA(nbSymbols, nbStates), new ArrayList<Opdf<TObs>>(nbStates));
-        for (int i = 0; i < nbStates; i++) {
-            this.b.add(null);
-        }
+        super(generatePi(nbStates), generateA(nbSymbols, nbStates), generateB(nbStates, nbSymbols, (OpdfFactory<? extends Opdf<TObs>>) null));
         this.checkConstraints();
     }
 
     private void checkConstraints() {
-        if (a.length == 0 || pi.length != a.length || b.size() != a.length) {
+        if (a.length == 0 || pi.length != a.length || b.length != a.length || b[0x00].length != a[0x00].length) {
             throw new IllegalArgumentException("Wrong dimensions");
         }
     }
@@ -170,6 +232,10 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
             this.indexRegister.put(obs, i);
             i++;
         }
+    }
+
+    public Map<TIn, Integer> getIndexRegister() {
+        return Collections.unmodifiableMap(this.indexRegister);
     }
 
     /**
@@ -187,6 +253,7 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
      *
      * @return The number of symbols of this IHMM.
      */
+    @Override
     public int nbSymbols() {
         return a[0x00].length;
     }
@@ -299,8 +366,9 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
     }
 
     @Override
-    public Opdf<TObs> getOpdf(int stateNb) {
-        return this.b.get(stateNb);
+    @SuppressWarnings("unchecked")
+    public Opdf<TObs> getOpdf(int stateNb, int symbolNb) {
+        return (Opdf<TObs>) this.b[stateNb][symbolNb];
     }
 
     @Override
@@ -414,7 +482,47 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
 
     @Override
     public double getAixj(int i, TIn x, int j) {
-        return this.a[i][getInputIndex(x)][j];
+        return this.getAixj(i, this.getInputIndex(x), j);
+    }
+
+    @Override
+    public double getAixj(int i, Tagable<TIn> x, int j) {
+        return this.getAixj(i, this.getInputIndex(x), j);
+    }
+
+    @Override
+    public int getInputIndex(Tagable<TIn> input) {
+        return this.getInputIndex(input.getTag());
+    }
+
+    @Override
+    public double getAixj(int i, int x, int j) {
+        return this.a[i][x][j];
+    }
+
+    @Override
+    public void setAixj(int i, TIn x, int j, double aixj) {
+        this.setAixj(i, this.getInputIndex(x), j, aixj);
+    }
+
+    @Override
+    public void setAixj(int i, int x, int j, double aixj) {
+        this.a[i][x][j] = aixj;
+    }
+
+    @Override
+    public void setAixj(int i, Tagable<TIn> x, int j, double aixj) {
+        this.setAixj(i, this.getInputIndex(x), j, aixj);
+    }
+
+    @Override
+    public Opdf<TObs> getOpdf(int stateNb, TIn inputNb) {
+        return this.getOpdf(stateNb, this.getInputIndex(inputNb));
+    }
+
+    @Override
+    public Opdf<TObs> getOpdf(int stateNb, Tagable<TIn> inputNb) {
+        return this.getOpdf(stateNb, this.getInputIndex(inputNb.getTag()));
     }
 
 }
