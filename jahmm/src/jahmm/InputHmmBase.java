@@ -192,6 +192,7 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
      * the observation distribution associated with state <code>i</code>. The
      * distributions are not copied.
      * @param possibleInput The possible input that may occur
+     * @throws java.lang.CloneNotSupportedException
      */
     protected InputHmmBase(double[] pi, double[][][] a, Object[][] opdfs, Map<TIn, Integer> possibleInput) throws CloneNotSupportedException {
         super(pi.clone(), cloneA(a), cloneB(opdfs));
@@ -243,6 +244,7 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
      *
      * @return The number of symbols of this IHMM.
      */
+    @Override
     public int nbSymbols() {
         return a[0x00].length;
     }
@@ -477,11 +479,6 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
     @Override
     public double getAixj(int i, Tagable<TIn> x, int j) {
         return this.getAixj(i, this.getInputIndex(x), j);
-    }
-
-    @Override
-    public int nbInputs() {
-        return this.indexRegister.size();
     }
 
     @Override

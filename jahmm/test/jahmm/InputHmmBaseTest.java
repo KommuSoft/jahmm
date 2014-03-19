@@ -148,7 +148,6 @@ public class InputHmmBaseTest {
         InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(TrisEnum.class), TrisEnum.class);
         Assert.assertEquals(N, hmm.nbStates());
         Assert.assertEquals(M, hmm.nbSymbols());
-        Assert.assertEquals(M, hmm.nbInputs());
         for (int i = 0x00; i < N; i++) {
             for (int j = 0x00; j < M; j++) {
                 for (int k = 0x00; k < N; k++) {
@@ -322,14 +321,6 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testGetAixj_3args_2() {
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of nbInputs method, of class InputHmmBase.
-     */
-    @Test
-    public void testNbInputs() {
         fail("The test case is a prototype.");
     }
 

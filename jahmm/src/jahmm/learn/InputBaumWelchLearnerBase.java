@@ -52,12 +52,12 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
 
     @Override
     protected double[][] createADenominator(InputHmm<TObservation, TInteraction> hmm) {
-        return new double[hmm.nbStates()][hmm.nbInputs()];
+        return new double[hmm.nbStates()][hmm.nbSymbols()];
     }
 
     @Override
     protected double[][][] createANumerator(InputHmm<TObservation, TInteraction> hmm) {
-        return new double[hmm.nbStates()][hmm.nbInputs()][hmm.nbStates()];
+        return new double[hmm.nbStates()][hmm.nbSymbols()][hmm.nbStates()];
     }
 
     @Override
@@ -80,7 +80,7 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
     @Override
     protected void setAValues(InputHmm<TObservation, TInteraction> hmm, double[][][] aijNum, double[][] aijDen) {
         int N = hmm.nbStates();
-        int M = hmm.nbInputs();
+        int M = hmm.nbSymbols();
         for (int i = 0; i < N; i++) {
             for (int k = 0; k < M; k++) {
                 if (aijDen[i][k] > 0.) { // State i is reachable given k

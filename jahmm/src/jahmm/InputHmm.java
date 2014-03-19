@@ -142,7 +142,7 @@ public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> exten
      *
      * @return The number of input symbols.
      */
-    public abstract int nbInputs();
+    public abstract int nbSymbols();
 
     /**
      * Returns the opdf associated with a given state.
