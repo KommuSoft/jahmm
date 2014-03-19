@@ -115,8 +115,8 @@ public class InputHmmBaseTest {
     @Test
     public void testCloneA07() {
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
-            int N = 0x01 + ProbabilityUtils.nextInt(TestParameters.TEST_SIZE);
-            int M = 0x01 + ProbabilityUtils.nextInt(TestParameters.TEST_SIZE);
+            int N = 0x01 + ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL);
+            int M = 0x01 + ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL);
             double[][][] vals = new double[N][M][N];
             for (int i = 0x00; i < N; i++) {
                 for (int j = 0x00; j < M; j++) {
