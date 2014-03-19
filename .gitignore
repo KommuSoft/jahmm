@@ -1,6 +1,7 @@
 #Temporaries
 *~
 *.*~*
+*.swp
 #Results
 *.dot
 #Private to project

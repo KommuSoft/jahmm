@@ -424,7 +424,7 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
     }
 
     @Override
-    public int nbInput() {
+    public int nbInputs() {
         return this.indexRegister.size();
     }
 

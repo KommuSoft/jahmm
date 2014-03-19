@@ -5,6 +5,11 @@ import jahmm.observables.Observation;
 import jutils.Tagable;
 
 /**
+ * An interface describing a Input Hidden Markov Model as formulated by Falko
+ * Bause. Falko Bause defines in "Input Output Hidden Markov Models: for the
+ * Aggregation of Performance Models" an Input Hidden Markov Model: a Markov
+ * Model where in each state the next state and the observation depends on an
+ * input from a finite domain.
  *
  * @author kommusoft
  * @param <TIn> The type of input of the InputHmm.
@@ -12,14 +17,51 @@ import jutils.Tagable;
  */
 public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> extends Hmm<TObs, InputObservationTuple<TIn, TObs>> {
 
+    /**
+     * Split the original given input into a list of new (expected) set of
+     * input. The probability values associated with the new inputs are
+     * considered to be equal to the original input.
+     *
+     * @param originalIn The original given input.
+     * @param newIns The new (expected) inputs.
+     * @throws IllegalArgumentException If the given original input is not
+     * effective or not registered in the Hidden Markov Model.
+     * @throws IllegalArgumentException If the given new inputs are not
+     * effective or already registered.
+     */
     public abstract void splitInput(final TIn originalIn, final TIn... newIns) throws IllegalArgumentException;
 
+    /**
+     * Merges the given list of original inputs into a new (expected) input. The
+     * probability values associated with the given list of the original inputs
+     * are used to calculate averages that are used by the new input.
+     *
+     * @param newIn The new (expected) input to be registered.
+     * @param originalIns The original inputs to merge.
+     * @throws IllegalArgumentException If the given new input is already
+     * registered or not effective.
+     * @throws IllegalArgumentException If the given list of original inputs is
+     * not effective or one of the original inputs is not effective or not
+     * registered.
+     */
     public abstract void mergeInput(final TIn newIn, final TIn... originalIns) throws IllegalArgumentException;
 
-    //public abstract void resetInput(final Iterable<TIn> inputs);
-    //public abstract void resetInput(final Class<TIn> enumClass);
+    /**
+     * Gets the index associated with the given input.
+     *
+     * @param input The given input.
+     * @return The index associated with the given input.
+     */
     public abstract int getInputIndex(TIn input);
 
+    /**
+     * Gets the index associated with the input stored in the tag of the given
+     * input.
+     *
+     * @param input The given input.
+     * @return The index associated with the input stored in the tag of the
+     * given input.
+     */
     public abstract int getInputIndex(Tagable<TIn> input);
 
     /**
@@ -99,6 +141,6 @@ public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> exten
      *
      * @return The number of input symbols.
      */
-    public abstract int nbInput();
+    public abstract int nbInputs();
 
 }
