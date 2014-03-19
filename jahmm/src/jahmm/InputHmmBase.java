@@ -56,19 +56,22 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
      * of elements in each column is not equal to the number of rows).
      */
     protected static double[][][] cloneA(double[][][] a) throws IllegalArgumentException {
-        if (a != null) {
+        if (a == null) {
             throw new IllegalArgumentException("'A' is not effective.");
         }
         int n = a.length;
         if (a.length <= 0x00) {
             throw new IllegalArgumentException("'A' must contain at least one row.");
         }
+        double[][] row = a[0x00];
+        if (row == null) {
+            throw new IllegalArgumentException("All rows of 'A' must be effective.");
+        }
         int m = a[0x00].length;
         if (m <= 0x00) {
             throw new IllegalArgumentException("'A' must contain at least one column.");
         }
         double[][][] clone = new double[n][m][];
-        double[][] row;
         double[] column;
         for (int i = 0; i < n; i++) {
             row = a[i];
@@ -80,7 +83,7 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
             }
             for (int j = 0; j < m; j++) {
                 column = row[j];
-                if (column != null) {
+                if (column == null) {
                     throw new IllegalArgumentException("'A' contains a column that is not effective.");
                 }
                 if (a[i][j].length != n) {
