@@ -141,14 +141,13 @@ public class InputHmmBaseTest {
     }
 
     @Test
-    public void testScenario00() {
+    public void testScenario00() throws CloneNotSupportedException {
         int N = 0x05;
         TrisEnum[] inputs = TrisEnum.values();
         int M = inputs.length;
         InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(TrisEnum.class), TrisEnum.class);
         Assert.assertEquals(N, hmm.nbStates());
         Assert.assertEquals(M, hmm.nbSymbols());
-        System.out.println(hmm.getIndexRegister());
         for (int i = 0x00; i < inputs.length; i++) {
             for (int j = 0x00; j < inputs.length; j++) {
                 if (i == j) {
@@ -175,11 +174,37 @@ public class InputHmmBaseTest {
             for (int j = 0x00; j < M; j++) {
                 AssertExtensions.assertTypeof(OpdfDiscrete.class, hmm.getOpdf(i, j));
                 for (int l = 0x00; l < N; l++) {
-                    if (l != i) {
+                    for (int m = 0x00; m < M; m++) {
+                        if (l != i && m != j) {
+                            Assert.assertNotSame(hmm.getOpdf(i, j), hmm.getOpdf(l, m));
+                        }
+                    }
+                }
+            }
+        }
+        InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm2 = hmm.clone();
+        for (int i = 0x00; i < N; i++) {
+            for (int j = 0x00; j < M; j++) {
+                for (int k = 0x00; k < N; k++) {
+                    Assert.assertEquals(hmm.getAixj(i, j, k), hmm2.getAixj(i, j, k));
+                    for (int l = 0x00; l < N; l++) {
                         for (int m = 0x00; m < M; m++) {
-                            if (m != j) {
-                                Assert.assertNotSame(hmm.getOpdf(i, j), hmm.getOpdf(l, m));
+                            for (int n = 0x00; n < N; n++) {
+                                Assert.assertEquals(hmm2.getAixj(i, j, k), hmm2.getAixj(l, m, n));
                             }
+                        }
+                    }
+                }
+            }
+        }
+        for (int i = 0x00; i < N; i++) {
+            for (int j = 0x00; j < M; j++) {
+                Assert.assertNotSame(hmm.getOpdf(i, j), hmm2.getOpdf(i, j));
+                AssertExtensions.assertTypeof(OpdfDiscrete.class, hmm2.getOpdf(i, j));
+                for (int l = 0x00; l < N; l++) {
+                    for (int m = 0x00; m < M; m++) {
+                        if (l != i && m != j) {
+                            Assert.assertNotSame(hmm2.getOpdf(i, j), hmm2.getOpdf(l, m));
                         }
                     }
                 }
@@ -221,11 +246,9 @@ public class InputHmmBaseTest {
             for (int j = 0x00; j < M; j++) {
                 AssertExtensions.assertTypeof(OpdfDiscrete.class, hmm.getOpdf(i, j));
                 for (int l = 0x00; l < N; l++) {
-                    if (l != i) {
-                        for (int m = 0x00; m < M; m++) {
-                            if (m != j) {
-                                Assert.assertNotSame(hmm.getOpdf(i, j), hmm.getOpdf(l, m));
-                            }
+                    for (int m = 0x00; m < M; m++) {
+                        if (l != i && m != j) {
+                            Assert.assertNotSame(hmm.getOpdf(i, j), hmm.getOpdf(l, m));
                         }
                     }
                 }
