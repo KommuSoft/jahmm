@@ -353,16 +353,18 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
     public void fold(int n) {
         int m = pi.length;
         double[] pia = new double[m], pib = this.pi, tmp;
-        for (int i = 0x00; i < n; i++) {
+        double[][] colA = this.collapsedA();
+        double val;
+        for (int t = 0x00; t < n; t++) {
             tmp = pia;
             pia = pib;
             pib = tmp;
-            for (int j = 0x00; j < m; j++) {
-                double tot = 0.0d;
-                for (int k = 0x00; k < m; k++) {
-                    tot += 1.0d;//TODO
+            for (int i = 0x00; i < m; i++) {
+                val = 0.0d;
+                for (int j = 0x00; j < m; j++) {
+                    val += colA[j][i] * pia[j];
                 }
-                pib[j] = tot;
+                pib[i] = val;
             }
         }
         if ((n & 0x01) != 0x00) {
@@ -403,7 +405,7 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
 
     @Override
     public void splitInput(final TIn originalIn, final TIn... newIns) {
-        if (newIns != null && newIns.length > 0x00) {
+        if (originalIn != null && newIns != null && newIns.length > 0x00) {
             if (newIns.length > 0x00) {
                 Integer originalIndex = this.indexRegister.remove(originalIn);
                 CollectionUtils.incrementValueByIndex(this.indexRegister, new ListArray<>(originalIndex), -0x01);
@@ -447,7 +449,7 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
 
     @Override
     public void mergeInput(final TIn newIn, final TIn... originalIns) {
-        if (originalIns != null && originalIns.length > 0x00) {
+        if (newIn != null && originalIns != null && originalIns.length > 0x00) {
             if (originalIns.length > 0x01) {
                 final ListArray<TIn> originalList = new ListArray<>(originalIns);
                 final ArrayList<Integer> ids = new ArrayList<>(originalIns.length);
@@ -532,6 +534,29 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
     @Override
     public Opdf<TObs> getOpdf(int stateNb, Tagable<TIn> inputNb) {
         return this.getOpdf(stateNb, this.getInputIndex(inputNb.getTag()));
+    }
+
+    /**
+     * Creates a A-matrix independent of the input.
+     *
+     * @return An A-matrix given the input is uniformly distributed.
+     * @note The input is assumed to be uniformly distributed.
+     */
+    @Override
+    public double[][] collapsedA() {
+        int N = this.nbStates();
+        int M = this.nbSymbols();
+        double[][] colA = new double[N][N];
+        for (int i = 0x00; i < N; i++) {
+            for (int k = 0x00; k < N; k++) {
+                double val = 0.0d;
+                for (int j = 0x00; j < M; j++) {
+                    val += this.a[i][j][k];
+                }
+                colA[i][k] = val;
+            }
+        }
+        return colA;
     }
 
 }

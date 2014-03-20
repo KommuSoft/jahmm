@@ -138,6 +138,13 @@ public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> exten
     public abstract void setAixj(int i, Tagable<TIn> x, int j, double aixj);
 
     /**
+     * Creates a A-matrix independent of the input.
+     * @return An A-matrix given the input is uniformly distributed.
+     * @note The input is assumed to be uniformly distributed.
+     */
+    public abstract double[][] collapsedA();
+
+    /**
      * Gets the number of input symbols.
      *
      * @return The number of input symbols.
