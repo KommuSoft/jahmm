@@ -6,6 +6,7 @@ import jahmm.observables.ObservationDiscrete;
 import jahmm.observables.OpdfDiscrete;
 import jahmm.observables.OpdfDiscreteFactory;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.logging.Logger;
 import junit.framework.Assert;
 import jutils.probability.ProbabilityUtils;
@@ -558,9 +559,28 @@ public class InputHmmBaseTest {
 
     /**
      * Test of fold method, of class InputHmmBase.
+     * @throws java.lang.CloneNotSupportedException
      */
     @Test
-    public void testFold_Iterable() {
+    public void testFold_Iterable00() throws CloneNotSupportedException {
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int m = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x01;
+            TrisEnum[] ti = new TrisEnum[]{TrisEnum.Odin, TrisEnum.Dva};
+            int n = ti.length;
+            InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = generateRandomIHmm1(m, ti, n);
+            LinkedList<TrisEnum> iterable = new LinkedList<>();
+            while(ProbabilityUtils.nextBoolean(0.85d)) {
+                iterable.add(ProbabilityUtils.nextElement(ti));
+            }
+            InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm2 = hmm.clone();
+            for (TrisEnum te : iterable) {
+                hmm.fold(te);
+            }
+            hmm2.fold(iterable);
+            for (int i = 0x00; i < m; i++) {
+                AssertExtensions.assertEquals(hmm.getPi(i), hmm2.getPi(i));
+            }
+        }
     }
 
     @Test
