@@ -3,8 +3,11 @@ package jahmm;
 import jahmm.jadetree.foo.FooEnum;
 import jahmm.jadetree.foo.TrisEnum;
 import jahmm.observables.ObservationDiscrete;
+import jahmm.observables.Opdf;
 import jahmm.observables.OpdfDiscrete;
 import jahmm.observables.OpdfDiscreteFactory;
+import jahmm.observables.OpdfFactory;
+import java.util.Map;
 import java.util.logging.Logger;
 import junit.framework.Assert;
 import jutils.probability.ProbabilityUtils;
@@ -682,6 +685,91 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testSetAixj_4args_3() {
+    }
+
+    /**
+     * Test of generateB method, of class InputHmmBase.
+     */
+    @Test
+    public void testGenerateB_3args_1() {
+    }
+
+    /**
+     * Test of generateB method, of class InputHmmBase.
+     */
+    @Test
+    public void testGenerateB_3args_2() throws Exception {
+    }
+
+    /**
+     * Test of cloneB method, of class InputHmmBase.
+     */
+    @Test
+    public void testCloneB() throws Exception {
+    }
+
+    /**
+     * Test of getIndexRegister method, of class InputHmmBase.
+     */
+    @Test
+    public void testGetIndexRegister() {
+    }
+
+    /**
+     * Test of getOpdf method, of class InputHmmBase.
+     */
+    @Test
+    public void testGetOpdf_int_int() {
+    }
+
+    /**
+     * Test of splitInput method, of class InputHmmBase.
+     */
+    @Test
+    public void testSplitInput() {
+    }
+
+    /**
+     * Test of mergeInput method, of class InputHmmBase.
+     */
+    @Test
+    public void testMergeInput() {
+    }
+
+    /**
+     * Test of getOpdf method, of class InputHmmBase.
+     */
+    @Test
+    public void testGetOpdf_int_GenericType() {
+    }
+
+    /**
+     * Test of getOpdf method, of class InputHmmBase.
+     */
+    @Test
+    public void testGetOpdf_int_Tagable() {
+    }
+
+    /**
+     * Test of collapsedA method, of class InputHmmBase.
+     */
+    @Test
+    public void testCollapsedA() {
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int m = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL)+0x01;
+            TrisEnum[] ti = new TrisEnum[];
+            InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(m, new OpdfDiscreteFactory<>(TrisEnum.class), TrisEnum.class);
+            for(int i = 0x00; i < m; i++) {
+                
+            }
+        }
+    }
+
+    /**
+     * Test of fold method, of class InputHmmBase.
+     */
+    @Test
+    public void testFold_GenericType() {
     }
 
 }
