@@ -139,6 +139,7 @@ public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> exten
 
     /**
      * Creates a A-matrix independent of the input.
+     *
      * @return An A-matrix given the input is uniformly distributed.
      * @note The input is assumed to be uniformly distributed.
      */
@@ -183,5 +184,21 @@ public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> exten
      * @return The opdf associated to state <code>stateNb</code>.
      */
     public abstract Opdf<TObs> getOpdf(int stateNb, Tagable<TIn> inputNb);
+
+    /**
+     * Takes as input distribution (pi) of states the distribution of the states
+     * after the given sequence of interaction (Observations, input, ...).
+     *
+     * @param interaction The given iterable of interactions.
+     */
+    public abstract void fold(Iterable<? extends TIn> inputs);
+
+    /**
+     * Takes as input distribution (pi) of states the distribution of the states
+     * after the given sequence of interaction (Observations, input, ...).
+     *
+     * @param interaction The given iterable of interactions.
+     */
+    public abstract void fold(TIn input);
 
 }

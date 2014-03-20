@@ -289,9 +289,10 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
     @Override
     public double getAij(int i, int j) {
         double total = 0.0d;
-        int n = a[0x00].length;
+        double[][] row = this.a[i];
+        int n = row.length;
         for (int k = 0x00; k < n; k++) {
-            total += a[i][k][j];
+            total += row[k][j];
         }
         return total;
     }
@@ -368,7 +369,7 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
             }
         }
         if ((n & 0x01) != 0x00) {
-            System.arraycopy(pib, 0, pi, 0, m);
+            System.arraycopy(pib, 0, this.pi, 0, m);
         }
     }
 
@@ -395,11 +396,6 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
 
     @Override
     public double probability(List<? extends InputObservationTuple<TIn, TObs>> oseq, int[] sseq) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void fold(Iterable<? extends InputObservationTuple<TIn, TObs>> interaction) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -557,6 +553,59 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
             }
         }
         return colA;
+    }
+
+    @Override
+    public void fold(TIn input) {
+        int m = pi.length;
+        double[] pib = new double[m], pia = this.pi;
+        int k = this.getInputIndex(input);
+        double val;
+        double[][] cola = new double[m][];
+        for (int j = 0x00; j < m; j++) {
+            cola[j] = this.a[j][k];
+        }
+        for (int i = 0x00; i < m; i++) {
+            val = 0.0d;
+            for (int j = 0x00; j < m; j++) {
+                val += cola[j][i] * pia[j];
+            }
+            pib[i] = val;
+        }
+        System.arraycopy(pib, 0, this.pi, 0, m);
+    }
+
+    @Override
+    public void fold(Iterable<? extends TIn> inputs) {
+        int m = pi.length;
+        boolean copy = false;
+        int oldk = -0x01;
+        double[][] cola = new double[m][];
+        double[] pia = new double[m], pib = this.pi, tmp;
+        double val;
+        for (TIn input : inputs) {
+            copy = !copy;
+            int k = this.getInputIndex(input);
+            tmp = pia;
+            pia = pib;
+            pib = tmp;
+            if (oldk != k) {
+                for (int j = 0x00; j < m; j++) {
+                    cola[j] = this.a[j][k];
+                }
+                oldk = k;
+            }
+            for (int i = 0x00; i < m; i++) {
+                val = 0.0d;
+                for (int j = 0x00; j < m; j++) {
+                    val += cola[j][i] * pia[j];
+                }
+                pib[i] = val;
+            }
+        }
+        if (copy) {
+            System.arraycopy(pib, 0, this.pi, 0, m);
+        }
     }
 
 }
