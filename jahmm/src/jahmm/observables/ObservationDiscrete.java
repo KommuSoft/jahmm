@@ -13,7 +13,7 @@ import jutils.Tagable;
  *
  * @param <E>
  */
-public final class ObservationDiscrete<E extends Enum<E>> extends ObservationBase implements Tagable<E> {
+public final class ObservationDiscrete<E extends Enum<E>> extends ObservationBase<E> {
 
     /**
      * This observation value.

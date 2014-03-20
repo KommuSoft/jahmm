@@ -5,8 +5,9 @@ import java.text.NumberFormat;
 /**
  *
  * @author kommusoft
+ * @param <TType> The type of the observation.
  */
-public abstract class ObservationBase implements Observation {
+public abstract class ObservationBase<TType> implements TypedObservation<TType> {
 
     @Override
     public String toString() {

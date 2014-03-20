@@ -9,7 +9,7 @@ import java.text.NumberFormat;
 /**
  * This class holds an integer observation.
  */
-public final class ObservationInteger extends ObservationBase implements CentroidFactory<ObservationInteger> {
+public final class ObservationInteger extends ObservationBase<Integer> implements CentroidFactory<ObservationInteger> {
 
     /**
      * The observation's value.
@@ -38,5 +38,10 @@ public final class ObservationInteger extends ObservationBase implements Centroi
     @Override
     public String toString(NumberFormat numberFormat) {
         return numberFormat.format(value);
+    }
+
+    @Override
+    public Integer getTag() {
+        return this.value;
     }
 }

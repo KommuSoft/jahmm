@@ -756,11 +756,22 @@ public class InputHmmBaseTest {
     @Test
     public void testCollapsedA() {
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
-            int m = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL)+0x01;
-            TrisEnum[] ti = new TrisEnum[];
-            InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(m, new OpdfDiscreteFactory<>(TrisEnum.class), TrisEnum.class);
-            for(int i = 0x00; i < m; i++) {
-                
+            int m = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x01;
+            TrisEnum[] ti = new TrisEnum[]{TrisEnum.Odin, TrisEnum.Dva};
+            int n = ti.length;
+            InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(m, new OpdfDiscreteFactory<>(TrisEnum.class), ti);
+            for (int i = 0x00; i < m; i++) {
+                for (int j = 0x00; j < n; j++) {
+                    for (int k = 0x00; k < m; k++) {
+                        hmm.setAixj(i, j, k, ProbabilityUtils.nextDouble());
+                    }
+                }
+            }
+            double[][] cola = hmm.collapsedA();
+            for (int i = 0x00; i < m; i++) {
+                for (int k = 0x00; k < m; k++) {
+                    AssertExtensions.assertEquals(hmm.getAij(i, k), cola[i][k]);
+                }
             }
         }
     }
