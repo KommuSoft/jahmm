@@ -7,13 +7,13 @@ import jutlis.tuples.Tuple2Base;
  *
  * @author kommusoft
  */
-public class InputObservationTuple<TInput extends Enum<TInput>, TObservation extends Observation> extends Tuple2Base<ObservationDiscrete<TInput>, TObservation> implements Observation {
+public class InputObservationTuple<TInput, TObservation extends Observation> extends Tuple2Base<TInput, TObservation> implements Observation {
 
-    public InputObservationTuple(ObservationDiscrete<TInput> item1, TObservation item2) {
+    public InputObservationTuple(TInput item1, TObservation item2) {
         super(item1, item2);
     }
 
-    public ObservationDiscrete<TInput> getInput() {
+    public TInput getInput() {
         return this.getItem1();
     }
 

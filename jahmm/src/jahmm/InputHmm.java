@@ -16,7 +16,7 @@ import jutils.Tagable;
  * @param <TIn> The type of input of the InputHmm.
  * @param <TObs> The type of observations of the InputHmm.
  */
-public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> extends Hmm<TObs, InputObservationTuple<TIn, TObs>> {
+public interface InputHmm<TObs extends Observation, TIn> extends Hmm<TObs, InputObservationTuple<TIn, TObs>> {
 
     /**
      * Split the original given input into a list of new (expected) set of
