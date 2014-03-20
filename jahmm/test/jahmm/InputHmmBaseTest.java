@@ -5,10 +5,12 @@ import jahmm.jadetree.foo.TrisEnum;
 import jahmm.observables.ObservationDiscrete;
 import jahmm.observables.OpdfDiscrete;
 import jahmm.observables.OpdfDiscreteFactory;
+import java.util.HashSet;
 import java.util.logging.Logger;
 import junit.framework.Assert;
 import jutils.probability.ProbabilityUtils;
 import jutils.testing.AssertExtensions;
+import jutlis.lists.ListArray;
 import static org.junit.Assert.fail;
 import org.junit.Test;
 import utils.TestParameters;
@@ -632,7 +634,83 @@ public class InputHmmBaseTest {
      * Test of getInputIndex method, of class InputHmmBase.
      */
     @Test
-    public void testGetInputIndex_GenericType() {
+    public void testGetInputIndex00() {
+        ListArray<FooEnum> foobar = new ListArray<>(FooEnum.values());
+        HashSet<FooEnum> bag = new HashSet<>();
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x02;
+            bag.add(ProbabilityUtils.nextElement(foobar));
+            while (ProbabilityUtils.nextDouble() < 0.5d) {
+                bag.add(ProbabilityUtils.nextElement(foobar));
+            }
+            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), bag);
+            for (Integer index : hmm.getIndexRegister().values()) {
+                Assert.assertNotNull(index);
+                int idx = index;
+                AssertExtensions.assertLessThan(idx, hmm.nbSymbols());
+                AssertExtensions.assertGreaterThanOrEqual(idx, 0x00);
+            }
+        }
+    }
+
+    /**
+     * Test of getInputIndex method, of class InputHmmBase.
+     */
+    @Test
+    public void testGetInputIndex01() throws CloneNotSupportedException {
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x02;
+            FooEnum[] inputs = new FooEnum[]{FooEnum.Qux, FooEnum.Foobar, FooEnum.Quux};
+            ProbabilityUtils.shuffle1(inputs);
+            FooEnum[] splitres = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
+            ProbabilityUtils.shuffle1(splitres);
+            int M = inputs.length;
+            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), inputs);
+            for (Integer index : hmm.getIndexRegister().values()) {
+                Assert.assertNotNull(index);
+                int idx = index;
+                AssertExtensions.assertLessThan(idx, hmm.nbSymbols());
+                AssertExtensions.assertGreaterThanOrEqual(idx, 0x00);
+            }
+            hmm.splitInput(FooEnum.Foobar, splitres);
+            for (Integer index : hmm.getIndexRegister().values()) {
+                Assert.assertNotNull(index);
+                int idx = index;
+                AssertExtensions.assertLessThan(idx, hmm.nbSymbols());
+                AssertExtensions.assertGreaterThanOrEqual(idx, 0x00);
+            }
+        }
+    }
+
+    /**
+     * Test of getInputIndex method, of class InputHmmBase.
+     */
+    @Test
+    public void testGetInputIndex02() throws CloneNotSupportedException {
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x02;
+            FooEnum[] inputs = new FooEnum[]{FooEnum.Qux, FooEnum.Foo, FooEnum.Bar, FooEnum.Quux};
+            ProbabilityUtils.shuffle1(inputs);
+            FooEnum[] tomerge = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
+            ProbabilityUtils.shuffle1(tomerge);
+            int M = inputs.length;
+            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), inputs);
+            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm2 = hmm.clone();
+            Assert.assertEquals(inputs.length, hmm2.nbSymbols());
+            for (Integer index : hmm.getIndexRegister().values()) {
+                Assert.assertNotNull(index);
+                int idx = index;
+                AssertExtensions.assertLessThan(idx, hmm.nbSymbols());
+                AssertExtensions.assertGreaterThanOrEqual(idx, 0x00);
+            }
+            hmm2.mergeInput(FooEnum.Foobar, tomerge);
+            for (Integer index : hmm.getIndexRegister().values()) {
+                Assert.assertNotNull(index);
+                int idx = index;
+                AssertExtensions.assertLessThan(idx, hmm.nbSymbols());
+                AssertExtensions.assertGreaterThanOrEqual(idx, 0x00);
+            }
+        }
     }
 
     /**

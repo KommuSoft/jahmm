@@ -215,7 +215,8 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
         this.indexRegister.clear();
         int i = 0x00;
         for (TIn inp : possibleInput) {
-            this.indexRegister.put(inp, i++);
+            this.indexRegister.put(inp,i);
+            i++;
         }
     }
 
