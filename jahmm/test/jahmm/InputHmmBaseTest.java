@@ -3,11 +3,8 @@ package jahmm;
 import jahmm.jadetree.foo.FooEnum;
 import jahmm.jadetree.foo.TrisEnum;
 import jahmm.observables.ObservationDiscrete;
-import jahmm.observables.Opdf;
 import jahmm.observables.OpdfDiscrete;
 import jahmm.observables.OpdfDiscreteFactory;
-import jahmm.observables.OpdfFactory;
-import java.util.Map;
 import java.util.logging.Logger;
 import junit.framework.Assert;
 import jutils.probability.ProbabilityUtils;
@@ -249,7 +246,7 @@ public class InputHmmBaseTest {
         int N = 0x05;
         TrisEnum[] inputs = TrisEnum.values();
         int M = inputs.length;
-        InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(TrisEnum.class), TrisEnum.class);
+        InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = new InputEnumHmmBase<>(N, new OpdfDiscreteFactory<>(TrisEnum.class), TrisEnum.class);
         Assert.assertEquals(N, hmm.nbStates());
         Assert.assertEquals(M, hmm.nbSymbols());
         for (int i = 0x00; i < inputs.length; i++) {
