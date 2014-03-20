@@ -180,20 +180,6 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
         this.checkConstraints();
     }
 
-    /**
-     * Creates a new IHMM. Each state has the same <i>pi</i> value and the
-     * transition probabilities are all equal.
-     *
-     * @param nbStates The (strictly positive) number of states of the IHMM.
-     * @param opdfFactory A pdf generator that is used to build the pdfs
-     * associated to each state.
-     * @param classdef Gets the class definition of the input to derive the enum
-     * constants from.
-     */
-    public InputHmmBase(int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory, Class<TIn> classdef) {
-        this(nbStates, opdfFactory, new ListArray<>(classdef.getEnumConstants()));
-    }
-
     @SuppressWarnings("unchecked")
     public InputHmmBase(int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory, TIn... possibleInputs) {
         this(nbStates, opdfFactory, new ListArray<>(possibleInputs));
