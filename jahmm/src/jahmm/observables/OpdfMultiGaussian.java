@@ -120,13 +120,13 @@ public final class OpdfMultiGaussian extends OpdfBase<ObservationVector> impleme
         }
 
         // Compute mean
-        double[] mean = new double[dimension()];
         for (int r = 0; r < dimension(); r++) {
             int i = 0;
-
+            double meanr = 0.0d;
             for (ObservationVector o : co) {
-                mean[r] += o.value[r] * weights[i++];
+                meanr += o.value[r] * weights[i++];
             }
+            this.distribution.setMean(r, meanr);
         }
 
         // Compute covariance
@@ -137,7 +137,7 @@ public final class OpdfMultiGaussian extends OpdfBase<ObservationVector> impleme
             double[] omm = new double[obs.length];
 
             for (int j = 0; j < obs.length; j++) {
-                omm[j] = obs[j] - mean[j];
+                omm[j] = obs[j] - this.distribution.mean(j);
             }
 
             for (int r = 0; r < dimension(); r++) {
@@ -149,7 +149,6 @@ public final class OpdfMultiGaussian extends OpdfBase<ObservationVector> impleme
             i++;
         }
 
-        distribution.setMean(mean);
         distribution.setCovariance(covariance);
     }
 

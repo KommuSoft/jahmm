@@ -7,8 +7,7 @@ package jahmm.distributions;
 /**
  * This class implements an generator of exponentially distributed reals.
  */
-public class ExponentialDistribution
-        implements RandomDistribution {
+public class ExponentialDistribution implements RandomDistribution {
 
     private static final long serialVersionUID = 6_359_607_459_925_864_639L;
 
@@ -23,11 +22,9 @@ public class ExponentialDistribution
      * @param rate The parameter of the distribution.
      */
     public ExponentialDistribution(double rate) {
-        if (rate <= 0.) {
-            throw new IllegalArgumentException("Argument must be strictly "
-                    + "positive");
+        if (rate <= 0.0d) {
+            throw new IllegalArgumentException("Argument must be strictly positive");
         }
-
         this.rate = rate;
     }
 
@@ -48,5 +45,10 @@ public class ExponentialDistribution
     @Override
     public double probability(double n) {
         return rate * Math.exp(-n * rate);
+    }
+
+    @Override
+    public ExponentialDistribution clone() throws CloneNotSupportedException {
+        return new ExponentialDistribution(this.rate);
     }
 }

@@ -37,5 +37,5 @@ public interface MultiRandomDistribution
      */
     public double probability(double[] v);
 
-    public abstract MultiRandomDistribution clone();
+    public abstract MultiRandomDistribution clone() throws CloneNotSupportedException;
 }

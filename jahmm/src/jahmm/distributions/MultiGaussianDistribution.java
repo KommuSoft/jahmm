@@ -15,9 +15,9 @@ public class MultiGaussianDistribution implements MultiRandomDistribution {
 
     private static final long serialVersionUID = 2_438_571_303_843_585_271L;
 
-    final private int dimension;
-    final private double[] mean;
-    final private double[][] covariance;
+    private final int dimension;
+    private final double[] mean;
+    private final double[][] covariance;
     private double[][] covarianceL = null; // covariance' Cholesky decomposition
     private double[][] covarianceInv = null;
     private double covarianceDet;
@@ -33,16 +33,12 @@ public class MultiGaussianDistribution implements MultiRandomDistribution {
      */
     public MultiGaussianDistribution(double[] mean, double[][] covariance) {
         if (!SimpleMatrix.isSquare(covariance)) {
-            throw new IllegalArgumentException("Covariance must be a square "
-                    + "matrix");
+            throw new IllegalArgumentException("Covariance must be a square matrix");
         }
-
         dimension = SimpleMatrix.nbRows(covariance);
         if (mean.length != dimension) {
-            throw new IllegalArgumentException("mean and covariance "
-                    + "dimensions don't match");
+            throw new IllegalArgumentException("mean and covariance dimensions don't match");
         }
-
         this.mean = SimpleMatrix.vector(mean);
         this.covariance = SimpleMatrix.matrix(covariance);
     }
@@ -57,15 +53,14 @@ public class MultiGaussianDistribution implements MultiRandomDistribution {
         if (dimension <= 0) {
             throw new IllegalArgumentException();
         }
-
         this.dimension = dimension;
-        mean = SimpleMatrix.vector(dimension);
-        covariance = SimpleMatrix.matrixIdentity(dimension);
+        this.mean = SimpleMatrix.vector(dimension);
+        this.covariance = SimpleMatrix.matrixIdentity(dimension);
     }
 
     @Override
     public int dimension() {
-        return dimension;
+        return this.dimension;
     }
 
     /**
@@ -74,7 +69,7 @@ public class MultiGaussianDistribution implements MultiRandomDistribution {
      * @return This distribution's mean vector.
      */
     public double[] mean() {
-        return mean.clone();
+        return this.mean.clone();
     }
 
     /**
@@ -83,24 +78,24 @@ public class MultiGaussianDistribution implements MultiRandomDistribution {
      * @return This distribution's covariance matrix.
      */
     public double[][] covariance() {
-        return SimpleMatrix.matrix(covariance);
+        return SimpleMatrix.matrix(this.covariance);
     }
 
     private double[][] covarianceL() {
-        if (covarianceL == null) {
-            covarianceL = SimpleMatrix.decomposeCholesky(covariance);
-            covarianceDet = SimpleMatrix.determinantCholesky(covarianceL);
+        if (this.covarianceL == null) {
+            this.covarianceL = SimpleMatrix.decomposeCholesky(this.covariance);
+            this.covarianceDet = SimpleMatrix.determinantCholesky(this.covarianceL);
         }
 
         return covarianceL;
     }
 
     private double[][] covarianceInv() {
-        if (covarianceInv == null) {
-            covarianceInv = SimpleMatrix.inverseCholesky(covarianceL());
+        if (this.covarianceInv == null) {
+            this.covarianceInv = SimpleMatrix.inverseCholesky(covarianceL());
         }
 
-        return covarianceInv;
+        return this.covarianceInv;
     }
 
     /**
@@ -109,9 +104,8 @@ public class MultiGaussianDistribution implements MultiRandomDistribution {
      * @return The covariance matrix determinant.
      */
     public double covarianceDet() {
-        covarianceL();
-
-        return covarianceDet;
+        this.covarianceL();
+        return this.covarianceDet;
     }
 
     /**
@@ -123,43 +117,52 @@ public class MultiGaussianDistribution implements MultiRandomDistribution {
      */
     @Override
     public double[] generate() {
-        double[] d = SimpleMatrix.vector(dimension);
-
-        for (int i = 0; i < dimension; i++) {
-            d[i] = randomGenerator.nextGaussian();
+        double[] d = SimpleMatrix.vector(this.dimension);
+        for (int i = 0; i < this.dimension; i++) {
+            d[i] = this.randomGenerator.nextGaussian();
         }
 
-        return SimpleMatrix.plus(SimpleMatrix.times(covarianceL(), d), mean);
+        return SimpleMatrix.plus(SimpleMatrix.times(this.covarianceL(), d), this.mean);
     }
 
     @Override
     public double probability(double[] v) {
-        if (v.length != dimension) {
-            throw new IllegalArgumentException("Argument array size is not "
-                    + "compatible with this distribution");
+        if (v.length != this.dimension) {
+            throw new IllegalArgumentException("Argument array size is not compatible with this distribution");
         }
-
         double[][] vmm = SimpleMatrix.matrix(SimpleMatrix.minus(v, mean));
-
-        double expArg
-                = (SimpleMatrix.times(SimpleMatrix.transpose(vmm),
-                        SimpleMatrix.times(covarianceInv(), vmm))[0][0]) * -.5;
-
-        return Math.exp(expArg)
-                / (Math.pow(2. * Math.PI, dimension / 2.)
-                * Math.pow(covarianceDet(), .5));
+        double expArg = -0.5d * SimpleMatrix.times(SimpleMatrix.transpose(vmm), SimpleMatrix.times(this.covarianceInv(), vmm))[0][0];
+        return Math.exp(expArg) / (Math.pow(2.0d * Math.PI, 0.5d * dimension) * Math.pow(covarianceDet(), 0.5d));
     }
 
     public void setMean(double[] mean) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.arraycopy(mean, 0, this.mean, 0, mean.length);
+    }
+
+    public void setMean(int i, double mean) {
+        this.mean[i] = mean;
+    }
+
+    public void setCovariance(int i, int j, double covariance) {
+        this.covariance[i][j] = covariance;
+    }
+
+    public double mean(int i) {
+        return this.mean[i];
+    }
+
+    public double covariance(int i, int j) {
+        return this.covariance[i][j];
     }
 
     public void setCovariance(double[][] covariance) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (int i = 0x00; i < covariance.length; i++) {
+            System.arraycopy(covariance[i], 0, this.covariance[i], 0, covariance[i].length);
+        }
     }
 
     @Override
-    public MultiGaussianDistribution clone() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public MultiGaussianDistribution clone() throws CloneNotSupportedException {
+        return new MultiGaussianDistribution(this.mean, this.covariance);
     }
 }
