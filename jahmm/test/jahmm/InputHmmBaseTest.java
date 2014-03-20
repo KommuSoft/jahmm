@@ -106,7 +106,7 @@ public class InputHmmBaseTest {
         } catch (IllegalArgumentException t) {
         }
     }
-    
+
     /**
      * Test of cloneA method, of class InputHmmBase.
      */
@@ -118,7 +118,7 @@ public class InputHmmBaseTest {
         } catch (IllegalArgumentException t) {
         }
     }
-    
+
     /**
      * Test of cloneA method, of class InputHmmBase.
      */
@@ -130,14 +130,14 @@ public class InputHmmBaseTest {
         } catch (IllegalArgumentException t) {
         }
     }
-    
+
     /**
      * Test of cloneA method, of class InputHmmBase.
      */
     @Test
     public void testCloneA09() {
         try {
-            InputHmmBase.cloneA(new double[][][]{new double[0x01][0x01],null});
+            InputHmmBase.cloneA(new double[][][]{new double[0x01][0x01], null});
             fail("Should throw an exception.");
         } catch (IllegalArgumentException t) {
         }
@@ -172,6 +172,70 @@ public class InputHmmBaseTest {
                         AssertExtensions.assertEquals(vals[i][j][k], clone[i][j][k]);
                     }
                 }
+            }
+        }
+    }
+
+    /**
+     * Test of generateA method, of class InputHmmBase.
+     */
+    @Test
+    public void testGenerateA00() {
+        try {
+            InputHmmBase.generateA(-0x05, -0x03);
+            fail("Should throw an exception.");
+        } catch (IllegalArgumentException t) {
+        }
+    }
+
+    /**
+     * Test of generateA method, of class InputHmmBase.
+     */
+    @Test
+    public void testGenerateA01() {
+        try {
+            InputHmmBase.generateA(-0x05, 20);
+            fail("Should throw an exception.");
+        } catch (IllegalArgumentException t) {
+        }
+    }
+
+    /**
+     * Test of generateA method, of class InputHmmBase.
+     */
+    @Test
+    public void testGenerateA02() {
+        try {
+            InputHmmBase.generateA(10, -0x03);
+            fail("Should throw an exception.");
+        } catch (IllegalArgumentException t) {
+        }
+    }
+
+    /**
+     * Test of generateA method, of class InputHmmBase.
+     */
+    @Test
+    public void testGenerateA03() {
+        int M = 0x05;
+        int N = 0x03;
+        double[][][] a = InputHmmBase.generateA(M, N);
+        Assert.assertNotNull(a);
+        Assert.assertEquals(N, a.length);
+        for (int i = 0x00; i < N; i++) {
+            Assert.assertNotNull(a[i]);
+            Assert.assertEquals(M, a[i].length);
+            for (int j = 0x00; j < M; j++) {
+                Assert.assertNotNull(a[i][j]);
+                Assert.assertEquals(N, a[i][j].length);
+                double sum = 0.0d;
+                for (int k = 0x00; k < N; k++) {
+                    sum += a[i][j][k];
+                    for (int l = 0x00; l < N; l++) {
+                        AssertExtensions.assertEquals(a[i][j][k], a[i][j][l]);
+                    }
+                }
+                AssertExtensions.assertEquals(1.0d, sum);
             }
         }
     }
@@ -394,13 +458,6 @@ public class InputHmmBaseTest {
                 }
             }
         }
-    }
-
-    /**
-     * Test of generateA method, of class InputHmmBase.
-     */
-    @Test
-    public void testGenerateA() {
     }
 
     /**
