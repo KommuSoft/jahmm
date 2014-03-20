@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2004-2009, Jean-Marc François. All Rights Reserved.
- * Licensed under the New BSD license.  See the LICENSE file.
- */
 package jahmm.learn;
 
 import jahmm.RegularHmm;
@@ -18,7 +14,7 @@ import junit.framework.TestCase;
  *
  * @author kommusoft
  */
-public class LearnerTest extends TestCase {
+public class InputBaumWelchLearnerBaseTest extends TestCase {
 
     final static private double DELTA = 5.E-3;
 
@@ -45,6 +41,7 @@ public class LearnerTest extends TestCase {
      *
      */
     public void testBaumWelch() {
+        //TODO: input instead of regular.
         /* Model sequences using BW algorithm */
         RegularBaumWelchLearnerBase<ObservationInteger> bwl = new RegularBaumWelchLearnerBase<>();
         RegularHmm<ObservationInteger> bwHmm = bwl.learn(hmm, sequences);
@@ -58,12 +55,4 @@ public class LearnerTest extends TestCase {
         assertEquals(0., klc.distance(bwHmm, hmm), DELTA);
     }
 
-    /**
-     *
-     * @throws java.lang.CloneNotSupportedException
-     */
-    public void testKMeans() throws CloneNotSupportedException {
-        KMeansLearner<ObservationInteger> kml = new KMeansLearner<>(5, new OpdfIntegerFactory(10), sequences);
-        assertEquals(0., klc.distance(kml.learn(), hmm), DELTA);
-    }
 }
