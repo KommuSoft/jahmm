@@ -467,56 +467,58 @@ public class InputHmmBaseTest {
      * Test of nbStates method, of class InputHmmBase.
      */
     @Test
-    public void testNbStates() {
+    public void testNbStates00() {
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x02;
+            FooEnum[] inputs = new FooEnum[]{FooEnum.Qux, FooEnum.Foobar, FooEnum.Quux};
+            ProbabilityUtils.shuffle1(inputs);
+            FooEnum[] splitres = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
+            ProbabilityUtils.shuffle1(splitres);
+            int M = inputs.length;
+            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), inputs);
+            Assert.assertEquals(N, hmm.nbStates());
+        }
     }
 
     /**
      * Test of nbSymbols method, of class InputHmmBase.
      */
     @Test
-    public void testNbSymbols() {
-    }
-
-    /**
-     * Test of clone method, of class InputHmmBase.
-     */
-    @Test
-    public void testClone() throws Exception {
-    }
-
-    /**
-     * Test of getAij method, of class InputHmmBase.
-     */
-    @Test
-    public void testGetAij_int_int() {
-    }
-
-    /**
-     * Test of getAij method, of class InputHmmBase.
-     */
-    @Test
-    public void testGetAij_3args() {
-    }
-
-    /**
-     * Test of toString method, of class InputHmmBase.
-     */
-    @Test
-    public void testToString_0args() {
-    }
-
-    /**
-     * Test of toString method, of class InputHmmBase.
-     */
-    @Test
-    public void testToString_NumberFormat() {
+    public void testNbSymbols00() {
+        ListArray<FooEnum> foobar = new ListArray<>(FooEnum.values());
+        HashSet<FooEnum> bag = new HashSet<>();
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x02;
+            bag.add(ProbabilityUtils.nextElement(foobar));
+            while (ProbabilityUtils.nextDouble() < 0.5d) {
+                bag.add(ProbabilityUtils.nextElement(foobar));
+            }
+            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), bag);
+            Assert.assertEquals(bag.size(), hmm.nbSymbols());
+            bag.clear();
+        }
     }
 
     /**
      * Test of fold method, of class InputHmmBase.
      */
     @Test
-    public void testFold_int() {
+    public void testFold_int00() throws CloneNotSupportedException {
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int m = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x01;
+            TrisEnum[] ti = new TrisEnum[]{TrisEnum.Odin, TrisEnum.Dva};
+            int n = ti.length;
+            InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = generateRandomIHmm1(m, ti, n);
+            int f = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL);
+            InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm2 = hmm.clone();
+            for (int i = 0x00; i < f; i++) {
+                hmm.fold();
+            }
+            hmm2.fold(f);
+            for (int i = 0x00; i < m; i++) {
+                AssertExtensions.assertEquals(hmm.getPi(i), hmm2.getPi(i));
+            }
+        }
     }
 
     /**
@@ -634,7 +636,7 @@ public class InputHmmBaseTest {
      * Test of getInputIndex method, of class InputHmmBase.
      */
     @Test
-    public void testGetInputIndex00() {
+    public void testGetIndexRegister00() {
         ListArray<FooEnum> foobar = new ListArray<>(FooEnum.values());
         HashSet<FooEnum> bag = new HashSet<>();
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
@@ -650,6 +652,7 @@ public class InputHmmBaseTest {
                 AssertExtensions.assertLessThan(idx, hmm.nbSymbols());
                 AssertExtensions.assertGreaterThanOrEqual(idx, 0x00);
             }
+            bag.clear();
         }
     }
 
@@ -657,7 +660,7 @@ public class InputHmmBaseTest {
      * Test of getInputIndex method, of class InputHmmBase.
      */
     @Test
-    public void testGetInputIndex01() throws CloneNotSupportedException {
+    public void testGetIndexRegister01() throws CloneNotSupportedException {
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
             int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x02;
             FooEnum[] inputs = new FooEnum[]{FooEnum.Qux, FooEnum.Foobar, FooEnum.Quux};
@@ -686,7 +689,7 @@ public class InputHmmBaseTest {
      * Test of getInputIndex method, of class InputHmmBase.
      */
     @Test
-    public void testGetInputIndex02() throws CloneNotSupportedException {
+    public void testGetIndexRegister02() throws CloneNotSupportedException {
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
             int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x02;
             FooEnum[] inputs = new FooEnum[]{FooEnum.Qux, FooEnum.Foo, FooEnum.Bar, FooEnum.Quux};
@@ -784,31 +787,10 @@ public class InputHmmBaseTest {
     }
 
     /**
-     * Test of getIndexRegister method, of class InputHmmBase.
-     */
-    @Test
-    public void testGetIndexRegister() {
-    }
-
-    /**
      * Test of getOpdf method, of class InputHmmBase.
      */
     @Test
     public void testGetOpdf_int_int() {
-    }
-
-    /**
-     * Test of splitInput method, of class InputHmmBase.
-     */
-    @Test
-    public void testSplitInput() {
-    }
-
-    /**
-     * Test of mergeInput method, of class InputHmmBase.
-     */
-    @Test
-    public void testMergeInput() {
     }
 
     /**
@@ -834,14 +816,7 @@ public class InputHmmBaseTest {
             int m = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x01;
             TrisEnum[] ti = new TrisEnum[]{TrisEnum.Odin, TrisEnum.Dva};
             int n = ti.length;
-            InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(m, new OpdfDiscreteFactory<>(TrisEnum.class), ti);
-            for (int i = 0x00; i < m; i++) {
-                for (int j = 0x00; j < n; j++) {
-                    for (int k = 0x00; k < m; k++) {
-                        hmm.setAixj(i, j, k, ProbabilityUtils.nextDouble());
-                    }
-                }
-            }
+            InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = generateRandomIHmm1(m, ti, n);
             double[][] cola = hmm.collapsedA();
             for (int i = 0x00; i < m; i++) {
                 for (int k = 0x00; k < m; k++) {
@@ -849,6 +824,18 @@ public class InputHmmBaseTest {
                 }
             }
         }
+    }
+
+    private InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> generateRandomIHmm1(int m, TrisEnum[] ti, int n) {
+        InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(m, new OpdfDiscreteFactory<>(TrisEnum.class), ti);
+        for (int i = 0x00; i < m; i++) {
+            for (int j = 0x00; j < n; j++) {
+                for (int k = 0x00; k < m; k++) {
+                    hmm.setAixj(i, j, k, ProbabilityUtils.nextDouble());
+                }
+            }
+        }
+        return hmm;
     }
 
     /**

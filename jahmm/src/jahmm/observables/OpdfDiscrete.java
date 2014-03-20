@@ -90,9 +90,7 @@ public class OpdfDiscrete<E extends Enum<E>> extends OpdfBase<ObservationDiscret
     }
 
     private EnumMap<E, ObservationInteger> createMap(Class<E> valuesClass) {
-        EnumMap<E, ObservationInteger> result
-                = new EnumMap<>(valuesClass);
-
+        EnumMap<E, ObservationInteger> result = new EnumMap<>(valuesClass);
         for (E value : values) {
             result.put(value, new ObservationInteger(value.ordinal()));
         }
