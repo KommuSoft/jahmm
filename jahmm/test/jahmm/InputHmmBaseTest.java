@@ -564,9 +564,9 @@ public class InputHmmBaseTest {
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
             int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x02;
             FooEnum[] inputs = new FooEnum[]{FooEnum.Qux, FooEnum.Foobar, FooEnum.Quux};
-            ProbabilityUtils.shuffle(inputs);
+            ProbabilityUtils.shuffle1(inputs);
             FooEnum[] splitres = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
-            ProbabilityUtils.shuffle(splitres);
+            ProbabilityUtils.shuffle1(splitres);
             int M = inputs.length;
             InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), inputs);
             InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm2 = hmm.clone();
@@ -600,9 +600,9 @@ public class InputHmmBaseTest {
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
             int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x02;
             FooEnum[] inputs = new FooEnum[]{FooEnum.Qux, FooEnum.Foo, FooEnum.Bar, FooEnum.Quux};
-            ProbabilityUtils.shuffle(inputs);
+            ProbabilityUtils.shuffle1(inputs);
             FooEnum[] tomerge = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
-            ProbabilityUtils.shuffle(tomerge);
+            ProbabilityUtils.shuffle1(tomerge);
             int M = inputs.length;
             InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), inputs);
             InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm2 = hmm.clone();
