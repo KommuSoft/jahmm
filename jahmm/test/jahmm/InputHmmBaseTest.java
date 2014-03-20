@@ -559,21 +559,46 @@ public class InputHmmBaseTest {
     public void testFold_Iterable() {
     }
 
-    /**
-     * Test of splitInput method, of class InputHmmBase.
-     */
     @Test
-    public void testSplitInput() {
+    public void testSplitInput00() throws CloneNotSupportedException {
+        for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
+            int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x02;
+            FooEnum[] inputs = new FooEnum[]{FooEnum.Qux, FooEnum.Foobar, FooEnum.Quux};
+            ProbabilityUtils.shuffle(inputs);
+            FooEnum[] splitres = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
+            ProbabilityUtils.shuffle(splitres);
+            int M = inputs.length;
+            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), inputs);
+            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm2 = hmm.clone();
+            Assert.assertEquals(inputs.length, hmm2.nbSymbols());
+            double pa = ProbabilityUtils.nextDouble();
+            double pb = ProbabilityUtils.nextDouble();
+            hmm2.setAixj(0x00, FooEnum.Foobar, 0x00, pa);
+            hmm2.setAixj(0x00, FooEnum.Foobar, 0x01, 1.0d - pa);
+            hmm2.setAixj(0x01, FooEnum.Foobar, 0x00, pb);
+            hmm2.setAixj(0x01, FooEnum.Foobar, 0x01, 1.0 - pb);
+            hmm2.splitInput(FooEnum.Foobar, splitres);
+            Assert.assertEquals(inputs.length + splitres.length - 0x01, hmm2.nbSymbols());
+            AssertExtensions.assertEquals(pa, hmm2.getAixj(0x00, FooEnum.Foo, 0x00));
+            AssertExtensions.assertEquals(1.0d - pa, hmm2.getAixj(0x00, FooEnum.Foo, 0x01));
+            AssertExtensions.assertEquals(pb, hmm2.getAixj(0x01, FooEnum.Foo, 0x00));
+            AssertExtensions.assertEquals(1.0d - pb, hmm2.getAixj(0x01, FooEnum.Foo, 0x01));
+            AssertExtensions.assertEquals(pa, hmm2.getAixj(0x00, FooEnum.Bar, 0x00));
+            AssertExtensions.assertEquals(1.0d - pa, hmm2.getAixj(0x00, FooEnum.Bar, 0x01));
+            AssertExtensions.assertEquals(pb, hmm2.getAixj(0x01, FooEnum.Bar, 0x00));
+            AssertExtensions.assertEquals(1.0d - pb, hmm2.getAixj(0x01, FooEnum.Bar, 0x01));
+        }
     }
 
     /**
      * Test of mergeInput method, of class InputHmmBase.
+     *
      * @throws java.lang.CloneNotSupportedException
      */
     @Test
     public void testMergeInput00() throws CloneNotSupportedException {
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
-            int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x01;
+            int N = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x02;
             FooEnum[] inputs = new FooEnum[]{FooEnum.Qux, FooEnum.Foo, FooEnum.Bar, FooEnum.Quux};
             ProbabilityUtils.shuffle(inputs);
             FooEnum[] tomerge = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
@@ -581,19 +606,25 @@ public class InputHmmBaseTest {
             int M = inputs.length;
             InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), inputs);
             InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm2 = hmm.clone();
-            hmm2.setAixj(0x00, FooEnum.Foo, 0x00, 1.0d / 4.0d);
-            hmm2.setAixj(0x00, FooEnum.Foo, 0x01, 3.0d / 4.0d);
-            hmm2.setAixj(0x01, FooEnum.Foo, 0x00, 1.0d / 3.0d);
-            hmm2.setAixj(0x01, FooEnum.Foo, 0x01, 2.0d / 3.0d);
-            hmm2.setAixj(0x00, FooEnum.Bar, 0x00, 1.0d / 5.0d);
-            hmm2.setAixj(0x00, FooEnum.Bar, 0x01, 4.0d / 5.0d);
-            hmm2.setAixj(0x01, FooEnum.Bar, 0x00, 1.0d / 4.0d);
-            hmm2.setAixj(0x01, FooEnum.Bar, 0x01, 3.0d / 4.0d);
+            Assert.assertEquals(inputs.length, hmm2.nbSymbols());
+            double pa = ProbabilityUtils.nextDouble();
+            double pb = ProbabilityUtils.nextDouble();
+            double pc = ProbabilityUtils.nextDouble();
+            double pd = ProbabilityUtils.nextDouble();
+            hmm2.setAixj(0x00, FooEnum.Foo, 0x00, pa);
+            hmm2.setAixj(0x00, FooEnum.Foo, 0x01, 1.0d - pa);
+            hmm2.setAixj(0x01, FooEnum.Foo, 0x00, pb);
+            hmm2.setAixj(0x01, FooEnum.Foo, 0x01, 1.0 - pb);
+            hmm2.setAixj(0x00, FooEnum.Bar, 0x00, pc);
+            hmm2.setAixj(0x00, FooEnum.Bar, 0x01, 1.0d - pc);
+            hmm2.setAixj(0x01, FooEnum.Bar, 0x00, pd);
+            hmm2.setAixj(0x01, FooEnum.Bar, 0x01, 1.0 - pd);
             hmm2.mergeInput(FooEnum.Foobar, tomerge);
-            AssertExtensions.assertEquals(1.0d / 8.0d + 1.0d / 10.0d, hmm2.getAixj(0x00, FooEnum.Foobar, 0x00));
-            AssertExtensions.assertEquals(3.0d / 8.0d + 4.0d / 10.0d, hmm2.getAixj(0x00, FooEnum.Foobar, 0x01));
-            AssertExtensions.assertEquals(1.0d / 6.0d + 1.0d / 8.0d, hmm2.getAixj(0x01, FooEnum.Foobar, 0x00));
-            AssertExtensions.assertEquals(2.0d / 6.0d + 3.0d / 8.0d, hmm2.getAixj(0x01, FooEnum.Foobar, 0x01));
+            Assert.assertEquals(inputs.length - tomerge.length + 0x01, hmm2.nbSymbols());
+            AssertExtensions.assertEquals(0.5d * (pa + pc), hmm2.getAixj(0x00, FooEnum.Foobar, 0x00));
+            AssertExtensions.assertEquals(1.0d - 0.5d * (pa + pc), hmm2.getAixj(0x00, FooEnum.Foobar, 0x01));
+            AssertExtensions.assertEquals(0.5d * (pb + pd), hmm2.getAixj(0x01, FooEnum.Foobar, 0x00));
+            AssertExtensions.assertEquals(1.0d - 0.5d * (pb + pd), hmm2.getAixj(0x01, FooEnum.Foobar, 0x01));
         }
     }
 
