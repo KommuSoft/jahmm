@@ -5,7 +5,7 @@ import jahmm.RegularHmmBase;
 import jahmm.observables.ObservationInteger;
 import jahmm.observables.OpdfIntegerFactory;
 import jahmm.toolbox.KullbackLeiblerDistanceCalculator;
-import jahmm.toolbox.MarkovGenerator;
+import jahmm.toolbox.RegularMarkovGenerator;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
@@ -27,7 +27,7 @@ public class KMeansLearnerTest extends TestCase {
         hmm = new RegularHmmBase<>(3, new OpdfIntegerFactory(10));
         hmm.getOpdf(0).fit(new ObservationInteger(1), new ObservationInteger(2));
 
-        MarkovGenerator<ObservationInteger> mg = new MarkovGenerator<>(hmm);
+        RegularMarkovGenerator<ObservationInteger> mg = new RegularMarkovGenerator<>(hmm);
 
         sequences = new ArrayList<>();
         for (int i = 0; i < 100; i++) {

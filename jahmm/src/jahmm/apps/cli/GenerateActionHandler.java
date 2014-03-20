@@ -14,7 +14,7 @@ import jahmm.io.OpdfReader;
 import jahmm.observables.CentroidFactory;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
-import jahmm.toolbox.MarkovGenerator;
+import jahmm.toolbox.RegularMarkovGenerator;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,7 +61,7 @@ class GenerateActionHandler
         OpdfReader<? extends Opdf<O>> opdfReader = relatedObjs.opdfReader();
         RegularHmmBase<O> hmm = HmmReader.read(hmmFileReader, opdfReader);
 
-        MarkovGenerator<O> generator = relatedObjs.generator(hmm);
+        RegularMarkovGenerator<O> generator = relatedObjs.generator(hmm);
 
         List<List<O>> seqs = new ArrayList<>();
         for (int i = 0; i < 100; i++) {

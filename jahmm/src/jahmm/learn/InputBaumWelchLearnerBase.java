@@ -18,7 +18,7 @@ import jutlis.tuples.Tuple3;
  * @param <TInteraction> The type of interactions regarding the Hidden Markov
  * Model.
  */
-public class InputBaumWelchLearnerBase<TObservation extends Observation, TInteraction extends Enum<TInteraction>> extends BaumWelchLearnerGammaBase<TObservation, InputObservationTuple<TInteraction, TObservation>, InputHmm<TObservation, TInteraction>, double[][], double[][], double[][]> implements InputBaumWelchLearner<TObservation, TInteraction> {
+public class InputBaumWelchLearnerBase<TObservation extends Observation, TInteraction> extends BaumWelchLearnerGammaBase<TObservation, InputObservationTuple<TInteraction, TObservation>, InputHmm<TObservation, TInteraction>, double[][], double[][], double[][]> implements InputBaumWelchLearner<TObservation, TInteraction> {
 
     private static final Logger LOG = Logger.getLogger(InputBaumWelchLearnerBase.class.getName());
 
