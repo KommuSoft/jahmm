@@ -1,5 +1,6 @@
 package jahmm;
 
+import jahmm.jadetree.foo.FooEnum;
 import jahmm.jadetree.foo.TrisEnum;
 import jahmm.observables.ObservationDiscrete;
 import jahmm.observables.OpdfDiscrete;
@@ -569,7 +570,26 @@ public class InputHmmBaseTest {
      * Test of mergeInput method, of class InputHmmBase.
      */
     @Test
-    public void testMergeInput() {
+    public void testMergeInput00() throws CloneNotSupportedException {
+        int N = 0x04;
+        FooEnum[] inputs = new FooEnum[]{FooEnum.Qux, FooEnum.Foo, FooEnum.Bar, FooEnum.Quux};
+        FooEnum[] tomerge = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
+        int M = inputs.length;
+        InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), inputs);
+        InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm2 = hmm.clone();
+        hmm2.setAixj(0x00, FooEnum.Foo, 0x00, 1.0d / 4.0d);
+        hmm2.setAixj(0x00, FooEnum.Foo, 0x01, 3.0d / 4.0d);
+        hmm2.setAixj(0x01, FooEnum.Foo, 0x00, 1.0d / 3.0d);
+        hmm2.setAixj(0x01, FooEnum.Foo, 0x01, 2.0d / 3.0d);
+        hmm2.setAixj(0x00, FooEnum.Bar, 0x00, 1.0d / 5.0d);
+        hmm2.setAixj(0x00, FooEnum.Bar, 0x01, 4.0d / 5.0d);
+        hmm2.setAixj(0x01, FooEnum.Bar, 0x00, 1.0d / 4.0d);
+        hmm2.setAixj(0x01, FooEnum.Bar, 0x01, 3.0d / 4.0d);
+        hmm2.mergeInput(FooEnum.Foobar, tomerge);
+        AssertExtensions.assertEquals(1.0d / 8.0d + 1.0d / 10.0d, hmm2.getAixj(0x00, FooEnum.Foobar, 0x00));
+        AssertExtensions.assertEquals(3.0d / 8.0d + 4.0d / 10.0d, hmm2.getAixj(0x00, FooEnum.Foobar, 0x01));
+        AssertExtensions.assertEquals(1.0d / 6.0d + 1.0d / 8.0d, hmm2.getAixj(0x01, FooEnum.Foobar, 0x00));
+        AssertExtensions.assertEquals(2.0d / 6.0d + 3.0d / 8.0d, hmm2.getAixj(0x01, FooEnum.Foobar, 0x01));
     }
 
     /**
