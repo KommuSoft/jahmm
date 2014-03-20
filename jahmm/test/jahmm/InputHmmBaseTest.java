@@ -106,12 +106,48 @@ public class InputHmmBaseTest {
         } catch (IllegalArgumentException t) {
         }
     }
-
+    
     /**
      * Test of cloneA method, of class InputHmmBase.
      */
     @Test
     public void testCloneA07() {
+        try {
+            InputHmmBase.cloneA(new double[0x01][0x00][0x00]);
+            fail("Should throw an exception.");
+        } catch (IllegalArgumentException t) {
+        }
+    }
+    
+    /**
+     * Test of cloneA method, of class InputHmmBase.
+     */
+    @Test
+    public void testCloneA08() {
+        try {
+            InputHmmBase.cloneA(new double[0x01][0x01][0x00]);
+            fail("Should throw an exception.");
+        } catch (IllegalArgumentException t) {
+        }
+    }
+    
+    /**
+     * Test of cloneA method, of class InputHmmBase.
+     */
+    @Test
+    public void testCloneA09() {
+        try {
+            InputHmmBase.cloneA(new double[][][]{new double[0x01][0x01],null});
+            fail("Should throw an exception.");
+        } catch (IllegalArgumentException t) {
+        }
+    }
+
+    /**
+     * Test of cloneA method, of class InputHmmBase.
+     */
+    @Test
+    public void testCloneA10() {
         for (int t = 0x00; t < TestParameters.NUMBER_OF_TESTS; t++) {
             int N = 0x01 + ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL);
             int M = 0x01 + ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL);

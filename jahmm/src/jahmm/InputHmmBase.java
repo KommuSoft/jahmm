@@ -96,17 +96,35 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
         return clone;
     }
 
-    protected static double[][][] generateA(int nbSymbols, int nbStates) {
-        double[][][] a = new double[nbStates][nbSymbols][nbStates];
-        double inv = 1.0d / nbStates;
-        for (int i = 0x00; i < nbStates; i++) {
-            for (int j = 0x00; j < nbSymbols; j++) {
-                for (int k = 0x00; k < nbStates; k++) {
-                    a[i][j][k] = inv;
+    /**
+     * Generates a new A-matrix based on the given number of symbols and the
+     * given number of states.
+     *
+     * @param nbSymbols The given number of symbols.
+     * @param nbStates The given number of states.
+     * @return An A-matrix with dimensions nbStates x nbSymbols x nbStates where
+     * for each (state,input) couple, the values are uniformly distributed over
+     * the several end states.
+     * @throws IllegalArgumentException if the given number of states is smaller
+     * than one.
+     * @throws IllegalArgumentException if the given number of symbols is
+     * smaller than one.
+     */
+    protected static double[][][] generateA(int nbSymbols, int nbStates) throws IllegalArgumentException {
+        if (nbSymbols >= 0x01 && nbStates >= 0x01) {
+            double[][][] a = new double[nbStates][nbSymbols][nbStates];
+            double inv = 1.0d / nbStates;
+            for (int i = 0x00; i < nbStates; i++) {
+                for (int j = 0x00; j < nbSymbols; j++) {
+                    for (int k = 0x00; k < nbStates; k++) {
+                        a[i][j][k] = inv;
+                    }
                 }
             }
+            return a;
+        } else {
+            throw new IllegalArgumentException("The number of states and symbols must both be larger or equal to one.");
         }
-        return a;
     }
 
     protected static <TObs extends Observation> Object[][] generateB(int nbStates, int nbSymbols, OpdfFactory<? extends Opdf<TObs>> opdfFactory) {
@@ -404,13 +422,17 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
                         double[] source = ai[origix];
                         int nSource = source.length;
                         double[][] newa = new double[idxPtr][];
-                        System.arraycopy(ai, 0, newa, 0, origix);
-                        System.arraycopy(ai, origix + 0x01, newa, origix, offset - origix - 0x01);
+                        for (int j = 0x00; j < origix; j++) {
+                            newa[j] = ai[j];
+                        }
+                        for (int j = origix; j < offset; j++) {
+                            newa[j] = ai[j + 0x01];
+                        }
                         newa[offset] = source;
                         for (int j = offset + 0x01; j < idxPtr; j++) {
                             newa[j] = Arrays.copyOf(source, nSource);
                         }
-                        this.a[i] = ai;
+                        this.a[i] = newa;
                     }
                 } else {
                     throw new UnsupportedOperationException("Cannot split a currently unknown input.");
