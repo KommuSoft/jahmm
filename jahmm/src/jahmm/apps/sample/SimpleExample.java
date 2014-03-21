@@ -40,7 +40,7 @@ import jahmm.observables.ObservationDiscrete;
 import jahmm.observables.OpdfDiscrete;
 import jahmm.observables.OpdfDiscreteFactory;
 import jahmm.toolbox.KullbackLeiblerDistanceCalculator;
-import jahmm.toolbox.MarkovGenerator;
+import jahmm.toolbox.RegularMarkovGenerator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -161,7 +161,7 @@ public class SimpleExample {
     /* Generate several observation sequences using a HMM */
     static <O extends Observation> List<List<O>>
             generateSequences(RegularHmm<O> hmm) {
-        MarkovGenerator<O> mg = new MarkovGenerator<>(hmm);
+        RegularMarkovGenerator<O> mg = new RegularMarkovGenerator<>(hmm);
 
         List<List<O>> sequences = new ArrayList<>();
         for (int i = 0; i < OBSERVATION_COUNT; i++) {

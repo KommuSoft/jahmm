@@ -18,7 +18,7 @@ public final class OpdfMultiGaussian extends OpdfBase<ObservationVector> impleme
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(OpdfMultiGaussian.class.getName());
 
-    private MultiGaussianDistribution distribution;
+    private final MultiGaussianDistribution distribution;
 
     /**
      * Builds a new Gaussian probability distribution with zero mean and
@@ -44,6 +44,10 @@ public final class OpdfMultiGaussian extends OpdfBase<ObservationVector> impleme
         }
 
         distribution = new MultiGaussianDistribution(mean, covariance);
+    }
+
+    private OpdfMultiGaussian(MultiGaussianDistribution distribution) {
+        this.distribution = distribution;
     }
 
     /**
@@ -116,13 +120,13 @@ public final class OpdfMultiGaussian extends OpdfBase<ObservationVector> impleme
         }
 
         // Compute mean
-        double[] mean = new double[dimension()];
         for (int r = 0; r < dimension(); r++) {
             int i = 0;
-
+            double meanr = 0.0d;
             for (ObservationVector o : co) {
-                mean[r] += o.value[r] * weights[i++];
+                meanr += o.value[r] * weights[i++];
             }
+            this.distribution.setMean(r, meanr);
         }
 
         // Compute covariance
@@ -133,7 +137,7 @@ public final class OpdfMultiGaussian extends OpdfBase<ObservationVector> impleme
             double[] omm = new double[obs.length];
 
             for (int j = 0; j < obs.length; j++) {
-                omm[j] = obs[j] - mean[j];
+                omm[j] = obs[j] - this.distribution.mean(j);
             }
 
             for (int r = 0; r < dimension(); r++) {
@@ -145,16 +149,12 @@ public final class OpdfMultiGaussian extends OpdfBase<ObservationVector> impleme
             i++;
         }
 
-        distribution = new MultiGaussianDistribution(mean, covariance);
+        distribution.setCovariance(covariance);
     }
 
     @Override
     public OpdfMultiGaussian clone() throws CloneNotSupportedException {
-        try {
-            return (OpdfMultiGaussian) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError(e);
-        }
+        return new OpdfMultiGaussian(this.distribution.clone());
     }
 
     /**

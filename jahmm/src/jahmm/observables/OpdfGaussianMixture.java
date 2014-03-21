@@ -48,6 +48,10 @@ public final class OpdfGaussianMixture extends OpdfBase<ObservationReal> impleme
         distribution = new GaussianMixtureDistribution(means, variances, proportions);
     }
 
+    private OpdfGaussianMixture(GaussianMixtureDistribution distribution) {
+        this.distribution = distribution;
+    }
+
     @Override
     public double probability(ObservationReal o) {
         return distribution.probability(o.value);
@@ -272,11 +276,7 @@ public final class OpdfGaussianMixture extends OpdfBase<ObservationReal> impleme
 
     @Override
     public OpdfGaussianMixture clone() throws CloneNotSupportedException {
-        try {
-            return (OpdfGaussianMixture) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new AssertionError(e);
-        }
+        return new OpdfGaussianMixture(this.distribution.clone());
     }
 
     /**

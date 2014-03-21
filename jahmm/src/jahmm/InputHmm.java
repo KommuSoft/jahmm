@@ -16,7 +16,7 @@ import jutils.Tagable;
  * @param <TIn> The type of input of the InputHmm.
  * @param <TObs> The type of observations of the InputHmm.
  */
-public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> extends Hmm<TObs, InputObservationTuple<TIn, TObs>> {
+public interface InputHmm<TObs extends Observation, TIn> extends Hmm<TObs, InputObservationTuple<TIn, TObs>> {
 
     /**
      * Split the original given input into a list of new (expected) set of
@@ -138,6 +138,14 @@ public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> exten
     public abstract void setAixj(int i, Tagable<TIn> x, int j, double aixj);
 
     /**
+     * Creates a A-matrix independent of the input.
+     *
+     * @return An A-matrix given the input is uniformly distributed.
+     * @note The input is assumed to be uniformly distributed.
+     */
+    public abstract double[][] collapsedA();
+
+    /**
      * Gets the number of input symbols.
      *
      * @return The number of input symbols.
@@ -176,5 +184,21 @@ public interface InputHmm<TObs extends Observation, TIn extends Enum<TIn>> exten
      * @return The opdf associated to state <code>stateNb</code>.
      */
     public abstract Opdf<TObs> getOpdf(int stateNb, Tagable<TIn> inputNb);
+
+    /**
+     * Takes as input distribution (pi) of states the distribution of the states
+     * after the given sequence of interaction (Observations, input, ...).
+     *
+     * @param interaction The given iterable of interactions.
+     */
+    public abstract void fold(Iterable<? extends TIn> inputs);
+
+    /**
+     * Takes as input distribution (pi) of states the distribution of the states
+     * after the given sequence of interaction (Observations, input, ...).
+     *
+     * @param interaction The given iterable of interactions.
+     */
+    public abstract void fold(TIn input);
 
 }

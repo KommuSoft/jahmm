@@ -9,7 +9,7 @@ import java.text.NumberFormat;
 /**
  * This class holds an Observation described by a vector of reals.
  */
-public final class ObservationVector extends ObservationBase implements Cloneable, CentroidFactory<ObservationVector> {
+public final class ObservationVector extends ObservationBase<double[]> implements Cloneable, CentroidFactory<ObservationVector> {
 
     final double[] value;
 
@@ -155,5 +155,10 @@ public final class ObservationVector extends ObservationBase implements Cloneabl
     @Override
     public ObservationVector clone() throws CloneNotSupportedException {
         return new ObservationVector(value);
+    }
+
+    @Override
+    public double[] getTag() {
+        return this.value;
     }
 }

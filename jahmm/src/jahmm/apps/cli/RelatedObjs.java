@@ -14,7 +14,7 @@ import jahmm.observables.CentroidFactory;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
 import jahmm.observables.OpdfFactory;
-import jahmm.toolbox.MarkovGenerator;
+import jahmm.toolbox.RegularMarkovGenerator;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
@@ -71,5 +71,5 @@ public interface RelatedObjs<O extends Observation & CentroidFactory<O>> {
      * @param hmm
      * @return
      */
-    public MarkovGenerator<O> generator(RegularHmmBase<O> hmm);
+    public RegularMarkovGenerator<O> generator(RegularHmmBase<O> hmm);
 }

@@ -10,6 +10,6 @@ import jahmm.observables.Observation;
  * @param <TObs>
  * @param <TInt>
  */
-public interface InputForwardBackwardCalculator<TObs extends Observation, TInt extends Enum<TInt>> extends ForwardBackwardCalculator<double[][], double[][], TObs, InputObservationTuple<TInt, TObs>, InputHmm<TObs, TInt>> {
+public interface InputForwardBackwardCalculator<TObs extends Observation, TInt> extends ForwardBackwardCalculator<double[][], double[][], TObs, InputObservationTuple<TInt, TObs>, InputHmm<TObs, TInt>> {
 
 }

@@ -141,14 +141,6 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
     public abstract void fold(int n);
 
     /**
-     * Takes as input distribution (pi) of states the distribution of the states
-     * after the given sequence of interaction (Observations, input, ...).
-     *
-     * @param interaction The given iterable of interactions.
-     */
-    public abstract void fold(Iterable<? extends TInt> interaction);
-
-    /**
      * Sets the <i>pi</i> value associated with a given state.
      *
      * @param stateNb A state number such that

@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * @param <TObs>
  * @param <TInt>
  */
-public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt extends Enum<TInt>> extends ForwardBackwardCalculatorRaw<double[][], double[][], TObs, InputObservationTuple<TInt, TObs>, InputHmm<TObs, TInt>> implements InputForwardBackwardCalculator<TObs, TInt> {
+public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt> extends ForwardBackwardCalculatorRaw<double[][], double[][], TObs, InputObservationTuple<TInt, TObs>, InputHmm<TObs, TInt>> implements InputForwardBackwardCalculator<TObs, TInt> {
 
     public static final InputForwardBackwardCalculatorBase Instance = new InputForwardBackwardCalculatorBase();
 
@@ -48,7 +48,7 @@ public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt e
                 for (int j = 0; j < s; j++) {
                     double sum = 0.;
                     for (int i = 0; i < s; i++) {
-                        sum += alpha[t][i] * hmm.getAixj(i, observation.getItem1().value, j);
+                        sum += alpha[t][i] * hmm.getAixj(i, observation.getItem1(), j);
                     }
                     alpha[t + 0x01][j] = sum * hmm.getOpdf(j, observation.getInput()).probability(observation.getObservation());
                 }
@@ -74,7 +74,7 @@ public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt e
                 observation = oseq.get(t);
                 double sum = 0.0d;
                 for (int j = 0; j < s; j++) {
-                    sum += beta[t][j] * hmm.getAixj(i, observation.getItem1().value, j) * hmm.getOpdf(j, observation.getInput()).probability(observation.getObservation());
+                    sum += beta[t][j] * hmm.getAixj(i, observation.getItem1(), j) * hmm.getOpdf(j, observation.getInput()).probability(observation.getObservation());
                 }
                 beta[t - 0x01][i] = sum;
             }

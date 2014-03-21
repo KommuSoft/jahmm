@@ -35,7 +35,7 @@ import jutlis.lists.ListArray;
  * @note The A matrix has the following structure: A_{i,j,k} means the
  * probability of moving from state i to j given input k.
  */
-public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> extends HmmBase<TObs, double[][][], Object[][], InputObservationTuple<TIn, TObs>> implements InputHmm<TObs, TIn> {
+public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, double[][][], Object[][], InputObservationTuple<TIn, TObs>> implements InputHmm<TObs, TIn> {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(InputHmmBase.class.getName());
@@ -96,17 +96,35 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
         return clone;
     }
 
-    protected static double[][][] generateA(int nbSymbols, int nbStates) {
-        double[][][] a = new double[nbStates][nbSymbols][nbStates];
-        double inv = 1.0d / nbStates;
-        for (int i = 0x00; i < nbStates; i++) {
-            for (int j = 0x00; j < nbSymbols; j++) {
-                for (int k = 0x00; k < nbStates; k++) {
-                    a[i][j][k] = inv;
+    /**
+     * Generates a new A-matrix based on the given number of symbols and the
+     * given number of states.
+     *
+     * @param nbSymbols The given number of symbols.
+     * @param nbStates The given number of states.
+     * @return An A-matrix with dimensions nbStates x nbSymbols x nbStates where
+     * for each (state,input) couple, the values are uniformly distributed over
+     * the several end states.
+     * @throws IllegalArgumentException if the given number of states is smaller
+     * than one.
+     * @throws IllegalArgumentException if the given number of symbols is
+     * smaller than one.
+     */
+    protected static double[][][] generateA(int nbSymbols, int nbStates) throws IllegalArgumentException {
+        if (nbSymbols >= 0x01 && nbStates >= 0x01) {
+            double[][][] a = new double[nbStates][nbSymbols][nbStates];
+            double inv = 1.0d / nbStates;
+            for (int i = 0x00; i < nbStates; i++) {
+                for (int j = 0x00; j < nbSymbols; j++) {
+                    for (int k = 0x00; k < nbStates; k++) {
+                        a[i][j][k] = inv;
+                    }
                 }
             }
+            return a;
+        } else {
+            throw new IllegalArgumentException("The number of states and symbols must both be larger or equal to one.");
         }
-        return a;
     }
 
     protected static <TObs extends Observation> Object[][] generateB(int nbStates, int nbSymbols, OpdfFactory<? extends Opdf<TObs>> opdfFactory) {
@@ -158,21 +176,8 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
      */
     public InputHmmBase(int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory, Iterable<TIn> possibleInput) {
         super(generatePi(nbStates), generateA(CollectionUtils.size(possibleInput), nbStates), generateB(nbStates, CollectionUtils.size(possibleInput), opdfFactory));
+        generateInputIndices(possibleInput);
         this.checkConstraints();
-    }
-
-    /**
-     * Creates a new IHMM. Each state has the same <i>pi</i> value and the
-     * transition probabilities are all equal.
-     *
-     * @param nbStates The (strictly positive) number of states of the IHMM.
-     * @param opdfFactory A pdf generator that is used to build the pdfs
-     * associated to each state.
-     * @param classdef Gets the class definition of the input to derive the enum
-     * constants from.
-     */
-    public InputHmmBase(int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory, Class<TIn> classdef) {
-        this(nbStates, opdfFactory, new ListArray<>(classdef.getEnumConstants()));
     }
 
     @SuppressWarnings("unchecked")
@@ -182,6 +187,7 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
 
     public InputHmmBase(double[] pi, double[][][] a, Iterable<? extends Opdf<TObs>> opdfs, Iterable<TIn> possibleInput) throws CloneNotSupportedException {
         super(pi.clone(), cloneA(a), generateB(a.length, CollectionUtils.size(possibleInput), opdfs));
+        this.generateInputIndices(possibleInput);
         this.checkConstraints();
     }
 
@@ -205,32 +211,18 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
         CollectionUtils.putAll(this.indexRegister, possibleInput);
     }
 
-    /**
-     * Creates a new IHMM. The parameters of the created HMM set to
-     * <code>null</code> specified and must be set using the appropriate
-     * methods.
-     *
-     * @param nbSymbols The (strictly positive) number of states of the HMM.
-     * @param nbStates The (strictly positive) number of states of the HMM.
-     * @param possibleInput The possible input that may occur
-     */
-    protected InputHmmBase(int nbSymbols, int nbStates, Iterable<TIn> possibleInput) {
-        super(generatePi(nbStates), generateA(nbSymbols, nbStates), generateB(nbStates, nbSymbols, (OpdfFactory<? extends Opdf<TObs>>) null));
-        this.checkConstraints();
+    private void generateInputIndices(Iterable<TIn> possibleInput) {
+        this.indexRegister.clear();
+        int i = 0x00;
+        for (TIn inp : possibleInput) {
+            this.indexRegister.put(inp,i);
+            i++;
+        }
     }
 
     private void checkConstraints() {
         if (a.length == 0 || pi.length != a.length || b.length != a.length || b[0x00].length != a[0x00].length) {
             throw new IllegalArgumentException("Wrong dimensions");
-        }
-    }
-
-    private void initializeIndexRegister(Iterable<TIn> possibleInput) {
-        this.indexRegister.clear();
-        int i = 0x00;
-        for (TIn obs : possibleInput) {
-            this.indexRegister.put(obs, i);
-            i++;
         }
     }
 
@@ -284,9 +276,10 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
     @Override
     public double getAij(int i, int j) {
         double total = 0.0d;
-        int n = a[0x00].length;
+        double[][] row = this.a[i];
+        int n = row.length;
         for (int k = 0x00; k < n; k++) {
-            total += a[i][k][j];
+            total += row[k][j];
         }
         return total;
     }
@@ -348,20 +341,22 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
     public void fold(int n) {
         int m = pi.length;
         double[] pia = new double[m], pib = this.pi, tmp;
-        for (int i = 0x00; i < n; i++) {
+        double[][] colA = this.collapsedA();
+        double val;
+        for (int t = 0x00; t < n; t++) {
             tmp = pia;
             pia = pib;
             pib = tmp;
-            for (int j = 0x00; j < m; j++) {
-                double tot = 0.0d;
-                for (int k = 0x00; k < m; k++) {
-                    tot += 1.0d;//TODO
+            for (int i = 0x00; i < m; i++) {
+                val = 0.0d;
+                for (int j = 0x00; j < m; j++) {
+                    val += colA[j][i] * pia[j];
                 }
-                pib[j] = tot;
+                pib[i] = val;
             }
         }
         if ((n & 0x01) != 0x00) {
-            System.arraycopy(pib, 0, pi, 0, m);
+            System.arraycopy(pib, 0, this.pi, 0, m);
         }
     }
 
@@ -392,13 +387,8 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
     }
 
     @Override
-    public void fold(Iterable<? extends InputObservationTuple<TIn, TObs>> interaction) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void splitInput(final TIn originalIn, final TIn... newIns) {
-        if (newIns != null && newIns.length > 0x00) {
+        if (originalIn != null && newIns != null && newIns.length > 0x00) {
             if (newIns.length > 0x00) {
                 Integer originalIndex = this.indexRegister.remove(originalIn);
                 CollectionUtils.incrementValueByIndex(this.indexRegister, new ListArray<>(originalIndex), -0x01);
@@ -417,13 +407,17 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
                         double[] source = ai[origix];
                         int nSource = source.length;
                         double[][] newa = new double[idxPtr][];
-                        System.arraycopy(ai, 0, newa, 0, origix);
-                        System.arraycopy(ai, origix + 0x01, newa, origix, offset - origix - 0x01);
+                        for (int j = 0x00; j < origix; j++) {
+                            newa[j] = ai[j];
+                        }
+                        for (int j = origix; j < offset; j++) {
+                            newa[j] = ai[j + 0x01];
+                        }
                         newa[offset] = source;
                         for (int j = offset + 0x01; j < idxPtr; j++) {
                             newa[j] = Arrays.copyOf(source, nSource);
                         }
-                        this.a[i] = ai;
+                        this.a[i] = newa;
                     }
                 } else {
                     throw new UnsupportedOperationException("Cannot split a currently unknown input.");
@@ -438,15 +432,15 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
 
     @Override
     public void mergeInput(final TIn newIn, final TIn... originalIns) {
-        if (originalIns != null && originalIns.length > 0x00) {
+        if (newIn != null && originalIns != null && originalIns.length > 0x00) {
             if (originalIns.length > 0x01) {
                 final ListArray<TIn> originalList = new ListArray<>(originalIns);
-                final ArrayList<Integer> ids = new ArrayList<>();
+                final ArrayList<Integer> ids = new ArrayList<>(originalIns.length);
                 CollectionUtils.removeAll(this.indexRegister, originalList, ids);
                 Collections.sort(ids);
                 final double scale = 1.0d / ids.size();
                 final int first = ids.get(0x00);
-                final List<Integer> subl = ids.subList(0x01, ids.size() - 0x01);
+                final List<Integer> subl = ids.subList(0x01, ids.size());
                 CollectionUtils.incrementValueByIndex(this.indexRegister, subl, -0x01);
                 this.indexRegister.put(newIn, first);
                 final int nState = this.indexRegister.size();
@@ -523,6 +517,82 @@ public class InputHmmBase<TObs extends Observation, TIn extends Enum<TIn>> exten
     @Override
     public Opdf<TObs> getOpdf(int stateNb, Tagable<TIn> inputNb) {
         return this.getOpdf(stateNb, this.getInputIndex(inputNb.getTag()));
+    }
+
+    /**
+     * Creates a A-matrix independent of the input.
+     *
+     * @return An A-matrix given the input is uniformly distributed.
+     * @note The input is assumed to be uniformly distributed.
+     */
+    @Override
+    public double[][] collapsedA() {
+        int N = this.nbStates();
+        int M = this.nbSymbols();
+        double[][] colA = new double[N][N];
+        for (int i = 0x00; i < N; i++) {
+            for (int k = 0x00; k < N; k++) {
+                double val = 0.0d;
+                for (int j = 0x00; j < M; j++) {
+                    val += this.a[i][j][k];
+                }
+                colA[i][k] = val;
+            }
+        }
+        return colA;
+    }
+
+    @Override
+    public void fold(TIn input) {
+        int m = pi.length;
+        double[] pib = new double[m], pia = this.pi;
+        int k = this.getInputIndex(input);
+        double val;
+        double[][] cola = new double[m][];
+        for (int j = 0x00; j < m; j++) {
+            cola[j] = this.a[j][k];
+        }
+        for (int i = 0x00; i < m; i++) {
+            val = 0.0d;
+            for (int j = 0x00; j < m; j++) {
+                val += cola[j][i] * pia[j];
+            }
+            pib[i] = val;
+        }
+        System.arraycopy(pib, 0, this.pi, 0, m);
+    }
+
+    @Override
+    public void fold(Iterable<? extends TIn> inputs) {
+        int m = pi.length;
+        boolean copy = false;
+        int oldk = -0x01;
+        double[][] cola = new double[m][];
+        double[] pia = new double[m], pib = this.pi, tmp;
+        double val;
+        for (TIn input : inputs) {
+            copy = !copy;
+            int k = this.getInputIndex(input);
+            tmp = pia;
+            pia = pib;
+            pib = tmp;
+            if (oldk != k) {
+                for (int j = 0x00; j < m; j++) {
+                    cola[j] = this.a[j][k];
+                }
+                oldk = k;
+            }
+            for (int i = 0x00; i < m; i++) {
+                val = 0.0d;
+                for (int j = 0x00; j < m; j++) {
+                    val += cola[j][i] * pia[j];
+                }
+                pib[i] = val;
+            }
+        }
+        if (copy) {
+            System.arraycopy(pib, 0, this.pi, 0, m);
+        }
     }
 
 }

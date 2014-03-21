@@ -315,9 +315,4 @@ public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, doub
             System.arraycopy(pib, 0, pi, 0, m);
         }
     }
-
-    @Override
-    public void fold(Iterable<? extends TObs> interaction) {
-        this.fold(CollectionUtils.size(interaction));
-    }
 }

@@ -31,7 +31,7 @@ public class OpdfDiscrete<E extends Enum<E>> extends OpdfBase<ObservationDiscret
     /**
      *
      */
-    protected OpdfInteger distribution;
+    protected final OpdfInteger distribution;
 
     /**
      *
@@ -83,10 +83,14 @@ public class OpdfDiscrete<E extends Enum<E>> extends OpdfBase<ObservationDiscret
         toIntegerMap = createMap(valuesClass);
     }
 
-    private EnumMap<E, ObservationInteger> createMap(Class<E> valuesClass) {
-        EnumMap<E, ObservationInteger> result
-                = new EnumMap<>(valuesClass);
+    private OpdfDiscrete(List<E> values, OpdfInteger distribution, EnumMap<E, ObservationInteger> toIntegerMap) {
+        this.values = values;
+        this.distribution = distribution;
+        this.toIntegerMap = toIntegerMap;
+    }
 
+    private EnumMap<E, ObservationInteger> createMap(Class<E> valuesClass) {
+        EnumMap<E, ObservationInteger> result = new EnumMap<>(valuesClass);
         for (E value : values) {
             result.put(value, new ObservationInteger(value.ordinal()));
         }
@@ -95,7 +99,7 @@ public class OpdfDiscrete<E extends Enum<E>> extends OpdfBase<ObservationDiscret
     }
 
     @Override
-    public double probability(ObservationDiscrete o) {
+    public double probability(ObservationDiscrete<E> o) {
         return distribution.probability(toIntegerMap.get(o.value));
     }
 
@@ -137,16 +141,9 @@ public class OpdfDiscrete<E extends Enum<E>> extends OpdfBase<ObservationDiscret
         distribution.fit(dco, weights);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public OpdfDiscrete<E> clone() throws CloneNotSupportedException {
-        try {
-            OpdfDiscrete<E> opdfDiscrete = (OpdfDiscrete<E>) super.clone();
-            opdfDiscrete.distribution = distribution.clone();
-            return opdfDiscrete;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError();
-        }
+        return new OpdfDiscrete<>(this.values, this.distribution.clone(), this.toIntegerMap);
     }
 
     /**

@@ -9,7 +9,7 @@ import java.text.NumberFormat;
 /**
  * This class implements observations made of a real value.
  */
-public final class ObservationReal extends ObservationBase implements CentroidFactory<ObservationReal> {
+public final class ObservationReal extends ObservationBase<Double> implements CentroidFactory<ObservationReal> {
 
     /**
      * The observation's value.
@@ -38,5 +38,10 @@ public final class ObservationReal extends ObservationBase implements CentroidFa
     @Override
     public String toString(NumberFormat numberFormat) {
         return numberFormat.format(value);
+    }
+
+    @Override
+    public Double getTag() {
+        return this.value;
     }
 }

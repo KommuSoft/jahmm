@@ -9,15 +9,13 @@ import java.util.Random;
 /**
  * This class implements a Gaussian distribution.
  */
-public class GaussianDistribution
-        implements RandomDistribution {
+public class GaussianDistribution implements RandomDistribution {
 
     private final static Random randomGenerator = new Random();
 
     private static final long serialVersionUID = 9_127_329_839_769_283_975L;
 
     private double mean;
-    private double deviation;
     private double variance;
 
     /**
@@ -35,13 +33,8 @@ public class GaussianDistribution
      * @param variance The variance of the generated numbers.
      */
     public GaussianDistribution(double mean, double variance) {
-        if (variance <= 0.) {
-            throw new IllegalArgumentException("Variance must be positive");
-        }
-
-        this.mean = mean;
-        this.variance = variance;
-        this.deviation = Math.sqrt(variance);
+        this.setMean(mean);
+        this.setVariance(variance);
     }
 
     /**
@@ -64,7 +57,7 @@ public class GaussianDistribution
 
     @Override
     public double generate() {
-        return randomGenerator.nextGaussian() * deviation + mean;
+        return randomGenerator.nextGaussian() * Math.sqrt(this.variance) + mean;
     }
 
     @Override
@@ -72,5 +65,34 @@ public class GaussianDistribution
         double expArg = -.5 * (n - mean) * (n - mean) / variance;
         return Math.pow(2. * Math.PI * variance, -.5)
                 * Math.exp(expArg);
+    }
+
+    @Override
+    public GaussianDistribution clone() throws CloneNotSupportedException {
+        return new GaussianDistribution(this.mean, this.variance);
+    }
+
+    /**
+     * @param mean the mean to set
+     */
+    public void setMean(double mean) {
+        this.mean = mean;
+    }
+
+    /**
+     * @param deviation the deviation to set
+     */
+    public void setDeviation(double deviation) {
+        this.variance = deviation * deviation;
+    }
+
+    /**
+     * @param variance the variance to set
+     */
+    public void setVariance(double variance) {
+        if (variance <= 0.) {
+            throw new IllegalArgumentException("Variance must be positive");
+        }
+        this.variance = variance;
     }
 }

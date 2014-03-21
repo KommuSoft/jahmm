@@ -35,7 +35,7 @@ import jahmm.observables.OpdfGaussianFactory;
 import jahmm.observables.OpdfGaussianMixtureFactory;
 import jahmm.observables.OpdfIntegerFactory;
 import jahmm.observables.OpdfMultiGaussianFactory;
-import jahmm.toolbox.MarkovGenerator;
+import jahmm.toolbox.RegularMarkovGenerator;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.List;
@@ -104,8 +104,8 @@ class IntegerRelatedObjects implements RelatedObjs<ObservationInteger> {
     }
 
     @Override
-    public MarkovGenerator<ObservationInteger> generator(RegularHmmBase<ObservationInteger> hmm) {
-        return new MarkovGenerator<>(hmm);
+    public RegularMarkovGenerator<ObservationInteger> generator(RegularHmmBase<ObservationInteger> hmm) {
+        return new RegularMarkovGenerator<>(hmm);
     }
 }
 
@@ -162,8 +162,8 @@ class RealRelatedObjects implements RelatedObjs<ObservationReal> {
     }
 
     @Override
-    public MarkovGenerator<ObservationReal> generator(RegularHmmBase<ObservationReal> hmm) {
-        return new MarkovGenerator<>(hmm);
+    public RegularMarkovGenerator<ObservationReal> generator(RegularHmmBase<ObservationReal> hmm) {
+        return new RegularMarkovGenerator<>(hmm);
     }
 }
 
@@ -206,7 +206,7 @@ class VectorRelatedObjects implements RelatedObjs<ObservationVector> {
     }
 
     @Override
-    public MarkovGenerator<ObservationVector> generator(RegularHmmBase<ObservationVector> hmm) {
-        return new MarkovGenerator<>(hmm);
+    public RegularMarkovGenerator<ObservationVector> generator(RegularHmmBase<ObservationVector> hmm) {
+        return new RegularMarkovGenerator<>(hmm);
     }
 }
