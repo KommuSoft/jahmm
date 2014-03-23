@@ -6,8 +6,9 @@ import java.util.List;
 
 /**
  *
- * An interface that enables generating a sequence of interactions based on a given Hidden Markov Model.
- * 
+ * An interface that enables generating a sequence of interactions based on a
+ * given Hidden Markov Model.
+ *
  * @author kommusoft
  * @param <TObs> The type of observations regarding the Hidden Markov Model.
  * @param <TInt> The type of interactions regarding the Hidden Markov Model.
@@ -42,11 +43,12 @@ public interface MarkovGenerator<TObs extends Observation, TInt extends Observat
      * @return A state number.
      */
     int stateNb();
-    
+
     /**
      * Gets the stored Hidden Markov Model.
+     *
      * @return The stored hidden Markov Model.
      */
     THmm getHmm();
-    
+
 }

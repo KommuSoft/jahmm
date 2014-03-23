@@ -15,7 +15,7 @@ import junit.framework.TestCase;
  * @author kommusoft
  */
 public class KMeansLearnerTest extends TestCase {
-    
+
     final static private double DELTA = 5.E-3;
 
     private RegularHmm<ObservationInteger> hmm;
@@ -45,5 +45,5 @@ public class KMeansLearnerTest extends TestCase {
         KMeansLearner<ObservationInteger> kml = new KMeansLearner<>(5, new OpdfIntegerFactory(10), sequences);
         assertEquals(0., klc.distance(kml.learn(), hmm), DELTA);
     }
-    
+
 }

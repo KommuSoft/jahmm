@@ -559,6 +559,7 @@ public class InputHmmBaseTest {
 
     /**
      * Test of fold method, of class InputHmmBase.
+     *
      * @throws java.lang.CloneNotSupportedException
      */
     @Test
@@ -569,7 +570,7 @@ public class InputHmmBaseTest {
             int n = ti.length;
             InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> hmm = generateRandomIHmm1(m, ti, n);
             LinkedList<TrisEnum> iterable = new LinkedList<>();
-            while(ProbabilityUtils.nextBoolean(0.85d)) {
+            while (ProbabilityUtils.nextBoolean(0.85d)) {
                 iterable.add(ProbabilityUtils.nextElement(ti));
             }
             InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> hmm2 = hmm.clone();

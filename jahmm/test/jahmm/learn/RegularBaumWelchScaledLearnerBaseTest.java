@@ -15,7 +15,7 @@ import junit.framework.TestCase;
  * @author kommusoft
  */
 public class RegularBaumWelchScaledLearnerBaseTest extends TestCase {
-    
+
     final static private double DELTA = 5.E-3;
 
     private RegularHmm<ObservationInteger> hmm;
@@ -53,5 +53,5 @@ public class RegularBaumWelchScaledLearnerBaseTest extends TestCase {
 
         assertEquals(0., klc.distance(bwHmm, hmm), DELTA);
     }
-    
+
 }

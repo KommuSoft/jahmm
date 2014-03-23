@@ -54,17 +54,17 @@ public class InputBaumWelchLearnerBaseTest extends TestCase {
         //TODO: input instead of regular.
         /* Model sequences using BW algorithm */
         /*RegularBaumWelchLearnerBase<ObservationInteger> bwl = new RegularBaumWelchLearnerBase<>();
-        RegularHmm<ObservationInteger> bwHmm = bwl.learn(hmm, sequences);
-        InputBaumWelchLearnerBase<ObservationInteger, Integer> ibwl = new InputBaumWelchLearnerBase<>();
-        InputHmm<ObservationInteger, Integer> ibwHmm = ibwl.learn(ihmm, isequences);
+         RegularHmm<ObservationInteger> bwHmm = bwl.learn(hmm, sequences);
+         InputBaumWelchLearnerBase<ObservationInteger, Integer> ibwl = new InputBaumWelchLearnerBase<>();
+         InputHmm<ObservationInteger, Integer> ibwHmm = ibwl.learn(ihmm, isequences);
 
-        assertEquals(0., klc.distance(bwHmm, hmm), DELTA);
+         assertEquals(0., klc.distance(bwHmm, hmm), DELTA);
 
-        /* Model sequences using the scaled BW algorithm */
+         /* Model sequences using the scaled BW algorithm */
         /*RegularBaumWelchScaledLearnerBase<ObservationInteger> bwsl = new RegularBaumWelchScaledLearnerBase<>();
-        bwHmm = bwsl.learn(hmm, sequences);
+         bwHmm = bwsl.learn(hmm, sequences);
 
-        assertEquals(0., klc.distance(bwHmm, hmm), DELTA);*/
+         assertEquals(0., klc.distance(bwHmm, hmm), DELTA);*/
     }
 
 }
