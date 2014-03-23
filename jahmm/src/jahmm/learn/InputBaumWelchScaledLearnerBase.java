@@ -1,12 +1,9 @@
-/*
- * Copyright (c) 2004-2009, Jean-Marc François. All Rights Reserved.
- * Licensed under the New BSD license.  See the LICENSE file.
- */
 package jahmm.learn;
 
-import jahmm.RegularHmm;
+import jahmm.InputHmm;
 import jahmm.calculators.ForwardBackwardCalculator;
-import jahmm.calculators.RegularForwardBackwardScaledCalculatorBase;
+import jahmm.calculators.InputForwardBackwardScaledCalculatorBase;
+import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
 import java.util.Iterator;
 import java.util.List;
@@ -14,21 +11,21 @@ import java.util.logging.Logger;
 import jutlis.tuples.Tuple3;
 
 /**
- * An implementation of the Baum-Welch learning algorithm. It uses a scaling
- * mechanism so as to avoid underflows.
- * <p>
- * For more information on the scaling procedure, read <i>Rabiner</i> and
- * <i>Juang</i>'s <i>Fundamentals of speech recognition</i> (Prentice Hall,
- * 1993).
+ *
+ * @author kommusoft
+ * @param <TObservation> The type of observations regarding the Hidden Markov
+ * Model.
+ * @param <TInteraction> The type of interactions regarding the Hidden Markov
+ * Model.
  */
-public class RegularBaumWelchScaledLearnerBase<TObs extends Observation> extends RegularBaumWelchLearnerBase<TObs> {
+public class InputBaumWelchScaledLearnerBase<TObservation extends Observation, TInteraction> extends InputBaumWelchLearnerBase<TObservation, TInteraction> {
 
     private static final Logger LOG = Logger.getLogger(RegularBaumWelchScaledLearnerBase.class.getName());
 
     /**
      * Initializes a Baum-Welch algorithm implementation.
      */
-    public RegularBaumWelchScaledLearnerBase() {
+    public InputBaumWelchScaledLearnerBase() {
     }
 
     /**
@@ -38,8 +35,8 @@ public class RegularBaumWelchScaledLearnerBase<TObs extends Observation> extends
      */
     @Override
     @SuppressWarnings("unchecked")
-    protected ForwardBackwardCalculator<double[][], double[][], TObs, TObs, RegularHmm<TObs>> getCalculator() {
-        return RegularForwardBackwardScaledCalculatorBase.Instance;
+    protected ForwardBackwardCalculator<double[][], double[][], TObservation, InputObservationTuple<TInteraction, TObservation>, InputHmm<TObservation, TInteraction>> getCalculator() {
+        return InputForwardBackwardScaledCalculatorBase.Instance;
     }
 
     /**
@@ -57,24 +54,25 @@ public class RegularBaumWelchScaledLearnerBase<TObs extends Observation> extends
      * @return The estimated xi-values.
      */
     @Override
-    protected double[][][] estimateXi(List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<TObs> hmm) {
+    protected double[][][] estimateXi(List<? extends InputObservationTuple<TInteraction, TObservation>> sequence, Tuple3<double[][], double[][], Double> abp, InputHmm<TObservation, TInteraction> hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
         }
+        double[][] a = abp.getItem1();
+        double[][] b = abp.getItem2();
         double xi[][][] = new double[sequence.size() - 1][hmm.nbStates()][hmm.nbStates()];
-        double[][] alpha = abp.getItem1();
-        double[][] beta = abp.getItem2();
-        Iterator<? extends TObs> seqIterator = sequence.iterator();
+        Iterator<? extends InputObservationTuple<TInteraction, TObservation>> seqIterator = sequence.iterator();
         seqIterator.next();
         for (int t = 0; t < sequence.size() - 1; t++) {
-            TObs observation = seqIterator.next();
+            InputObservationTuple<TInteraction, TObservation> interaction = seqIterator.next();
             for (int i = 0; i < hmm.nbStates(); i++) {
                 for (int j = 0; j < hmm.nbStates(); j++) {
-                    xi[t][i][j] = alpha[t][i] * hmm.getAij(i, j) * hmm.getOpdf(j).probability(observation) * beta[t + 1][j];
+                    xi[t][i][j] = a[t][i] * hmm.getAixj(i, interaction.getInput(), j) * hmm.getOpdf(j, interaction.getInput()).probability(interaction.getObservation()) * b[t + 1][j];
                 }
             }
         }
 
         return xi;
     }
+
 }

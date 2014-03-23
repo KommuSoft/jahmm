@@ -39,7 +39,7 @@ import jahmm.observables.Observation;
 import jahmm.observables.ObservationEnum;
 import jahmm.observables.OpdfEnum;
 import jahmm.observables.OpdfEnumFactory;
-import jahmm.toolbox.KullbackLeiblerDistanceCalculator;
+import jahmm.toolbox.RegularKullbackLeiblerDistanceCalculatorBase;
 import jahmm.toolbox.RegularMarkovGeneratorBase;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -84,8 +84,8 @@ public class SimpleExample {
         RegularHmm<ObservationEnum<Packet>> learntHmm = buildInitHmm();
 
         // This object measures the distance between two HMMs
-        KullbackLeiblerDistanceCalculator klc
-                = new KullbackLeiblerDistanceCalculator();
+        RegularKullbackLeiblerDistanceCalculatorBase klc
+                = new RegularKullbackLeiblerDistanceCalculatorBase();
 
         // Incrementally improve the solution
         for (int i = 0; i < 10; i++) {

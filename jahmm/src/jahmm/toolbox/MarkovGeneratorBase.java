@@ -1,7 +1,6 @@
 package jahmm.toolbox;
 
 import jahmm.Hmm;
-import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
 import java.util.ArrayList;
 import java.util.List;

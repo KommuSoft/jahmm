@@ -10,7 +10,7 @@ import jahmm.io.FileFormatException;
 import jahmm.io.HmmReader;
 import jahmm.observables.CentroidFactory;
 import jahmm.observables.Observation;
-import jahmm.toolbox.KullbackLeiblerDistanceCalculator;
+import jahmm.toolbox.RegularKullbackLeiblerDistanceCalculatorBase;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,8 +54,8 @@ public class KLActionHandler extends ActionHandler {
         RegularHmmBase<O> hmm1 = HmmReader.read(reader1, relatedObjs.opdfReader());
         RegularHmmBase<O> hmm2 = HmmReader.read(reader2, relatedObjs.opdfReader());
 
-        KullbackLeiblerDistanceCalculator kl
-                = new KullbackLeiblerDistanceCalculator();
+        RegularKullbackLeiblerDistanceCalculatorBase kl
+                = new RegularKullbackLeiblerDistanceCalculatorBase();
         System.out.println(kl.distance(hmm1, hmm2));
     }
 }

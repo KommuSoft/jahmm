@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.logging.Logger;
 import jutils.collections.CollectionUtils;
 import jutils.draw.DotDrawer;
+import jutlis.lists.ListArray;
 import jutlis.tuples.Tuple2;
 import jutlis.tuples.Tuple2Base;
 
@@ -44,7 +45,18 @@ public final class OpdfDiscrete<TDiscrete> extends OpdfBase<ObservationDiscrete<
      * values. The probabilities are initialized so that the distribution is
      * uniformally distributed.
      *
-     * @param values An {@link Enum Enum} class representing the set of values.
+     * @param values An array of potential values.
+     */
+    public OpdfDiscrete(TDiscrete... values) {
+        this(new ListArray<>(values));
+    }
+
+    /**
+     * Builds a new probability distribution which operates on a finite set of
+     * values. The probabilities are initialized so that the distribution is
+     * uniformally distributed.
+     *
+     * @param values An iterable of potential values.
      */
     public OpdfDiscrete(Iterable<TDiscrete> values) {
         this.values = new ArrayList<>();
@@ -60,7 +72,7 @@ public final class OpdfDiscrete<TDiscrete> extends OpdfBase<ObservationDiscrete<
     /**
      * Builds a new probability distribution which operates on integer values.
      *
-     * @param values An {@link Enum Enum} class representing the set of values.
+     * @param values An iterable of potential values.
      * @param probabilities Array holding one probability for each possible
      * value (<i>i.e.</i> such that <code>probabilities[i]</code> is the
      * probability of the observation <code>i</code>th element of
@@ -76,6 +88,19 @@ public final class OpdfDiscrete<TDiscrete> extends OpdfBase<ObservationDiscrete<
         }
         toIntegerMap = createMap(this.values);
         distribution = new OpdfInteger(probabilities);
+    }
+
+    /**
+     * Builds a new probability distribution which operates on integer values.
+     *
+     * @param values An array of potential values.
+     * @param probabilities Array holding one probability for each possible
+     * value (<i>i.e.</i> such that <code>probabilities[i]</code> is the
+     * probability of the observation <code>i</code>th element of
+     * <code>values</code>.
+     */
+    public OpdfDiscrete(TDiscrete[] values, double... probabilities) {
+        this(new ListArray<>(values),probabilities);
     }
 
     private OpdfDiscrete(ArrayList<TDiscrete> values, OpdfInteger distribution, HashMap<TDiscrete, ObservationInteger> toIntegerMap) {
