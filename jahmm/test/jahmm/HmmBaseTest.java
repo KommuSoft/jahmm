@@ -186,17 +186,15 @@ public class HmmBaseTest {
     public void testProbability01() {
         int l = 0x02;
         List<ObservationInteger> lst = hmm_sequence.subList(0x00, l);
-        double pi00 = hmm_pi[0x00];
-        double pi01 = hmm_pi[0x01];
-        double pi02 = hmm_pi[0x02];
-
-        double pa = pi00 * b00 + pi01 * b10 + pi02 * b20;
+        double pi00 = hmm_pi[0x00] * b00;
+        double pi01 = hmm_pi[0x01] * b10;
+        double pi02 = hmm_pi[0x02] * b20;
 
         double pi10 = pi00 * a00 + pi01 * a10 + pi02 * a20;
         double pi11 = pi00 * a01 + pi01 * a11 + pi02 * a21;
         double pi12 = pi00 * a02 + pi01 * a12 + pi02 * a22;
 
-        pa *= pi10 * b01 + pi11 * b11 + pi12 * b21;
+        double pa = pi10 * b01 + pi11 * b11 + pi12 * b21;
 
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), lst));
@@ -212,23 +210,23 @@ public class HmmBaseTest {
     public void testProbability02() {
         int l = 0x03;
         List<ObservationInteger> lst = hmm_sequence.subList(0x00, l);
-        double pi00 = hmm_pi[0x00];
-        double pi01 = hmm_pi[0x01];
-        double pi02 = hmm_pi[0x02];
-
-        double pa = pi00 * b00 + pi01 * b10 + pi02 * b20;
+        double pi00 = hmm_pi[0x00] * b00;
+        double pi01 = hmm_pi[0x01] * b10;
+        double pi02 = hmm_pi[0x02] * b20;
 
         double pi10 = pi00 * a00 + pi01 * a10 + pi02 * a20;
         double pi11 = pi00 * a01 + pi01 * a11 + pi02 * a21;
         double pi12 = pi00 * a02 + pi01 * a12 + pi02 * a22;
 
-        pa *= pi10 * b01 + pi11 * b11 + pi12 * b21;
+        pi10 *= b01;
+        pi11 *= b11;
+        pi12 *= b21;
 
         double pi20 = pi10 * a00 + pi11 * a10 + pi12 * a20;
         double pi21 = pi10 * a01 + pi11 * a11 + pi12 * a21;
         double pi22 = pi10 * a02 + pi11 * a12 + pi12 * a22;
 
-        pa *= pi20 * b00 + pi21 * b10 + pi22 * b20;
+        double pa = pi20 * b00 + pi21 * b10 + pi22 * b20;
 
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), lst));
@@ -244,29 +242,31 @@ public class HmmBaseTest {
     public void testProbability03() {
         int l = 0x04;
         List<ObservationInteger> lst = hmm_sequence.subList(0x00, l);
-        double pi00 = hmm_pi[0x00];
-        double pi01 = hmm_pi[0x01];
-        double pi02 = hmm_pi[0x02];
-
-        double pa = pi00 * b00 + pi01 * b10 + pi02 * b20;
+        double pi00 = hmm_pi[0x00] * b00;
+        double pi01 = hmm_pi[0x01] * b10;
+        double pi02 = hmm_pi[0x02] * b20;
 
         double pi10 = pi00 * a00 + pi01 * a10 + pi02 * a20;
         double pi11 = pi00 * a01 + pi01 * a11 + pi02 * a21;
         double pi12 = pi00 * a02 + pi01 * a12 + pi02 * a22;
 
-        pa *= pi10 * b01 + pi11 * b11 + pi12 * b21;
+        pi10 *= b01;
+        pi11 *= b11;
+        pi12 *= b21;
 
         double pi20 = pi10 * a00 + pi11 * a10 + pi12 * a20;
         double pi21 = pi10 * a01 + pi11 * a11 + pi12 * a21;
         double pi22 = pi10 * a02 + pi11 * a12 + pi12 * a22;
 
-        pa *= pi20 * b00 + pi21 * b10 + pi22 * b20;
+        pi20 *= b00;
+        pi21 *= b10;
+        pi22 *= b20;
 
         double pi30 = pi20 * a00 + pi21 * a10 + pi22 * a20;
         double pi31 = pi20 * a01 + pi21 * a11 + pi22 * a21;
         double pi32 = pi20 * a02 + pi21 * a12 + pi22 * a22;
 
-        pa *= pi30 * b01 + pi31 * b11 + pi32 * b21;
+        double pa = pi30 * b01 + pi31 * b11 + pi32 * b21;
 
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), lst));
@@ -282,35 +282,39 @@ public class HmmBaseTest {
     public void testProbability04() {
         int l = 0x05;
         List<ObservationInteger> lst = hmm_sequence.subList(0x00, l);
-        double pi00 = hmm_pi[0x00];
-        double pi01 = hmm_pi[0x01];
-        double pi02 = hmm_pi[0x02];
-
-        double pa = pi00 * b00 + pi01 * b10 + pi02 * b20;
+        double pi00 = hmm_pi[0x00] * b00;
+        double pi01 = hmm_pi[0x01] * b10;
+        double pi02 = hmm_pi[0x02] * b20;
 
         double pi10 = pi00 * a00 + pi01 * a10 + pi02 * a20;
         double pi11 = pi00 * a01 + pi01 * a11 + pi02 * a21;
         double pi12 = pi00 * a02 + pi01 * a12 + pi02 * a22;
 
-        pa *= pi10 * b01 + pi11 * b11 + pi12 * b21;
+        pi10 *= b01;
+        pi11 *= b11;
+        pi12 *= b21;
 
         double pi20 = pi10 * a00 + pi11 * a10 + pi12 * a20;
         double pi21 = pi10 * a01 + pi11 * a11 + pi12 * a21;
         double pi22 = pi10 * a02 + pi11 * a12 + pi12 * a22;
 
-        pa *= pi20 * b00 + pi21 * b10 + pi22 * b20;
+        pi20 *= b00;
+        pi21 *= b10;
+        pi22 *= b20;
 
         double pi30 = pi20 * a00 + pi21 * a10 + pi22 * a20;
         double pi31 = pi20 * a01 + pi21 * a11 + pi22 * a21;
         double pi32 = pi20 * a02 + pi21 * a12 + pi22 * a22;
 
-        pa *= pi30 * b01 + pi31 * b11 + pi32 * b21;
+        pi30 *= b01;
+        pi31 *= b11;
+        pi32 *= b21;
 
         double pi40 = pi30 * a00 + pi31 * a10 + pi32 * a20;
         double pi41 = pi30 * a01 + pi31 * a11 + pi32 * a21;
         double pi42 = pi30 * a02 + pi31 * a12 + pi32 * a22;
 
-        pa *= pi40 * b00 + pi41 * b10 + pi42 * b20;
+        double pa = pi40 * b00 + pi41 * b10 + pi42 * b20;
 
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), lst));
@@ -326,41 +330,47 @@ public class HmmBaseTest {
     public void testProbability05() {
         int l = 0x06;
         List<ObservationInteger> lst = hmm_sequence.subList(0x00, l);
-        double pi00 = hmm_pi[0x00];
-        double pi01 = hmm_pi[0x01];
-        double pi02 = hmm_pi[0x02];
-
-        double pa = pi00 * b00 + pi01 * b10 + pi02 * b20;
+        double pi00 = hmm_pi[0x00] * b00;
+        double pi01 = hmm_pi[0x01] * b10;
+        double pi02 = hmm_pi[0x02] * b20;
 
         double pi10 = pi00 * a00 + pi01 * a10 + pi02 * a20;
         double pi11 = pi00 * a01 + pi01 * a11 + pi02 * a21;
         double pi12 = pi00 * a02 + pi01 * a12 + pi02 * a22;
 
-        pa *= pi10 * b01 + pi11 * b11 + pi12 * b21;
+        pi10 *= b01;
+        pi11 *= b11;
+        pi12 *= b21;
 
         double pi20 = pi10 * a00 + pi11 * a10 + pi12 * a20;
         double pi21 = pi10 * a01 + pi11 * a11 + pi12 * a21;
         double pi22 = pi10 * a02 + pi11 * a12 + pi12 * a22;
 
-        pa *= pi20 * b00 + pi21 * b10 + pi22 * b20;
+        pi20 *= b00;
+        pi21 *= b10;
+        pi22 *= b20;
 
         double pi30 = pi20 * a00 + pi21 * a10 + pi22 * a20;
         double pi31 = pi20 * a01 + pi21 * a11 + pi22 * a21;
         double pi32 = pi20 * a02 + pi21 * a12 + pi22 * a22;
 
-        pa *= pi30 * b01 + pi31 * b11 + pi32 * b21;
+        pi30 *= b01;
+        pi31 *= b11;
+        pi32 *= b21;
 
         double pi40 = pi30 * a00 + pi31 * a10 + pi32 * a20;
         double pi41 = pi30 * a01 + pi31 * a11 + pi32 * a21;
         double pi42 = pi30 * a02 + pi31 * a12 + pi32 * a22;
 
-        pa *= pi40 * b00 + pi41 * b10 + pi42 * b20;
+        pi40 *= b00;
+        pi41 *= b10;
+        pi42 *= b20;
 
         double pi50 = pi40 * a00 + pi41 * a10 + pi42 * a20;
         double pi51 = pi40 * a01 + pi41 * a11 + pi42 * a21;
         double pi52 = pi40 * a02 + pi41 * a12 + pi42 * a22;
 
-        pa *= pi50 * b01 + pi51 * b11 + pi52 * b21;
+        double pa = pi50 * b01 + pi51 * b11 + pi52 * b21;
 
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), lst));
