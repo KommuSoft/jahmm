@@ -37,11 +37,13 @@ public class InputHmmBaseTest {
     private static final double b000 = 0.45d, b001 = 0.55d, b010 = 1.00d, b011 = 0.00d, b020 = 0.39d, b021 = 0.61d;
     private static final double b100 = 0.25d, b101 = 0.75d, b110 = 0.14d, b111 = 0.86d, b120 = 0.05d, b121 = 0.95d;
     private static final double b200 = 0.67d, b201 = 0.33d, b210 = 0.52d, b211 = 0.48d, b220 = 0.12d, b221 = 0.88d;
+    @SuppressWarnings("unchecked")
     private static final ListArray<ListArray<OpdfInteger>> ihmm_opdf = new ListArray(
             new ListArray<>(new OpdfInteger(b000, b001), new OpdfInteger(b010, b011), new OpdfInteger(b020, b021)),
             new ListArray<>(new OpdfInteger(b100, b101), new OpdfInteger(b110, b111), new OpdfInteger(b120, b121)),
             new ListArray<>(new OpdfInteger(b200, b201), new OpdfInteger(b210, b211), new OpdfInteger(b220, b221))
     );
+    @SuppressWarnings("unchecked")
     private static final ListArray<InputObservationTuple<Integer, ObservationInteger>> ihmm_sequence = new ListArray<>(
             new InputObservationTuple<>(0x00, new ObservationInteger(0x00)),
             new InputObservationTuple<>(0x00, new ObservationInteger(0x00)),
@@ -579,7 +581,16 @@ public class InputHmmBaseTest {
      */
     @Test
     public void testProbability00() {
-        AssertExtensions.assertEquals(1.0d, ihmm.probability(ihmm_sequence));
+        double pi00 = ihmm_pi[0x00];
+        double pi01 = ihmm_pi[0x01];
+        double pi02 = ihmm_pi[0x02];
+        double pi10 = pi00 * a000 + pi01 * a100 + pi02 * a200;
+        double pi11 = pi00 * a001 + pi01 * a101 + pi02 * a201;
+        double pi12 = pi00 * a002 + pi01 * a102 + pi02 * a202;
+
+        double pa = pi10*b000+pi11*b100+pi12*b200;
+
+        AssertExtensions.assertEquals(pa, ihmm.probability(ihmm_sequence.subList(0x00, 0x01)));
     }
 
     /**
@@ -633,25 +644,38 @@ public class InputHmmBaseTest {
             FooEnum[] splitres = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
             ProbabilityUtils.shuffle1(splitres);
             int M = inputs.length;
-            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class), inputs);
+            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class
+            ), inputs);
             InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm2 = hmm.clone();
+
             Assert.assertEquals(inputs.length, hmm2.nbSymbols());
             double pa = ProbabilityUtils.nextDouble();
             double pb = ProbabilityUtils.nextDouble();
-            hmm2.setAixj(0x00, FooEnum.Foobar, 0x00, pa);
-            hmm2.setAixj(0x00, FooEnum.Foobar, 0x01, 1.0d - pa);
-            hmm2.setAixj(0x01, FooEnum.Foobar, 0x00, pb);
-            hmm2.setAixj(0x01, FooEnum.Foobar, 0x01, 1.0 - pb);
+
+            hmm2.setAixj(
+                    0x00, FooEnum.Foobar, 0x00, pa);
+            hmm2.setAixj(
+                    0x00, FooEnum.Foobar, 0x01, 1.0d - pa);
+            hmm2.setAixj(
+                    0x01, FooEnum.Foobar, 0x00, pb);
+            hmm2.setAixj(
+                    0x01, FooEnum.Foobar, 0x01, 1.0 - pb);
             hmm2.splitInput(FooEnum.Foobar, splitres);
-            Assert.assertEquals(inputs.length + splitres.length - 0x01, hmm2.nbSymbols());
+
+            Assert.assertEquals(inputs.length
+                    + splitres.length - 0x01, hmm2.nbSymbols());
             AssertExtensions.assertEquals(pa, hmm2.getAixj(0x00, FooEnum.Foo, 0x00));
-            AssertExtensions.assertEquals(1.0d - pa, hmm2.getAixj(0x00, FooEnum.Foo, 0x01));
+            AssertExtensions.assertEquals(
+                    1.0d - pa, hmm2.getAixj(0x00, FooEnum.Foo, 0x01));
             AssertExtensions.assertEquals(pb, hmm2.getAixj(0x01, FooEnum.Foo, 0x00));
-            AssertExtensions.assertEquals(1.0d - pb, hmm2.getAixj(0x01, FooEnum.Foo, 0x01));
+            AssertExtensions.assertEquals(
+                    1.0d - pb, hmm2.getAixj(0x01, FooEnum.Foo, 0x01));
             AssertExtensions.assertEquals(pa, hmm2.getAixj(0x00, FooEnum.Bar, 0x00));
-            AssertExtensions.assertEquals(1.0d - pa, hmm2.getAixj(0x00, FooEnum.Bar, 0x01));
+            AssertExtensions.assertEquals(
+                    1.0d - pa, hmm2.getAixj(0x00, FooEnum.Bar, 0x01));
             AssertExtensions.assertEquals(pb, hmm2.getAixj(0x01, FooEnum.Bar, 0x00));
-            AssertExtensions.assertEquals(1.0d - pb, hmm2.getAixj(0x01, FooEnum.Bar, 0x01));
+            AssertExtensions.assertEquals(
+                    1.0d - pb, hmm2.getAixj(0x01, FooEnum.Bar, 0x01));
         }
     }
 
@@ -669,27 +693,44 @@ public class InputHmmBaseTest {
             FooEnum[] tomerge = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
             ProbabilityUtils.shuffle1(tomerge);
             int M = inputs.length;
-            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class), inputs);
+            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class
+            ), inputs);
             InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm2 = hmm.clone();
+
             Assert.assertEquals(inputs.length, hmm2.nbSymbols());
             double pa = ProbabilityUtils.nextDouble();
             double pb = ProbabilityUtils.nextDouble();
             double pc = ProbabilityUtils.nextDouble();
             double pd = ProbabilityUtils.nextDouble();
-            hmm2.setAixj(0x00, FooEnum.Foo, 0x00, pa);
-            hmm2.setAixj(0x00, FooEnum.Foo, 0x01, 1.0d - pa);
-            hmm2.setAixj(0x01, FooEnum.Foo, 0x00, pb);
-            hmm2.setAixj(0x01, FooEnum.Foo, 0x01, 1.0 - pb);
-            hmm2.setAixj(0x00, FooEnum.Bar, 0x00, pc);
-            hmm2.setAixj(0x00, FooEnum.Bar, 0x01, 1.0d - pc);
-            hmm2.setAixj(0x01, FooEnum.Bar, 0x00, pd);
-            hmm2.setAixj(0x01, FooEnum.Bar, 0x01, 1.0 - pd);
+
+            hmm2.setAixj(
+                    0x00, FooEnum.Foo, 0x00, pa);
+            hmm2.setAixj(
+                    0x00, FooEnum.Foo, 0x01, 1.0d - pa);
+            hmm2.setAixj(
+                    0x01, FooEnum.Foo, 0x00, pb);
+            hmm2.setAixj(
+                    0x01, FooEnum.Foo, 0x01, 1.0 - pb);
+            hmm2.setAixj(
+                    0x00, FooEnum.Bar, 0x00, pc);
+            hmm2.setAixj(
+                    0x00, FooEnum.Bar, 0x01, 1.0d - pc);
+            hmm2.setAixj(
+                    0x01, FooEnum.Bar, 0x00, pd);
+            hmm2.setAixj(
+                    0x01, FooEnum.Bar, 0x01, 1.0 - pd);
             hmm2.mergeInput(FooEnum.Foobar, tomerge);
-            Assert.assertEquals(inputs.length - tomerge.length + 0x01, hmm2.nbSymbols());
-            AssertExtensions.assertEquals(0.5d * (pa + pc), hmm2.getAixj(0x00, FooEnum.Foobar, 0x00));
-            AssertExtensions.assertEquals(1.0d - 0.5d * (pa + pc), hmm2.getAixj(0x00, FooEnum.Foobar, 0x01));
-            AssertExtensions.assertEquals(0.5d * (pb + pd), hmm2.getAixj(0x01, FooEnum.Foobar, 0x00));
-            AssertExtensions.assertEquals(1.0d - 0.5d * (pb + pd), hmm2.getAixj(0x01, FooEnum.Foobar, 0x01));
+
+            Assert.assertEquals(inputs.length
+                    - tomerge.length + 0x01, hmm2.nbSymbols());
+            AssertExtensions.assertEquals(
+                    0.5d * (pa + pc), hmm2.getAixj(0x00, FooEnum.Foobar, 0x00));
+            AssertExtensions.assertEquals(
+                    1.0d - 0.5d * (pa + pc), hmm2.getAixj(0x00, FooEnum.Foobar, 0x01));
+            AssertExtensions.assertEquals(
+                    0.5d * (pb + pd), hmm2.getAixj(0x01, FooEnum.Foobar, 0x00));
+            AssertExtensions.assertEquals(
+                    1.0d - 0.5d * (pb + pd), hmm2.getAixj(0x01, FooEnum.Foobar, 0x01));
         }
     }
 
@@ -705,14 +746,19 @@ public class InputHmmBaseTest {
             bag.add(ProbabilityUtils.nextElement(foobar));
             while (ProbabilityUtils.nextDouble() < 0.5d) {
                 bag.add(ProbabilityUtils.nextElement(foobar));
+
             }
-            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class), bag);
-            for (Integer index : hmm.getIndexRegister().values()) {
+            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class
+            ), bag);
+            for (Integer index
+                    : hmm.getIndexRegister()
+                    .values()) {
                 Assert.assertNotNull(index);
                 int idx = index;
                 AssertExtensions.assertLessThan(idx, hmm.nbSymbols());
                 AssertExtensions.assertGreaterThanOrEqual(idx, 0x00);
             }
+
             bag.clear();
         }
     }
@@ -729,15 +775,21 @@ public class InputHmmBaseTest {
             FooEnum[] splitres = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
             ProbabilityUtils.shuffle1(splitres);
             int M = inputs.length;
-            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class), inputs);
-            for (Integer index : hmm.getIndexRegister().values()) {
+            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class
+            ), inputs);
+            for (Integer index
+                    : hmm.getIndexRegister()
+                    .values()) {
                 Assert.assertNotNull(index);
                 int idx = index;
                 AssertExtensions.assertLessThan(idx, hmm.nbSymbols());
                 AssertExtensions.assertGreaterThanOrEqual(idx, 0x00);
             }
+
             hmm.splitInput(FooEnum.Foobar, splitres);
-            for (Integer index : hmm.getIndexRegister().values()) {
+            for (Integer index
+                    : hmm.getIndexRegister()
+                    .values()) {
                 Assert.assertNotNull(index);
                 int idx = index;
                 AssertExtensions.assertLessThan(idx, hmm.nbSymbols());
@@ -758,17 +810,24 @@ public class InputHmmBaseTest {
             FooEnum[] tomerge = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
             ProbabilityUtils.shuffle1(tomerge);
             int M = inputs.length;
-            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class), inputs);
+            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class
+            ), inputs);
             InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm2 = hmm.clone();
+
             Assert.assertEquals(inputs.length, hmm2.nbSymbols());
-            for (Integer index : hmm.getIndexRegister().values()) {
+            for (Integer index
+                    : hmm.getIndexRegister()
+                    .values()) {
                 Assert.assertNotNull(index);
                 int idx = index;
                 AssertExtensions.assertLessThan(idx, hmm.nbSymbols());
                 AssertExtensions.assertGreaterThanOrEqual(idx, 0x00);
             }
+
             hmm2.mergeInput(FooEnum.Foobar, tomerge);
-            for (Integer index : hmm.getIndexRegister().values()) {
+            for (Integer index
+                    : hmm.getIndexRegister()
+                    .values()) {
                 Assert.assertNotNull(index);
                 int idx = index;
                 AssertExtensions.assertLessThan(idx, hmm.nbSymbols());
@@ -882,14 +941,18 @@ public class InputHmmBaseTest {
             for (int i = 0x00; i < m; i++) {
                 for (int k = 0x00; k < m; k++) {
                     AssertExtensions.assertEquals(hmm.getAij(i, k), cola[i][k]);
+
                 }
             }
         }
     }
 
     private InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> generateRandomIHmm1(int m, TrisEnum[] ti, int n) {
-        InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(m, new OpdfEnumFactory<>(TrisEnum.class), ti);
-        for (int i = 0x00; i < m; i++) {
+        InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(m, new OpdfEnumFactory<>(TrisEnum.class
+        ), ti);
+        for (int i = 0x00;
+                i < m;
+                i++) {
             for (int j = 0x00; j < n; j++) {
                 for (int k = 0x00; k < m; k++) {
                     hmm.setAixj(i, j, k, ProbabilityUtils.nextDouble());
