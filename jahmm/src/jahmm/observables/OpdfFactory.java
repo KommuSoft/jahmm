@@ -4,6 +4,8 @@
  */
 package jahmm.observables;
 
+import jutils.FactoryMethod;
+
 /**
  * Classes implementing this interface are able to generate observation
  * probability distribution functions. The classes implementing
@@ -12,12 +14,13 @@ package jahmm.observables;
  *
  * @param <D>
  */
-public interface OpdfFactory<D extends Opdf<?>> {
+public interface OpdfFactory<D extends Opdf<?>> extends FactoryMethod<D> {
 
     /**
      * Generates a new observation probability distribution function.
      *
      * @return The new opdf.
      */
-    public D factor();
+    @Override
+    public D generate();
 }

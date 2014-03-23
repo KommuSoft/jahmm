@@ -23,7 +23,7 @@ public final class OpdfMultiGaussianFactory implements OpdfFactory<OpdfMultiGaus
     }
 
     @Override
-    public OpdfMultiGaussian factor() {
+    public OpdfMultiGaussian generate() {
         return new OpdfMultiGaussian(dimension);
     }
 }

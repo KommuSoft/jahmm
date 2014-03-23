@@ -16,7 +16,7 @@ public final class OpdfGaussianFactory implements OpdfFactory<OpdfGaussian> {
     }
 
     @Override
-    public OpdfGaussian factor() {
+    public OpdfGaussian generate() {
         return new OpdfGaussian();
     }
 }

@@ -132,7 +132,7 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
         Object[][] b = new Object[nbStates][nbSymbols];
         for (int i = 0x00; i < nbStates; i++) {
             for (int j = 0x00; j < nbSymbols; j++) {
-                b[i][j] = opdfFactory.factor();
+                b[i][j] = opdfFactory.generate();
             }
         }
         return b;

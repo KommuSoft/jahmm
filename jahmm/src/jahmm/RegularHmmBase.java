@@ -77,7 +77,7 @@ public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, doub
     public RegularHmmBase(int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory) {
         super(generatePi(nbStates), generateA(nbStates), new ArrayList<Opdf<TObs>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
-            b.add(opdfFactory.factor());
+            b.add(opdfFactory.generate());
         }
         this.checkConstraints();
     }

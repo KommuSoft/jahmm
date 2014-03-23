@@ -180,7 +180,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
             Collection<O> clusterObservations = clusters.cluster(i);
 
             if (clusterObservations.isEmpty()) {
-                hmm.setOpdf(i, opdfFactory.factor());
+                hmm.setOpdf(i, opdfFactory.generate());
             } else {
                 hmm.getOpdf(i).fit(clusterObservations);
             }

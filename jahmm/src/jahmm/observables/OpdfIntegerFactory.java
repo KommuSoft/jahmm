@@ -22,7 +22,7 @@ public final class OpdfIntegerFactory implements OpdfFactory<OpdfInteger> {
     }
 
     @Override
-    public OpdfInteger factor() {
+    public OpdfInteger generate() {
         return new OpdfInteger(nbEntries);
     }
 }

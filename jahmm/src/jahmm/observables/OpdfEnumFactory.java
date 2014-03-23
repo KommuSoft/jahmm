@@ -28,7 +28,7 @@ public class OpdfEnumFactory<TEnum extends Enum<TEnum>> implements OpdfFactory<O
     }
 
     @Override
-    public OpdfEnum<TEnum> factor() {
+    public OpdfEnum<TEnum> generate() {
         return new OpdfEnum<>(valuesClass);
     }
 }
