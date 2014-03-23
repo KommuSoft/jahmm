@@ -60,6 +60,56 @@ public class InputHmmBaseTest {
         ihmm = new InputHmmBase<>(ihmm_pi, ihmm_a, ihmm_opdf, ihmm_inputs);
     }
 
+    @Test
+    public void testConstructor() {
+        Assert.assertEquals(a000, ihmm.getAixj(0x00, 0x00, 0x00));
+        Assert.assertEquals(a001, ihmm.getAixj(0x00, 0x00, 0x01));
+        Assert.assertEquals(a002, ihmm.getAixj(0x00, 0x00, 0x02));
+        Assert.assertEquals(a010, ihmm.getAixj(0x00, 0x01, 0x00));
+        Assert.assertEquals(a011, ihmm.getAixj(0x00, 0x01, 0x01));
+        Assert.assertEquals(a012, ihmm.getAixj(0x00, 0x01, 0x02));
+        Assert.assertEquals(a020, ihmm.getAixj(0x00, 0x02, 0x00));
+        Assert.assertEquals(a021, ihmm.getAixj(0x00, 0x02, 0x01));
+        Assert.assertEquals(a022, ihmm.getAixj(0x00, 0x02, 0x02));
+        Assert.assertEquals(a100, ihmm.getAixj(0x01, 0x00, 0x00));
+        Assert.assertEquals(a101, ihmm.getAixj(0x01, 0x00, 0x01));
+        Assert.assertEquals(a102, ihmm.getAixj(0x01, 0x00, 0x02));
+        Assert.assertEquals(a110, ihmm.getAixj(0x01, 0x01, 0x00));
+        Assert.assertEquals(a111, ihmm.getAixj(0x01, 0x01, 0x01));
+        Assert.assertEquals(a112, ihmm.getAixj(0x01, 0x01, 0x02));
+        Assert.assertEquals(a120, ihmm.getAixj(0x01, 0x02, 0x00));
+        Assert.assertEquals(a121, ihmm.getAixj(0x01, 0x02, 0x01));
+        Assert.assertEquals(a122, ihmm.getAixj(0x01, 0x02, 0x02));
+        Assert.assertEquals(a200, ihmm.getAixj(0x02, 0x00, 0x00));
+        Assert.assertEquals(a201, ihmm.getAixj(0x02, 0x00, 0x01));
+        Assert.assertEquals(a202, ihmm.getAixj(0x02, 0x00, 0x02));
+        Assert.assertEquals(a210, ihmm.getAixj(0x02, 0x01, 0x00));
+        Assert.assertEquals(a211, ihmm.getAixj(0x02, 0x01, 0x01));
+        Assert.assertEquals(a212, ihmm.getAixj(0x02, 0x01, 0x02));
+        Assert.assertEquals(a220, ihmm.getAixj(0x02, 0x02, 0x00));
+        Assert.assertEquals(a221, ihmm.getAixj(0x02, 0x02, 0x01));
+        Assert.assertEquals(a222, ihmm.getAixj(0x02, 0x02, 0x02));
+        for (int i = 0x00; i < 0x03; i++) {
+            for (int j = 0x00; j < 0x03; j++) {
+                Assert.assertNotNull(ihmm.getOpdf(i, j));
+                AssertExtensions.assertTypeof(OpdfInteger.class, ihmm.getOpdf(i, j));
+            }
+        }
+        for (int i = 0x00; i < 0x03; i++) {
+            for (int j = 0x00; j < 0x03; j++) {
+                for (int k = 0x00; k < 0x03; k++) {
+                    for (int l = 0x00; l < 0x03; l++) {
+                        if (i == k && j == l) {
+                            Assert.assertSame(ihmm.getOpdf(k, l), ihmm.getOpdf(i, j));
+                        } else {
+                            Assert.assertNotSame(ihmm.getOpdf(k, l), ihmm.getOpdf(i, j));
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     /**
      * Test of cloneA method, of class InputHmmBase.
      */
