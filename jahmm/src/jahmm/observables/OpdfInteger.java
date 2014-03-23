@@ -21,7 +21,7 @@ public final class OpdfInteger extends OpdfBase<ObservationInteger> implements O
 
     /**
      * Builds a new probability distribution which operates on integer values.
-     * The probabilities are initialized so that the distribution is uniformaly
+     * The probabilities are initialized so that the distribution is uniformally
      * distributed.
      *
      * @param nbEntries The number of values to which to associate
@@ -128,7 +128,7 @@ public final class OpdfInteger extends OpdfBase<ObservationInteger> implements O
             throw new IllegalArgumentException();
         }
 
-        Arrays.fill(probabilities, 0.);
+        Arrays.fill(probabilities, 0.0d);
 
         int i = 0;
         for (ObservationInteger o : co) {
