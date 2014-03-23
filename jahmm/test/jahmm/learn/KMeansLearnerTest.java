@@ -18,7 +18,7 @@ public class KMeansLearnerTest extends TestCase {
 
     final static private double DELTA = 5.E-3;
 
-    private RegularHmm<ObservationInteger> hmm;
+    private RegularHmmBase<ObservationInteger> hmm;
     private List<List<ObservationInteger>> sequences;
     private RegularKullbackLeiblerDistanceCalculatorBase klc;
 
@@ -27,7 +27,7 @@ public class KMeansLearnerTest extends TestCase {
         hmm = new RegularHmmBase<>(3, new OpdfIntegerFactory(10));
         hmm.getOpdf(0).fit(new ObservationInteger(1), new ObservationInteger(2));
 
-        RegularMarkovGeneratorBase<ObservationInteger> mg = new RegularMarkovGeneratorBase<>(hmm);
+        RegularMarkovGeneratorBase<ObservationInteger,RegularHmmBase<ObservationInteger>> mg = new RegularMarkovGeneratorBase<>(hmm);
 
         sequences = new ArrayList<>();
         for (int i = 0; i < 100; i++) {

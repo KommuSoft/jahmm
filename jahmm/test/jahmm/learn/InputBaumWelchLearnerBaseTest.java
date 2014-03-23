@@ -24,8 +24,8 @@ public class InputBaumWelchLearnerBaseTest extends TestCase {
 
     final static private double DELTA = 5.E-3;
 
-    private RegularHmm<ObservationInteger> hmm;
-    private InputHmm<ObservationInteger, Integer> ihmm;
+    private RegularHmmBase<ObservationInteger> hmm;
+    private InputHmmBase<ObservationInteger, Integer> ihmm;
     private List<List<ObservationInteger>> sequences;
     private List<List<InputObservationTuple<Integer, ObservationInteger>>> isequences;
     private RegularKullbackLeiblerDistanceCalculatorBase klc;
@@ -38,8 +38,8 @@ public class InputBaumWelchLearnerBaseTest extends TestCase {
         ihmm = new InputHmmBase<>(3, new OpdfIntegerFactory(10), 0x00);
         ihmm.getOpdf(0, 0).fit(new ObservationInteger(1), new ObservationInteger(2));
 
-        RegularMarkovGeneratorBase<ObservationInteger> mg = new RegularMarkovGeneratorBase<>(hmm);
-        InputMarkovGeneratorBase<ObservationInteger, Integer> img = new InputMarkovGeneratorBase<ObservationInteger, Integer>(ihmm, new OpdfInteger(0x01));
+        RegularMarkovGeneratorBase<ObservationInteger,RegularHmmBase<ObservationInteger>> mg = new RegularMarkovGeneratorBase<>(hmm);
+        InputMarkovGeneratorBase<ObservationInteger, Integer,InputHmmBase<ObservationInteger, Integer>> img = new InputMarkovGeneratorBase<>(ihmm, new OpdfInteger(0x01));
 
         sequences = new ArrayList<>();
         isequences = new ArrayList<>();
@@ -58,16 +58,16 @@ public class InputBaumWelchLearnerBaseTest extends TestCase {
     public void testThinBaumWelch() {
         //TODO: input instead of regular.
         /* Model sequences using BW algorithm */
-        RegularBaumWelchLearnerBase<ObservationInteger> bwl = new RegularBaumWelchLearnerBase<>();
-        RegularHmm<ObservationInteger> bwHmm = bwl.learn(hmm, sequences);
+        RegularBaumWelchLearnerBase<ObservationInteger,RegularHmmBase<ObservationInteger>> bwl = new RegularBaumWelchLearnerBase<>();
+        RegularHmm<ObservationInteger,RegularHmmBase<ObservationInteger>> bwHmm = bwl.learn(hmm, sequences);
         assertEquals(0., klc.distance(bwHmm, hmm), DELTA);
 
-        InputBaumWelchLearnerBase<ObservationInteger, Integer> ibwl = new InputBaumWelchLearnerBase<>();
-        InputHmm<ObservationInteger, Integer> ibwHmm = ibwl.learn(ihmm, isequences);
+        InputBaumWelchLearnerBase<ObservationInteger, Integer,InputHmmBase<ObservationInteger, Integer>> ibwl = new InputBaumWelchLearnerBase<>();
+        InputHmmBase<ObservationInteger, Integer> ibwHmm = ibwl.learn(ihmm, isequences);
         assertEquals(0., klc.distance(ibwHmm, ihmm), DELTA);
 
         /* Model sequences using the scaled BW algorithm */
-        RegularBaumWelchScaledLearnerBase<ObservationInteger> bwsl = new RegularBaumWelchScaledLearnerBase<>();
+        RegularBaumWelchScaledLearnerBase<ObservationInteger,RegularHmmBase<ObservationInteger>> bwsl = new RegularBaumWelchScaledLearnerBase<>();
         bwHmm = bwsl.learn(hmm, sequences);
         assertEquals(0., klc.distance(bwHmm, hmm), DELTA);
     }

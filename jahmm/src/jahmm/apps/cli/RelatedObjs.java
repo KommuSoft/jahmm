@@ -71,5 +71,5 @@ public interface RelatedObjs<O extends Observation & CentroidFactory<O>> {
      * @param hmm
      * @return
      */
-    public RegularMarkovGeneratorBase<O> generator(RegularHmmBase<O> hmm);
+    public RegularMarkovGeneratorBase<O,RegularHmmBase<O>> generator(RegularHmmBase<O> hmm);
 }

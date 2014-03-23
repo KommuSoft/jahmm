@@ -31,9 +31,8 @@ package jahmm.apps.sample;
  * 2006-02-05: Renamed, adapted to v0.6.0. (JMF)
  * 2009-06-06: Updated comments with new website URL
  */
-import jahmm.RegularHmm;
 import jahmm.RegularHmmBase;
-import jahmm.draw.InvariantHmmDotDrawer;
+import jahmm.draw.HmmDotDrawer;
 import jahmm.learn.RegularBaumWelchLearnerBase;
 import jahmm.observables.Observation;
 import jahmm.observables.ObservationEnum;
@@ -71,7 +70,7 @@ public class SimpleExample {
     static public void main(String[] argv)
             throws java.io.IOException {
         /* Build a HMM and generate observation sequences using this HMM */
-        RegularHmm<ObservationEnum<Packet>> hmm = buildHmm();
+        RegularHmmBase<ObservationEnum<Packet>> hmm = buildHmm();
 
         List<List<ObservationEnum<Packet>>> sequences;
         sequences = generateSequences(hmm);
@@ -79,9 +78,9 @@ public class SimpleExample {
         System.out.println(CollectionUtils.deepToString(sequences));
 
         /* Baum-Welch learning */
-        RegularBaumWelchLearnerBase<ObservationEnum<Packet>> bwl = new RegularBaumWelchLearnerBase<>();
+        RegularBaumWelchLearnerBase<ObservationEnum<Packet>, RegularHmmBase<ObservationEnum<Packet>>> bwl = new RegularBaumWelchLearnerBase<>();
 
-        RegularHmm<ObservationEnum<Packet>> learntHmm = buildInitHmm();
+        RegularHmmBase<ObservationEnum<Packet>> learntHmm = buildInitHmm();
 
         // This object measures the distance between two HMMs
         RegularKullbackLeiblerDistanceCalculatorBase klc
@@ -111,7 +110,7 @@ public class SimpleExample {
                 + learntHmm.probability(testSequence));
 
         /* Write the final result to a 'dot' (graphviz) file. */
-        InvariantHmmDotDrawer.Instance.write(learntHmm, "learntHmm.dot");
+        HmmDotDrawer.Instance.write(learntHmm, "learntHmm.dot");
     }
 
     /* The HMM this example is based on */
@@ -160,8 +159,8 @@ public class SimpleExample {
 
     /* Generate several observation sequences using a HMM */
     static <O extends Observation> List<List<O>>
-            generateSequences(RegularHmm<O> hmm) {
-        RegularMarkovGeneratorBase<O> mg = new RegularMarkovGeneratorBase<>(hmm);
+            generateSequences(RegularHmmBase<O> hmm) {
+        RegularMarkovGeneratorBase<O, RegularHmmBase<O>> mg = new RegularMarkovGeneratorBase<>(hmm);
 
         List<List<O>> sequences = new ArrayList<>();
         for (int i = 0; i < OBSERVATION_COUNT; i++) {

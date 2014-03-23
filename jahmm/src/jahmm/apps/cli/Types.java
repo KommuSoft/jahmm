@@ -104,7 +104,7 @@ class IntegerRelatedObjects implements RelatedObjs<ObservationInteger> {
     }
 
     @Override
-    public RegularMarkovGeneratorBase<ObservationInteger> generator(RegularHmmBase<ObservationInteger> hmm) {
+    public RegularMarkovGeneratorBase<ObservationInteger,RegularHmmBase<ObservationInteger>> generator(RegularHmmBase<ObservationInteger> hmm) {
         return new RegularMarkovGeneratorBase<>(hmm);
     }
 }
@@ -162,7 +162,7 @@ class RealRelatedObjects implements RelatedObjs<ObservationReal> {
     }
 
     @Override
-    public RegularMarkovGeneratorBase<ObservationReal> generator(RegularHmmBase<ObservationReal> hmm) {
+    public RegularMarkovGeneratorBase<ObservationReal,RegularHmmBase<ObservationReal>> generator(RegularHmmBase<ObservationReal> hmm) {
         return new RegularMarkovGeneratorBase<>(hmm);
     }
 }
@@ -206,7 +206,7 @@ class VectorRelatedObjects implements RelatedObjs<ObservationVector> {
     }
 
     @Override
-    public RegularMarkovGeneratorBase<ObservationVector> generator(RegularHmmBase<ObservationVector> hmm) {
+    public RegularMarkovGeneratorBase<ObservationVector,RegularHmmBase<ObservationVector>> generator(RegularHmmBase<ObservationVector> hmm) {
         return new RegularMarkovGeneratorBase<>(hmm);
     }
 }

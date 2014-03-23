@@ -49,7 +49,7 @@ public class InvariantHmmDotDrawerTest {
                 + "	3 [shape=doublecircle, label=\"3 - [ Integer distribution --- 0.5 0.5 ]\"];\n"
                 + "	initial -> 3 [label=\"0.25\"];\n"
                 + "}\n";
-        String actual = InvariantHmmDotDrawer.Instance.write(hmm);
+        String actual = HmmDotDrawer.Instance.write(hmm);
         Assert.assertEquals(expected, actual);
     }
 

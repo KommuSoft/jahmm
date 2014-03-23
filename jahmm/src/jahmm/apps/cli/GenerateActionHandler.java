@@ -61,7 +61,7 @@ class GenerateActionHandler
         OpdfReader<? extends Opdf<O>> opdfReader = relatedObjs.opdfReader();
         RegularHmmBase<O> hmm = HmmReader.read(hmmFileReader, opdfReader);
 
-        RegularMarkovGeneratorBase<O> generator = relatedObjs.generator(hmm);
+        RegularMarkovGeneratorBase<O,RegularHmmBase<O>> generator = relatedObjs.generator(hmm);
 
         List<List<O>> seqs = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
