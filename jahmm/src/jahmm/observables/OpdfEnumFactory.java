@@ -8,28 +8,27 @@ package jahmm.observables;
  * This class can build <code>OpdfInteger</code> observation probability
  * distribution functions.
  *
- * @param <E>
+ * @param <TEnum> The type of the enum.
  */
-public class OpdfDiscreteFactory<E extends Enum<E>>
-        implements OpdfFactory<OpdfDiscrete<E>> {
+public class OpdfEnumFactory<TEnum extends Enum<TEnum>> implements OpdfFactory<OpdfEnum<TEnum>> {
 
     /**
      *
      */
-    final protected Class<E> valuesClass;
+    final protected Class<TEnum> valuesClass;
 
     /**
-     * Creates a factory for {@link OpdfDiscrete OpdfDiscrete} objects.
+     * Creates a factory for {@link OpdfEnum OpdfDiscrete} objects.
      *
      * @param valuesClass The class representing the set of values over which
      * the generated observation distributions operate.
      */
-    public OpdfDiscreteFactory(Class<E> valuesClass) {
+    public OpdfEnumFactory(Class<TEnum> valuesClass) {
         this.valuesClass = valuesClass;
     }
 
     @Override
-    public OpdfDiscrete<E> factor() {
-        return new OpdfDiscrete<>(valuesClass);
+    public OpdfEnum<TEnum> factor() {
+        return new OpdfEnum<>(valuesClass);
     }
 }

@@ -38,7 +38,6 @@ public class RegularMarkovGeneratorBase<TObs extends Observation> extends Markov
     public TObs observation() {
         TObs o = hmm.getOpdf(stateNb).generate();
         double rand = Math.random();
-
         for (int j = 0; j < hmm.nbStates() - 1; j++) {
             if ((rand -= hmm.getAij(stateNb, j)) < 0) {
                 stateNb = j;
@@ -61,13 +60,11 @@ public class RegularMarkovGeneratorBase<TObs extends Observation> extends Markov
         if (length <= 0) {
             throw new IllegalArgumentException("Positive length required");
         }
-
-        ArrayList<TObs> sequence = new ArrayList<>();
+        ArrayList<TObs> sequence = new ArrayList<>(length);
         while (length-- > 0) {
             sequence.add(observation());
         }
         newSequence();
-
         return sequence;
     }
 

@@ -1,9 +1,9 @@
 package jahmm.calculators;
 
 import jahmm.RegularHmmBase;
-import jahmm.observables.ObservationDiscrete;
+import jahmm.observables.ObservationEnum;
 import jahmm.observables.Opdf;
-import jahmm.observables.OpdfDiscrete;
+import jahmm.observables.OpdfEnum;
 import java.util.List;
 import jutils.testing.AssertExtensions;
 import jutlis.lists.ListArray;
@@ -27,13 +27,13 @@ public class ForwardBackwardCalculatorTest {
     public void testComputeAll() {
         double[][] trans = {{0.7d, 0.3d}, {0.3d, 0.7d}};
         double[][] exhaust = {{0.9d, 0.1d}, {0.2d, 0.8d}};
-        Opdf<ObservationDiscrete<Events>> state0 = new OpdfDiscrete<>(Events.class, exhaust[0x00]);
-        Opdf<ObservationDiscrete<Events>> state1 = new OpdfDiscrete<>(Events.class, exhaust[0x01]);
+        Opdf<ObservationEnum<Events>> state0 = new OpdfEnum<>(Events.class, exhaust[0x00]);
+        Opdf<ObservationEnum<Events>> state1 = new OpdfEnum<>(Events.class, exhaust[0x01]);
         double[] pi = {0.5d, 0.5d};
         @SuppressWarnings("unchecked")
-        RegularHmmBase<ObservationDiscrete<Events>> hmm = new RegularHmmBase<>(pi, trans, state0, state1);
+        RegularHmmBase<ObservationEnum<Events>> hmm = new RegularHmmBase<>(pi, trans, state0, state1);
         @SuppressWarnings("unchecked")
-        List<ObservationDiscrete<Events>> sequence = new ListArray<>(new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.NoUmbrella), new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.Umbrella));
+        List<ObservationEnum<Events>> sequence = new ListArray<>(new ObservationEnum<>(Events.Umbrella), new ObservationEnum<>(Events.Umbrella), new ObservationEnum<>(Events.NoUmbrella), new ObservationEnum<>(Events.Umbrella), new ObservationEnum<>(Events.Umbrella));
         Tuple3<double[][], double[][], Double> abp = RegularForwardBackwardCalculatorBase.Instance.computeAll(hmm, sequence);
         double[][] a = abp.getItem1();
         double[][] b = abp.getItem2();

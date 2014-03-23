@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2004-2009, Jean-Marc François. All Rights Reserved.
+ * Licensed under the New BSD license.  See the LICENSE file.
+ */
 package jahmm.observables;
 
 import jahmm.Hmm;
@@ -7,22 +11,24 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.logging.Logger;
-import jutils.collections.CollectionUtils;
 import jutils.draw.DotDrawer;
 import jutlis.tuples.Tuple2;
 import jutlis.tuples.Tuple2Base;
 
 /**
+ * This class implements a distribution over a finite set of elements. This set
+ * is implemented as an <code>enum</code>.
  *
- * @author kommusoft
+ * @param <TEnum> The type of the enumeration.
  */
-public final class OpdfDiscrete<TDiscrete> extends OpdfBase<ObservationDiscrete<TDiscrete>> implements Opdf<ObservationDiscrete<TDiscrete>> {
+public final class OpdfEnum<TEnum extends Enum<TEnum>> extends OpdfBase<ObservationEnum<TEnum>> implements Opdf<ObservationEnum<TEnum>> {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOG = Logger.getLogger(OpdfDiscrete.class.getName());
+    private static final Logger LOG = Logger.getLogger(OpdfEnum.class.getName());
 
     /**
      *
@@ -32,87 +38,87 @@ public final class OpdfDiscrete<TDiscrete> extends OpdfBase<ObservationDiscrete<
     /**
      *
      */
-    protected final ArrayList<TDiscrete> values;
+    protected final List<TEnum> values;
 
     /**
      *
      */
-    protected final HashMap<TDiscrete, ObservationInteger> toIntegerMap;
+    protected final EnumMap<TEnum, ObservationInteger> toIntegerMap;
 
     /**
      * Builds a new probability distribution which operates on a finite set of
      * values. The probabilities are initialized so that the distribution is
      * uniformally distributed.
      *
-     * @param values An {@link Enum Enum} class representing the set of values.
+     * @param valuesClass An {@link Enum Enum} class representing the set of
+     * values.
      */
-    public OpdfDiscrete(Iterable<TDiscrete> values) {
-        this.values = new ArrayList<>();
-        CollectionUtils.addAll(this.values, values);
-        int sz = this.values.size();
-        if (sz <= 0x00) {
+    public OpdfEnum(Class<TEnum> valuesClass) {
+        values = new ArrayList<>(EnumSet.allOf(valuesClass));
+
+        if (values.isEmpty()) {
             throw new IllegalArgumentException();
         }
-        toIntegerMap = createMap(this.values);
-        distribution = new OpdfInteger(sz);
+
+        distribution = new OpdfInteger(values.size());
+        toIntegerMap = createMap(valuesClass);
     }
 
     /**
      * Builds a new probability distribution which operates on integer values.
      *
-     * @param values An {@link Enum Enum} class representing the set of values.
+     * @param valuesClass An {@link Enum Enum} class representing the set of
+     * values.
      * @param probabilities Array holding one probability for each possible
      * value (<i>i.e.</i> such that <code>probabilities[i]</code> is the
      * probability of the observation <code>i</code>th element of
      * <code>values</code>.
      */
-    public OpdfDiscrete(Iterable<TDiscrete> values, double... probabilities) {
-        this.values = new ArrayList<>();
-        CollectionUtils.addAll(this.values, values);
-        int sz = this.values.size();
+    public OpdfEnum(Class<TEnum> valuesClass, double... probabilities) {
+        values = new ArrayList<>(EnumSet.allOf(valuesClass));
 
-        if (probabilities.length == 0 || sz != probabilities.length) {
+        if (probabilities.length == 0 || values.size() != probabilities.length) {
             throw new IllegalArgumentException();
         }
-        toIntegerMap = createMap(this.values);
+
         distribution = new OpdfInteger(probabilities);
+        toIntegerMap = createMap(valuesClass);
     }
 
-    private OpdfDiscrete(ArrayList<TDiscrete> values, OpdfInteger distribution, HashMap<TDiscrete, ObservationInteger> toIntegerMap) {
+    private OpdfEnum(List<TEnum> values, OpdfInteger distribution, EnumMap<TEnum, ObservationInteger> toIntegerMap) {
         this.values = values;
         this.distribution = distribution;
         this.toIntegerMap = toIntegerMap;
     }
 
-    private HashMap<TDiscrete, ObservationInteger> createMap(ArrayList<TDiscrete> values) {
-        HashMap<TDiscrete, ObservationInteger> result = new HashMap<>(values.size());
-        int index = 0x00;
-        for (TDiscrete value : values) {
-            result.put(value, new ObservationInteger(index));
-            index++;
+    private EnumMap<TEnum, ObservationInteger> createMap(Class<TEnum> valuesClass) {
+        EnumMap<TEnum, ObservationInteger> result = new EnumMap<>(valuesClass);
+        for (TEnum value : values) {
+            result.put(value, new ObservationInteger(value.ordinal()));
         }
+
         return result;
     }
 
     @Override
-    public double probability(ObservationDiscrete<TDiscrete> o) {
+    public double probability(ObservationEnum<TEnum> o) {
         return distribution.probability(toIntegerMap.get(o.value));
     }
 
     @Override
-    public ObservationDiscrete<TDiscrete> generate() {
-        return new ObservationDiscrete<TDiscrete>(values.get(distribution.generate().value));
+    public ObservationEnum<TEnum> generate() {
+        return new ObservationEnum<>(values.get(distribution.generate().value));
     }
 
     @Override
-    public void fit(ObservationDiscrete<TDiscrete>... oa) {
+    public void fit(ObservationEnum<TEnum>... oa) {
         fit(Arrays.asList(oa));
     }
 
     @Override
-    public void fit(Collection<? extends ObservationDiscrete<TDiscrete>> co) {
+    public void fit(Collection<? extends ObservationEnum<TEnum>> co) {
         List<ObservationInteger> dco = new ArrayList<>(co.size());
-        for (ObservationDiscrete<TDiscrete> o : co) {
+        for (ObservationEnum<TEnum> o : co) {
             dco.add(toIntegerMap.get(o.value));
         }
 
@@ -120,15 +126,15 @@ public final class OpdfDiscrete<TDiscrete> extends OpdfBase<ObservationDiscrete<
     }
 
     @Override
-    public void fit(ObservationDiscrete<TDiscrete>[] o, double... weights) {
+    public void fit(ObservationEnum<TEnum>[] o, double... weights) {
         fit(Arrays.asList(o), weights);
     }
 
     @Override
-    public void fit(Collection<? extends ObservationDiscrete<TDiscrete>> co, double... weights) {
+    public void fit(Collection<? extends ObservationEnum<TEnum>> co, double... weights) {
         List<ObservationInteger> dco = new ArrayList<>(co.size());
 
-        for (ObservationDiscrete<TDiscrete> o : co) {
+        for (ObservationEnum<TEnum> o : co) {
             dco.add(toIntegerMap.get(o.value));
         }
 
@@ -136,12 +142,8 @@ public final class OpdfDiscrete<TDiscrete> extends OpdfBase<ObservationDiscrete<
     }
 
     @Override
-    public OpdfDiscrete<TDiscrete> clone() throws CloneNotSupportedException {
-        @SuppressWarnings("unchecked")
-        ArrayList<TDiscrete> vls = (ArrayList<TDiscrete>) this.values.clone();
-        @SuppressWarnings("unchecked")
-        HashMap<TDiscrete, ObservationInteger> map = (HashMap<TDiscrete, ObservationInteger>) this.values.clone();
-        return new OpdfDiscrete<>(vls, this.distribution.clone(), map);
+    public OpdfEnum<TEnum> clone() throws CloneNotSupportedException {
+        return new OpdfEnum<>(this.values, this.distribution.clone(), this.toIntegerMap);
     }
 
     /**
@@ -158,7 +160,7 @@ public final class OpdfDiscrete<TDiscrete> extends OpdfBase<ObservationDiscrete<
         String s = "Discrete distribution --- ";
 
         for (int i = 0; i < values.size();) {
-            ObservationDiscrete<TDiscrete> o = new ObservationDiscrete<>(values.get(i));
+            ObservationEnum o = new ObservationEnum<>(values.get(i));
 
             s += o + " " + numberFormat.format(probability(o))
                     + ((++i < values.size()) ? ", " : "");
@@ -171,7 +173,7 @@ public final class OpdfDiscrete<TDiscrete> extends OpdfBase<ObservationDiscrete<
     public void dotDrawNode(DotDrawer<? extends Hmm> drawer, Writer writer, String prefix) throws IOException {
         Tuple2<String, String> shapeTuple = new Tuple2Base<>("shape", "triangle");
         Tuple2<String, String> labelTuple = new Tuple2Base<>("label", "");
-        for (TDiscrete val : this.values) {
+        for (TEnum val : this.values) {
             String vals = val.toString();
             labelTuple.setItem2(String.format("\"%s\"", vals));
             drawer.nodeStatement(writer, prefix + vals, shapeTuple, labelTuple);
@@ -181,11 +183,10 @@ public final class OpdfDiscrete<TDiscrete> extends OpdfBase<ObservationDiscrete<
     @Override
     public void dotDrawEdge(DotDrawer<? extends Hmm> drawer, Writer writer, String prefix, String source) throws IOException {
         Tuple2<String, String> labelTuple = new Tuple2Base<>("label", "");
-        for (TDiscrete val : this.values) {
+        for (TEnum val : this.values) {
             String vals = val.toString();
-            labelTuple.setItem2(String.format("\"%s\"", this.probability(new ObservationDiscrete<>(val))));
+            labelTuple.setItem2(String.format("\"%s\"", this.probability(new ObservationEnum<>(val))));
             drawer.nodeStatement(writer, prefix + vals, labelTuple);
         }
     }
-
 }

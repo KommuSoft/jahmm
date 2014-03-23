@@ -2,9 +2,9 @@ package jahmm;
 
 import jahmm.jadetree.foo.FooEnum;
 import jahmm.jadetree.foo.TrisEnum;
-import jahmm.observables.ObservationDiscrete;
-import jahmm.observables.OpdfDiscrete;
-import jahmm.observables.OpdfDiscreteFactory;
+import jahmm.observables.ObservationEnum;
+import jahmm.observables.OpdfEnum;
+import jahmm.observables.OpdfEnumFactory;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.logging.Logger;
@@ -249,7 +249,7 @@ public class InputHmmBaseTest {
         int N = 0x05;
         TrisEnum[] inputs = TrisEnum.values();
         int M = inputs.length;
-        InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = new InputEnumHmmBase<>(N, new OpdfDiscreteFactory<>(TrisEnum.class), TrisEnum.class);
+        InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> hmm = new InputEnumHmmBase<>(N, new OpdfEnumFactory<>(TrisEnum.class), TrisEnum.class);
         Assert.assertEquals(N, hmm.nbStates());
         Assert.assertEquals(M, hmm.nbSymbols());
         for (int i = 0x00; i < inputs.length; i++) {
@@ -276,7 +276,7 @@ public class InputHmmBaseTest {
         }
         for (int i = 0x00; i < N; i++) {
             for (int j = 0x00; j < M; j++) {
-                AssertExtensions.assertTypeof(OpdfDiscrete.class, hmm.getOpdf(i, j));
+                AssertExtensions.assertTypeof(OpdfEnum.class, hmm.getOpdf(i, j));
                 for (int l = 0x00; l < N; l++) {
                     for (int m = 0x00; m < M; m++) {
                         if (l != i && m != j) {
@@ -286,7 +286,7 @@ public class InputHmmBaseTest {
                 }
             }
         }
-        InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm2 = hmm.clone();
+        InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> hmm2 = hmm.clone();
         for (int i = 0x00; i < N; i++) {
             for (int j = 0x00; j < M; j++) {
                 for (int k = 0x00; k < N; k++) {
@@ -304,7 +304,7 @@ public class InputHmmBaseTest {
         for (int i = 0x00; i < N; i++) {
             for (int j = 0x00; j < M; j++) {
                 Assert.assertNotSame(hmm.getOpdf(i, j), hmm2.getOpdf(i, j));
-                AssertExtensions.assertTypeof(OpdfDiscrete.class, hmm2.getOpdf(i, j));
+                AssertExtensions.assertTypeof(OpdfEnum.class, hmm2.getOpdf(i, j));
                 for (int l = 0x00; l < N; l++) {
                     for (int m = 0x00; m < M; m++) {
                         if (l != i && m != j) {
@@ -330,7 +330,7 @@ public class InputHmmBaseTest {
         int N = 0x05;
         TrisEnum[] inputs = new TrisEnum[]{TrisEnum.Odin, TrisEnum.Dva};
         int M = inputs.length;
-        InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(TrisEnum.class), inputs);
+        InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(TrisEnum.class), inputs);
         Assert.assertEquals(N, hmm.nbStates());
         Assert.assertEquals(M, hmm.nbSymbols());
         for (int i = 0x00; i < inputs.length; i++) {
@@ -357,7 +357,7 @@ public class InputHmmBaseTest {
         }
         for (int i = 0x00; i < N; i++) {
             for (int j = 0x00; j < M; j++) {
-                AssertExtensions.assertTypeof(OpdfDiscrete.class, hmm.getOpdf(i, j));
+                AssertExtensions.assertTypeof(OpdfEnum.class, hmm.getOpdf(i, j));
                 for (int l = 0x00; l < N; l++) {
                     for (int m = 0x00; m < M; m++) {
                         if (l != i && m != j) {
@@ -367,7 +367,7 @@ public class InputHmmBaseTest {
                 }
             }
         }
-        InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm2 = hmm.clone();
+        InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> hmm2 = hmm.clone();
         for (int i = 0x00; i < N; i++) {
             for (int j = 0x00; j < M; j++) {
                 for (int k = 0x00; k < N; k++) {
@@ -385,7 +385,7 @@ public class InputHmmBaseTest {
         for (int i = 0x00; i < N; i++) {
             for (int j = 0x00; j < M; j++) {
                 Assert.assertNotSame(hmm.getOpdf(i, j), hmm2.getOpdf(i, j));
-                AssertExtensions.assertTypeof(OpdfDiscrete.class, hmm2.getOpdf(i, j));
+                AssertExtensions.assertTypeof(OpdfEnum.class, hmm2.getOpdf(i, j));
                 for (int l = 0x00; l < N; l++) {
                     for (int m = 0x00; m < M; m++) {
                         if (l != i && m != j) {
@@ -443,7 +443,7 @@ public class InputHmmBaseTest {
         for (int i = 0x00; i < N; i++) {
             for (int j = 0x00; j < M; j++) {
                 Assert.assertNotSame(hmm.getOpdf(i, j), hmm2.getOpdf(i, j));
-                AssertExtensions.assertTypeof(OpdfDiscrete.class, hmm2.getOpdf(i, j));
+                AssertExtensions.assertTypeof(OpdfEnum.class, hmm2.getOpdf(i, j));
                 for (int l = 0x00; l < N; l++) {
                     for (int m = 0x00; m < M; m++) {
                         if (l != i && m != j) {
@@ -476,7 +476,7 @@ public class InputHmmBaseTest {
             FooEnum[] splitres = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
             ProbabilityUtils.shuffle1(splitres);
             int M = inputs.length;
-            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), inputs);
+            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class), inputs);
             Assert.assertEquals(N, hmm.nbStates());
         }
     }
@@ -494,7 +494,7 @@ public class InputHmmBaseTest {
             while (ProbabilityUtils.nextDouble() < 0.5d) {
                 bag.add(ProbabilityUtils.nextElement(foobar));
             }
-            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), bag);
+            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class), bag);
             Assert.assertEquals(bag.size(), hmm.nbSymbols());
             bag.clear();
         }
@@ -509,9 +509,9 @@ public class InputHmmBaseTest {
             int m = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x01;
             TrisEnum[] ti = new TrisEnum[]{TrisEnum.Odin, TrisEnum.Dva};
             int n = ti.length;
-            InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = generateRandomIHmm1(m, ti, n);
+            InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> hmm = generateRandomIHmm1(m, ti, n);
             int f = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL);
-            InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm2 = hmm.clone();
+            InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> hmm2 = hmm.clone();
             for (int i = 0x00; i < f; i++) {
                 hmm.fold();
             }
@@ -567,12 +567,12 @@ public class InputHmmBaseTest {
             int m = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x01;
             TrisEnum[] ti = new TrisEnum[]{TrisEnum.Odin, TrisEnum.Dva};
             int n = ti.length;
-            InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = generateRandomIHmm1(m, ti, n);
+            InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> hmm = generateRandomIHmm1(m, ti, n);
             LinkedList<TrisEnum> iterable = new LinkedList<>();
             while(ProbabilityUtils.nextBoolean(0.85d)) {
                 iterable.add(ProbabilityUtils.nextElement(ti));
             }
-            InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm2 = hmm.clone();
+            InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> hmm2 = hmm.clone();
             for (TrisEnum te : iterable) {
                 hmm.fold(te);
             }
@@ -592,8 +592,8 @@ public class InputHmmBaseTest {
             FooEnum[] splitres = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
             ProbabilityUtils.shuffle1(splitres);
             int M = inputs.length;
-            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), inputs);
-            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm2 = hmm.clone();
+            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class), inputs);
+            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm2 = hmm.clone();
             Assert.assertEquals(inputs.length, hmm2.nbSymbols());
             double pa = ProbabilityUtils.nextDouble();
             double pb = ProbabilityUtils.nextDouble();
@@ -628,8 +628,8 @@ public class InputHmmBaseTest {
             FooEnum[] tomerge = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
             ProbabilityUtils.shuffle1(tomerge);
             int M = inputs.length;
-            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), inputs);
-            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm2 = hmm.clone();
+            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class), inputs);
+            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm2 = hmm.clone();
             Assert.assertEquals(inputs.length, hmm2.nbSymbols());
             double pa = ProbabilityUtils.nextDouble();
             double pb = ProbabilityUtils.nextDouble();
@@ -665,7 +665,7 @@ public class InputHmmBaseTest {
             while (ProbabilityUtils.nextDouble() < 0.5d) {
                 bag.add(ProbabilityUtils.nextElement(foobar));
             }
-            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), bag);
+            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class), bag);
             for (Integer index : hmm.getIndexRegister().values()) {
                 Assert.assertNotNull(index);
                 int idx = index;
@@ -688,7 +688,7 @@ public class InputHmmBaseTest {
             FooEnum[] splitres = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
             ProbabilityUtils.shuffle1(splitres);
             int M = inputs.length;
-            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), inputs);
+            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class), inputs);
             for (Integer index : hmm.getIndexRegister().values()) {
                 Assert.assertNotNull(index);
                 int idx = index;
@@ -717,8 +717,8 @@ public class InputHmmBaseTest {
             FooEnum[] tomerge = new FooEnum[]{FooEnum.Foo, FooEnum.Bar};
             ProbabilityUtils.shuffle1(tomerge);
             int M = inputs.length;
-            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfDiscreteFactory<>(FooEnum.class), inputs);
-            InputHmmBase<ObservationDiscrete<FooEnum>, FooEnum> hmm2 = hmm.clone();
+            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm = new InputHmmBase<>(N, new OpdfEnumFactory<>(FooEnum.class), inputs);
+            InputHmmBase<ObservationEnum<FooEnum>, FooEnum> hmm2 = hmm.clone();
             Assert.assertEquals(inputs.length, hmm2.nbSymbols());
             for (Integer index : hmm.getIndexRegister().values()) {
                 Assert.assertNotNull(index);
@@ -836,7 +836,7 @@ public class InputHmmBaseTest {
             int m = ProbabilityUtils.nextInt(TestParameters.TEST_SIZE_SMALL) + 0x01;
             TrisEnum[] ti = new TrisEnum[]{TrisEnum.Odin, TrisEnum.Dva};
             int n = ti.length;
-            InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = generateRandomIHmm1(m, ti, n);
+            InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> hmm = generateRandomIHmm1(m, ti, n);
             double[][] cola = hmm.collapsedA();
             for (int i = 0x00; i < m; i++) {
                 for (int k = 0x00; k < m; k++) {
@@ -846,8 +846,8 @@ public class InputHmmBaseTest {
         }
     }
 
-    private InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> generateRandomIHmm1(int m, TrisEnum[] ti, int n) {
-        InputHmmBase<ObservationDiscrete<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(m, new OpdfDiscreteFactory<>(TrisEnum.class), ti);
+    private InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> generateRandomIHmm1(int m, TrisEnum[] ti, int n) {
+        InputHmmBase<ObservationEnum<TrisEnum>, TrisEnum> hmm = new InputHmmBase<>(m, new OpdfEnumFactory<>(TrisEnum.class), ti);
         for (int i = 0x00; i < m; i++) {
             for (int j = 0x00; j < n; j++) {
                 for (int k = 0x00; k < m; k++) {

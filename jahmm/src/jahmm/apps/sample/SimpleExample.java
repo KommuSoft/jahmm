@@ -36,9 +36,9 @@ import jahmm.RegularHmmBase;
 import jahmm.draw.InvariantHmmDotDrawer;
 import jahmm.learn.RegularBaumWelchLearnerBase;
 import jahmm.observables.Observation;
-import jahmm.observables.ObservationDiscrete;
-import jahmm.observables.OpdfDiscrete;
-import jahmm.observables.OpdfDiscreteFactory;
+import jahmm.observables.ObservationEnum;
+import jahmm.observables.OpdfEnum;
+import jahmm.observables.OpdfEnumFactory;
 import jahmm.toolbox.KullbackLeiblerDistanceCalculator;
 import jahmm.toolbox.RegularMarkovGeneratorBase;
 import java.io.IOException;
@@ -71,17 +71,17 @@ public class SimpleExample {
     static public void main(String[] argv)
             throws java.io.IOException {
         /* Build a HMM and generate observation sequences using this HMM */
-        RegularHmm<ObservationDiscrete<Packet>> hmm = buildHmm();
+        RegularHmm<ObservationEnum<Packet>> hmm = buildHmm();
 
-        List<List<ObservationDiscrete<Packet>>> sequences;
+        List<List<ObservationEnum<Packet>>> sequences;
         sequences = generateSequences(hmm);
 
         System.out.println(CollectionUtils.deepToString(sequences));
 
         /* Baum-Welch learning */
-        RegularBaumWelchLearnerBase<ObservationDiscrete<Packet>> bwl = new RegularBaumWelchLearnerBase<>();
+        RegularBaumWelchLearnerBase<ObservationEnum<Packet>> bwl = new RegularBaumWelchLearnerBase<>();
 
-        RegularHmm<ObservationDiscrete<Packet>> learntHmm = buildInitHmm();
+        RegularHmm<ObservationEnum<Packet>> learntHmm = buildInitHmm();
 
         // This object measures the distance between two HMMs
         KullbackLeiblerDistanceCalculator klc
@@ -98,10 +98,10 @@ public class SimpleExample {
         System.out.println("Resulting HMM:\n" + learntHmm);
 
         /* Computing the probability of a sequence */
-        ObservationDiscrete<Packet> packetOk = Packet.OK.observation();
-        ObservationDiscrete<Packet> packetLoss = Packet.LOSS.observation();
+        ObservationEnum<Packet> packetOk = Packet.OK.observation();
+        ObservationEnum<Packet> packetLoss = Packet.LOSS.observation();
 
-        List<ObservationDiscrete<Packet>> testSequence
+        List<ObservationEnum<Packet>> testSequence
                 = new ArrayList<>();
         testSequence.add(packetOk);
         testSequence.add(packetOk);
@@ -115,17 +115,17 @@ public class SimpleExample {
     }
 
     /* The HMM this example is based on */
-    static RegularHmmBase<ObservationDiscrete<Packet>> buildHmm() {
-        RegularHmmBase<ObservationDiscrete<Packet>> hmm
+    static RegularHmmBase<ObservationEnum<Packet>> buildHmm() {
+        RegularHmmBase<ObservationEnum<Packet>> hmm
                 = new RegularHmmBase<>(2,
-                        new OpdfDiscreteFactory<>(Packet.class));
+                        new OpdfEnumFactory<>(Packet.class));
 
         hmm.setPi(0, 0.95);
         hmm.setPi(1, 0.05);
 
-        hmm.setOpdf(0, new OpdfDiscrete<>(Packet.class,
+        hmm.setOpdf(0, new OpdfEnum<>(Packet.class,
                 new double[]{0.95, 0.05}));
-        hmm.setOpdf(1, new OpdfDiscrete<>(Packet.class,
+        hmm.setOpdf(1, new OpdfEnum<>(Packet.class,
                 new double[]{0.20, 0.80}));
 
         hmm.setAij(0, 1, 0.05);
@@ -137,17 +137,17 @@ public class SimpleExample {
     }
 
     /* Initial guess for the Baum-Welch algorithm */
-    static RegularHmmBase<ObservationDiscrete<Packet>> buildInitHmm() {
-        RegularHmmBase<ObservationDiscrete<Packet>> hmm
+    static RegularHmmBase<ObservationEnum<Packet>> buildInitHmm() {
+        RegularHmmBase<ObservationEnum<Packet>> hmm
                 = new RegularHmmBase<>(2,
-                        new OpdfDiscreteFactory<>(Packet.class));
+                        new OpdfEnumFactory<>(Packet.class));
 
         hmm.setPi(0, 0.50);
         hmm.setPi(1, 0.50);
 
-        hmm.setOpdf(0, new OpdfDiscrete<>(Packet.class,
+        hmm.setOpdf(0, new OpdfEnum<>(Packet.class,
                 new double[]{0.8, 0.2}));
-        hmm.setOpdf(1, new OpdfDiscrete<>(Packet.class,
+        hmm.setOpdf(1, new OpdfEnum<>(Packet.class,
                 new double[]{0.1, 0.9}));
 
         hmm.setAij(0, 1, 0.2);
@@ -190,8 +190,8 @@ public class SimpleExample {
          *
          * @return
          */
-        public ObservationDiscrete<Packet> observation() {
-            return new ObservationDiscrete<>(this);
+        public ObservationEnum<Packet> observation() {
+            return new ObservationEnum<>(this);
         }
     };
 }

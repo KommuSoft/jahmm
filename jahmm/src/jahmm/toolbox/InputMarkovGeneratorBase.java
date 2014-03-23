@@ -3,6 +3,7 @@ package jahmm.toolbox;
 import jahmm.InputHmm;
 import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -20,19 +21,44 @@ public class InputMarkovGeneratorBase<TObs extends Observation, TIn> extends Mar
         super(hmm);
     }
 
-    @Override
-    public void newSequence() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    /**
+     * Generates a new (pseudo) random observation.
+     *
+     * @return The generated observation.
+     */
     @Override
     public InputObservationTuple<TIn, TObs> interaction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        /*TObs o = hmm.getOpdf(stateNb).generate();
+         double rand = Math.random();
+         for (int j = 0; j < hmm.nbStates() - 1; j++) {
+         if ((rand -= hmm.getAij(stateNb, j)) < 0) {
+         stateNb = j;
+         return o;
+         }
+         }
+
+         stateNb = hmm.nbStates() - 1;
+         return o;*/
+        return null;
     }
 
+    /**
+     * Generates a new (pseudo) random observation sequence and start a new one.
+     *
+     * @param length The length of the sequence.
+     * @return An observation sequence.
+     */
     @Override
     public List<InputObservationTuple<TIn, TObs>> interactionSequence(int length) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (length <= 0) {
+            throw new IllegalArgumentException("Positive length required");
+        }
+        ArrayList<InputObservationTuple<TIn, TObs>> sequence = new ArrayList<>(length);
+        while (length-- > 0) {
+            sequence.add(interaction());
+        }
+        newSequence();
+        return sequence;
     }
 
 }
