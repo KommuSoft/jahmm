@@ -20,7 +20,7 @@ import jutlis.tuples.Tuple3;
  *
  * @param <TObs>
  */
-public class RegularBaumWelchLearnerBase<TObs extends Observation,THmm extends RegularHmm<TObs,THmm>> extends BaumWelchLearnerGammaBase<TObs, TObs, THmm, double[][], double[][], double[]> implements RegularBaumWelchLearner<TObs,THmm> {
+public class RegularBaumWelchLearnerBase<TObs extends Observation, THmm extends RegularHmm<TObs, THmm>> extends BaumWelchLearnerGammaBase<TObs, TObs, THmm, double[][], double[][], double[]> implements RegularBaumWelchLearner<TObs, THmm> {
 
     private static final Logger LOG = Logger.getLogger(RegularBaumWelchLearnerBase.class.getName());
 
@@ -156,16 +156,19 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation,THmm extends R
     @Override
     protected void setPdfValues(THmm nhmm, List<? extends List<? extends TObs>> sequences, double[][][] allGamma) {
         int I = nhmm.nbStates();
+        List<TObs> observations = KMeansLearner.flat(sequences);
+        double[] weights = new double[observations.size()];
+        double temp;
         for (int i = 0; i < I; i++) {
-            List<TObs> observations = KMeansLearner.flat(sequences);
-            double[] weights = new double[observations.size()];
             double sum = 0.;
             int j = 0;
 
             int o = 0;
             for (List<? extends TObs> obsSeq : sequences) {
                 for (int t = 0; t < obsSeq.size(); t++, j++) {
-                    sum += weights[j] = allGamma[o][t][i];
+                    temp = allGamma[o][t][i];
+                    weights[j] = temp;
+                    sum += temp;
                 }
                 o++;
             }

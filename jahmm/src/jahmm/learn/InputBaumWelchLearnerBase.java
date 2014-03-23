@@ -5,6 +5,8 @@ import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.calculators.InputForwardBackwardCalculatorBase;
 import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
+import jahmm.observables.Opdf;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -94,7 +96,33 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
 
     @Override
     protected void setPdfValues(THmm nhmm, List<? extends List<? extends InputObservationTuple<TInteraction, TObservation>>> sequences, double[][][] allGamma) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int N = nhmm.nbStates();
+        int M = nhmm.nbSymbols();
+        ArrayList<TObservation> filtered = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            for (int k = 0; k < M; k++) {
+                List<? extends InputObservationTuple<TInteraction, TObservation>> observations = KMeansLearner.flat(sequences);
+                double[] weights = new double[observations.size()];
+                double sum = 0.;
+                int j = 0;
+
+                int o = 0;
+                for (List<? extends InputObservationTuple<TInteraction, TObservation>> obsSeq : sequences) {
+                    for (int t = 0; t < obsSeq.size(); t++, j++) {
+                        sum += weights[j] = allGamma[o][t][i];
+                    }
+                    o++;
+                }
+
+                for (j--; j >= 0; j--) {
+                    weights[j] /= sum;
+                }
+
+                Opdf<TObservation> opdf = nhmm.getOpdf(i,k);
+                opdf.fit(filtered, weights);
+                filtered.clear();
+            }
+        }
     }
 
 }
