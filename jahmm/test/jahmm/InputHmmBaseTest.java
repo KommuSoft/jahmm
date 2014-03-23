@@ -1,5 +1,8 @@
 package jahmm;
 
+import jahmm.calculators.ComputationType;
+import jahmm.calculators.InputForwardBackwardCalculatorBase;
+import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.jadetree.foo.FooEnum;
 import jahmm.jadetree.foo.TrisEnum;
 import jahmm.observables.InputObservationTuple;
@@ -8,8 +11,10 @@ import jahmm.observables.ObservationInteger;
 import jahmm.observables.OpdfEnum;
 import jahmm.observables.OpdfEnumFactory;
 import jahmm.observables.OpdfInteger;
+import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.logging.Logger;
 import junit.framework.Assert;
 import jutils.probability.ProbabilityUtils;
@@ -655,13 +660,19 @@ public class InputHmmBaseTest {
     @Test
     public void testProbability00() {
         int l = 0x01;
+        List<InputObservationTuple<Integer, ObservationInteger>> lst = ihmm_sequence.subList(0x00, l);
         double pi00 = ihmm_pi[0x00];
         double pi01 = ihmm_pi[0x01];
         double pi02 = ihmm_pi[0x02];
 
         double pa = pi00 * b000 + pi01 * b100 + pi02 * b200;
 
-        AssertExtensions.assertEquals(pa, ihmm.probability(ihmm_sequence.subList(0x00, l)));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.noneOf(ComputationType.class), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.BETA), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.ALPHA), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), lst));
+        AssertExtensions.assertEquals(pa, ihmm.probability(lst));
     }
 
     /**
@@ -670,6 +681,7 @@ public class InputHmmBaseTest {
     @Test
     public void testProbability01() {
         int l = 0x02;
+        List<InputObservationTuple<Integer, ObservationInteger>> lst = ihmm_sequence.subList(0x00, l);
         double pi00 = ihmm_pi[0x00];
         double pi01 = ihmm_pi[0x01];
         double pi02 = ihmm_pi[0x02];
@@ -682,7 +694,12 @@ public class InputHmmBaseTest {
 
         pa *= pi10 * b011 + pi11 * b111 + pi12 * b211;
 
-        AssertExtensions.assertEquals(pa, ihmm.probability(ihmm_sequence.subList(0x00, l)));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.noneOf(ComputationType.class), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.BETA), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.ALPHA), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), lst));
+        AssertExtensions.assertEquals(pa, ihmm.probability(lst));
     }
 
     /**
@@ -691,6 +708,7 @@ public class InputHmmBaseTest {
     @Test
     public void testProbability02() {
         int l = 0x03;
+        List<InputObservationTuple<Integer, ObservationInteger>> lst = ihmm_sequence.subList(0x00, l);
         double pi00 = ihmm_pi[0x00];
         double pi01 = ihmm_pi[0x01];
         double pi02 = ihmm_pi[0x02];
@@ -709,7 +727,12 @@ public class InputHmmBaseTest {
 
         pa *= pi20 * b020 + pi21 * b120 + pi22 * b220;
 
-        AssertExtensions.assertEquals(pa, ihmm.probability(ihmm_sequence.subList(0x00, l)));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.noneOf(ComputationType.class), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.BETA), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.ALPHA), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), lst));
+        AssertExtensions.assertEquals(pa, ihmm.probability(lst));
     }
 
     /**
@@ -718,6 +741,7 @@ public class InputHmmBaseTest {
     @Test
     public void testProbability03() {
         int l = 0x04;
+        List<InputObservationTuple<Integer, ObservationInteger>> lst = ihmm_sequence.subList(0x00, l);
         double pi00 = ihmm_pi[0x00];
         double pi01 = ihmm_pi[0x01];
         double pi02 = ihmm_pi[0x02];
@@ -742,7 +766,12 @@ public class InputHmmBaseTest {
 
         pa *= pi30 * b001 + pi31 * b101 + pi32 * b201;
 
-        AssertExtensions.assertEquals(pa, ihmm.probability(ihmm_sequence.subList(0x00, l)));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.noneOf(ComputationType.class), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.BETA), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.ALPHA), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), lst));
+        AssertExtensions.assertEquals(pa, ihmm.probability(lst));
     }
 
     /**
@@ -751,6 +780,7 @@ public class InputHmmBaseTest {
     @Test
     public void testProbability04() {
         int l = 0x05;
+        List<InputObservationTuple<Integer, ObservationInteger>> lst = ihmm_sequence.subList(0x00, l);
         double pi00 = ihmm_pi[0x00];
         double pi01 = ihmm_pi[0x01];
         double pi02 = ihmm_pi[0x02];
@@ -781,7 +811,12 @@ public class InputHmmBaseTest {
 
         pa *= pi40 * b010 + pi41 * b110 + pi42 * b210;
 
-        AssertExtensions.assertEquals(pa, ihmm.probability(ihmm_sequence.subList(0x00, l)));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.noneOf(ComputationType.class), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.BETA), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.ALPHA), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), lst));
+        AssertExtensions.assertEquals(pa, ihmm.probability(lst));
     }
 
     /**
@@ -790,6 +825,7 @@ public class InputHmmBaseTest {
     @Test
     public void testProbability05() {
         int l = 0x06;
+        List<InputObservationTuple<Integer, ObservationInteger>> lst = ihmm_sequence.subList(0x00, l);
         double pi00 = ihmm_pi[0x00];
         double pi01 = ihmm_pi[0x01];
         double pi02 = ihmm_pi[0x02];
@@ -826,7 +862,12 @@ public class InputHmmBaseTest {
 
         pa *= pi50 * b021 + pi51 * b121 + pi52 * b221;
 
-        AssertExtensions.assertEquals(pa, ihmm.probability(ihmm_sequence.subList(0x00, l)));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.noneOf(ComputationType.class), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.BETA), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.ALPHA), lst));
+        AssertExtensions.assertEquals(pa, InputForwardBackwardCalculatorBase.Instance.computeProbability(ihmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), lst));
+        AssertExtensions.assertEquals(pa, ihmm.probability(lst));
     }
 
     /**
