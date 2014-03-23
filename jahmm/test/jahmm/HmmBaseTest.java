@@ -173,7 +173,6 @@ public class HmmBaseTest {
         double pa = pi00 * b00 + pi01 * b10 + pi02 * b20;
 
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, lst));
-        AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.noneOf(ComputationType.class), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), lst));
@@ -200,7 +199,6 @@ public class HmmBaseTest {
         pa *= pi10 * b01 + pi11 * b11 + pi12 * b21;
 
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, lst));
-        AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.noneOf(ComputationType.class), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), lst));
@@ -233,7 +231,6 @@ public class HmmBaseTest {
         pa *= pi20 * b00 + pi21 * b10 + pi22 * b20;
 
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, lst));
-        AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.noneOf(ComputationType.class), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), lst));
@@ -272,7 +269,6 @@ public class HmmBaseTest {
         pa *= pi30 * b01 + pi31 * b11 + pi32 * b21;
 
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, lst));
-        AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.noneOf(ComputationType.class), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), lst));
@@ -317,7 +313,6 @@ public class HmmBaseTest {
         pa *= pi40 * b00 + pi41 * b10 + pi42 * b20;
 
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, lst));
-        AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.noneOf(ComputationType.class), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), lst));
@@ -368,7 +363,6 @@ public class HmmBaseTest {
         pa *= pi50 * b01 + pi51 * b11 + pi52 * b21;
 
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, lst));
-        AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.noneOf(ComputationType.class), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.BETA), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA), lst));
         AssertExtensions.assertEquals(pa, RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, EnumSet.of(ComputationType.ALPHA, ComputationType.BETA), lst));
