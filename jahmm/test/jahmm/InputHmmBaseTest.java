@@ -684,9 +684,9 @@ public class InputHmmBaseTest {
         double pi01 = ihmm_pi[0x01] * b100;
         double pi02 = ihmm_pi[0x02] * b200;
 
-        double pi10 = pi00 * a000 + pi01 * a100 + pi02 * a200;
-        double pi11 = pi00 * a001 + pi01 * a101 + pi02 * a201;
-        double pi12 = pi00 * a002 + pi01 * a102 + pi02 * a202;
+        double pi10 = pi00 * a010 + pi01 * a110 + pi02 * a210;
+        double pi11 = pi00 * a011 + pi01 * a111 + pi02 * a211;
+        double pi12 = pi00 * a012 + pi01 * a112 + pi02 * a212;
 
         double pa = pi10 * b011 + pi11 * b111 + pi12 * b211;
 
@@ -708,17 +708,17 @@ public class InputHmmBaseTest {
         double pi01 = ihmm_pi[0x01] * b100;
         double pi02 = ihmm_pi[0x02] * b200;
 
-        double pi10 = pi00 * a000 + pi01 * a100 + pi02 * a200;
-        double pi11 = pi00 * a001 + pi01 * a101 + pi02 * a201;
-        double pi12 = pi00 * a002 + pi01 * a102 + pi02 * a202;
+        double pi10 = pi00 * a010 + pi01 * a110 + pi02 * a210;
+        double pi11 = pi00 * a011 + pi01 * a111 + pi02 * a211;
+        double pi12 = pi00 * a012 + pi01 * a112 + pi02 * a212;
 
         pi10 *= b011;
         pi11 *= b111;
         pi12 *= b211;
 
-        double pi20 = pi10 * a010 + pi11 * a110 + pi12 * a210;
-        double pi21 = pi10 * a011 + pi11 * a111 + pi12 * a211;
-        double pi22 = pi10 * a012 + pi11 * a112 + pi12 * a212;
+        double pi20 = pi10 * a020 + pi11 * a120 + pi12 * a220;
+        double pi21 = pi10 * a021 + pi11 * a121 + pi12 * a221;
+        double pi22 = pi10 * a022 + pi11 * a122 + pi12 * a222;
 
         double pa = pi20 * b020 + pi21 * b120 + pi22 * b220;
 
@@ -740,25 +740,25 @@ public class InputHmmBaseTest {
         double pi01 = ihmm_pi[0x01] * b100;
         double pi02 = ihmm_pi[0x02] * b200;
 
-        double pi10 = pi00 * a000 + pi01 * a100 + pi02 * a200;
-        double pi11 = pi00 * a001 + pi01 * a101 + pi02 * a201;
-        double pi12 = pi00 * a002 + pi01 * a102 + pi02 * a202;
+        double pi10 = pi00 * a010 + pi01 * a110 + pi02 * a210;
+        double pi11 = pi00 * a011 + pi01 * a111 + pi02 * a211;
+        double pi12 = pi00 * a012 + pi01 * a112 + pi02 * a212;
 
         pi10 *= b011;
         pi11 *= b111;
         pi12 *= b211;
 
-        double pi20 = pi10 * a010 + pi11 * a110 + pi12 * a210;
-        double pi21 = pi10 * a011 + pi11 * a111 + pi12 * a211;
-        double pi22 = pi10 * a012 + pi11 * a112 + pi12 * a212;
+        double pi20 = pi10 * a020 + pi11 * a120 + pi12 * a220;
+        double pi21 = pi10 * a021 + pi11 * a121 + pi12 * a221;
+        double pi22 = pi10 * a022 + pi11 * a122 + pi12 * a222;
 
         pi20 *= b020;
         pi21 *= b120;
         pi22 *= b220;
 
-        double pi30 = pi20 * a020 + pi21 * a120 + pi22 * a220;
-        double pi31 = pi20 * a021 + pi21 * a121 + pi22 * a221;
-        double pi32 = pi20 * a022 + pi21 * a122 + pi22 * a222;
+        double pi30 = pi20 * a000 + pi21 * a100 + pi22 * a200;
+        double pi31 = pi20 * a001 + pi21 * a101 + pi22 * a201;
+        double pi32 = pi20 * a002 + pi21 * a102 + pi22 * a202;
 
         double pa = pi30 * b001 + pi31 * b101 + pi32 * b201;
 
@@ -780,33 +780,33 @@ public class InputHmmBaseTest {
         double pi01 = ihmm_pi[0x01] * b100;
         double pi02 = ihmm_pi[0x02] * b200;
 
-        double pi10 = pi00 * a000 + pi01 * a100 + pi02 * a200;
-        double pi11 = pi00 * a001 + pi01 * a101 + pi02 * a201;
-        double pi12 = pi00 * a002 + pi01 * a102 + pi02 * a202;
+        double pi10 = pi00 * a010 + pi01 * a110 + pi02 * a210;
+        double pi11 = pi00 * a011 + pi01 * a111 + pi02 * a211;
+        double pi12 = pi00 * a012 + pi01 * a112 + pi02 * a212;
 
         pi10 *= b011;
         pi11 *= b111;
         pi12 *= b211;
 
-        double pi20 = pi10 * a010 + pi11 * a110 + pi12 * a210;
-        double pi21 = pi10 * a011 + pi11 * a111 + pi12 * a211;
-        double pi22 = pi10 * a012 + pi11 * a112 + pi12 * a212;
+        double pi20 = pi10 * a020 + pi11 * a120 + pi12 * a220;
+        double pi21 = pi10 * a021 + pi11 * a121 + pi12 * a221;
+        double pi22 = pi10 * a022 + pi11 * a122 + pi12 * a222;
 
         pi20 *= b020;
         pi21 *= b120;
         pi22 *= b220;
 
-        double pi30 = pi20 * a020 + pi21 * a120 + pi22 * a220;
-        double pi31 = pi20 * a021 + pi21 * a121 + pi22 * a221;
-        double pi32 = pi20 * a022 + pi21 * a122 + pi22 * a222;
+        double pi30 = pi20 * a000 + pi21 * a100 + pi22 * a200;
+        double pi31 = pi20 * a001 + pi21 * a101 + pi22 * a201;
+        double pi32 = pi20 * a002 + pi21 * a102 + pi22 * a202;
 
         pi30 *= b001;
         pi31 *= b101;
         pi32 *= b201;
 
-        double pi40 = pi30 * a000 + pi31 * a100 + pi32 * a200;
-        double pi41 = pi30 * a001 + pi31 * a101 + pi32 * a201;
-        double pi42 = pi30 * a002 + pi31 * a102 + pi32 * a202;
+        double pi40 = pi30 * a010 + pi31 * a110 + pi32 * a210;
+        double pi41 = pi30 * a011 + pi31 * a111 + pi32 * a211;
+        double pi42 = pi30 * a012 + pi31 * a112 + pi32 * a212;
 
         double pa = pi40 * b010 + pi41 * b110 + pi42 * b210;
 
@@ -828,41 +828,41 @@ public class InputHmmBaseTest {
         double pi01 = ihmm_pi[0x01] * b100;
         double pi02 = ihmm_pi[0x02] * b200;
 
-        double pi10 = pi00 * a000 + pi01 * a100 + pi02 * a200;
-        double pi11 = pi00 * a001 + pi01 * a101 + pi02 * a201;
-        double pi12 = pi00 * a002 + pi01 * a102 + pi02 * a202;
+        double pi10 = pi00 * a010 + pi01 * a110 + pi02 * a210;
+        double pi11 = pi00 * a011 + pi01 * a111 + pi02 * a211;
+        double pi12 = pi00 * a012 + pi01 * a112 + pi02 * a212;
 
         pi10 *= b011;
         pi11 *= b111;
         pi12 *= b211;
 
-        double pi20 = pi10 * a010 + pi11 * a110 + pi12 * a210;
-        double pi21 = pi10 * a011 + pi11 * a111 + pi12 * a211;
-        double pi22 = pi10 * a012 + pi11 * a112 + pi12 * a212;
+        double pi20 = pi10 * a020 + pi11 * a120 + pi12 * a220;
+        double pi21 = pi10 * a021 + pi11 * a121 + pi12 * a221;
+        double pi22 = pi10 * a022 + pi11 * a122 + pi12 * a222;
 
         pi20 *= b020;
         pi21 *= b120;
         pi22 *= b220;
 
-        double pi30 = pi20 * a020 + pi21 * a120 + pi22 * a220;
-        double pi31 = pi20 * a021 + pi21 * a121 + pi22 * a221;
-        double pi32 = pi20 * a022 + pi21 * a122 + pi22 * a222;
+        double pi30 = pi20 * a000 + pi21 * a100 + pi22 * a200;
+        double pi31 = pi20 * a001 + pi21 * a101 + pi22 * a201;
+        double pi32 = pi20 * a002 + pi21 * a102 + pi22 * a202;
 
         pi30 *= b001;
         pi31 *= b101;
         pi32 *= b201;
 
-        double pi40 = pi30 * a000 + pi31 * a100 + pi32 * a200;
-        double pi41 = pi30 * a001 + pi31 * a101 + pi32 * a201;
-        double pi42 = pi30 * a002 + pi31 * a102 + pi32 * a202;
+        double pi40 = pi30 * a010 + pi31 * a110 + pi32 * a210;
+        double pi41 = pi30 * a011 + pi31 * a111 + pi32 * a211;
+        double pi42 = pi30 * a012 + pi31 * a112 + pi32 * a212;
 
         pi40 *= b010;
         pi41 *= b110;
         pi42 *= b210;
 
-        double pi50 = pi40 * a010 + pi41 * a110 + pi42 * a210;
-        double pi51 = pi40 * a011 + pi41 * a111 + pi42 * a211;
-        double pi52 = pi40 * a012 + pi41 * a112 + pi42 * a212;
+        double pi50 = pi40 * a020 + pi41 * a120 + pi42 * a220;
+        double pi51 = pi40 * a021 + pi41 * a121 + pi42 * a221;
+        double pi52 = pi40 * a022 + pi41 * a122 + pi42 * a222;
 
         double pa = pi50 * b021 + pi51 * b121 + pi52 * b221;
 
