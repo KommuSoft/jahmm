@@ -6,7 +6,6 @@ package jahmm.toolbox;
 
 import jahmm.RegularHmm;
 import jahmm.observables.Observation;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -36,6 +35,27 @@ public class RegularMarkovGeneratorBase<TObs extends Observation> extends Markov
      */
     @Override
     public TObs observation() {
+        return this.interaction();
+    }
+
+    /**
+     * Generates a new (pseudo) random observation sequence and start a new one.
+     *
+     * @param length The length of the sequence.
+     * @return An observation sequence.
+     */
+    @Override
+    public List<TObs> observationSequence(int length) {
+        return this.interactionSequence(length);
+    }
+
+    /**
+     * Generates the next interaction and modifies the current state.
+     *
+     * @return The next interaction.
+     */
+    @Override
+    public TObs interaction() {
         TObs o = hmm.getOpdf(stateNb).generate();
         double rand = Math.random();
         for (int j = 0; j < hmm.nbStates() - 1; j++) {
@@ -47,34 +67,5 @@ public class RegularMarkovGeneratorBase<TObs extends Observation> extends Markov
 
         stateNb = hmm.nbStates() - 1;
         return o;
-    }
-
-    /**
-     * Generates a new (pseudo) random observation sequence and start a new one.
-     *
-     * @param length The length of the sequence.
-     * @return An observation sequence.
-     */
-    @Override
-    public List<TObs> observationSequence(int length) {
-        if (length <= 0) {
-            throw new IllegalArgumentException("Positive length required");
-        }
-        ArrayList<TObs> sequence = new ArrayList<>(length);
-        while (length-- > 0) {
-            sequence.add(observation());
-        }
-        newSequence();
-        return sequence;
-    }
-
-    @Override
-    public TObs interaction() {
-        return this.observation();
-    }
-
-    @Override
-    public List<TObs> interactionSequence(int length) {
-        return this.observationSequence(length);
     }
 }

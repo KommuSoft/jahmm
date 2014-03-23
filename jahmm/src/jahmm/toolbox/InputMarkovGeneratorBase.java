@@ -3,6 +3,8 @@ package jahmm.toolbox;
 import jahmm.InputHmm;
 import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
+import jahmm.observables.Opdf;
+import jahmm.observables.TypedObservation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -17,8 +19,19 @@ public class InputMarkovGeneratorBase<TObs extends Observation, TIn> extends Mar
 
     private static final Logger LOG = Logger.getLogger(InputMarkovGeneratorBase.class.getName());
 
-    public InputMarkovGeneratorBase(InputHmm<TObs, TIn> hmm) {
+    private final Opdf<? extends TypedObservation<TIn>> inputDistribution;
+
+    /**
+     * Creates a new instance of an InputMarkovGenerator base with a given
+     * Hidden Markov model and distribution on the inputs.
+     *
+     * @param hmm The given hidden Markov Model to generate a list of
+     * observations from.
+     * @param inputDistribution Gets the input distribution of the input values.
+     */
+    public InputMarkovGeneratorBase(InputHmm<TObs, TIn> hmm, Opdf<? extends TypedObservation<TIn>> inputDistribution) {
         super(hmm);
+        this.inputDistribution = inputDistribution;
     }
 
     /**
@@ -28,37 +41,24 @@ public class InputMarkovGeneratorBase<TObs extends Observation, TIn> extends Mar
      */
     @Override
     public InputObservationTuple<TIn, TObs> interaction() {
-        /*TObs o = hmm.getOpdf(stateNb).generate();
-         double rand = Math.random();
-         for (int j = 0; j < hmm.nbStates() - 1; j++) {
-         if ((rand -= hmm.getAij(stateNb, j)) < 0) {
-         stateNb = j;
-         return o;
-         }
-         }
-
-         stateNb = hmm.nbStates() - 1;
-         return o;*/
-        return null;
+        TIn input = this.getInputDistribution().generate().getTag();
+        InputHmm<TObs, TIn> ihmm = this.getHmm();
+        int inputIndex = ihmm.getInputIndex(input);
+        TObs o = ihmm.getOpdf(stateNb, inputIndex).generate();
+        double rand = Math.random();
+        for (int j = 0; j < ihmm.nbStates() - 1; j++) {
+            if ((rand -= ihmm.getAixj(stateNb, inputIndex, j)) < 0) {
+                stateNb = j;
+                return new InputObservationTuple<>(input, o);
+            }
+        }
+        stateNb = ihmm.nbStates() - 1;
+        return new InputObservationTuple<>(input, o);
     }
 
-    /**
-     * Generates a new (pseudo) random observation sequence and start a new one.
-     *
-     * @param length The length of the sequence.
-     * @return An observation sequence.
-     */
     @Override
-    public List<InputObservationTuple<TIn, TObs>> interactionSequence(int length) {
-        if (length <= 0) {
-            throw new IllegalArgumentException("Positive length required");
-        }
-        ArrayList<InputObservationTuple<TIn, TObs>> sequence = new ArrayList<>(length);
-        while (length-- > 0) {
-            sequence.add(interaction());
-        }
-        newSequence();
-        return sequence;
+    public Opdf<? extends TypedObservation<TIn>> getInputDistribution() {
+        return this.inputDistribution;
     }
 
 }

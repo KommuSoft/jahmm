@@ -1,7 +1,10 @@
 package jahmm.toolbox;
 
 import jahmm.Hmm;
+import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
+import java.util.ArrayList;
+import java.util.List;
 import jutils.probability.ProbabilityUtils;
 
 /**
@@ -56,6 +59,25 @@ public abstract class MarkovGeneratorBase<TObs extends Observation, TInt extends
     @Override
     public THmm getHmm() {
         return this.hmm;
+    }
+
+    /**
+     * Generates a new (pseudo) random observation sequence and start a new one.
+     *
+     * @param length The length of the sequence.
+     * @return An observation sequence.
+     */
+    @Override
+    public List<TInt> interactionSequence(int length) {
+        if (length <= 0) {
+            throw new IllegalArgumentException("Positive length required");
+        }
+        ArrayList<TInt> sequence = new ArrayList<>(length);
+        while (length-- > 0) {
+            sequence.add(interaction());
+        }
+        newSequence();
+        return sequence;
     }
 
 }
