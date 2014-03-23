@@ -13,7 +13,7 @@ import jutils.probability.ProbabilityUtils;
  * @param <TInt> The type of interactions regarding the Hidden Markov Model.
  * @param <THmm> The type of the Hidden Markov Model.
  */
-public abstract class MarkovGeneratorBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>> implements MarkovGenerator<TObs, TInt, THmm> {
+public abstract class MarkovGeneratorBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt,THmm>> implements MarkovGenerator<TObs, TInt, THmm> {
 
     protected final THmm hmm;
     protected int stateNb;

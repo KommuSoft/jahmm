@@ -20,7 +20,7 @@ import jutlis.tuples.Tuple3;
  *
  * @param <TObs>
  */
-public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumWelchLearnerGammaBase<TObs, TObs, RegularHmm<TObs>, double[][], double[][], double[]> implements RegularBaumWelchLearner<TObs> {
+public class RegularBaumWelchLearnerBase<TObs extends Observation,THmm extends RegularHmm<TObs,THmm>> extends BaumWelchLearnerGammaBase<TObs, TObs, THmm, double[][], double[][], double[]> implements RegularBaumWelchLearner<TObs,THmm> {
 
     private static final Logger LOG = Logger.getLogger(RegularBaumWelchLearnerBase.class.getName());
 
@@ -45,7 +45,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
      * @return The estimated Xi values.
      */
     @Override
-    protected double[][][] estimateXi(List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<TObs> hmm) {
+    protected double[][][] estimateXi(List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, THmm hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
         }
@@ -73,7 +73,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
      */
     @Override
     @SuppressWarnings("unchecked")
-    protected ForwardBackwardCalculator<double[][], double[][], TObs, TObs, RegularHmm<TObs>> getCalculator() {
+    protected ForwardBackwardCalculator<double[][], double[][], TObs, TObs, THmm> getCalculator() {
         return RegularForwardBackwardCalculatorBase.Instance;
     }
 
@@ -85,7 +85,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
      * @return A new instance of the â-denominator.
      */
     @Override
-    protected double[] createADenominator(RegularHmm<TObs> hmm) {
+    protected double[] createADenominator(THmm hmm) {
         return new double[hmm.nbStates()];
     }
 
@@ -97,7 +97,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
      * @return A new instance of the â-numerator.
      */
     @Override
-    protected double[][] createANumerator(RegularHmm<TObs> hmm) {
+    protected double[][] createANumerator(THmm hmm) {
         return new double[hmm.nbStates()][hmm.nbStates()];
     }
 
@@ -110,7 +110,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
      * @param aijNum The numerators of the â-values.
      */
     @Override
-    protected void updateAbarXiGamma(RegularHmm<TObs> hmm, List<? extends TObs> obsSeq, double[][][] xi, double[][] gamma, double[][] aijNum, double[] aijDen) {
+    protected void updateAbarXiGamma(THmm hmm, List<? extends TObs> obsSeq, double[][][] xi, double[][] gamma, double[][] aijNum, double[] aijDen) {
         int I = aijDen.length;
         int T = xi.length;
         for (int i = 0; i < I; i++) {
@@ -133,7 +133,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
      * @param aijDen The denominators of the â-values.
      */
     @Override
-    protected void setAValues(RegularHmm<TObs> hmm, double[][] aijNum, double[] aijDen) {
+    protected void setAValues(THmm hmm, double[][] aijNum, double[] aijDen) {
         int N = hmm.nbStates();
         for (int i = 0; i < N; i++) {
             if (aijDen[i] > 0.) { // State i is reachable
@@ -154,7 +154,7 @@ public class RegularBaumWelchLearnerBase<TObs extends Observation> extends BaumW
      * lists of interactions.
      */
     @Override
-    protected void setPdfValues(RegularHmm<TObs> nhmm, List<? extends List<? extends TObs>> sequences, double[][][] allGamma) {
+    protected void setPdfValues(THmm nhmm, List<? extends List<? extends TObs>> sequences, double[][][] allGamma) {
         int I = nhmm.nbStates();
         for (int i = 0; i < I; i++) {
             List<TObs> observations = KMeansLearner.flat(sequences);

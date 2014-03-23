@@ -21,7 +21,7 @@ import jutlis.tuples.Tuple3;
  * <i>Juang</i>'s <i>Fundamentals of speech recognition</i> (Prentice Hall,
  * 1993).
  */
-public class RegularBaumWelchScaledLearnerBase<TObs extends Observation> extends RegularBaumWelchLearnerBase<TObs> {
+public class RegularBaumWelchScaledLearnerBase<TObs extends Observation,THmm extends RegularHmm<TObs,THmm>> extends RegularBaumWelchLearnerBase<TObs,THmm> {
 
     private static final Logger LOG = Logger.getLogger(RegularBaumWelchScaledLearnerBase.class.getName());
 
@@ -38,7 +38,7 @@ public class RegularBaumWelchScaledLearnerBase<TObs extends Observation> extends
      */
     @Override
     @SuppressWarnings("unchecked")
-    protected ForwardBackwardCalculator<double[][], double[][], TObs, TObs, RegularHmm<TObs>> getCalculator() {
+    protected ForwardBackwardCalculator<double[][], double[][], TObs, TObs, THmm> getCalculator() {
         return RegularForwardBackwardScaledCalculatorBase.Instance;
     }
 
@@ -57,7 +57,7 @@ public class RegularBaumWelchScaledLearnerBase<TObs extends Observation> extends
      * @return The estimated xi-values.
      */
     @Override
-    protected double[][][] estimateXi(List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, RegularHmm<TObs> hmm) {
+    protected double[][][] estimateXi(List<? extends TObs> sequence, Tuple3<double[][], double[][], Double> abp, THmm hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
         }

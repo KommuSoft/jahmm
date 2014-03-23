@@ -4,7 +4,6 @@
  */
 package jahmm.apps.cli;
 
-import jahmm.RegularHmm;
 import jahmm.RegularHmmBase;
 import jahmm.apps.cli.CommandLineArguments.Arguments;
 import jahmm.io.FileFormatException;
@@ -61,7 +60,7 @@ class BWActionHandler extends ActionHandler {
         RegularHmmBase<O> initHmm = HmmReader.read(hmmFileReader, opdfReader);
         RegularBaumWelchLearnerBase<O> bw = new RegularBaumWelchScaledLearnerBase<>();
         bw.setNbIterations(nbIterations);
-        RegularHmm<O> hmm = bw.learn(initHmm, seqs);
+        RegularHmmBase<O> hmm = bw.learn(initHmm, seqs);
         HmmWriter.write(hmmFileWriter, opdfWriter, hmm);
     }
 

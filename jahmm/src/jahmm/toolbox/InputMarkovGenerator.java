@@ -11,8 +11,9 @@ import jahmm.observables.TypedObservation;
  * @author kommusoft
  * @param <TObs> The type of observations regarding the Hidden Markov Model.
  * @param <TIn> The type of interactions regarding the Hidden Markov Model.
+ * @param <THmm> The type of the Hidden Markov Model.
  */
-public interface InputMarkovGenerator<TObs extends Observation, TIn> extends MarkovGenerator<TObs, InputObservationTuple<TIn, TObs>, InputHmm<TObs, TIn>> {
+public interface InputMarkovGenerator<TObs extends Observation, TIn, THmm extends InputHmm<TObs,TIn,THmm>> extends MarkovGenerator<TObs, InputObservationTuple<TIn, TObs>, THmm> {
 
     /**
      * Gets the assigned input distribution that generates input values.

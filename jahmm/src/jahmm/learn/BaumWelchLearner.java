@@ -12,7 +12,7 @@ import java.util.List;
  * @param <TInt> The type of interactions regarding the Hidden Markov Model.
  * @param <THmm> The type of the Hidden Markov Model.
  */
-public interface BaumWelchLearner<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>> {
+public interface BaumWelchLearner<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt, THmm>> {
 
     /**
      * Returns the number of iterations performed by the {@link #learn} method.

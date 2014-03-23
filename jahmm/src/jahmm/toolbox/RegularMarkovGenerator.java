@@ -11,7 +11,7 @@ import java.util.List;
  * @author kommusoft
  * @param <TObs> The type of observations regarding the Hidden Markov Model.
  */
-public interface RegularMarkovGenerator<TObs extends Observation> extends MarkovGenerator<TObs, TObs, RegularHmm<TObs>> {
+public interface RegularMarkovGenerator<TObs extends Observation, THmm extends RegularHmm<TObs,THmm>> extends MarkovGenerator<TObs, TObs, THmm> {
 
     /**
      * Generates a new (pseudo) random observation.

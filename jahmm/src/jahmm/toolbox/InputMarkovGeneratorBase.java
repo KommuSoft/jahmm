@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  * @param <TObs> The type of observations regarding the Hidden Markov Model.
  * @param <TIn> The type of interactions regarding the Hidden Markov Model.
  */
-public class InputMarkovGeneratorBase<TObs extends Observation, TIn> extends MarkovGeneratorBase<TObs, InputObservationTuple<TIn, TObs>, InputHmm<TObs, TIn>> implements InputMarkovGenerator<TObs, TIn> {
+public class InputMarkovGeneratorBase<TObs extends Observation, TIn, THmm extends InputHmm<TObs,TIn,THmm>> extends MarkovGeneratorBase<TObs, InputObservationTuple<TIn, TObs>, THmm> implements InputMarkovGenerator<TObs, TIn, THmm> {
 
     private static final Logger LOG = Logger.getLogger(InputMarkovGeneratorBase.class.getName());
 
@@ -29,7 +29,7 @@ public class InputMarkovGeneratorBase<TObs extends Observation, TIn> extends Mar
      * observations from.
      * @param inputDistribution Gets the input distribution of the input values.
      */
-    public InputMarkovGeneratorBase(InputHmm<TObs, TIn> hmm, Opdf<? extends TypedObservation<TIn>> inputDistribution) {
+    public InputMarkovGeneratorBase(THmm hmm, Opdf<? extends TypedObservation<TIn>> inputDistribution) {
         super(hmm);
         this.inputDistribution = inputDistribution;
     }
@@ -42,7 +42,7 @@ public class InputMarkovGeneratorBase<TObs extends Observation, TIn> extends Mar
     @Override
     public InputObservationTuple<TIn, TObs> interaction() {
         TIn input = this.getInputDistribution().generate().getTag();
-        InputHmm<TObs, TIn> ihmm = this.getHmm();
+        THmm ihmm = this.getHmm();
         int inputIndex = ihmm.getInputIndex(input);
         TObs o = ihmm.getOpdf(stateNb, inputIndex).generate();
         double rand = Math.random();

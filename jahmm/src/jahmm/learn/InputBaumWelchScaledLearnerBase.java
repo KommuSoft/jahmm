@@ -18,7 +18,7 @@ import jutlis.tuples.Tuple3;
  * @param <TInteraction> The type of interactions regarding the Hidden Markov
  * Model.
  */
-public class InputBaumWelchScaledLearnerBase<TObservation extends Observation, TInteraction> extends InputBaumWelchLearnerBase<TObservation, TInteraction> {
+public class InputBaumWelchScaledLearnerBase<TObservation extends Observation, TInteraction, THmm extends InputHmm<TObservation, TInteraction, THmm>> extends InputBaumWelchLearnerBase<TObservation, TInteraction, THmm> {
 
     private static final Logger LOG = Logger.getLogger(RegularBaumWelchScaledLearnerBase.class.getName());
 
@@ -35,7 +35,7 @@ public class InputBaumWelchScaledLearnerBase<TObservation extends Observation, T
      */
     @Override
     @SuppressWarnings("unchecked")
-    protected ForwardBackwardCalculator<double[][], double[][], TObservation, InputObservationTuple<TInteraction, TObservation>, InputHmm<TObservation, TInteraction>> getCalculator() {
+    protected ForwardBackwardCalculator<double[][], double[][], TObservation, InputObservationTuple<TInteraction, TObservation>, THmm> getCalculator() {
         return InputForwardBackwardScaledCalculatorBase.Instance;
     }
 
@@ -54,7 +54,7 @@ public class InputBaumWelchScaledLearnerBase<TObservation extends Observation, T
      * @return The estimated xi-values.
      */
     @Override
-    protected double[][][] estimateXi(List<? extends InputObservationTuple<TInteraction, TObservation>> sequence, Tuple3<double[][], double[][], Double> abp, InputHmm<TObservation, TInteraction> hmm) {
+    protected double[][][] estimateXi(List<? extends InputObservationTuple<TInteraction, TObservation>> sequence, Tuple3<double[][], double[][], Double> abp, THmm hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
         }

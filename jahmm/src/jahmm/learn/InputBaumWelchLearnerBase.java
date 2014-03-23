@@ -18,18 +18,18 @@ import jutlis.tuples.Tuple3;
  * @param <TInteraction> The type of interactions regarding the Hidden Markov
  * Model.
  */
-public class InputBaumWelchLearnerBase<TObservation extends Observation, TInteraction> extends BaumWelchLearnerGammaBase<TObservation, InputObservationTuple<TInteraction, TObservation>, InputHmm<TObservation, TInteraction>, double[][], double[][], double[][]> implements InputBaumWelchLearner<TObservation, TInteraction> {
+public class InputBaumWelchLearnerBase<TObservation extends Observation, TInteraction, THmm extends InputHmm<TObservation, TInteraction, THmm>> extends BaumWelchLearnerGammaBase<TObservation, InputObservationTuple<TInteraction, TObservation>, THmm, double[][], double[][], double[][]> implements InputBaumWelchLearner<TObservation, TInteraction, THmm> {
 
     private static final Logger LOG = Logger.getLogger(InputBaumWelchLearnerBase.class.getName());
 
     @Override
     @SuppressWarnings("unchecked")
-    protected ForwardBackwardCalculator<double[][], double[][], TObservation, InputObservationTuple<TInteraction, TObservation>, InputHmm<TObservation, TInteraction>> getCalculator() {
+    protected ForwardBackwardCalculator<double[][], double[][], TObservation, InputObservationTuple<TInteraction, TObservation>, THmm> getCalculator() {
         return InputForwardBackwardCalculatorBase.Instance;
     }
 
     @Override
-    protected double[][][] estimateXi(List<? extends InputObservationTuple<TInteraction, TObservation>> sequence, Tuple3<double[][], double[][], Double> abp, InputHmm<TObservation, TInteraction> hmm) {
+    protected double[][][] estimateXi(List<? extends InputObservationTuple<TInteraction, TObservation>> sequence, Tuple3<double[][], double[][], Double> abp, THmm hmm) {
         if (sequence.size() <= 1) {
             throw new IllegalArgumentException("Observation sequence too short");
         }
@@ -51,17 +51,17 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
     }
 
     @Override
-    protected double[][] createADenominator(InputHmm<TObservation, TInteraction> hmm) {
+    protected double[][] createADenominator(THmm hmm) {
         return new double[hmm.nbStates()][hmm.nbSymbols()];
     }
 
     @Override
-    protected double[][][] createANumerator(InputHmm<TObservation, TInteraction> hmm) {
+    protected double[][][] createANumerator(THmm hmm) {
         return new double[hmm.nbStates()][hmm.nbSymbols()][hmm.nbStates()];
     }
 
     @Override
-    protected void updateAbarXiGamma(InputHmm<TObservation, TInteraction> hmm, List<? extends InputObservationTuple<TInteraction, TObservation>> obsSeq, double[][][] xi, double[][] gamma, double[][][] aijNum, double[][] aijDen) {
+    protected void updateAbarXiGamma(THmm hmm, List<? extends InputObservationTuple<TInteraction, TObservation>> obsSeq, double[][][] xi, double[][] gamma, double[][][] aijNum, double[][] aijDen) {
         int I = aijDen.length;
         int T = xi.length;
         for (int i = 0; i < I; i++) {
@@ -78,7 +78,7 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
     }
 
     @Override
-    protected void setAValues(InputHmm<TObservation, TInteraction> hmm, double[][][] aijNum, double[][] aijDen) {
+    protected void setAValues(THmm hmm, double[][][] aijNum, double[][] aijDen) {
         int N = hmm.nbStates();
         int M = hmm.nbSymbols();
         for (int i = 0; i < N; i++) {
@@ -93,7 +93,7 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TIntera
     }
 
     @Override
-    protected void setPdfValues(InputHmm<TObservation, TInteraction> nhmm, List<? extends List<? extends InputObservationTuple<TInteraction, TObservation>>> sequences, double[][][] allGamma) {
+    protected void setPdfValues(THmm nhmm, List<? extends List<? extends InputObservationTuple<TInteraction, TObservation>>> sequences, double[][][] allGamma) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

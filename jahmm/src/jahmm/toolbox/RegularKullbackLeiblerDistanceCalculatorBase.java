@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  * distance definition, compute
  * <code>(distance(hmm1, hmm2) + distance(hmm2, hmm1)) / 2</code>.
  */
-public class RegularKullbackLeiblerDistanceCalculatorBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>> {
+public class RegularKullbackLeiblerDistanceCalculatorBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt, THmm>> {
 
     private static final Logger LOG = Logger.getLogger(RegularKullbackLeiblerDistanceCalculatorBase.class.getName());
     private int sequencesLength = 1000;

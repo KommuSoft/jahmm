@@ -14,7 +14,7 @@ import java.util.List;
  * @param <TInt> The type of interactions regarding the Hidden Markov Model.
  * @param <THmm> The type of the Hidden Markov Model.
  */
-public interface MarkovGenerator<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>> {
+public interface MarkovGenerator<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt, THmm>> {
 
     /**
      * Finds a new state according to the initial (pi) probabilities of each

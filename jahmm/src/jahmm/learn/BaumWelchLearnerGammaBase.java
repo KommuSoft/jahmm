@@ -6,7 +6,7 @@ import jahmm.observables.Observation;
 import java.util.List;
 import jutlis.tuples.Tuple3;
 
-public abstract class BaumWelchLearnerGammaBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>, TAlpha, TBeta, TADen> extends BaumWelchLearnerBase<TObs, TInt, THmm, TAlpha, TBeta, double[][][], double[][], TADen> {
+public abstract class BaumWelchLearnerGammaBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt,THmm>, TAlpha, TBeta, TADen> extends BaumWelchLearnerBase<TObs, TInt, THmm, TAlpha, TBeta, double[][][], double[][], TADen> {
 
     /**
      * gamma[][] could be computed directly using the alpha and beta arrays, but
