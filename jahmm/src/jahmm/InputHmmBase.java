@@ -12,6 +12,7 @@ import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
 import jahmm.observables.OpdfFactory;
+import jahmm.toolbox.InputMarkovGeneratorBase;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +40,7 @@ import jutlis.lists.ListArray;
  * @note The A matrix has the following structure: A_{i,j,k} means the
  * probability of moving from state i to j given input k.
  */
-public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, double[][][], Object[][], InputObservationTuple<TIn, TObs>, InputHmmBase<TObs,TIn>> implements InputHmm<TObs, TIn,InputHmmBase<TObs,TIn>> {
+public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, double[][][], Object[][], InputObservationTuple<TIn, TObs>, InputHmmBase<TObs, TIn>> implements InputHmm<TObs, TIn, InputHmmBase<TObs, TIn>> {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(InputHmmBase.class.getName());
@@ -617,7 +618,7 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
      * Model.
      */
     @Override
-    public InputForwardBackwardCalculator<TObs, TIn, InputHmmBase<TObs,TIn>> getForwardBackwardCalculator() {
+    public InputForwardBackwardCalculator<TObs, TIn, InputHmmBase<TObs, TIn>> getForwardBackwardCalculator() {
         return InputForwardBackwardCalculatorBase.Instance;
     }
 
@@ -629,8 +630,13 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
      * Markov Model.
      */
     @Override
-    public InputForwardBackwardCalculator<TObs, TIn, InputHmmBase<TObs,TIn>> getForwardBackwardScaledCalculator() {
+    public InputForwardBackwardCalculator<TObs, TIn, InputHmmBase<TObs, TIn>> getForwardBackwardScaledCalculator() {
         return InputForwardBackwardScaledCalculatorBase.Instance;
+    }
+
+    @Override
+    public InputMarkovGeneratorBase<TObs, TIn, InputHmmBase<TObs, TIn>> getMarkovGenerator() {
+        return new InputMarkovGeneratorBase<>(this);
     }
 
 }

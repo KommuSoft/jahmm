@@ -11,6 +11,8 @@ import jahmm.calculators.ViterbiCalculator;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
 import jahmm.observables.OpdfFactory;
+import jahmm.toolbox.MarkovGenerator;
+import jahmm.toolbox.RegularMarkovGeneratorBase;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -338,5 +340,10 @@ public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, doub
     @Override
     public RegularForwardBackwardCalculator<TObs, RegularHmmBase<TObs>> getForwardBackwardScaledCalculator() {
         return RegularForwardBackwardScaledCalculatorBase.Instance;
+    }
+
+    @Override
+    public MarkovGenerator<TObs, TObs, RegularHmmBase<TObs>> getMarkovGenerator() {
+        return new RegularMarkovGeneratorBase<>(this);
     }
 }

@@ -9,7 +9,7 @@ import jahmm.observables.ObservationInteger;
 import jahmm.observables.OpdfInteger;
 import jahmm.observables.OpdfIntegerFactory;
 import jahmm.toolbox.InputMarkovGeneratorBase;
-import jahmm.toolbox.RegularKullbackLeiblerDistanceCalculatorBase;
+import jahmm.toolbox.KullbackLeiblerDistanceCalculator;
 import jahmm.toolbox.RegularMarkovGeneratorBase;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class InputBaumWelchLearnerBaseTest extends TestCase {
     private InputHmmBase<ObservationInteger, Integer> ihmm;
     private List<List<ObservationInteger>> sequences;
     private List<List<InputObservationTuple<Integer, ObservationInteger>>> isequences;
-    private RegularKullbackLeiblerDistanceCalculatorBase klc;
+    private KullbackLeiblerDistanceCalculator klc;
 
     @Override
     protected void setUp() {
@@ -48,7 +48,7 @@ public class InputBaumWelchLearnerBaseTest extends TestCase {
             isequences.add(img.interactionSequence(100));
         }
 
-        klc = new RegularKullbackLeiblerDistanceCalculatorBase();
+        klc = new KullbackLeiblerDistanceCalculator();
     }
 
     /**

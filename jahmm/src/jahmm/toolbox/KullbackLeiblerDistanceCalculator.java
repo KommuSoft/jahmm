@@ -5,7 +5,6 @@
 package jahmm.toolbox;
 
 import jahmm.Hmm;
-import jahmm.RegularHmm;
 import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.observables.Observation;
 import java.util.List;
@@ -25,16 +24,16 @@ import java.util.logging.Logger;
  * distance definition, compute
  * <code>(distance(hmm1, hmm2) + distance(hmm2, hmm1)) / 2</code>.
  */
-public class RegularKullbackLeiblerDistanceCalculatorBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt, THmm>> {
+public class KullbackLeiblerDistanceCalculator<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt, THmm>> {
 
-    private static final Logger LOG = Logger.getLogger(RegularKullbackLeiblerDistanceCalculatorBase.class.getName());
+    private static final Logger LOG = Logger.getLogger(KullbackLeiblerDistanceCalculator.class.getName());
     private int sequencesLength = 1000;
     private int nbSequences = 10;
 
     /**
      * Creates a new instance of a KullbackLeiblerDistanceCalculator.
      */
-    public RegularKullbackLeiblerDistanceCalculatorBase() {
+    public KullbackLeiblerDistanceCalculator() {
         this(1000);
     }
 
@@ -43,7 +42,7 @@ public class RegularKullbackLeiblerDistanceCalculatorBase<TObs extends Observati
      *
      * @param sequencesLength The given initial sequence length.
      */
-    public RegularKullbackLeiblerDistanceCalculatorBase(int sequencesLength) {
+    public KullbackLeiblerDistanceCalculator(int sequencesLength) {
         this(sequencesLength, 10);
     }
 
@@ -53,7 +52,7 @@ public class RegularKullbackLeiblerDistanceCalculatorBase<TObs extends Observati
      * @param sequencesLength The given initial sequence length.
      * @param nbSequences The given initial number of sequences.
      */
-    public RegularKullbackLeiblerDistanceCalculatorBase(int sequencesLength, int nbSequences) {
+    public KullbackLeiblerDistanceCalculator(int sequencesLength, int nbSequences) {
         this.sequencesLength = sequencesLength;
         this.nbSequences = nbSequences;
     }
@@ -70,17 +69,14 @@ public class RegularKullbackLeiblerDistanceCalculatorBase<TObs extends Observati
      * regard to <code>hmm1</code>
      */
     public double distance(THmm hmm1, THmm hmm2) {
-        /*double distance = 0.0d;
+        double distance = 0.0d;
         for (int i = 0; i < nbSequences; i++) {
-            List<O> oseq = new RegularMarkovGeneratorBase<>(hmm1).observationSequence(sequencesLength);
-            @SuppressWarnings("unchecked")
-            double da = RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm1, oseq);
-            @SuppressWarnings("unchecked")
-            double db = RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm2, oseq);
+            List<TInt> oseq = hmm1.getMarkovGenerator().interactionSequence(sequencesLength);
+            double da = hmm1.probability(oseq);
+            double db = hmm2.probability(oseq);
             distance += da - db;
         }
-        return distance / (nbSequences * sequencesLength);*/
-        return 0.0d;
+        return distance / (nbSequences * sequencesLength);
     }
 
     /**

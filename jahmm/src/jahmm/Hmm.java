@@ -2,6 +2,7 @@ package jahmm;
 
 import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.observables.Observation;
+import jahmm.toolbox.MarkovGenerator;
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.List;
@@ -29,7 +30,7 @@ import java.util.List;
  * @param <TInt> the type for the interactions of the hidden Markov model.
  * @param <THmm> The type of the Hidden Markov model.
  */
-public interface Hmm<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs,TInt,THmm>> extends Cloneable, Serializable {
+public interface Hmm<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt, THmm>> extends Cloneable, Serializable {
 
     /**
      * Creates a duplicate object of the HMM.
@@ -177,7 +178,14 @@ public interface Hmm<TObs extends Observation, TInt extends Observation, THmm ex
      * Markov Model.
      */
     public abstract ForwardBackwardCalculator<double[][], double[][], TObs, TInt, THmm> getForwardBackwardScaledCalculator();
-    
-    /*public abstract getMarkovGenerator ();*/
+
+    /**
+     * Gets a Markov generator that generates sequences of observations and
+     * interactions based on this Hidden Markov model.
+     *
+     * @return a Markov generator that generates sequences of observations and
+     * interactions based on this Hidden Markov model.
+     */
+    public abstract MarkovGenerator<TObs, TInt, THmm> getMarkovGenerator();
 
 }

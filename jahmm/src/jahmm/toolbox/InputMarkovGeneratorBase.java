@@ -4,9 +4,8 @@ import jahmm.InputHmm;
 import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
+import jahmm.observables.OpdfDiscrete;
 import jahmm.observables.TypedObservation;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 /**
@@ -15,11 +14,22 @@ import java.util.logging.Logger;
  * @param <TObs> The type of observations regarding the Hidden Markov Model.
  * @param <TIn> The type of interactions regarding the Hidden Markov Model.
  */
-public class InputMarkovGeneratorBase<TObs extends Observation, TIn, THmm extends InputHmm<TObs,TIn,THmm>> extends MarkovGeneratorBase<TObs, InputObservationTuple<TIn, TObs>, THmm> implements InputMarkovGenerator<TObs, TIn, THmm> {
+public class InputMarkovGeneratorBase<TObs extends Observation, TIn, THmm extends InputHmm<TObs, TIn, THmm>> extends MarkovGeneratorBase<TObs, InputObservationTuple<TIn, TObs>, THmm> implements InputMarkovGenerator<TObs, TIn, THmm> {
 
     private static final Logger LOG = Logger.getLogger(InputMarkovGeneratorBase.class.getName());
 
     private final Opdf<? extends TypedObservation<TIn>> inputDistribution;
+
+    /**
+     * Creates a new instance of an InputMarkovGenerator base with a given
+     * Hidden Markov model and distribution on the inputs.
+     *
+     * @param hmm The given hidden Markov Model to generate a list of
+     * observations from.
+     */
+    public InputMarkovGeneratorBase(THmm hmm) {
+        this(hmm, new OpdfDiscrete<>(hmm.getRegisteredInputs()));
+    }
 
     /**
      * Creates a new instance of an InputMarkovGenerator base with a given

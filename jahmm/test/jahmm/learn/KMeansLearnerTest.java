@@ -4,7 +4,7 @@ import jahmm.RegularHmm;
 import jahmm.RegularHmmBase;
 import jahmm.observables.ObservationInteger;
 import jahmm.observables.OpdfIntegerFactory;
-import jahmm.toolbox.RegularKullbackLeiblerDistanceCalculatorBase;
+import jahmm.toolbox.KullbackLeiblerDistanceCalculator;
 import jahmm.toolbox.RegularMarkovGeneratorBase;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class KMeansLearnerTest extends TestCase {
 
     private RegularHmmBase<ObservationInteger> hmm;
     private List<List<ObservationInteger>> sequences;
-    private RegularKullbackLeiblerDistanceCalculatorBase klc;
+    private KullbackLeiblerDistanceCalculator klc;
 
     @Override
     protected void setUp() {
@@ -34,7 +34,7 @@ public class KMeansLearnerTest extends TestCase {
             sequences.add(mg.observationSequence(100));
         }
 
-        klc = new RegularKullbackLeiblerDistanceCalculatorBase();
+        klc = new KullbackLeiblerDistanceCalculator();
     }
 
     /**
