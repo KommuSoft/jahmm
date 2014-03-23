@@ -178,6 +178,6 @@ public interface Hmm<TObs extends Observation, TInt extends Observation, THmm ex
      */
     public abstract ForwardBackwardCalculator<double[][], double[][], TObs, TInt, THmm> getForwardBackwardScaledCalculator();
     
-    /*public abstract getMarkovGenerator ();
+    /*public abstract getMarkovGenerator ();*/
 
 }
