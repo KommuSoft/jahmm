@@ -608,8 +608,6 @@ public class InputHmmBaseTest {
         double pi12 = pi00 * a002 + pi01 * a102 + pi02 * a202;
 
         pa *= pi10 * b011 + pi11 * b111 + pi12 * b211;
-        
-        System.out.println(ihmm_sequence.subList(0x00, l));
 
         AssertExtensions.assertEquals(pa, ihmm.probability(ihmm_sequence.subList(0x00, l)));
     }
@@ -656,7 +654,7 @@ public class InputHmmBaseTest {
         double pi10 = pi00 * a000 + pi01 * a100 + pi02 * a200;
         double pi11 = pi00 * a001 + pi01 * a101 + pi02 * a201;
         double pi12 = pi00 * a002 + pi01 * a102 + pi02 * a202;
-        
+
         pa *= pi10 * b011 + pi11 * b111 + pi12 * b211;
 
         double pi20 = pi10 * a010 + pi11 * a110 + pi12 * a210;
@@ -670,7 +668,7 @@ public class InputHmmBaseTest {
         double pi32 = pi20 * a022 + pi21 * a122 + pi22 * a222;
 
         pa *= pi30 * b001 + pi31 * b101 + pi32 * b201;
-        
+
         AssertExtensions.assertEquals(pa, ihmm.probability(ihmm_sequence.subList(0x00, l)));
     }
 
@@ -689,9 +687,9 @@ public class InputHmmBaseTest {
         double pi10 = pi00 * a000 + pi01 * a100 + pi02 * a200;
         double pi11 = pi00 * a001 + pi01 * a101 + pi02 * a201;
         double pi12 = pi00 * a002 + pi01 * a102 + pi02 * a202;
-        
+
         pa *= pi10 * b011 + pi11 * b111 + pi12 * b211;
-        
+
         double pi20 = pi10 * a010 + pi11 * a110 + pi12 * a210;
         double pi21 = pi10 * a011 + pi11 * a111 + pi12 * a211;
         double pi22 = pi10 * a012 + pi11 * a112 + pi12 * a212;
@@ -709,7 +707,7 @@ public class InputHmmBaseTest {
         double pi42 = pi30 * a002 + pi31 * a102 + pi32 * a202;
 
         pa *= pi40 * b010 + pi41 * b110 + pi42 * b210;
-        
+
         AssertExtensions.assertEquals(pa, ihmm.probability(ihmm_sequence.subList(0x00, l)));
     }
 
@@ -728,9 +726,9 @@ public class InputHmmBaseTest {
         double pi10 = pi00 * a000 + pi01 * a100 + pi02 * a200;
         double pi11 = pi00 * a001 + pi01 * a101 + pi02 * a201;
         double pi12 = pi00 * a002 + pi01 * a102 + pi02 * a202;
-        
+
         pa *= pi10 * b011 + pi11 * b111 + pi12 * b211;
-        
+
         double pi20 = pi10 * a010 + pi11 * a110 + pi12 * a210;
         double pi21 = pi10 * a011 + pi11 * a111 + pi12 * a211;
         double pi22 = pi10 * a012 + pi11 * a112 + pi12 * a212;
@@ -754,7 +752,7 @@ public class InputHmmBaseTest {
         double pi52 = pi40 * a012 + pi41 * a112 + pi42 * a212;
 
         pa *= pi50 * b021 + pi51 * b121 + pi52 * b221;
-        
+
         AssertExtensions.assertEquals(pa, ihmm.probability(ihmm_sequence.subList(0x00, l)));
     }
 

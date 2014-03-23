@@ -7,7 +7,7 @@ package jahmm;
 import jahmm.calculators.RegularForwardBackwardCalculator;
 import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.calculators.RegularForwardBackwardScaledCalculatorBase;
-import jahmm.calculators.ViterbiCalculator;
+import jahmm.calculators.RegularViterbiCalculatorBase;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
 import jahmm.observables.OpdfFactory;
@@ -193,7 +193,7 @@ public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, doub
      */
     @Override
     public int[] mostLikelyStateSequence(List<? extends TObs> oseq) {
-        return (new ViterbiCalculator(oseq, this)).stateSequence();
+        return (new RegularViterbiCalculatorBase(oseq, this)).stateSequence();
     }
 
     /**

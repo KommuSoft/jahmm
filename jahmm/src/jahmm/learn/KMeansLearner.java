@@ -6,7 +6,7 @@ package jahmm.learn;
 
 import jahmm.RegularHmmBase;
 import jahmm.calculators.KMeansCalculator;
-import jahmm.calculators.ViterbiCalculator;
+import jahmm.calculators.RegularViterbiCalculatorBase;
 import jahmm.observables.CentroidFactory;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
@@ -192,7 +192,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
         boolean modif = false;
 
         for (List<? extends O> obsSeq : obsSeqs) {
-            ViterbiCalculator vc = new ViterbiCalculator(obsSeq, hmm);
+            RegularViterbiCalculatorBase vc = new RegularViterbiCalculatorBase(obsSeq, hmm);
             int states[] = vc.stateSequence();
 
             for (int i = 0; i < states.length; i++) {
