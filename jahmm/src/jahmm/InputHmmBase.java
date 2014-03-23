@@ -12,6 +12,7 @@ import jahmm.observables.OpdfFactory;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -215,7 +216,7 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
         this.indexRegister.clear();
         int i = 0x00;
         for (TIn inp : possibleInput) {
-            this.indexRegister.put(inp,i);
+            this.indexRegister.put(inp, i);
             i++;
         }
     }
@@ -593,6 +594,16 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
         if (copy) {
             System.arraycopy(pib, 0, this.pi, 0, m);
         }
+    }
+
+    /**
+     * Gets the set of all registered inputs.
+     *
+     * @return The set of all registered inputs.
+     */
+    @Override
+    public Collection<TIn> getRegisteredInputs() {
+        return this.indexRegister.keySet();
     }
 
 }

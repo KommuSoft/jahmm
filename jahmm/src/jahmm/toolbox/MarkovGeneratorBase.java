@@ -1,7 +1,6 @@
 package jahmm.toolbox;
 
 import jahmm.Hmm;
-import jahmm.RegularHmm;
 import jahmm.observables.Observation;
 import jutils.probability.ProbabilityUtils;
 

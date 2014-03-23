@@ -3,6 +3,7 @@ package jahmm;
 import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
+import java.util.Collection;
 import jutils.Tagable;
 
 /**
@@ -197,8 +198,15 @@ public interface InputHmm<TObs extends Observation, TIn> extends Hmm<TObs, Input
      * Takes as input distribution (pi) of states the distribution of the states
      * after the given sequence of interaction (Observations, input, ...).
      *
-     * @param interaction The given iterable of interactions.
+     * @param input The given interaction.
      */
     public abstract void fold(TIn input);
+
+    /**
+     * Gets the set of all registered inputs.
+     *
+     * @return The set of all registered inputs.
+     */
+    public Collection<TIn> getRegisteredInputs();
 
 }
