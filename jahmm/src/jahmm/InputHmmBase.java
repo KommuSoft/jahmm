@@ -142,13 +142,13 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
         return b;
     }
 
-    protected static <TObs extends Observation> Object[][] generateB(int nbStates, int nbSymbols, Iterable<? extends Opdf<TObs>> opdfs) throws CloneNotSupportedException {
+    protected static <TObs extends Observation> Object[][] generateB(int nbStates, int nbSymbols, Iterable<? extends Iterable<? extends Opdf<TObs>>> opdfs) throws CloneNotSupportedException {
         Object[][] b = new Object[nbStates][nbSymbols];
-        Iterator<? extends Opdf<TObs>> opdfsi = opdfs.iterator();
+        Iterator<? extends Iterable<? extends Opdf<TObs>>> opdfsi = opdfs.iterator();
         for (int i = 0x00; i < nbStates && opdfsi.hasNext(); i++) {
-            Opdf<TObs> opdf = opdfsi.next();
-            for (int j = 0x00; j < nbSymbols; j++) {
-                b[i][j] = opdf.clone();
+            Iterator<? extends Opdf<TObs>> opdfsj = opdfsi.next().iterator();
+            for (int j = 0x00; j < nbSymbols && opdfsj.hasNext(); j++) {
+                b[i][j] = opdfsj.next();
             }
         }
         return b;
@@ -190,7 +190,7 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
         this(nbStates, opdfFactory, new ListArray<>(possibleInputs));
     }
 
-    public InputHmmBase(double[] pi, double[][][] a, Iterable<? extends Opdf<TObs>> opdfs, Iterable<TIn> possibleInput) throws CloneNotSupportedException {
+    public InputHmmBase(double[] pi, double[][][] a, Iterable<? extends Iterable<? extends Opdf<TObs>>> opdfs, Iterable<TIn> possibleInput) throws CloneNotSupportedException {
         super(pi.clone(), cloneA(a), generateB(a.length, CollectionUtils.size(possibleInput), opdfs));
         this.generateInputIndices(possibleInput);
         this.checkConstraints();

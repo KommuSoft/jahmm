@@ -2,9 +2,12 @@ package jahmm;
 
 import jahmm.jadetree.foo.FooEnum;
 import jahmm.jadetree.foo.TrisEnum;
+import jahmm.observables.InputObservationTuple;
 import jahmm.observables.ObservationEnum;
+import jahmm.observables.ObservationInteger;
 import jahmm.observables.OpdfEnum;
 import jahmm.observables.OpdfEnumFactory;
+import jahmm.observables.OpdfInteger;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.logging.Logger;
@@ -22,9 +25,37 @@ import utils.TestParameters;
  */
 public class InputHmmBaseTest {
 
+    private static final double[] ihmm_pi = {0.25d, 0.40d, 0.35d};
+    private static final double a000 = 0.50d, a001 = 0.15d, a002 = 0.35d, a010 = 0.16d, a011 = 0.25d, a012 = 0.59d, a020 = 1.00d, a021 = 0.00d, a022 = 0.00d;
+    private static final double a100 = 0.30d, a101 = 0.40d, a102 = 0.30d, a110 = 0.30d, a111 = 0.60d, a112 = 0.10d, a120 = 0.50d, a121 = 0.50d, a122 = 0.00d;
+    private static final double a200 = 0.10d, a201 = 0.20d, a202 = 0.70d, a210 = 0.05d, a211 = 0.55d, a212 = 0.40d, a220 = 0.33d, a221 = 0.33d, a222 = 0.34d;
+    private static final double[][][] ihmm_a = {
+        {{a000, a001, a002}, {a010, a011, a012}, {a020, a021, a022}},
+        {{a100, a101, a102}, {a110, a111, a112}, {a120, a121, a122}},
+        {{a200, a201, a202}, {a210, a211, a212}, {a220, a221, a222}}
+    };
+    private static final double b000 = 0.45d, b001 = 0.55d, b010 = 1.00d, b011 = 0.00d, b020 = 0.39d, b021 = 0.61d;
+    private static final double b100 = 0.25d, b101 = 0.75d, b110 = 0.14d, b111 = 0.86d, b120 = 0.05d, b121 = 0.95d;
+    private static final double b200 = 0.67d, b201 = 0.33d, b210 = 0.52d, b211 = 0.48d, b220 = 0.12d, b221 = 0.88d;
+    private static final ListArray<ListArray<OpdfInteger>> ihmm_opdf = new ListArray(
+            new ListArray<>(new OpdfInteger(b000, b001), new OpdfInteger(b010, b011), new OpdfInteger(b020, b021)),
+            new ListArray<>(new OpdfInteger(b100, b101), new OpdfInteger(b110, b111), new OpdfInteger(b120, b121)),
+            new ListArray<>(new OpdfInteger(b200, b201), new OpdfInteger(b210, b211), new OpdfInteger(b220, b221))
+    );
+    private static final ListArray<InputObservationTuple<Integer, ObservationInteger>> ihmm_sequence = new ListArray<>(
+            new InputObservationTuple<>(0x00, new ObservationInteger(0x00)),
+            new InputObservationTuple<>(0x00, new ObservationInteger(0x00)),
+            new InputObservationTuple<>(0x00, new ObservationInteger(0x00)),
+            new InputObservationTuple<>(0x00, new ObservationInteger(0x00)),
+            new InputObservationTuple<>(0x00, new ObservationInteger(0x00)),
+            new InputObservationTuple<>(0x00, new ObservationInteger(0x00))
+    );
+    private static final ListArray<Integer> ihmm_inputs = new ListArray<>(new Integer[]{0x00, 0x01, 0x02});
     private static final Logger LOG = Logger.getLogger(InputHmmBaseTest.class.getName());
+    private final InputHmmBase<ObservationInteger, Integer> ihmm;
 
-    public InputHmmBaseTest() {
+    public InputHmmBaseTest() throws CloneNotSupportedException {
+        ihmm = new InputHmmBase<>(ihmm_pi, ihmm_a, ihmm_opdf, ihmm_inputs);
     }
 
     /**
@@ -547,7 +578,16 @@ public class InputHmmBaseTest {
      * Test of probability method, of class InputHmmBase.
      */
     @Test
-    public void testProbability_List() {
+    public void testProbability00() {
+        AssertExtensions.assertEquals(1.0d, ihmm.probability(ihmm_sequence));
+    }
+
+    /**
+     * Test of probability method, of class InputHmmBase.
+     */
+    @Test
+    public void testProbability01() {
+        //AssertExtensions.assertEquals(1.0d, ihmm.probability());
     }
 
     /**
