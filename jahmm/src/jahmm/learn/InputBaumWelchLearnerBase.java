@@ -117,29 +117,31 @@ public class InputBaumWelchLearnerBase<TObservation extends Observation, TInput,
                 io++;
             }
             int nf = filtered.size();
-            double[] weights = new double[nf];
-            for (int i = 0; i < N; i++) {
-                double sum = 0.;
-                int j = 0;
-                for (Long idxo : indices) {
-                    long index = idxo;
-                    int o = (int) (index >> 0x20);
-                    int t = (int) (index & 0xffffffff);
-                    tmp = allGamma[o][t][i];
-                    weights[j] = tmp;
-                    sum += tmp;
-                    j++;
-                }
+            if (nf > 0x00) {
+                double[] weights = new double[nf];
+                for (int i = 0; i < N; i++) {
+                    double sum = 0.;
+                    int j = 0;
+                    for (Long idxo : indices) {
+                        long index = idxo;
+                        int o = (int) (index >> 0x20);
+                        int t = (int) (index & 0xffffffff);
+                        tmp = allGamma[o][t][i];
+                        weights[j] = tmp;
+                        sum += tmp;
+                        j++;
+                    }
 
-                for (j--; j >= 0; j--) {
-                    weights[j] /= sum;
-                }
+                    for (j--; j >= 0; j--) {
+                        weights[j] /= sum;
+                    }
 
-                Opdf<TObservation> opdf = nhmm.getOpdf(i, k);
-                opdf.fit(filtered, weights);
+                    Opdf<TObservation> opdf = nhmm.getOpdf(i, k);
+                    opdf.fit(filtered, weights);
+                }
+                filtered.clear();
+                indices.clear();
             }
-            filtered.clear();
-            indices.clear();
         }
     }
 
