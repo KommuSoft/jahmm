@@ -372,17 +372,7 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
     }
 
     @Override
-    public double lnProbability(List<? extends InputObservationTuple<TIn, TObs>> oseq) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public int[] mostLikelyStateSequence(List<? extends InputObservationTuple<TIn, TObs>> oseq) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double probability(List<? extends InputObservationTuple<TIn, TObs>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

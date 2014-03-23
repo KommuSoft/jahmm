@@ -197,34 +197,10 @@ public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, doub
     }
 
     /**
-     * Returns the probability of an observation sequence given this HMM.
-     *     
-* @param oseq A non-empty observation sequence.
-     * @return The probability of this sequence.
-     */
-    @Override
-    public double probability(List<? extends TObs> oseq) {
-        return RegularForwardBackwardCalculatorBase.Instance.computeProbability(this, oseq);
-    }
-
-    /**
-     * Returns the natural logarithm of observation sequences probability given
-     * this HMM. A <i>scaling</i> procedure is used in order to avoid underflows
-     * when computing the probability of long sequences.
-     *     
-* @param oseq A non-empty observation sequence.
-     * @return The probability of this sequence.
-     */
-    @Override
-    public double lnProbability(List<? extends TObs> oseq) {
-        return RegularForwardBackwardScaledCalculatorBase.Instance.computeProbability(this, oseq);
-    }
-
-    /**
      * Returns the probability of an observation sequence along a state sequence
      * given this HMM.
-     *     
-* @param oseq A non-empty observation sequence.
+     *
+     * @param oseq A non-empty observation sequence.
      * @param sseq An array containing a sequence of state numbers. The length
      * of this array must be equal to the length of <code>oseq</code>
      * @return The probability P[oseq,sseq|H], where H is this HMM.
@@ -234,25 +210,18 @@ public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, doub
         if (oseq.size() != sseq.length || oseq.isEmpty()) {
             throw new IllegalArgumentException();
         }
-
         double probability = getPi(sseq[0]);
-
         Iterator<? extends TObs> oseqIterator = oseq.iterator();
-
         for (int i = 0; i < sseq.length - 1; i++) {
-            probability
-                    *= getOpdf(sseq[i]).probability(oseqIterator.next())
-                    * getAij(sseq[i], sseq[i + 1]);
+            probability *= getOpdf(sseq[i]).probability(oseqIterator.next()) * getAij(sseq[i], sseq[i + 1]);
         }
-
-        return probability * getOpdf(sseq[sseq.length - 1]).
-                probability(oseq.get(sseq.length - 1));
+        return probability * getOpdf(sseq[sseq.length - 1]).probability(oseq.get(sseq.length - 1));
     }
 
     /**
      * Gives a description of this HMM.
-     *     
-* @param nf A number formatter used to print numbers (e.g. Aij values).
+     *
+     * @param nf A number formatter used to print numbers (e.g. Aij values).
      * @return A textual description of this HMM.
      */
     @Override

@@ -1,6 +1,8 @@
 package jahmm;
 
+import jahmm.calculators.RegularForwardBackwardScaledCalculatorBase;
 import jahmm.observables.Observation;
+import java.util.List;
 
 /**
  * The basic implementation of a Hidden Markov Model that all implemented types
@@ -131,6 +133,32 @@ public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends
     @Override
     public double[] getPis() {
         return this.pi.clone();
+    }
+
+    /**
+     * Returns the probability of an observation sequence given this HMM.
+     *
+     * @param oseq A non-empty observation sequence.
+     * @return The probability of this sequence.
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public double probability(List<? extends TInt> oseq) {
+        return this.getForwardBackwardCalculator().computeProbability((THmm) this, oseq);
+    }
+
+    /**
+     * Returns the natural logarithm of observation sequences probability given
+     * this HMM. A <i>scaling</i> procedure is used in order to avoid underflows
+     * when computing the probability of long sequences.
+     *
+     * @param oseq A non-empty observation sequence.
+     * @return The probability of this sequence.
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public double lnProbability(List<? extends TInt> oseq) {
+        return this.getForwardBackwardScaledCalculator().computeProbability((THmm) this, oseq);
     }
 
 }
