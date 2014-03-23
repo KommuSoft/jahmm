@@ -44,7 +44,7 @@ public class KullbackLeiblerDistanceCalculator {
 
         for (int i = 0; i < nbSequences; i++) {
 
-            List<O> oseq = new RegularMarkovGenerator<>(hmm1).observationSequence(sequencesLength);
+            List<O> oseq = new RegularMarkovGeneratorBase<>(hmm1).observationSequence(sequencesLength);
 
             double da = RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm1, oseq);
             double db = RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm2, oseq);

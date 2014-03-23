@@ -150,4 +150,13 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      */
     public abstract void setPi(int stateNb, double value);
 
+    /**
+     * Returns an array of pi-values.
+     *
+     * @return An array of pi-values.
+     * @note The array is a duplicate: modifications to the array won't have any
+     * effect on the pi-values stored in the Hidden Markov Model.
+     */
+    public double[] getPis();
+
 }

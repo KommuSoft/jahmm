@@ -120,4 +120,16 @@ public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends
         this.fold(0x01);
     }
 
+    /**
+     * Returns an array of pi-values.
+     *
+     * @return An array of pi-values.
+     * @note The array is a duplicate: modifications to the array won't have any
+     * effect on the pi-values stored in the Hidden Markov Model.
+     */
+    @Override
+    public double[] getPis() {
+        return this.pi.clone();
+    }
+
 }

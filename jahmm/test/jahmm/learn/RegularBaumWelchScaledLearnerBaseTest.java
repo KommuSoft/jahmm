@@ -5,7 +5,7 @@ import jahmm.RegularHmmBase;
 import jahmm.observables.ObservationInteger;
 import jahmm.observables.OpdfIntegerFactory;
 import jahmm.toolbox.KullbackLeiblerDistanceCalculator;
-import jahmm.toolbox.RegularMarkovGenerator;
+import jahmm.toolbox.RegularMarkovGeneratorBase;
 import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
@@ -27,7 +27,7 @@ public class RegularBaumWelchScaledLearnerBaseTest extends TestCase {
         hmm = new RegularHmmBase<>(3, new OpdfIntegerFactory(10));
         hmm.getOpdf(0).fit(new ObservationInteger(1), new ObservationInteger(2));
 
-        RegularMarkovGenerator<ObservationInteger> mg = new RegularMarkovGenerator<>(hmm);
+        RegularMarkovGeneratorBase<ObservationInteger> mg = new RegularMarkovGeneratorBase<>(hmm);
 
         sequences = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
