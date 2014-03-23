@@ -5,6 +5,9 @@
 package jahmm;
 
 import static jahmm.HmmBase.generatePi;
+import jahmm.calculators.InputForwardBackwardCalculator;
+import jahmm.calculators.InputForwardBackwardCalculatorBase;
+import jahmm.calculators.InputForwardBackwardScaledCalculatorBase;
 import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
@@ -36,7 +39,7 @@ import jutlis.lists.ListArray;
  * @note The A matrix has the following structure: A_{i,j,k} means the
  * probability of moving from state i to j given input k.
  */
-public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, double[][][], Object[][], InputObservationTuple<TIn, TObs>> implements InputHmm<TObs, TIn> {
+public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, double[][][], Object[][], InputObservationTuple<TIn, TObs>, InputHmmBase<TObs,TIn>> implements InputHmm<TObs, TIn,InputHmmBase<TObs,TIn>> {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(InputHmmBase.class.getName());
@@ -604,6 +607,30 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
     @Override
     public Collection<TIn> getRegisteredInputs() {
         return this.indexRegister.keySet();
+    }
+
+    /**
+     * Gets the relevant forward backward calculator for the Hidden Markov
+     * Model.
+     *
+     * @return The relevant forward backward calculator for the Hidden Markov
+     * Model.
+     */
+    @Override
+    public InputForwardBackwardCalculator<TObs, TIn, InputHmmBase<TObs,TIn>> getForwardBackwardCalculator() {
+        return InputForwardBackwardCalculatorBase.Instance;
+    }
+
+    /**
+     * Gets the relevant forward backward scaled calculator for the Hidden
+     * Markov Model.
+     *
+     * @return The relevant forward backward scaled calculator for the Hidden
+     * Markov Model.
+     */
+    @Override
+    public InputForwardBackwardCalculator<TObs, TIn, InputHmmBase<TObs,TIn>> getForwardBackwardScaledCalculator() {
+        return InputForwardBackwardScaledCalculatorBase.Instance;
     }
 
 }

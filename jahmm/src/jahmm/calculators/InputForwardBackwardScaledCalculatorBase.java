@@ -11,7 +11,7 @@ import jutils.probability.ProbabilityUtils;
 import jutlis.tuples.Tuple3;
 import jutlis.tuples.Tuple3Base;
 
-public final class InputForwardBackwardScaledCalculatorBase<TObs extends Observation, TInt> extends InputForwardBackwardCalculatorBase<TObs, TInt> {
+public final class InputForwardBackwardScaledCalculatorBase<TObs extends Observation, TInt, THmm extends InputHmm<TObs,TInt,THmm>> extends InputForwardBackwardCalculatorBase<TObs, TInt,THmm> {
 
     private static final Logger LOG = Logger.getLogger(InputForwardBackwardScaledCalculatorBase.class.getName());
 
@@ -36,7 +36,6 @@ public final class InputForwardBackwardScaledCalculatorBase<TObs extends Observa
      * Hidden Markov Model. The algorithms implemented use scaling to avoid
      * underflows.
      *
-     * @param <TObs>
      * @param hmm A Hidden Markov Model;
      * @param oseq An observations sequence.
      * @param flags How the computation should be done. See the
@@ -45,7 +44,7 @@ public final class InputForwardBackwardScaledCalculatorBase<TObs extends Observa
      * @return The probability of the given sequence of observations.
      */
     @Override
-    public double computeProbability(InputHmm<TObs, TInt> hmm, Collection<ComputationType> flags, List<? extends InputObservationTuple<TInt, TObs>> oseq) {
+    public double computeProbability(THmm hmm, Collection<ComputationType> flags, List<? extends InputObservationTuple<TInt, TObs>> oseq) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException();
         }
@@ -73,7 +72,7 @@ public final class InputForwardBackwardScaledCalculatorBase<TObs extends Observa
      * @param oseq
      * @return
      */
-    public double[][] computeAlpha(InputHmm<TObs, TInt> hmm, Collection<? extends InputObservationTuple<TInt, TObs>> oseq, double... ctFactors) {
+    public double[][] computeAlpha(THmm hmm, Collection<? extends InputObservationTuple<TInt, TObs>> oseq, double... ctFactors) {
         int T = ctFactors.length;
         int s = hmm.nbStates();
         Iterator<? extends InputObservationTuple<TInt, TObs>> seqIterator = oseq.iterator();
@@ -106,7 +105,7 @@ public final class InputForwardBackwardScaledCalculatorBase<TObs extends Observa
 
     /* Computes the content of the scaled beta array.  The scaling factors are
      those computed for alpha. */
-    public double[][] computeBeta(InputHmm<TObs, TInt> hmm, List<? extends InputObservationTuple<TInt, TObs>> oseq, double... ctFactors) {
+    public double[][] computeBeta(THmm hmm, List<? extends InputObservationTuple<TInt, TObs>> oseq, double... ctFactors) {
         int T = ctFactors.length;
         int s = hmm.nbStates();
         double[][] beta = new double[T][s];
@@ -129,7 +128,7 @@ public final class InputForwardBackwardScaledCalculatorBase<TObs extends Observa
     }
 
     @Override
-    public Tuple3<double[][], double[][], Double> computeAll(InputHmm<TObs, TInt> hmm, List<? extends InputObservationTuple<TInt, TObs>> oseq) {
+    public Tuple3<double[][], double[][], Double> computeAll(THmm hmm, List<? extends InputObservationTuple<TInt, TObs>> oseq) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException();
         }

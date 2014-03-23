@@ -4,11 +4,10 @@
  */
 package jahmm.toolbox;
 
-import jahmm.InputHmm;
+import jahmm.Hmm;
 import jahmm.RegularHmm;
 import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.observables.Observation;
-import jahmm.observables.ObservationInteger;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -26,36 +25,37 @@ import java.util.logging.Logger;
  * distance definition, compute
  * <code>(distance(hmm1, hmm2) + distance(hmm2, hmm1)) / 2</code>.
  */
-public class RegularKullbackLeiblerDistanceCalculatorBase extends KullbackLeiblerDistanceCalculatorBase {
+public class RegularKullbackLeiblerDistanceCalculatorBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>> {
 
     private static final Logger LOG = Logger.getLogger(RegularKullbackLeiblerDistanceCalculatorBase.class.getName());
+    private int sequencesLength = 1000;
+    private int nbSequences = 10;
 
     /**
      * Creates a new instance of a KullbackLeiblerDistanceCalculator.
      */
     public RegularKullbackLeiblerDistanceCalculatorBase() {
-        super();
+        this(1000);
     }
 
     /**
-     * Creates a new instance of a KullbackLeiblerDistanceCalculator with a
-     * given initial sequence length.
+     * Creates a new instance of a KullbackLeiblerDistanceCalculator.
      *
      * @param sequencesLength The given initial sequence length.
      */
     public RegularKullbackLeiblerDistanceCalculatorBase(int sequencesLength) {
-        super(sequencesLength);
+        this(sequencesLength, 10);
     }
 
     /**
-     * Creates a new instance of a KullbackLeiblerDistanceCalculator with a
-     * given initial sequence length and number of sequences.
+     * Creates a new instance of a KullbackLeiblerDistanceCalculator.
      *
      * @param sequencesLength The given initial sequence length.
-     * @param nbSequences The number of sequences.
+     * @param nbSequences The given initial number of sequences.
      */
     public RegularKullbackLeiblerDistanceCalculatorBase(int sequencesLength, int nbSequences) {
-        super();
+        this.sequencesLength = sequencesLength;
+        this.nbSequences = nbSequences;
     }
 
     /**
@@ -69,8 +69,8 @@ public class RegularKullbackLeiblerDistanceCalculatorBase extends KullbackLeible
      * @return The distance between <code>hmm1</code> and <code>hmm2</code> with
      * regard to <code>hmm1</code>
      */
-    public <O extends Observation> double distance(RegularHmm<O> hmm1, RegularHmm<? super O> hmm2) {
-        double distance = 0.0d;
+    public double distance(THmm hmm1, THmm hmm2) {
+        /*double distance = 0.0d;
         for (int i = 0; i < nbSequences; i++) {
             List<O> oseq = new RegularMarkovGeneratorBase<>(hmm1).observationSequence(sequencesLength);
             @SuppressWarnings("unchecked")
@@ -79,6 +79,43 @@ public class RegularKullbackLeiblerDistanceCalculatorBase extends KullbackLeible
             double db = RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm2, oseq);
             distance += da - db;
         }
-        return distance / (nbSequences * sequencesLength);
+        return distance / (nbSequences * sequencesLength);*/
+        return 0.0d;
+    }
+
+    /**
+     * Returns the number of sequences generated to estimate a distance.
+     *
+     * @return The number of generated sequences.
+     */
+    public int getNbSequences() {
+        return nbSequences;
+    }
+
+    /**
+     * Sets the number of sequences generated to estimate a distance.
+     *
+     * @param nb The number of generated sequences.
+     */
+    public void setNbSequences(int nb) {
+        this.nbSequences = nb;
+    }
+
+    /**
+     * Returns the length of sequences generated to estimate a distance.
+     *
+     * @return The sequences length.
+     */
+    public int getSequencesLength() {
+        return sequencesLength;
+    }
+
+    /**
+     * Sets the length of sequences generated to estimate a distance.
+     *
+     * @param length The sequences length.
+     */
+    public void setSequencesLength(int length) {
+        this.sequencesLength = length;
     }
 }

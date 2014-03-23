@@ -11,8 +11,9 @@ import jahmm.observables.Observation;
  * @param <TAMx> The type of a-values of the Hidden Markov Model.
  * @param <TBMx> The type of b-values of the Hidden Markov Model.
  * @param <TInt> The type of interaction of the hidden Markov Model.
+ * @param <THmm> The type of the Hidden Markov Model.
  */
-public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends Observation> implements Hmm<TObs, TInt> {
+public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends Observation, THmm extends HmmBase<TObs, TAMx, TBMx, TInt, THmm>> implements Hmm<TObs, TInt, THmm> {
 
     private static final long serialVersionUID = 1L;
 
@@ -73,7 +74,7 @@ public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends
      * in the hierarchy can fail to clone.
      */
     @Override
-    public abstract HmmBase<TObs, TAMx, TBMx, TInt> clone() throws CloneNotSupportedException;
+    public abstract THmm clone() throws CloneNotSupportedException;
 
     /**
      * Returns the number of states of this HMM.

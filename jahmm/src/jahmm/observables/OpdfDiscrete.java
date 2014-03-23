@@ -100,7 +100,7 @@ public final class OpdfDiscrete<TDiscrete> extends OpdfBase<ObservationDiscrete<
      * <code>values</code>.
      */
     public OpdfDiscrete(TDiscrete[] values, double... probabilities) {
-        this(new ListArray<>(values),probabilities);
+        this(new ListArray<>(values), probabilities);
     }
 
     private OpdfDiscrete(ArrayList<TDiscrete> values, OpdfInteger distribution, HashMap<TDiscrete, ObservationInteger> toIntegerMap) {

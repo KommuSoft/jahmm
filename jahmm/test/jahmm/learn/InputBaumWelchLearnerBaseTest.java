@@ -62,10 +62,10 @@ public class InputBaumWelchLearnerBaseTest extends TestCase {
         RegularHmm<ObservationInteger> bwHmm = bwl.learn(hmm, sequences);
         assertEquals(0., klc.distance(bwHmm, hmm), DELTA);
 
-        InputBaumWelchLearnerBase<ObservationInteger,Integer> ibwl = new InputBaumWelchLearnerBase<>();
-        InputHmm<ObservationInteger,Integer> ibwHmm = ibwl.learn(ihmm, isequences);
+        InputBaumWelchLearnerBase<ObservationInteger, Integer> ibwl = new InputBaumWelchLearnerBase<>();
+        InputHmm<ObservationInteger, Integer> ibwHmm = ibwl.learn(ihmm, isequences);
         assertEquals(0., klc.distance(ibwHmm, ihmm), DELTA);
-        
+
         /* Model sequences using the scaled BW algorithm */
         RegularBaumWelchScaledLearnerBase<ObservationInteger> bwsl = new RegularBaumWelchScaledLearnerBase<>();
         bwHmm = bwsl.learn(hmm, sequences);

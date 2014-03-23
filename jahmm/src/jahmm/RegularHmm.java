@@ -1,5 +1,6 @@
 package jahmm;
 
+import jahmm.calculators.RegularForwardBackwardCalculator;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
 
@@ -8,7 +9,7 @@ import jahmm.observables.Opdf;
  * @author kommusoft
  * @param <TObs>
  */
-public interface RegularHmm<TObs extends Observation> extends Hmm<TObs, TObs> {
+public interface RegularHmm<TObs extends Observation, THmm extends RegularHmm<TObs,THmm>> extends Hmm<TObs, TObs, THmm> {
 
     /**
      * Creates a duplicate object of the HMM.
@@ -18,7 +19,7 @@ public interface RegularHmm<TObs extends Observation> extends Hmm<TObs, TObs> {
      * in the hierarchy can fail to clone.
      */
     @Override
-    public abstract RegularHmm<TObs> clone() throws CloneNotSupportedException;
+    public abstract THmm clone() throws CloneNotSupportedException;
 
     /**
      * Sets the probability associated to the transition going from state
@@ -49,5 +50,25 @@ public interface RegularHmm<TObs extends Observation> extends Hmm<TObs, TObs> {
      * @return The opdf associated to state <code>stateNb</code>.
      */
     public abstract Opdf<TObs> getOpdf(int stateNb);
+
+    /**
+     * Gets the relevant forward backward calculator for the Hidden Markov
+     * Model.
+     *
+     * @return The relevant forward backward calculator for the Hidden Markov
+     * Model.
+     */
+    @Override
+    public abstract RegularForwardBackwardCalculator<TObs,THmm> getForwardBackwardCalculator();
+
+    /**
+     * Gets the relevant forward backward scaled calculator for the Hidden
+     * Markov Model.
+     *
+     * @return The relevant forward backward scaled calculator for the Hidden
+     * Markov Model.
+     */
+    @Override
+    public abstract RegularForwardBackwardCalculator<TObs,THmm> getForwardBackwardScaledCalculator();
 
 }

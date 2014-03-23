@@ -30,7 +30,7 @@ import jutlis.tuples.Tuple3Base;
  *
  * @param <TObs>
  */
-public final class RegularForwardBackwardScaledCalculatorBase<TObs extends Observation> extends RegularForwardBackwardCalculatorBase<TObs> {
+public final class RegularForwardBackwardScaledCalculatorBase<TObs extends Observation, THmm extends RegularHmm<TObs, THmm>> extends RegularForwardBackwardCalculatorBase<TObs, THmm> {
 
     public static final RegularForwardBackwardScaledCalculatorBase Instance = new RegularForwardBackwardScaledCalculatorBase();
     private static final Logger LOG = Logger.getLogger(RegularForwardBackwardScaledCalculatorBase.class.getName());
@@ -54,7 +54,6 @@ public final class RegularForwardBackwardScaledCalculatorBase<TObs extends Obser
      * Hidden Markov Model. The algorithms implemented use scaling to avoid
      * underflows.
      *
-     * @param <TObs>
      * @param hmm A Hidden Markov Model;
      * @param oseq An observations sequence.
      * @param flags How the computation should be done. See the
@@ -63,7 +62,7 @@ public final class RegularForwardBackwardScaledCalculatorBase<TObs extends Obser
      * @return The probability of the given sequence of observations.
      */
     @Override
-    public double computeProbability(RegularHmm<TObs> hmm, Collection<ComputationType> flags, List<? extends TObs> oseq) {
+    public double computeProbability(THmm hmm, Collection<ComputationType> flags, List<? extends TObs> oseq) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException();
         }
@@ -82,16 +81,15 @@ public final class RegularForwardBackwardScaledCalculatorBase<TObs extends Obser
         return computeProbability(ctFactors);
     }
 
-    /* Computes the content of the scaled alpha array */
     /**
+     * Computes the content of the scaled alpha array
      *
-     * @param <O
      * @param ctFactors>
      * @param hmm
      * @param oseq
      * @return
      */
-    public double[][] computeAlpha(RegularHmm<? super TObs> hmm, Collection<? extends TObs> oseq, double... ctFactors) {
+    public double[][] computeAlpha(THmm hmm, Collection<? extends TObs> oseq, double... ctFactors) {
         int T = ctFactors.length;
         int s = hmm.nbStates();
         Iterator<? extends TObs> seqIterator = oseq.iterator();
@@ -124,7 +122,7 @@ public final class RegularForwardBackwardScaledCalculatorBase<TObs extends Obser
 
     /* Computes the content of the scaled beta array.  The scaling factors are
      those computed for alpha. */
-    public double[][] computeBeta(RegularHmm<? super TObs> hmm, List<? extends TObs> oseq, double... ctFactors) {
+    public double[][] computeBeta(THmm hmm, List<? extends TObs> oseq, double... ctFactors) {
         int T = ctFactors.length;
         int s = hmm.nbStates();
         double[][] beta = new double[T][s];
@@ -147,7 +145,7 @@ public final class RegularForwardBackwardScaledCalculatorBase<TObs extends Obser
     }
 
     @Override
-    public Tuple3<double[][], double[][], Double> computeAll(RegularHmm<TObs> hmm, List<? extends TObs> oseq) {
+    public Tuple3<double[][], double[][], Double> computeAll(THmm hmm, List<? extends TObs> oseq) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException();
         }

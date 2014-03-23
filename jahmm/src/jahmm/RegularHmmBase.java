@@ -4,6 +4,7 @@
  */
 package jahmm;
 
+import jahmm.calculators.RegularForwardBackwardCalculator;
 import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.calculators.RegularForwardBackwardScaledCalculatorBase;
 import jahmm.calculators.ViterbiCalculator;
@@ -38,7 +39,7 @@ import jutlis.lists.ListArray;
  * 
 * @param <TObs> the type of the observations.
  */
-public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, double[][], List<Opdf<TObs>>, TObs> implements RegularHmm<TObs> {
+public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, double[][], List<Opdf<TObs>>, TObs, RegularHmmBase<TObs>> implements RegularHmm<TObs, RegularHmmBase<TObs>> {
 
     private static final long serialVersionUID = 2L;
     private static final Logger LOG = Logger.getLogger(RegularHmmBase.class.getName());
@@ -313,5 +314,29 @@ public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, doub
         if ((n & 0x01) != 0x00) {
             System.arraycopy(pib, 0, pi, 0, m);
         }
+    }
+
+    /**
+     * Gets the relevant forward backward calculator for the Hidden Markov
+     * Model.
+     *
+     * @return The relevant forward backward calculator for the Hidden Markov
+     * Model.
+     */
+    @Override
+    public RegularForwardBackwardCalculator<TObs, RegularHmmBase<TObs>> getForwardBackwardCalculator() {
+        return RegularForwardBackwardCalculatorBase.Instance;
+    }
+
+    /**
+     * Gets the relevant forward backward scaled calculator for the Hidden
+     * Markov Model.
+     *
+     * @return The relevant forward backward scaled calculator for the Hidden
+     * Markov Model.
+     */
+    @Override
+    public RegularForwardBackwardCalculator<TObs, RegularHmmBase<TObs>> getForwardBackwardScaledCalculator() {
+        return RegularForwardBackwardScaledCalculatorBase.Instance;
     }
 }
