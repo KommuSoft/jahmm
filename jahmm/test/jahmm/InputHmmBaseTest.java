@@ -62,6 +62,9 @@ public class InputHmmBaseTest {
 
     @Test
     public void testConstructor() {
+        Assert.assertEquals(ihmm_pi[0x00], ihmm.getPi(0x00));
+        Assert.assertEquals(ihmm_pi[0x01], ihmm.getPi(0x01));
+        Assert.assertEquals(ihmm_pi[0x02], ihmm.getPi(0x02));
         Assert.assertEquals(a000, ihmm.getAixj(0x00, 0x00, 0x00));
         Assert.assertEquals(a001, ihmm.getAixj(0x00, 0x00, 0x01));
         Assert.assertEquals(a002, ihmm.getAixj(0x00, 0x00, 0x02));
@@ -108,6 +111,26 @@ public class InputHmmBaseTest {
                 }
             }
         }
+        ObservationInteger oi0 = new ObservationInteger(0x00);
+        ObservationInteger oi1 = new ObservationInteger(0x01);
+        Assert.assertEquals(b000, ihmm.getOpdf(0x00, 0x00).probability(oi0));
+        Assert.assertEquals(b001, ihmm.getOpdf(0x00, 0x00).probability(oi1));
+        Assert.assertEquals(b010, ihmm.getOpdf(0x00, 0x01).probability(oi0));
+        Assert.assertEquals(b011, ihmm.getOpdf(0x00, 0x01).probability(oi1));
+        Assert.assertEquals(b020, ihmm.getOpdf(0x00, 0x02).probability(oi0));
+        Assert.assertEquals(b021, ihmm.getOpdf(0x00, 0x02).probability(oi1));
+        Assert.assertEquals(b100, ihmm.getOpdf(0x01, 0x00).probability(oi0));
+        Assert.assertEquals(b101, ihmm.getOpdf(0x01, 0x00).probability(oi1));
+        Assert.assertEquals(b110, ihmm.getOpdf(0x01, 0x01).probability(oi0));
+        Assert.assertEquals(b111, ihmm.getOpdf(0x01, 0x01).probability(oi1));
+        Assert.assertEquals(b120, ihmm.getOpdf(0x01, 0x02).probability(oi0));
+        Assert.assertEquals(b121, ihmm.getOpdf(0x01, 0x02).probability(oi1));
+        Assert.assertEquals(b200, ihmm.getOpdf(0x02, 0x00).probability(oi0));
+        Assert.assertEquals(b201, ihmm.getOpdf(0x02, 0x00).probability(oi1));
+        Assert.assertEquals(b210, ihmm.getOpdf(0x02, 0x01).probability(oi0));
+        Assert.assertEquals(b211, ihmm.getOpdf(0x02, 0x01).probability(oi1));
+        Assert.assertEquals(b220, ihmm.getOpdf(0x02, 0x02).probability(oi0));
+        Assert.assertEquals(b221, ihmm.getOpdf(0x02, 0x02).probability(oi1));
     }
 
     /**
