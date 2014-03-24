@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  *
  * @param <TObs>
  */
-public class RegularForwardBackwardCalculatorBase<TObs extends Observation> extends ForwardBackwardCalculatorRaw<double[][], double[][], TObs, TObs, RegularHmm<TObs>> implements RegularForwardBackwardCalculator<TObs> {
+public class RegularForwardBackwardCalculatorBase<TObs extends Observation, THmm extends RegularHmm<TObs,THmm>> extends ForwardBackwardCalculatorRaw<double[][], double[][], TObs, TObs, THmm> implements RegularForwardBackwardCalculator<TObs,THmm> {
 
     public static final RegularForwardBackwardCalculatorBase Instance = new RegularForwardBackwardCalculatorBase();
     private static final Logger LOG = Logger.getLogger(RegularForwardBackwardCalculatorBase.class.getName());
@@ -34,7 +34,7 @@ public class RegularForwardBackwardCalculatorBase<TObs extends Observation> exte
     }
 
     @Override
-    protected double computeProbability(List<? extends TObs> oseq, RegularHmm<TObs> hmm, Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
+    protected double computeProbability(List<? extends TObs> oseq, THmm hmm, Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
         double probability = 0.;
         int n = hmm.nbStates();
         double[] tmp;
@@ -64,7 +64,7 @@ public class RegularForwardBackwardCalculatorBase<TObs extends Observation> exte
      * t+1) with the (t+1)th state being i+1.
      */
     @Override
-    public double[][] computeAlpha(RegularHmm<TObs> hmm, Collection<? extends TObs> oseq) {
+    public double[][] computeAlpha(THmm hmm, Collection<? extends TObs> oseq) {
         int T = oseq.size();
         int s = hmm.nbStates();
         double[][] alpha = new double[T][s];
@@ -97,7 +97,7 @@ public class RegularForwardBackwardCalculatorBase<TObs extends Observation> exte
     /* Computes the content of the beta array.  Needs a O(1) access time
      to the elements of oseq to get a theoretically optimal algorithm. */
     @Override
-    public double[][] computeBeta(RegularHmm<TObs> hmm, List<? extends TObs> oseq) {
+    public double[][] computeBeta(THmm hmm, List<? extends TObs> oseq) {
         int t = oseq.size();
         int s = hmm.nbStates();
         double[][] beta = new double[t][s];

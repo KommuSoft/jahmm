@@ -4,7 +4,7 @@
  */
 package jahmm.io;
 
-import jahmm.RegularHmm;
+import jahmm.RegularHmmBase;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class HmmWriter {
      * @throws java.io.IOException
      */
     static public <O extends Observation> void
-            write(Writer writer, OpdfWriter<? extends Opdf<O>> opdfWriter, RegularHmm<O> hmm)
+            write(Writer writer, OpdfWriter<? extends Opdf<O>> opdfWriter, RegularHmmBase<O> hmm)
             throws IOException {
         writer.write("Hmm v1.0\n\nNbStates " + hmm.nbStates() + "\n\n");
 
@@ -39,7 +39,7 @@ public class HmmWriter {
     @SuppressWarnings("unchecked") // Cannot guarantee type safety
     static private <O extends Observation, D extends Opdf<O>> void
             writeState(Writer writer, OpdfWriter<D> opdfWriter,
-                    RegularHmm<O> hmm, int stateNb)
+                    RegularHmmBase<O> hmm, int stateNb)
             throws IOException {
         DecimalFormat formatter = new DecimalFormat("#0.######");
 

@@ -1,9 +1,9 @@
 package jahmm.calculators;
 
 import jahmm.RegularHmmBase;
-import jahmm.observables.ObservationDiscrete;
+import jahmm.observables.ObservationEnum;
 import jahmm.observables.Opdf;
-import jahmm.observables.OpdfDiscrete;
+import jahmm.observables.OpdfEnum;
 import java.util.ArrayList;
 import java.util.List;
 import jutils.probability.ProbabilityUtils;
@@ -30,13 +30,13 @@ public class ForwardBackwardScaledCalculatorTest {
     public void testComputeAll() {
         double[][] trans = {{0.7d, 0.3d}, {0.3d, 0.7d}};
         double[][] exhaust = {{0.9d, 0.1d}, {0.2d, 0.8d}};
-        Opdf<ObservationDiscrete<Events>> state0 = new OpdfDiscrete<>(Events.class, exhaust[0x00]);
-        Opdf<ObservationDiscrete<Events>> state1 = new OpdfDiscrete<>(Events.class, exhaust[0x01]);
+        Opdf<ObservationEnum<Events>> state0 = new OpdfEnum<>(Events.class, exhaust[0x00]);
+        Opdf<ObservationEnum<Events>> state1 = new OpdfEnum<>(Events.class, exhaust[0x01]);
         double[] pi = {0.5d, 0.5d};
         @SuppressWarnings("unchecked")
-        RegularHmmBase<ObservationDiscrete<Events>> hmm = new RegularHmmBase<>(pi, trans, state0, state1);
+        RegularHmmBase<ObservationEnum<Events>> hmm = new RegularHmmBase<>(pi, trans, state0, state1);
         @SuppressWarnings("unchecked")
-        List<ObservationDiscrete<Events>> sequence = new ListArray<>(new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.NoUmbrella), new ObservationDiscrete<>(Events.Umbrella), new ObservationDiscrete<>(Events.Umbrella));
+        List<ObservationEnum<Events>> sequence = new ListArray<>(new ObservationEnum<>(Events.Umbrella), new ObservationEnum<>(Events.Umbrella), new ObservationEnum<>(Events.NoUmbrella), new ObservationEnum<>(Events.Umbrella), new ObservationEnum<>(Events.Umbrella));
         Tuple3<double[][], double[][], Double> abp = RegularForwardBackwardScaledCalculatorBase.Instance.computeAll(hmm, sequence);
         double[][] a = abp.getItem1();
         double[][] b = abp.getItem2();
@@ -64,7 +64,7 @@ public class ForwardBackwardScaledCalculatorTest {
         double[][] trans = {{0.0d, 0.0d, 0.0d}, {0.0d, 0.0d, 0.0d}, {0.0d, 0.0d, 0.0d}};
         double[][] exhaust = {{0.0d, 0.0d, 0.0d}, {0.0d, 0.0d, 0.0d}, {0.0d, 0.0d, 0.0d}};
         double[] pi = {0.0d, 0.0d, 0.0d};
-        ArrayList<ObservationDiscrete<Tris>> tris = new ArrayList<>(0x90);
+        ArrayList<ObservationEnum<Tris>> tris = new ArrayList<>(0x90);
         for (int i = 0x00; i < 0x90; i++) {
             tris.add(null);
         }
@@ -75,14 +75,14 @@ public class ForwardBackwardScaledCalculatorTest {
                 ProbabilityUtils.fillRandomScale(exhaust[i]);
             }
             for (int i = 0x00; i < 0x90; i++) {
-                tris.set(i, new ObservationDiscrete<>(trisvals[ProbabilityUtils.nextInt(0x03)]));
+                tris.set(i, new ObservationEnum<>(trisvals[ProbabilityUtils.nextInt(0x03)]));
             }
             ProbabilityUtils.fillRandomScale(pi);
-            Opdf<ObservationDiscrete<Tris>> state0 = new OpdfDiscrete<>(Tris.class, exhaust[0x00]);
-            Opdf<ObservationDiscrete<Tris>> state1 = new OpdfDiscrete<>(Tris.class, exhaust[0x01]);
-            Opdf<ObservationDiscrete<Tris>> state2 = new OpdfDiscrete<>(Tris.class, exhaust[0x02]);
+            Opdf<ObservationEnum<Tris>> state0 = new OpdfEnum<>(Tris.class, exhaust[0x00]);
+            Opdf<ObservationEnum<Tris>> state1 = new OpdfEnum<>(Tris.class, exhaust[0x01]);
+            Opdf<ObservationEnum<Tris>> state2 = new OpdfEnum<>(Tris.class, exhaust[0x02]);
             @SuppressWarnings("unchecked")
-            RegularHmmBase<ObservationDiscrete<Tris>> hmm = new RegularHmmBase<>(pi, trans, state0, state1, state2);
+            RegularHmmBase<ObservationEnum<Tris>> hmm = new RegularHmmBase<>(pi, trans, state0, state1, state2);
             double expected = RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm, tris);
             double actual = RegularForwardBackwardScaledCalculatorBase.Instance.computeProbability(hmm, tris);
             AssertExtensions.assertEquals(expected, actual);

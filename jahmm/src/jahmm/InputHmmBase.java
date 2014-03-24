@@ -5,13 +5,18 @@
 package jahmm;
 
 import static jahmm.HmmBase.generatePi;
+import jahmm.calculators.InputForwardBackwardCalculator;
+import jahmm.calculators.InputForwardBackwardCalculatorBase;
+import jahmm.calculators.InputForwardBackwardScaledCalculatorBase;
 import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
 import jahmm.observables.OpdfFactory;
+import jahmm.toolbox.InputMarkovGeneratorBase;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -35,7 +40,7 @@ import jutlis.lists.ListArray;
  * @note The A matrix has the following structure: A_{i,j,k} means the
  * probability of moving from state i to j given input k.
  */
-public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, double[][][], Object[][], InputObservationTuple<TIn, TObs>> implements InputHmm<TObs, TIn> {
+public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, double[][][], Object[][], InputObservationTuple<TIn, TObs>, InputHmmBase<TObs, TIn>> implements InputHmm<TObs, TIn, InputHmmBase<TObs, TIn>> {
 
     private static final long serialVersionUID = 1L;
     private static final Logger LOG = Logger.getLogger(InputHmmBase.class.getName());
@@ -131,19 +136,19 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
         Object[][] b = new Object[nbStates][nbSymbols];
         for (int i = 0x00; i < nbStates; i++) {
             for (int j = 0x00; j < nbSymbols; j++) {
-                b[i][j] = opdfFactory.factor();
+                b[i][j] = opdfFactory.generate();
             }
         }
         return b;
     }
 
-    protected static <TObs extends Observation> Object[][] generateB(int nbStates, int nbSymbols, Iterable<? extends Opdf<TObs>> opdfs) throws CloneNotSupportedException {
+    protected static <TObs extends Observation> Object[][] generateB(int nbStates, int nbSymbols, Iterable<? extends Iterable<? extends Opdf<TObs>>> opdfs) throws CloneNotSupportedException {
         Object[][] b = new Object[nbStates][nbSymbols];
-        Iterator<? extends Opdf<TObs>> opdfsi = opdfs.iterator();
+        Iterator<? extends Iterable<? extends Opdf<TObs>>> opdfsi = opdfs.iterator();
         for (int i = 0x00; i < nbStates && opdfsi.hasNext(); i++) {
-            Opdf<TObs> opdf = opdfsi.next();
-            for (int j = 0x00; j < nbSymbols; j++) {
-                b[i][j] = opdf.clone();
+            Iterator<? extends Opdf<TObs>> opdfsj = opdfsi.next().iterator();
+            for (int j = 0x00; j < nbSymbols && opdfsj.hasNext(); j++) {
+                b[i][j] = opdfsj.next();
             }
         }
         return b;
@@ -185,7 +190,7 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
         this(nbStates, opdfFactory, new ListArray<>(possibleInputs));
     }
 
-    public InputHmmBase(double[] pi, double[][][] a, Iterable<? extends Opdf<TObs>> opdfs, Iterable<TIn> possibleInput) throws CloneNotSupportedException {
+    public InputHmmBase(double[] pi, double[][][] a, Iterable<? extends Iterable<? extends Opdf<TObs>>> opdfs, Iterable<TIn> possibleInput) throws CloneNotSupportedException {
         super(pi.clone(), cloneA(a), generateB(a.length, CollectionUtils.size(possibleInput), opdfs));
         this.generateInputIndices(possibleInput);
         this.checkConstraints();
@@ -215,7 +220,7 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
         this.indexRegister.clear();
         int i = 0x00;
         for (TIn inp : possibleInput) {
-            this.indexRegister.put(inp,i);
+            this.indexRegister.put(inp, i);
             i++;
         }
     }
@@ -367,17 +372,7 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
     }
 
     @Override
-    public double lnProbability(List<? extends InputObservationTuple<TIn, TObs>> oseq) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public int[] mostLikelyStateSequence(List<? extends InputObservationTuple<TIn, TObs>> oseq) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public double probability(List<? extends InputObservationTuple<TIn, TObs>> oseq) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -593,6 +588,45 @@ public class InputHmmBase<TObs extends Observation, TIn> extends HmmBase<TObs, d
         if (copy) {
             System.arraycopy(pib, 0, this.pi, 0, m);
         }
+    }
+
+    /**
+     * Gets the set of all registered inputs.
+     *
+     * @return The set of all registered inputs.
+     */
+    @Override
+    public Collection<TIn> getRegisteredInputs() {
+        return this.indexRegister.keySet();
+    }
+
+    /**
+     * Gets the relevant forward backward calculator for the Hidden Markov
+     * Model.
+     *
+     * @return The relevant forward backward calculator for the Hidden Markov
+     * Model.
+     */
+    @Override
+    public InputForwardBackwardCalculator<TObs, TIn, InputHmmBase<TObs, TIn>> getForwardBackwardCalculator() {
+        return InputForwardBackwardCalculatorBase.Instance;
+    }
+
+    /**
+     * Gets the relevant forward backward scaled calculator for the Hidden
+     * Markov Model.
+     *
+     * @return The relevant forward backward scaled calculator for the Hidden
+     * Markov Model.
+     */
+    @Override
+    public InputForwardBackwardCalculator<TObs, TIn, InputHmmBase<TObs, TIn>> getForwardBackwardScaledCalculator() {
+        return InputForwardBackwardScaledCalculatorBase.Instance;
+    }
+
+    @Override
+    public InputMarkovGeneratorBase<TObs, TIn, InputHmmBase<TObs, TIn>> getMarkovGenerator() {
+        return new InputMarkovGeneratorBase<>(this);
     }
 
 }

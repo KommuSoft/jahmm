@@ -6,7 +6,7 @@ package jahmm.learn;
 
 import jahmm.RegularHmmBase;
 import jahmm.calculators.KMeansCalculator;
-import jahmm.calculators.ViterbiCalculator;
+import jahmm.calculators.RegularViterbiCalculatorBase;
 import jahmm.observables.CentroidFactory;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
@@ -50,11 +50,11 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
      * sequences is a vector of null null null null null null null null null
      * null null null null null null null null null null null null null null
      * null null null null null null null null null null null null null null
-     * null null     {@link be.ac.ulg.montefiore.run.jahmm.Observation
+     * null null null null null null null null     {@link be.ac.ulg.montefiore.run.jahmm.Observation
 	 *                observations} compatible with the null null null null null null null null
      * null null null null null null null null null null null null null null
      * null null null null null null null null null null null null null null
-     * null null null     {@link be.ac.ulg.montefiore.run.jahmm.CentroidFactory
+     * null null null null null null null null null     {@link be.ac.ulg.montefiore.run.jahmm.CentroidFactory
 	 *                k-means algorithm}.
      * @throws java.lang.CloneNotSupportedException
      */
@@ -180,7 +180,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
             Collection<O> clusterObservations = clusters.cluster(i);
 
             if (clusterObservations.isEmpty()) {
-                hmm.setOpdf(i, opdfFactory.factor());
+                hmm.setOpdf(i, opdfFactory.generate());
             } else {
                 hmm.getOpdf(i).fit(clusterObservations);
             }
@@ -192,7 +192,7 @@ public class KMeansLearner<O extends Observation & CentroidFactory<? super O>> {
         boolean modif = false;
 
         for (List<? extends O> obsSeq : obsSeqs) {
-            ViterbiCalculator vc = new ViterbiCalculator(obsSeq, hmm);
+            RegularViterbiCalculatorBase vc = new RegularViterbiCalculatorBase(obsSeq, hmm);
             int states[] = vc.stateSequence();
 
             for (int i = 0; i < states.length; i++) {

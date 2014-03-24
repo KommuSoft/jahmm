@@ -35,8 +35,10 @@ public class InputEnumHmmBase<TObs extends Observation, TIn extends Enum<TIn>> e
 
     /**
      * Creates a new InputHmmBase instance that contains the same data.
+     *
      * @return A new InputHmmBase instance that contains the same data.
-     * @throws CloneNotSupportedException If something went wrong in the cloning process.
+     * @throws CloneNotSupportedException If something went wrong in the cloning
+     * process.
      */
     @Override
     public InputHmmBase<TObs, TIn> clone() throws CloneNotSupportedException {

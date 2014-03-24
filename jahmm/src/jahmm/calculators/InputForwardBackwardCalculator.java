@@ -8,8 +8,8 @@ import jahmm.observables.Observation;
  *
  * @author kommusoft
  * @param <TObs>
- * @param <TInt>
+ * @param <TInput>
  */
-public interface InputForwardBackwardCalculator<TObs extends Observation, TInt> extends ForwardBackwardCalculator<double[][], double[][], TObs, InputObservationTuple<TInt, TObs>, InputHmm<TObs, TInt>> {
+public interface InputForwardBackwardCalculator<TObs extends Observation, TInput, THmm extends InputHmm<TObs,TInput,THmm>> extends ForwardBackwardCalculator<double[][], double[][], TObs, InputObservationTuple<TInput, TObs>, THmm> {
 
 }

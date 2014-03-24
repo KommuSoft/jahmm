@@ -19,7 +19,7 @@ import jutlis.tuples.Tuple3;
  * @param <TXi> The type of the xi-estimates.
  * @param <TGamma> The type of the gamma-estimates.
  */
-public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt>, TAlpha, TBeta, TXi, TGamma, TADen> implements BaumWelchLearner<TObs, TInt, THmm> {
+public abstract class BaumWelchLearnerBase<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt,THmm>, TAlpha, TBeta, TXi, TGamma, TADen> implements BaumWelchLearner<TObs, TInt, THmm> {
 
     /**
      * Number of iterations performed by the {@link #learn} method.

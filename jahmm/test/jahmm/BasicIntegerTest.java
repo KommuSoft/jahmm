@@ -6,7 +6,7 @@ package jahmm;
 
 import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.calculators.KMeansCalculator;
-import jahmm.calculators.ViterbiCalculator;
+import jahmm.calculators.RegularViterbiCalculatorBase;
 import jahmm.observables.ObservationInteger;
 import jahmm.observables.OpdfInteger;
 import jahmm.observables.OpdfIntegerFactory;
@@ -58,7 +58,7 @@ public class BasicIntegerTest
      *
      */
     public void testViterbi() {
-        ViterbiCalculator vc = new ViterbiCalculator(sequence, hmm);
+        RegularViterbiCalculatorBase vc = new RegularViterbiCalculatorBase(sequence, hmm);
 
         assertEquals(4.1152263374485705E-8,
                 Math.exp(vc.lnProbability()), DELTA);

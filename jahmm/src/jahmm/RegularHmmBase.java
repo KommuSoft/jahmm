@@ -4,18 +4,20 @@
  */
 package jahmm;
 
+import jahmm.calculators.RegularForwardBackwardCalculator;
 import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.calculators.RegularForwardBackwardScaledCalculatorBase;
-import jahmm.calculators.ViterbiCalculator;
+import jahmm.calculators.RegularViterbiCalculatorBase;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
 import jahmm.observables.OpdfFactory;
+import jahmm.toolbox.MarkovGenerator;
+import jahmm.toolbox.RegularMarkovGeneratorBase;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
-import jutils.collections.CollectionUtils;
 import jutlis.lists.ListArray;
 
 /**
@@ -39,7 +41,7 @@ import jutlis.lists.ListArray;
  * 
 * @param <TObs> the type of the observations.
  */
-public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, double[][], List<Opdf<TObs>>, TObs> implements RegularHmm<TObs> {
+public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, double[][], List<Opdf<TObs>>, TObs, RegularHmmBase<TObs>> implements RegularHmm<TObs, RegularHmmBase<TObs>> {
 
     private static final long serialVersionUID = 2L;
     private static final Logger LOG = Logger.getLogger(RegularHmmBase.class.getName());
@@ -78,7 +80,7 @@ public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, doub
     public RegularHmmBase(int nbStates, OpdfFactory<? extends Opdf<TObs>> opdfFactory) {
         super(generatePi(nbStates), generateA(nbStates), new ArrayList<Opdf<TObs>>(nbStates));
         for (int i = 0; i < nbStates; i++) {
-            b.add(opdfFactory.factor());
+            b.add(opdfFactory.generate());
         }
         this.checkConstraints();
     }
@@ -191,38 +193,14 @@ public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, doub
      */
     @Override
     public int[] mostLikelyStateSequence(List<? extends TObs> oseq) {
-        return (new ViterbiCalculator(oseq, this)).stateSequence();
-    }
-
-    /**
-     * Returns the probability of an observation sequence given this HMM.
-     *     
-* @param oseq A non-empty observation sequence.
-     * @return The probability of this sequence.
-     */
-    @Override
-    public double probability(List<? extends TObs> oseq) {
-        return RegularForwardBackwardCalculatorBase.Instance.computeProbability(this, oseq);
-    }
-
-    /**
-     * Returns the natural logarithm of observation sequences probability given
-     * this HMM. A <i>scaling</i> procedure is used in order to avoid underflows
-     * when computing the probability of long sequences.
-     *     
-* @param oseq A non-empty observation sequence.
-     * @return The probability of this sequence.
-     */
-    @Override
-    public double lnProbability(List<? extends TObs> oseq) {
-        return RegularForwardBackwardScaledCalculatorBase.Instance.computeProbability(this, oseq);
+        return (new RegularViterbiCalculatorBase(oseq, this)).stateSequence();
     }
 
     /**
      * Returns the probability of an observation sequence along a state sequence
      * given this HMM.
-     *     
-* @param oseq A non-empty observation sequence.
+     *
+     * @param oseq A non-empty observation sequence.
      * @param sseq An array containing a sequence of state numbers. The length
      * of this array must be equal to the length of <code>oseq</code>
      * @return The probability P[oseq,sseq|H], where H is this HMM.
@@ -232,25 +210,18 @@ public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, doub
         if (oseq.size() != sseq.length || oseq.isEmpty()) {
             throw new IllegalArgumentException();
         }
-
         double probability = getPi(sseq[0]);
-
         Iterator<? extends TObs> oseqIterator = oseq.iterator();
-
         for (int i = 0; i < sseq.length - 1; i++) {
-            probability
-                    *= getOpdf(sseq[i]).probability(oseqIterator.next())
-                    * getAij(sseq[i], sseq[i + 1]);
+            probability *= getOpdf(sseq[i]).probability(oseqIterator.next()) * getAij(sseq[i], sseq[i + 1]);
         }
-
-        return probability * getOpdf(sseq[sseq.length - 1]).
-                probability(oseq.get(sseq.length - 1));
+        return probability * getOpdf(sseq[sseq.length - 1]).probability(oseq.get(sseq.length - 1));
     }
 
     /**
      * Gives a description of this HMM.
-     *     
-* @param nf A number formatter used to print numbers (e.g. Aij values).
+     *
+     * @param nf A number formatter used to print numbers (e.g. Aij values).
      * @return A textual description of this HMM.
      */
     @Override
@@ -314,5 +285,34 @@ public class RegularHmmBase<TObs extends Observation> extends HmmBase<TObs, doub
         if ((n & 0x01) != 0x00) {
             System.arraycopy(pib, 0, pi, 0, m);
         }
+    }
+
+    /**
+     * Gets the relevant forward backward calculator for the Hidden Markov
+     * Model.
+     *
+     * @return The relevant forward backward calculator for the Hidden Markov
+     * Model.
+     */
+    @Override
+    public RegularForwardBackwardCalculator<TObs, RegularHmmBase<TObs>> getForwardBackwardCalculator() {
+        return RegularForwardBackwardCalculatorBase.Instance;
+    }
+
+    /**
+     * Gets the relevant forward backward scaled calculator for the Hidden
+     * Markov Model.
+     *
+     * @return The relevant forward backward scaled calculator for the Hidden
+     * Markov Model.
+     */
+    @Override
+    public RegularForwardBackwardCalculator<TObs, RegularHmmBase<TObs>> getForwardBackwardScaledCalculator() {
+        return RegularForwardBackwardScaledCalculatorBase.Instance;
+    }
+
+    @Override
+    public MarkovGenerator<TObs, TObs, RegularHmmBase<TObs>> getMarkovGenerator() {
+        return new RegularMarkovGeneratorBase<>(this);
     }
 }

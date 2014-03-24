@@ -13,7 +13,7 @@ import java.util.List;
  * This class can be used to compute the most probable state sequence matching a
  * given observation sequence (given an HMM).
  */
-public final class ViterbiCalculator {
+public final class RegularViterbiCalculatorBase {
     /*
      * The psy and delta values, as described in Rabiner and Juand classical
      * papers.
@@ -32,38 +32,29 @@ public final class ViterbiCalculator {
      * @param hmm A Hidden Markov Model;
      * @param oseq An observations sequence.
      */
-    public <O extends Observation>
-            ViterbiCalculator(List<? extends O> oseq, RegularHmmBase<O> hmm) {
+    public <O extends Observation> RegularViterbiCalculatorBase(List<? extends O> oseq, RegularHmmBase<O> hmm) {
         if (oseq.isEmpty()) {
             throw new IllegalArgumentException("Invalid empty sequence");
         }
-
         delta = new double[oseq.size()][hmm.nbStates()];
         psy = new int[oseq.size()][hmm.nbStates()];
         stateSequence = new int[oseq.size()];
-
         for (int i = 0; i < hmm.nbStates(); i++) {
-            delta[0][i] = -Math.log(hmm.getPi(i))
-                    - Math.log(hmm.getOpdf(i).probability(oseq.get(0)));
+            delta[0][i] = -Math.log(hmm.getPi(i)) - Math.log(hmm.getOpdf(i).probability(oseq.get(0)));
             psy[0][i] = 0;
         }
-
         Iterator<? extends O> oseqIterator = oseq.iterator();
         if (oseqIterator.hasNext()) {
             oseqIterator.next();
         }
-
         int t = 1;
         while (oseqIterator.hasNext()) {
             O observation = oseqIterator.next();
-
             for (int i = 0; i < hmm.nbStates(); i++) {
                 computeStep(hmm, observation, t, i);
             }
-
             t++;
         }
-
         lnProbability = Double.MAX_VALUE;
         for (int i = 0; i < hmm.nbStates(); i++) {
             double thisProbability = delta[oseq.size() - 1][i];

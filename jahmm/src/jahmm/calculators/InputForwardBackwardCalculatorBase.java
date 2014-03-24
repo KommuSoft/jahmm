@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * @param <TObs>
  * @param <TInt>
  */
-public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt> extends ForwardBackwardCalculatorRaw<double[][], double[][], TObs, InputObservationTuple<TInt, TObs>, InputHmm<TObs, TInt>> implements InputForwardBackwardCalculator<TObs, TInt> {
+public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt, THmm extends InputHmm<TObs,TInt,THmm>> extends ForwardBackwardCalculatorRaw<double[][], double[][], TObs, InputObservationTuple<TInt, TObs>,THmm> implements InputForwardBackwardCalculator<TObs, TInt,THmm> {
 
     public static final InputForwardBackwardCalculatorBase Instance = new InputForwardBackwardCalculatorBase();
 
@@ -27,7 +27,7 @@ public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt> 
     }
 
     @Override
-    public double[][] computeAlpha(InputHmm<TObs, TInt> hmm, Collection<? extends InputObservationTuple<TInt, TObs>> oseq) {//TODO: mod?
+    public double[][] computeAlpha(THmm hmm, Collection<? extends InputObservationTuple<TInt, TObs>> oseq) {//TODO: mod?
         int T = oseq.size();
         int s = hmm.nbStates();
         double[][] alpha = new double[T][s];
@@ -58,7 +58,7 @@ public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt> 
     }
 
     @Override
-    public double[][] computeBeta(InputHmm<TObs, TInt> hmm, List<? extends InputObservationTuple<TInt, TObs>> oseq) {
+    public double[][] computeBeta(THmm hmm, List<? extends InputObservationTuple<TInt, TObs>> oseq) {
         int t = oseq.size();
         int s = hmm.nbStates();
         double[][] beta = new double[t][s];
@@ -84,7 +84,7 @@ public class InputForwardBackwardCalculatorBase<TObs extends Observation, TInt> 
     }
 
     @Override
-    protected double computeProbability(List<? extends InputObservationTuple<TInt, TObs>> oseq, InputHmm<TObs, TInt> hmm, Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
+    protected double computeProbability(List<? extends InputObservationTuple<TInt, TObs>> oseq, THmm hmm, Collection<ComputationType> flags, double[][] alpha, double[][] beta) {
         double probability = 0.;
         int n = hmm.nbStates();
         double[] tmp;

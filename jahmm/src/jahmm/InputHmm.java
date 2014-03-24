@@ -1,8 +1,10 @@
 package jahmm;
 
+import jahmm.calculators.InputForwardBackwardCalculator;
 import jahmm.observables.InputObservationTuple;
 import jahmm.observables.Observation;
 import jahmm.observables.Opdf;
+import java.util.Collection;
 import jutils.Tagable;
 
 /**
@@ -16,7 +18,7 @@ import jutils.Tagable;
  * @param <TIn> The type of input of the InputHmm.
  * @param <TObs> The type of observations of the InputHmm.
  */
-public interface InputHmm<TObs extends Observation, TIn> extends Hmm<TObs, InputObservationTuple<TIn, TObs>> {
+public interface InputHmm<TObs extends Observation, TIn,THmm extends InputHmm<TObs,TIn,THmm>> extends Hmm<TObs, InputObservationTuple<TIn, TObs>,THmm> {
 
     /**
      * Split the original given input into a list of new (expected) set of
@@ -197,8 +199,35 @@ public interface InputHmm<TObs extends Observation, TIn> extends Hmm<TObs, Input
      * Takes as input distribution (pi) of states the distribution of the states
      * after the given sequence of interaction (Observations, input, ...).
      *
-     * @param interaction The given iterable of interactions.
+     * @param input The given interaction.
      */
     public abstract void fold(TIn input);
+
+    /**
+     * Gets the set of all registered inputs.
+     *
+     * @return The set of all registered inputs.
+     */
+    public Collection<TIn> getRegisteredInputs();
+
+    /**
+     * Gets the relevant forward backward calculator for the Hidden Markov
+     * Model.
+     *
+     * @return The relevant forward backward calculator for the Hidden Markov
+     * Model.
+     */
+    @Override
+    public abstract InputForwardBackwardCalculator<TObs, TIn, THmm> getForwardBackwardCalculator();
+
+    /**
+     * Gets the relevant forward backward scaled calculator for the Hidden
+     * Markov Model.
+     *
+     * @return The relevant forward backward scaled calculator for the Hidden
+     * Markov Model.
+     */
+    @Override
+    public abstract InputForwardBackwardCalculator<TObs, TIn, THmm> getForwardBackwardScaledCalculator();
 
 }

@@ -1,35 +1,46 @@
-/*
- * Copyright (c) 2004-2009, Jean-Marc François. All Rights Reserved.
- * Licensed under the New BSD license.  See the LICENSE file.
- */
 package jahmm.observables;
 
+import jutlis.lists.ListArray;
+
 /**
- * This class can build <code>OpdfInteger</code> observation probability
- * distribution functions.
  *
- * @param <E>
+ * @author kommusoft
+ * @param <TDiscrete> The type of the discrete factory.
  */
-public class OpdfDiscreteFactory<E extends Enum<E>>
-        implements OpdfFactory<OpdfDiscrete<E>> {
+public class OpdfDiscreteFactory<TDiscrete> implements OpdfFactory<OpdfDiscrete<TDiscrete>> {
 
     /**
+     * This class can build <code>OpdfDiscrete</code> observation probability
+     * distribution functions.
      *
      */
-    final protected Class<E> valuesClass;
+    final protected Iterable<TDiscrete> values;
 
     /**
      * Creates a factory for {@link OpdfDiscrete OpdfDiscrete} objects.
      *
-     * @param valuesClass The class representing the set of values over which
-     * the generated observation distributions operate.
+     * @param values The iterable of values to construct a new OpdfDiscrete.
      */
-    public OpdfDiscreteFactory(Class<E> valuesClass) {
-        this.valuesClass = valuesClass;
+    public OpdfDiscreteFactory(Iterable<TDiscrete> values) {
+        this.values = values;
     }
 
+    /**
+     * Creates a factory for {@link OpdfDiscrete OpdfDiscrete} objects.
+     *
+     * @param values The array of values to construct a new OpdfDiscrete.
+     */
+    public OpdfDiscreteFactory(TDiscrete... values) {
+        this(new ListArray<>(values));
+    }
+
+    /**
+     * Generate a new {@link OpdfDiscrete OpdfDiscrete} object.
+     *
+     * @return A new {@link OpdfDiscrete OpdfDiscrete} object.
+     */
     @Override
-    public OpdfDiscrete<E> factor() {
-        return new OpdfDiscrete<>(valuesClass);
+    public OpdfDiscrete<TDiscrete> generate() {
+        return new OpdfDiscrete<>(this.values);
     }
 }

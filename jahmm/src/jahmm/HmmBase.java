@@ -1,6 +1,8 @@
 package jahmm;
 
+import jahmm.calculators.RegularForwardBackwardScaledCalculatorBase;
 import jahmm.observables.Observation;
+import java.util.List;
 
 /**
  * The basic implementation of a Hidden Markov Model that all implemented types
@@ -11,8 +13,9 @@ import jahmm.observables.Observation;
  * @param <TAMx> The type of a-values of the Hidden Markov Model.
  * @param <TBMx> The type of b-values of the Hidden Markov Model.
  * @param <TInt> The type of interaction of the hidden Markov Model.
+ * @param <THmm> The type of the Hidden Markov Model.
  */
-public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends Observation> implements Hmm<TObs, TInt> {
+public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends Observation, THmm extends HmmBase<TObs, TAMx, TBMx, TInt, THmm>> implements Hmm<TObs, TInt, THmm> {
 
     private static final long serialVersionUID = 1L;
 
@@ -73,7 +76,7 @@ public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends
      * in the hierarchy can fail to clone.
      */
     @Override
-    public abstract HmmBase<TObs, TAMx, TBMx, TInt> clone() throws CloneNotSupportedException;
+    public abstract THmm clone() throws CloneNotSupportedException;
 
     /**
      * Returns the number of states of this HMM.
@@ -118,6 +121,44 @@ public abstract class HmmBase<TObs extends Observation, TAMx, TBMx, TInt extends
     @Override
     public void fold() {
         this.fold(0x01);
+    }
+
+    /**
+     * Returns an array of pi-values.
+     *
+     * @return An array of pi-values.
+     * @note The array is a duplicate: modifications to the array won't have any
+     * effect on the pi-values stored in the Hidden Markov Model.
+     */
+    @Override
+    public double[] getPis() {
+        return this.pi.clone();
+    }
+
+    /**
+     * Returns the probability of an observation sequence given this HMM.
+     *
+     * @param oseq A non-empty observation sequence.
+     * @return The probability of this sequence.
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public double probability(List<? extends TInt> oseq) {
+        return this.getForwardBackwardCalculator().computeProbability((THmm) this, oseq);
+    }
+
+    /**
+     * Returns the natural logarithm of observation sequences probability given
+     * this HMM. A <i>scaling</i> procedure is used in order to avoid underflows
+     * when computing the probability of long sequences.
+     *
+     * @param oseq A non-empty observation sequence.
+     * @return The probability of this sequence.
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public double lnProbability(List<? extends TInt> oseq) {
+        return this.getForwardBackwardScaledCalculator().computeProbability((THmm) this, oseq);
     }
 
 }

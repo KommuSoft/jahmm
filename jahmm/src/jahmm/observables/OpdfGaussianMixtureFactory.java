@@ -25,7 +25,7 @@ public final class OpdfGaussianMixtureFactory implements OpdfFactory<OpdfGaussia
     }
 
     @Override
-    public OpdfGaussianMixture factor() {
+    public OpdfGaussianMixture generate() {
         return new OpdfGaussianMixture(gaussiansNb);
     }
 }

@@ -7,6 +7,7 @@ package jahmm.observables;
 import java.text.NumberFormat;
 import java.util.Arrays;
 import java.util.Collection;
+import jutlis.lists.ListArray;
 
 /**
  * This class represents a distribution of a finite number of positive integer
@@ -20,7 +21,7 @@ public final class OpdfInteger extends OpdfBase<ObservationInteger> implements O
 
     /**
      * Builds a new probability distribution which operates on integer values.
-     * The probabilities are initialized so that the distribution is uniformaly
+     * The probabilities are initialized so that the distribution is uniformally
      * distributed.
      *
      * @param nbEntries The number of values to which to associate
@@ -94,7 +95,7 @@ public final class OpdfInteger extends OpdfBase<ObservationInteger> implements O
 
     @Override
     public void fit(ObservationInteger... oa) {
-        fit(Arrays.asList(oa));
+        fit(new ListArray<>(oa));
     }
 
     @Override
@@ -118,7 +119,7 @@ public final class OpdfInteger extends OpdfBase<ObservationInteger> implements O
 
     @Override
     public void fit(ObservationInteger[] o, double... weights) {
-        fit(Arrays.asList(o), weights);
+        fit(new ListArray<>(o), weights);
     }
 
     @Override
@@ -127,7 +128,7 @@ public final class OpdfInteger extends OpdfBase<ObservationInteger> implements O
             throw new IllegalArgumentException();
         }
 
-        Arrays.fill(probabilities, 0.);
+        Arrays.fill(probabilities, 0.0d);
 
         int i = 0;
         for (ObservationInteger o : co) {

@@ -5,7 +5,6 @@
 package jahmm.draw;
 
 import jahmm.RegularHmm;
-import jahmm.RegularHmm;
 import java.io.IOException;
 import java.io.Writer;
 import java.text.NumberFormat;
@@ -22,7 +21,9 @@ import jutlis.tuples.Tuple2Base;
  * The command <tt>dot -Tps -o &lt;outputfile&gt; &lt;inputfile&gt;</tt>
  * should produce a Postscript file describing an HMM.
  */
-class HmmDotDrawer<THMM extends RegularHmm<?>> extends DotGraphDrawerBase<THMM> {
+public class HmmDotDrawer<THmm extends RegularHmm<?, THmm>> extends DotGraphDrawerBase<THmm> {
+
+    public static final HmmDotDrawer Instance = new HmmDotDrawer();
 
     private static final Logger LOG = Logger.getLogger(HmmDotDrawer.class.getName());
 
@@ -44,13 +45,13 @@ class HmmDotDrawer<THMM extends RegularHmm<?>> extends DotGraphDrawerBase<THMM> 
     }
 
     @Override
-    protected void innerWrite(THMM input, Writer streamWriter) throws IOException {
+    protected void innerWrite(THmm input, Writer streamWriter) throws IOException {
         this.nodeStatement(streamWriter, INITIAL_TOKEN, BOX_SHAPE);
         this.writeTransitions(streamWriter, input);
         this.writeStates(streamWriter, input);
     }
 
-    protected void writeTransitions(Writer streamWriter, RegularHmm<?> hmm) throws IOException {
+    protected void writeTransitions(Writer streamWriter, THmm hmm) throws IOException {
         Tuple2<String, String> labelTuple = new Tuple2Base<>("label", "");
 
         for (int i = 0; i < hmm.nbStates(); i++) {
@@ -63,7 +64,7 @@ class HmmDotDrawer<THMM extends RegularHmm<?>> extends DotGraphDrawerBase<THMM> 
         }
     }
 
-    protected void writeStates(Writer streamWriter, THMM hmm) throws IOException {
+    protected void writeStates(Writer streamWriter, THmm hmm) throws IOException {
         Tuple2<String, String> labelTuple = new Tuple2Base<>("label", "");
         for (int i = 0; i < hmm.nbStates(); i++) {
             labelTuple.setItem2("\"" + i + " - " + opdfLabel(hmm, i) + "\"");
@@ -75,7 +76,7 @@ class HmmDotDrawer<THMM extends RegularHmm<?>> extends DotGraphDrawerBase<THMM> 
         }
     }
 
-    protected String opdfLabel(THMM hmm, int stateNb) {
+    protected String opdfLabel(THmm hmm, int stateNb) {
         return "[ " + hmm.getOpdf(stateNb).toString() + " ]";
     }
 }

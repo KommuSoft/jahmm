@@ -4,10 +4,11 @@
  */
 package jahmm.toolbox;
 
-import jahmm.RegularHmm;
+import jahmm.Hmm;
 import jahmm.calculators.RegularForwardBackwardCalculatorBase;
 import jahmm.observables.Observation;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Computes the distance between HMMs.
@@ -23,10 +24,38 @@ import java.util.List;
  * distance definition, compute
  * <code>(distance(hmm1, hmm2) + distance(hmm2, hmm1)) / 2</code>.
  */
-public class KullbackLeiblerDistanceCalculator {
+public class KullbackLeiblerDistanceCalculator<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt, THmm>> {
 
-    private int sequencesLength = 1_000;
+    private static final Logger LOG = Logger.getLogger(KullbackLeiblerDistanceCalculator.class.getName());
+    private int sequencesLength = 1000;
     private int nbSequences = 10;
+
+    /**
+     * Creates a new instance of a KullbackLeiblerDistanceCalculator.
+     */
+    public KullbackLeiblerDistanceCalculator() {
+        this(1000);
+    }
+
+    /**
+     * Creates a new instance of a KullbackLeiblerDistanceCalculator.
+     *
+     * @param sequencesLength The given initial sequence length.
+     */
+    public KullbackLeiblerDistanceCalculator(int sequencesLength) {
+        this(sequencesLength, 10);
+    }
+
+    /**
+     * Creates a new instance of a KullbackLeiblerDistanceCalculator.
+     *
+     * @param sequencesLength The given initial sequence length.
+     * @param nbSequences The given initial number of sequences.
+     */
+    public KullbackLeiblerDistanceCalculator(int sequencesLength, int nbSequences) {
+        this.sequencesLength = sequencesLength;
+        this.nbSequences = nbSequences;
+    }
 
     /**
      * Computes the Kullback-Leibler distance between two HMMs.
@@ -39,20 +68,15 @@ public class KullbackLeiblerDistanceCalculator {
      * @return The distance between <code>hmm1</code> and <code>hmm2</code> with
      * regard to <code>hmm1</code>
      */
-    public <O extends Observation> double distance(RegularHmm<O> hmm1, RegularHmm<? super O> hmm2) {
-        double distance = 0.;
-
+    public double distance(THmm hmm1, THmm hmm2) {
+        double distance = 0.0d;
         for (int i = 0; i < nbSequences; i++) {
-
-            List<O> oseq = new RegularMarkovGenerator<>(hmm1).observationSequence(sequencesLength);
-
-            double da = RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm1, oseq);
-            double db = RegularForwardBackwardCalculatorBase.Instance.computeProbability(hmm2, oseq);
-
-            distance += (da - db) / sequencesLength;
+            List<TInt> oseq = hmm1.getMarkovGenerator().interactionSequence(sequencesLength);
+            double da = hmm1.probability(oseq);
+            double db = hmm2.probability(oseq);
+            distance += da - db;
         }
-
-        return distance / nbSequences;
+        return distance / (nbSequences * sequencesLength);
     }
 
     /**

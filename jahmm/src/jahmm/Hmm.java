@@ -1,7 +1,8 @@
 package jahmm;
 
+import jahmm.calculators.ForwardBackwardCalculator;
 import jahmm.observables.Observation;
-import jahmm.observables.Opdf;
+import jahmm.toolbox.MarkovGenerator;
 import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.List;
@@ -27,8 +28,9 @@ import java.util.List;
  * 
 * @param <TObs> the type of the observations.
  * @param <TInt> the type for the interactions of the hidden Markov model.
+ * @param <THmm> The type of the Hidden Markov model.
  */
-public interface Hmm<TObs extends Observation, TInt extends Observation> extends Cloneable, Serializable {
+public interface Hmm<TObs extends Observation, TInt extends Observation, THmm extends Hmm<TObs, TInt, THmm>> extends Cloneable, Serializable {
 
     /**
      * Creates a duplicate object of the HMM.
@@ -37,7 +39,7 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      * @throws CloneNotSupportedException An exception such that classes lower
      * in the hierarchy can fail to clone.
      */
-    public abstract Hmm<TObs, TInt> clone() throws CloneNotSupportedException;
+    public abstract THmm clone() throws CloneNotSupportedException;
 
     /**
      * Returns the probability associated with the transition going from state
@@ -149,5 +151,41 @@ public interface Hmm<TObs extends Observation, TInt extends Observation> extends
      * <code>stateNb</code>
      */
     public abstract void setPi(int stateNb, double value);
+
+    /**
+     * Returns an array of pi-values.
+     *
+     * @return An array of pi-values.
+     * @note The array is a duplicate: modifications to the array won't have any
+     * effect on the pi-values stored in the Hidden Markov Model.
+     */
+    public abstract double[] getPis();
+
+    /**
+     * Gets the relevant forward backward calculator for the Hidden Markov
+     * Model.
+     *
+     * @return The relevant forward backward calculator for the Hidden Markov
+     * Model.
+     */
+    public abstract ForwardBackwardCalculator<double[][], double[][], TObs, TInt, THmm> getForwardBackwardCalculator();
+
+    /**
+     * Gets the relevant forward backward scaled calculator for the Hidden
+     * Markov Model.
+     *
+     * @return The relevant forward backward scaled calculator for the Hidden
+     * Markov Model.
+     */
+    public abstract ForwardBackwardCalculator<double[][], double[][], TObs, TInt, THmm> getForwardBackwardScaledCalculator();
+
+    /**
+     * Gets a Markov generator that generates sequences of observations and
+     * interactions based on this Hidden Markov model.
+     *
+     * @return a Markov generator that generates sequences of observations and
+     * interactions based on this Hidden Markov model.
+     */
+    public abstract MarkovGenerator<TObs, TInt, THmm> getMarkovGenerator();
 
 }

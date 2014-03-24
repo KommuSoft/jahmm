@@ -4,7 +4,7 @@
  */
 package jahmm;
 
-import jahmm.draw.InvariantHmmDotDrawer;
+import jahmm.draw.HmmDotDrawer;
 import jahmm.observables.ObservationInteger;
 import jahmm.observables.OpdfIntegerFactory;
 import java.io.IOException;
@@ -34,7 +34,7 @@ public class GenerateTest
      */
     public void testDotGenerator() {
         try {
-            InvariantHmmDotDrawer.Instance.write(hmm, outputDir + "hmm-generate.dot");
+            HmmDotDrawer.Instance.write(hmm, outputDir + "hmm-generate.dot");
         } catch (IOException e) {
             assertTrue("Writing file triggered an exception: " + e, false);
         }
